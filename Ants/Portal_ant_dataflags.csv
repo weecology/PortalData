@@ -1,0 +1,12 @@
+Flag,Meaning
+1,missing stake data
+2,"suspect data, count missing assumed to be 1"
+3,"no stake recorded, nearest stake recorded in notes, used for stake value"
+4,"colony near or on edge of census boundary, distance recorded in notes"
+5,"sole xylo not counted in this census (1978, 1979)"
+6,rare species not counted in this census (1981)
+7,"only presence (=1) recorded, not abundance"
+8,"rocky, washed out, or disturbed substrate"
+9,"no stake level data, only plot totals recorded"
+10,"plot redone at end of census, this is duplicate data, possible data issues on earlier date"
+11,openings number suspect

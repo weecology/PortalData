@@ -1,0 +1,40 @@
+Species Code,ScientificName,Taxa,CommonName,Census Target,Unidentified,Rodent,Granivore
+AB,Amphispiza bilineata,Bird,Black-throated sparrow,0,0,0,0
+AH,Ammospermophilus harrisi,Rodent-not censused,Harris's antelope squirrel,0,0,0,0
+BA,Baiomys taylori,Rodent,Northern pygmy mouse,1,0,1,1
+CB,Campylorhynchus brunneicapillus,Bird,Cactus wren,0,0,0,0
+CQ,Callipepla squamata,Bird,Scaled quail,0,0,0,0
+DM,Dipodomys merriami,Rodent,Merriam's kangaroo rat,1,0,1,1
+DO,Dipodomys ordii,Rodent,Ord's kangaroo rat,1,0,1,1
+DS,Dipodomys spectabilis,Rodent,Banner-tailed kangaroo rat,1,0,1,1
+DX,Dipodomys sp.,Rodent,Kangaroo rat,1,1,1,1
+EO,Eumeces obsoletus,Reptile,Great Plains skink,0,0,0,0
+NA,Neotoma albigula,Rodent,White-throated woodrat,1,0,1,0
+OL,Onychomys leucogaster,Rodent,Northern Grasshopper Mouse,1,0,1,0
+OT,Onychomys torridus,Rodent,Southern grasshopper mouse,1,0,1,0
+OX,Onychomys sp.,Rodent,Grasshopper mouse,1,1,1,0
+PB,Chaetodipus baileyi,Rodent,Bailey's pocket mouse,1,0,1,1
+PC,Pipilo chlorurus,Bird,Green-tailed towhee,0,0,0,0
+PE,Peromyscus eremicus,Rodent,Cactus mouse,1,0,1,1
+PF,Perognathus flavus,Rodent,Silky pocket mouse,1,0,1,1
+PH,Chaetodipus hispidus ,Rodent,Hispid pocket mouse,1,0,1,1
+PI,Chaetodipus intermedius,Rodent,Rock pocket mouse,1,0,1,1
+PL,Peromyscus leucopus,Rodent,White-footed mouse,1,0,1,1
+PM,Peromyscus maniculatus,Rodent,Deer Mouse,1,0,1,1
+PP,Chaetodipus penicillatus,Rodent,Desert pocket mouse,1,0,1,1
+PU,Pipilo fuscus,Bird,Brown towhee,0,0,0,0
+PX,Chaetodipus sp.,Rodent,Pocket Mouse,1,1,1,1
+RF,Reithrodontomys fulvescens,Rodent,Fulvous harvest mouse,1,0,1,1
+RM,Reithrodontomys megalotis,Rodent,Western harvest mouse,1,0,1,1
+RO,Reithrodontomys montanus,Rodent,Plains harvest mouse,1,0,1,1
+RX,Reithrodontomys sp.,Rodent,Harvest mouse,1,1,1,1
+SA,Sylvilagus audubonii,Rabbit,Desert cottontail,0,0,0,0
+SB,Spizella breweri,Bird,Brewer's sparrow,0,0,0,0
+SF,Sigmodon fulviventer,Rodent,Tawny-bellied cotton rat,1,0,1,0
+SH,Sigmodon hispidus,Rodent,Hispid cotton rat,1,0,1,0
+SO,Sigmodon ochrognathus,Rodent,Yellow nosed cotton rat,1,0,1,0
+SS,Spermophilus spilosoma,Rodent-not censused,Spotted ground squirrel,0,0,0,0
+SX,Sigmodon sp.,Rodent,Cotton rat,0,1,1,0
+UR,Rodent sp.,Rodent,Unidentified rodent,1,1,1,0
+US,Sparrow sp.,Bird,Unidentified sparrow,0,1,0,0
+ZL,Zonotrichia leucophrys,Bird,White Crowned Sparrow,0,0,0,0

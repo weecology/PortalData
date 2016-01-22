@@ -1,0 +1,15 @@
+Note1,Meaning
+1,"some missing data (i.e. stake missing, mass, gender) but otherwise record is good"
+2,"plot trapped, no animals present"
+3,stake numbers suspect
+4,plot not trapped (this and note1=2 allows differentiation between real zero abundances and missing data)
+5,gates open+non-survey
+6,gates open
+7,"animal caught on site, but outside plot"
+8,non-survey
+9,outside plot on exterior grid
+10,plot fence down
+11,plot number suspect
+12,mass suspect
+13,"not a target animal, no data collected"
+14,plot not completely trapped
