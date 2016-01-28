@@ -1,6 +1,6 @@
 #Portal Weather Monitoring Metadata
 
-[**Long-term monitoring of weather near Portal, Arizona (1980 – 2013). **](http://www.esapubs.org/archive/ecol/E090/118/Portal_precipitation_metadata.htm)
+[**Long-term monitoring of weather near Portal, Arizona (1980 – 2013).**](http://www.esapubs.org/archive/ecol/E090/118/Portal_precipitation_metadata.htm)
 
 ###Abstract
 
