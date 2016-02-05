@@ -1,9 +1,9 @@
 
 
-# This script takes data input from two different users in two sheets of an excel 
-# workbook and prints a list of rows that are not identical, for review by the user.
+# This script takes data that has already been entered twice and checked for typos, and does a few 
+# data accuracy checks
 
-# Note: name of excel file should be changed in line 17 of this script
+# Note: name of excel file should be changed in line 10 of this script
 
 rm(list=ls(all=TRUE))
 
