@@ -1,10 +1,3 @@
-# Problems to solve:
-#  - popup with print command output
-
-
-
-
-
 
 
 # This script takes data input from two different users in two sheets of an excel 
