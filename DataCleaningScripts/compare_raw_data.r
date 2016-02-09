@@ -56,13 +56,4 @@ compare_worksheets = function(excel_file) {
     }
 }
 
-# ================================================================================
-# Main code
-
-filename = 'newdat445'
-filepath = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
-
-newfile = paste(filepath, filename, '.xlsx', sep='')
-
-compare_worksheets(newfile)
 
