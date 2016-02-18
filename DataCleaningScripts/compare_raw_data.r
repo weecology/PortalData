@@ -25,7 +25,7 @@ compare_worksheets = function(excel_file) {
   
   # if the two worksheets are identical, exit function
   if (identical(ws1,ws2)) {                                   
-    return(unmatched = c())
+    print('Worksheets identical')
   } 
   
   # otherwise, loop through rows one at a time
