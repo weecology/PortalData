@@ -2,10 +2,10 @@
 # workbook and prints a list of rows that are not identical, for review by the user.
 # Output is a data frame of row and column of a mismatch.
 
-# Notes: row order matters, i.e. data sheets must be entered in same order
-#        worksheets to be compared must be the first two worksheets in the workbook
-#        name of worksheets does not matter
-#        returns "NULL" if two worksheets are identical
+# Notes: - row order matters, i.e. data sheets must be entered in same order
+#        - worksheets to be compared must be the first two worksheets in the workbook
+#        - name of worksheets does not matter
+#        - prints "worksheets identical" if two worksheets are identical
 
 
 library(XLConnect)
