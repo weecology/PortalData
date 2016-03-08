@@ -3,13 +3,9 @@
 library(XLConnect)
 
 
-compare_tags = function(excel_file,scannerfile) {
+compare_tags = function(ws,scannerfile) {
   
-  # load data from excel workbook
-  wb = loadWorkbook(excel_file)
-  ws = readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
-  
-  # extract tag numbers from workbook
+  # extract tag numbers from raw data
   sheets = subset(ws$tag,!is.na(ws$tag))
   
   # load data from scanner
