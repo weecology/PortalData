@@ -8,6 +8,7 @@ source('compare_tags.r')
 source('check_reproductive_status.r')
 source('check_all_plots_present.r')
 source('check_stake_duplicates.r')
+source('check_missing_data.r')
 
 ##############################################################################
 # New file to be checked
@@ -44,3 +45,12 @@ all_plots(ws)
 
 # Check for duplicate stake numbers within a plot
 suspect_stake(ws)
+
+# Flag missing data
+#   -fields all lines of data should have
+check_missing_data(ws,fields = c('mo','dy','yr','period','plot'))
+#   -fields that should be filled, excluding cases that already have a flag
+#    in the note1 field
+rodentdat = ws[is.na(ws$note1),]
+check_missing_data(rodentdat,fields=c('stake','species','sex','hfl','wgt'))
+#   - NOTE: does not check for missing tag or sexual characteristics
