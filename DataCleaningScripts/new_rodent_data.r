@@ -14,7 +14,7 @@ source('check_missing_data.r')
 # New file to be checked
 ##############################################################################
 
-newperiod = '445'
+newperiod = '447'
 filepath = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep='')
@@ -51,6 +51,8 @@ suspect_stake(ws)
 check_missing_data(ws,fields = c('mo','dy','yr','period','plot'))
 #   -fields that should be filled, excluding cases that already have a flag
 #    in the note1 field
-rodentdat = ws[is.na(ws$note1),]
-check_missing_data(rodentdat,fields=c('stake','species','sex','hfl','wgt'))
+check_missing_data(ws[is.na(ws$note1),],fields=c('stake','species','sex','hfl','wgt'))
 #   - NOTE: does not check for missing tag or sexual characteristics
+
+
+

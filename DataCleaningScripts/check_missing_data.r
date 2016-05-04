@@ -8,5 +8,6 @@ check_missing_data = function(df,fields) {
     if (any(is.na(df[n,fields])))
     missing = rbind(missing, df[n,])
   }
+  print('missing data:')
   print(missing)
 }
