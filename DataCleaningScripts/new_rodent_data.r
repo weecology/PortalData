@@ -15,8 +15,8 @@ source('check_missing_data.r')
 # New file to be checked
 ##############################################################################
 
-newperiod = '447'
-filepath = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
+newperiod = '448'
+filepath = 'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep='')
 scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep='')
