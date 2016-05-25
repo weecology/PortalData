@@ -1,11 +1,13 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
 
-
+library(XLConnect)
 
 source('compare_raw_data.r')
 source('compare_tags.r')
 source('check_reproductive_status.r')
+source('check_all_plots_present.r')
+source('check_stake_duplicates.r')
 
 ##############################################################################
 # New file to be checked
@@ -36,3 +38,9 @@ compare_tags(ws,scannerfile)
 
 # Check that reproductive charactaristics match M/F designation
 male_female_check(ws)
+
+# Check all plots present in data
+all_plots(ws)
+
+# Check for duplicate stake numbers within a plot
+suspect_stake(ws)
