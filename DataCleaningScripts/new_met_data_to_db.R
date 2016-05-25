@@ -1,89 +1,86 @@
 # This script takes a raw .dat file downloaded directly from the Portal weather 
-# station, determines if there are any gaps, and saves the data as a csv on the 
-# desktop for easy upload to the database.
+# station, determines if there are any gaps, and appends the new data to the
+# database.
+# Met445.dat can be used for testing - it has a lot of problems
 
-# written by Erica Christensen 2/10/14
+# written by Erica Christensen 5/2016
+
+#setwd('C:/Users/EC/Desktop/git/PortalData')
 
 
 
-# ==================================================================================================================
-# Functions
-
-create_df = function(rawdata){
-  # This function takes an original met file in csv format, cleans it up and puts 
-  # it into a dataframe
-  
-  metdata = subset(rawdata,code==101)                      #extract data points from battery readings (code 102)
-  date_info = with(metdata,paste(year, day, hour/100))     #paste year, day, hour into single string
-  datetime = strptime(date_info, '%Y %j %H')               #convert into POSIXct date/time format
-  dates = as.Date(paste(metdata$year, metdata$day),format = '%Y %j')       #convert into regular r date format
-  
-  new_df = data.frame(datetime,
-                      'Year' = as.integer(format(dates,'%Y')),
-                      'Month' = as.integer(format(dates,'%m')),
-                      'Day' = as.integer(format(dates,'%d')),
-                      'Hour' = as.integer(metdata$hour),
-                      'TempAir' = metdata$tempair,
-                      'RelHumid' = metdata$relhumid,
-                      'TempSoil' = rep(NA,length(datetime)),      # empty vector (of NA) for soil temp
-                      "Precipitation (mm)" = metdata$ppt,
-                      'Uncert_level' = rep(0,length(datetime)))   # vector of zeros for uncertainty level (assumes raw data is good initially)
-  
-  names(new_df)[9] = 'Precipitation (mm)'      # make sure this weird column name is correct so it will attach to the database correctly
-  
-  return(new_df)
-}
-
-find_missingdates = function(datetime){
-  # This function takes the vector of timestamps from the data (in strptime format) 
-  # and finds gaps (assumes data is hourly)
-  
-  datesthereare = sort(datetime)
-  d1 = datesthereare[1]
-  d2 = datesthereare[length(datesthereare)-1]
-  datesthereshouldbe = as.character(seq(d1,d2,by='hour'))
-  missingdates = setdiff(datesthereshouldbe,as.character(datesthereare))
-  
-  return(missingdates)
-}
-
-# ======================================================================================================
-# Main code
+# ==============================================================================
+# Load file
+# ==============================================================================
 
 # Open raw .dat file of new data
-metfolder = "C:\\Users\\EC\\Dropbox\\Portal\\PORTAL_primary_data\\Weather\\Raw_data\\2002_Station\\"
+filepath = "C:\\Users\\EC\\Dropbox\\Portal\\PORTAL_primary_data\\Weather\\Raw_data\\2002_Station\\"
 
-metfile = "Met445"
+metfile = "Met449"
 
-rawdata = read.csv(paste(metfolder,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('code','year','day','hour','ppt','tempair','relhumid'))
+rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RelHumid'))
 
-new_df = create_df(rawdata)
-missingdates = find_missingdates(new_df$datetime)
+# Convert Julian day to month and day
+rawdata$date = as.Date(paste(rawdata$Year,rawdata$Jday),format='%Y %j')
+rawdata$Month = as.integer(format(rawdata$date,'%m'))
+rawdata$Day = as.integer(format(rawdata$date,'%d'))
 
-#removes "datetime" column from dataframe (not present in database version)
-final_df = subset(new_df,select=-datetime)
+# Select weather data (Code=101) from battery status data (Code=102)
+weathdat = rawdata[rawdata$Code==101,]
 
+# ==============================================================================
+# 1. Quality control
+# ==============================================================================
 
-# =======================================================================================================
-# some basic error checks
+# check for errors in hour (should be 100,200,300,...)
+if (any(!(weathdat$Hour %in% seq(from=100,to=2400,by=100)))) {
+  print('Hour error')
+  weathdat = filter(weathdat,Hour %in% seq(100,2400,100))
+} else {print('Hour ok')}
 
-# air temp
-if (any(new_df$TempAir > 100)) {temperr = 'Yes'} else {temperr = 'No'}
-# rel humidity
-if (any(new_df$RelHumid >100)) {humerr = 'Yes'} else if (any(new_df$RelHumid < 0)) {humerr = 'Yes'} else {humerr = 'No'}
-# battery reading (should be ~12.5)
-if (any(rawdata[rawdata$code==102,5] < 11)) {batterr = 'Yes'} else {batterr = 'No'}
+# check for errors in air temp (i.e. temp > 100C or < -30)
+if (any(weathdat$TempAir > 100)) {
+  print('TempAir error')
+  weathdat = filter(weathdat,TempAir < 100)
+}
+if (any(weathdat$TempAir < -30)) {
+    print('TempAir error')
+    weathdat = filter(weathdat,TempAir > -30)
+} else {print('TempAir ok')}
 
-print(paste('TempAir error:',temperr))
-print(paste('RelHumid error:',humerr))
-print(paste('Battery error:',batterr))
-print(paste('there are ',length(missingdates),' missing entries'))
-print(paste('first entry is',new_df$datetime[1]))
+# check for errors in rel humidity (either > 100 or < 0)
+if (any(weathdat$RelHumid >100)) {
+  print('RelHumid error')
+  weathdat = filter(weathdat,RelHumid < 100)
+} 
+if (any(weathdat$RelHumid < 0)) {
+  print('RelHumid error')
+  weathdat = filter(weathdat,RelHumid > 0)
+} else {print('RelHumid ok')}
 
+# check battery status (should be ~12.5)
+if (any(rawdata[rawdata$Code==102,5] < 11)) {print('Battery error')} else {print('Battery ok')}
 
-# ===================================================================================================
-# Save processed data file
+# check that start of new data lines up with end of existing data
+exst_dat = read.csv('Weather/Portal_weather.csv')
+last_old = strptime(paste(tail(exst_dat$Year,1),tail(exst_dat$Month,1),tail(exst_dat$Day,1),tail(exst_dat$Hour/100,1)),format='%Y %m %d %H')
+first_new = strptime(paste(weathdat$Year[1],weathdat$Month[1],weathdat$Day[1],weathdat$Hour[1]/100),format='%Y %m %d %H')
+if (first_new == last_old+3600) {
+  print('dates match')
+} else {print('dates do not match')}
 
-outfolder = 'C:\\Users\\EC\\Desktop\\'
-outfile = paste(outfolder,metfile,'.csv',sep='')
-write.csv(final_df,file=outfile,row.names=F,na='')
+# plot data to look for outliers/weirdness
+plot(weathdat$TempAir,type='l')
+plot(weathdat$Precipitation)
+plot(weathdat$RelHumid,type='l')
+
+# ==============================================================================
+# 2. Append new data to file
+# ==============================================================================
+
+# get new data columns in correct order
+newdata = weathdat[,c('Year','Month','Day','Hour','TempAir','Precipitation')]
+
+# append new data
+write.table(newdata, file = "Weather/Portal_weather.csv", 
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
