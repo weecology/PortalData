@@ -14,7 +14,7 @@ male_female_check = function(ws) {
     }
     else {if (ws1$sex[n] == 'M'){
       if (!is.na(ws1$vagina[n]) || !is.na(ws1$pregnant[n]) || !is.na(ws1$nipples[n]) || !is.na(ws1$lactation[n])){
-        issues = append(issues,n+1)
+        issues = append(issues,row.names(ws1)[n+1])
       }
     }
     }}
