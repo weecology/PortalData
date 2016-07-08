@@ -1,6 +1,7 @@
 #Portal Weather Monitoring Metadata
 
-[**Long-term monitoring of weather near Portal, Arizona (1980 – 2013).**](http://www.esapubs.org/archive/ecol/E090/118/Portal_precipitation_metadata.htm)
+[**Long-term monitoring of weather near Portal, Arizona (1980 – 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
+
 
 ###Abstract
 
@@ -8,7 +9,7 @@ The data set includes continuous weather monitoring near Portal, Arizona. From 1
 
 ###Site description: 
 
-The 24 experimental plots cover an area not more than 20 ha in size. Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Portal Overview Metadata, Fig 1](http://www.esapubs.org/archive/ecol/E090/118/metadata.htm) for location).
+The 24 experimental plots cover an area not more than 20 ha in size. Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Portal Overview Metadata, Figure 1](./SiteandMethods/Portal_Figure1.tif) for location).
 
 ###Data Collection: 
 
