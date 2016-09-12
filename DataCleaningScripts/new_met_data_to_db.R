@@ -5,10 +5,10 @@
 
 # written by Erica Christensen 5/2016
 
-#setwd('C:/Users/EC/Desktop/git/PortalData')
+setwd('C:/Users/EC/Desktop/git/PortalData')
 
 
-
+library(dplyr)
 # ==============================================================================
 # Load file
 # ==============================================================================
@@ -16,7 +16,7 @@
 # Open raw .dat file of new data
 filepath = "C:\\Users\\EC\\Dropbox\\Portal\\PORTAL_primary_data\\Weather\\Raw_data\\2002_Station\\"
 
-metfile = "Met449"
+metfile = "Met453"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RelHumid'))
 
