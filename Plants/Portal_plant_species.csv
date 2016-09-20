@@ -1,7 +1,9 @@
 Sp Code,Genus,Alt Genus,Species,Alt Species,subspecies,Common Name,Family,Duration,Community
+carl line,Carlowrightia,,linearifolia,,,Heath wrightwort,Acanthoideae,Perennial,Shrub
 tria port,Trianthema,,portulacastrum,,,Desert Horsepurslane,Aizoaceae,Annual,Summer Annuals
 amar palm,Amaranthus,,palmeri,,,Carelessweed,Amaranthaceae,Annual,Summer Annuals
 atri acan,Atriplex,,acanthocarpa,,,Tubercled Saltbush,Amaranthaceae,Perennial,Shrub
+atri cane,Atriplex,,canescens,,,Four-wing Saltbush,Amaranthaceae,Perennial,Shrub
 atri eleg,Atriplex,,elegans,,,Wheelscale Saltbush,Amaranthaceae,Annual,Summer Annuals
 atri wrig,Atriplex,,wrightii,,,Wright's saltbush,Amaranthaceae,Annual,Summer Annuals
 chen frem,Chenopodium,,fremontii,,,Fremont's goosefoot,Amaranthaceae,Annual,Summer and Winter Annuals
@@ -20,6 +22,7 @@ bahi bite,Bahia,,biternata,,,Slimlobe bahia,Asteraceae,Annual,Summer Annuals
 bail mult,Baileya,,multiradiata,,,Desert marigold,Asteraceae,Annual,Summer and Winter Annuals
 bric eupa,Brickellia,,eupatorioides,,var. chlorolepis,False Boneset,Asteraceae,Perennial,Subshrub
 caly wrig,Calycoseris,,wrightii,,,White tackstem,Asteraceae,Annual,Winter Annuals
+chae eric,Chaetopappa,,ericoides,,,Rose heath,Asteraceae,Perennial,Perennial Forb
 chae stev,Chaenactis,,stevioides,,,Esteve's pincushion,Asteraceae,Annual,Winter Annuals
 cirs neom,Cirsium,,neomexicanum,,,New Mexico thistle,Asteraceae,Perennial,Perennial Forb
 erig conc,Erigeron,,concinnus,,,Navajo Fleabane,Asteraceae,Perennial,Subshrub
@@ -64,11 +67,12 @@ desc sp,Descurainia,,sp.,,,Unknown,Brassicaceae,Annual,Winter Annuals
 dith wisl,Dimorphocarpa,Dithyrea,wislizeni,,,Spectaclepod,Brassicaceae,Annual,Summer and Winter Annuals
 lepi lasi,Lepidium,,lasiocarpum,,,Shaggyfruit pepperweed,Brassicaceae,Annual,Winter Annuals
 lepi sp,Lepidium,,sp.,,,Unknown,Brassicaceae,Annual,Winter Annuals
-lesq gord,Lesquerella,,gordoni,,,Bladderpod,Brassicaceae,Annual,Winter Annuals
+lesq gord,Physaria,Lesquerella,gordoni,,,Bladderpod,Brassicaceae,Annual,Winter Annuals
 sisy irio,Sisymbrium,,irio,,,London rocket,Brassicaceae,Annual,Winter Annuals
 unkn must,Unknown,,mustard,,,Unknown,Brassicaceae,Annual,Winter Annuals
 opun sp,Opuntia,,sp.,,,Prickly pear,Cactaceae,Perennial,Shrub
 comm erec,Commelina,,erecta,,,Whitemouth dayflower,Commelinaceae,Perennial,Shrub
+cusc tube,Cuscuta,,tuberculata,,,Tubercle Dodder,Convolvulaceae,Perennial,Perennial Forb
 cusc sp,Cuscuta,,sp.,,,Unknown,Convolvulaceae,Annual,Summer Annuals
 ipom cost,Ipomoea,,costellata,,,Crestrib Morning Glory,Convolvulaceae,Annual,Summer Annuals
 apod undu,Apodanthera,,undulata,,,Melon loco,Cucurbitaceae,Perennial,Perennial Forb
@@ -92,13 +96,14 @@ dale brac,Dalea,,brachystachya,,,Fort Bowie prairie clover,Leguminosae,Annual,Su
 dale nana,Dalea,,nana,,,Dwarf prairie clover,Leguminosae,Perennial,Perennial Forb
 dale pogo,Dalea,,pogonathera,,,Bearded prairie clover,Leguminosae,Perennial,Perennial Forb
 dale sp,Dalea,,sp.,,,Unknown clover,Leguminosae,Unknown,Unknowns
-hoff dens,Hoffmanseggia,,densiflora,,,Hog potato,Leguminosae,Perennial,Perennial Forb
+hoff dens,Hoffmanseggia,,glauca,densiflora,,Hog potato,Leguminosae,Perennial,Perennial Forb
 lupi conc,Lupinus,,concinnus,,,Bajada lupine,Leguminosae,Annual,Winter Annuals
 lupi sp,Lupinus,,sp.,,,Unknown,Leguminosae,Annual,Winter Annuals
 lupi sp2,Lupinus,,sp. 2,,distinct from lupi sp,Unknown,Leguminosae,Annual,Winter Annuals
 pros glan,Prosopis,,glandulosa,,,Honey Mesquite,Leguminosae,Perennial,Shrub
 pros velu,Prosopis,,velutina,,,Velvet Mesquite,Leguminosae,Perennial,Shrub
 cass bauh,Senna,Cassia,bauhinoides,,,Twinleaf senna,Leguminosae,Perennial,Subshrub
+malv lepi,Malvella,,lepidota,,,Scurfy mallow,Malvaceae,Perennial,Perennial Forb
 sida phys,Rhynchosida,Sida,physocalyx,,,Buffpetal,Malvaceae,Perennial,Subshrub
 sida proc,Sida,,abutifolia,procumbens,,Spreading fanpetals,Malvaceae,Perennial,Perennial Forb
 sida spin,Sida,,spinosa,,,Prickly Fanpetals,Malvaceae,Annual,Summer Annuals
@@ -130,9 +135,10 @@ plan purs,Plantago,,patagonica,purshii,,Woolly plantain,Plantaginaceae,Annual,Wi
 lina texa,Nuttallanthus,Linaria,texanus,texana,,Texas toadflax,Plantaginaceae ,Annual,Winter Annuals
 aris hamu,Aristida,,ternipes,hamulosa,var. gentilis,Spidergrass,Poaceae,Perennial,Perennials
 aris adsc,Aristida,,adscensionis,,,Sixweeks threeawn,Poaceae,Annual,Summer Annuals
-aris long,Aristida,,longiseta,,,Purple threeawn,Poaceae,Perennial,Perennials
+aris long,Aristida,,purpurea,,var. longiseta,Purple threeawn,Poaceae,Perennial,Perennials
 both barb,Bothriochloa,,barbinodis,,,Cane bluestem,Poaceae,Perennial,Perennials
 bout aris,Bouteloua,,aristidoides,,,Needle grama,Poaceae,Annual,Summer Annuals
+bout grac,Bouteloua,,gracilis,,,Blue grama,Poaceae,Perennial,Perennials
 bout sp,Bouteloua,,sp.,,,Unknown,Poaceae,Annual,Summer Annuals
 pani ariz,Brachiaria,Panicum,arizonica,,,Arizona Signalgrass,Poaceae,Annual,Summer Annuals
 brom rube,Bromus,,rubens,,,Red brome,Poaceae,Annual,Winter Annuals
@@ -180,6 +186,7 @@ port sp,Portulaca,,sp.,,,Unknown,Portulacaceae,Annual,Summer Annuals
 port suff,Portulaca,,suffretescens,,,Shrubby purslane,Portulacaceae,Perennial,Subshrub
 andr occi,Androsace,,occidentalis,,,Western rockjasmine,Primulaceae,Annual,Winter Annuals
 delp sp,Delphinium,,sp.,,,Unknown,Ranunculaceae,Annual,Winter Annuals
+lyci ande,Lycium,,andersonii,,,Anderson wolfberry,Solanaceae,Perennial,Shrub
 lyci torr,Lycium,,torreyi,,,Torrey wolfberry,Solanaceae,Perennial,Shrub
 sola elea,Solanum,,elaeagnifolium,,,Silverleaf nightshade,Solanaceae,Perennial,Subshrub
 sola rost,Solanum,,rostratum,,,Buffalobur Nightshade,Solanaceae,Annual,Summer Annuals
