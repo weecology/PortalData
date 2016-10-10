@@ -1,6 +1,6 @@
 #Guide to Portal Data Cleaning Procedures
 
-A description of the cleaning procedures applied to new Portal data before they are appended to the reevant data table. Numbered descriptions refer to functions in this folder, applied, in order, to the new data.
+A description of the cleaning procedures applied to new Portal data before they are appended to the relevant data table. Numbered descriptions refer to functions in this folder, applied, in order, to the new data.
 
 ##Rodent Data
 1. Compare double-entered data
