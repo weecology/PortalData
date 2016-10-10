@@ -25,9 +25,9 @@ source('compare_raw_data.r')
 # 1. Load Excel file #
 ######################
 
-season <-  'Winter'
+season <-  'Summer'
 year <-  '2016'
-filepath <-  'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/2015_data/'
+filepath <-  'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/2015_data/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -44,7 +44,7 @@ compare_worksheets(newfile)
 wb = loadWorkbook(newfile)
 ws = readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
 
-splist = read.csv('C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_species.csv',as.is=T)
+splist = read.csv('C:/Users/EC/Desktop/git/PortalData/Plants/Portal_plant_species.csv',as.is=T)
 
 plots = seq(24)
 stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
@@ -58,7 +58,7 @@ unique(ws$species[!(ws$species %in% splist$Sp.Code)])
 # are all quadrats present
 
 allquads <-  apply(expand.grid(plots,stakes),1,paste,collapse=' ')
-plotquad <-  unique(paste(ws$plot,ws$stake))
+plotquad <-  unique(paste(ws$plot,ws$quadrat))
 
 # any plot-stake pairs in the data that are not supposed to be censused
 setdiff(plotquad,allquads)
@@ -69,24 +69,29 @@ setdiff(allquads,plotquad)
 # =====================================
 # are there any duplicate entries of plot/quadrat/species
 
-ws[(duplicated(paste(ws$plot, ws$stake, ws$species))),]
+ws[(duplicated(paste(ws$plot, ws$quadrat, ws$species))),]
 
 # =====================================
-# are there any plants recorded in the same quadrat as a "none"
+# are there any plants recorded in an "empty" quadrat
 
-nones <-  ws[ws$species == 'none',]
-ws[(paste(ws$plot,ws$stake) %in% paste(nones$plot,nones$stake)),]
+empties <-  ws[ws$abundance == 0,]
+ws[(paste(ws$plot,ws$quadrat) %in% paste(empties$plot,empties$quadrat)),]
+
+
+# ====================================
+# remove empty quadrats
+
+data_clean <- ws[!is.na(ws$species),]
 
 # ====================================
 # any empty data cells
 
-ws[is.na(ws$abundance),]
-ws[is.na(ws$species),]
+data_clean[is.na(data_clean$abundance),]
+data_clean[is.na(data_clean$species),]
+data_clean[is.na(data_clean$cover),]
 
 # =====================================
 # save cleaned up version to Dropbox
-
-data_clean <- ws[!is.na(ws$species),]
 
 write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep = ''), 
           row.names = FALSE, na = "")
@@ -98,5 +103,5 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf")]
 
 # append to existing data file
-write.table(data_append, file = "C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_2015_present.csv", 
+write.table(data_append, file = "C:/Users/EC/Desktop/git/PortalData/Plants/Portal_plant_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
