@@ -2,11 +2,12 @@
 # author: "Anna Liu"
 # date: "October 5, 2016"
 
-## Data tables
-# Ants
 #devtools::install_github("ropensci/EML")
 library(EML)
 library(RCurl)
+
+## Data tables
+# Ants
 
 # read files 
 ant_bait = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Ants/Portal_ant_bait.csv")
@@ -508,7 +509,7 @@ method = gsub("##*","",method)
 write(method, file = "method.md")
 methods = set_methods("method.md")
 
-p1 = as.person("S. K. Morgan Ernest [aut]<mphebert4@gmail.com>")
+p1 = as.person("S. K. Morgan Ernest [aut]<skmorgane@ufl.edu>")
 p1 = as(p1, "creator")
 
 others = c(as.person("Glenda M. Yenni [aut]"), as.person("Ginger Allington [aut]"),
@@ -520,10 +521,11 @@ others = c(as.person("Glenda M. Yenni [aut]"), as.person("Ginger Allington [aut]
 associatedParty = as(others, "associatedParty")
 
 address = new("address",
-              deliveryPoint = "Department of Biology, UMC 5305, Utah State University",
-              city = "Logan",
-              administrativeArea = "Utah",
-              postalCode = "84322",
+              deliveryPoint = "Department of Wildlife Ecology and Conservation, IFAS
+                                110 Newins-Ziegler Hall, PO Box 110430",
+              city = "Gainesville",
+              administrativeArea = "FL",
+              postalCode = "32611",
               country = "USA")
 
 publisher = new("publisher",
@@ -547,11 +549,9 @@ title = "Long-term monitoring and experimental manipulation of a Chihuahuan Dese
 
 abstract = "Desert ecosystems have long served as model systems in the study of ecological concepts (e.g., competition, resource pulses, top-down/bottom-up dynamics). However, the inherent variability of resource availability in deserts, and hence consumer dynamics, can also make them challenging ecosystems to understand. Study of a Chihuahuan desert ecosystem near Portal, AZ began in 1977. At this site, 24 experimental plots were established in 1977 and divided among controls and experimental manipulations. Experimental manipulations over the years include removal of all or some rodent species, all or some ants, seed additions, and various alterations of the annual plant community. These data have been used in a variety of publications documenting the effects of the experimental manipulations as well as the response of populations and communities to long-term changes in climate and habitat. Sampling is ongoing and additional data will be published as it is collected."  
 
-intellectualRights = "This dataset is released to the public and may be freely
-downloaded. Please keep the designated Contact person informed of any
-plans to use the dataset. Consultation or collaboration with the original
-investigators is strongly encouraged. Publications and data products
-that make use of the dataset must include proper acknowledgement."
+intellectualRights = "Standard scientific norms for attribution and credit should be followed when using these 
+                      data, including to the original sources. This work is licensed under a Creative Commons 
+                      Attribution 4.0 International License (CC-BY; http://creativecommons.org/licenses/by/4.0/)."
 
 ## EML file
 dataset = new("dataset",
