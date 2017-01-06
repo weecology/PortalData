@@ -15,7 +15,7 @@ source('check_missing_data.r')
 # New file to be checked
 ##############################################################################
 
-newperiod = '455'
+newperiod = '456'
 filepath = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep='')
