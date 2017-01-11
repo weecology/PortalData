@@ -16,7 +16,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "C:\\Users\\EC\\Dropbox\\Portal\\PORTAL_primary_data\\Weather\\Raw_data\\2002_Station\\"
 
-metfile = "Met455"
+metfile = "Met457"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RelHumid'))
 
