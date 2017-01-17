@@ -28,7 +28,7 @@ cirs neom,Cirsium,,neomexicanum,,,New Mexico thistle,Asteraceae,Perennial,Perenn
 erig conc,Erigeron,,concinnus,,,Navajo Fleabane,Asteraceae,Perennial,Subshrub
 erig dive,Erigeron,,divergens,,,Spreading fleabane,Asteraceae,Annual,Summer and Winter Annuals
 flou cern,Flourensia,,cernua,,,Tarbush,Asteraceae,Perennial,Shrub
-guti saro,Gutierrezia,,sarothrae,,,Snakeweed,Asteraceae,Perennial,Shrub
+guti saro,Gutierrezia,,microcephala,sarothrae,,Snakeweed,Asteraceae,Perennial,Shrub
 hapl spin,Haplopappus,,spinulosus,,,Lacy tansyaster,Asteraceae,Perennial,Subshrub
 hete suba,Heterotheca,,subaxillaris,,,Camphorweed,Asteraceae,Annual,Winter and Summer Annuals
 hapl tenu,Isocoma,Haplopappus,tenuisectus,,,Burroweed,Asteraceae,Perennial,Subshrub
@@ -200,9 +200,9 @@ kall cali,Kallstroemia,,californica,,,California Caltrop,Zygophyllaceae,Annual,S
 kall gran,Kallstroemia,,grandiflora,,,Arizona Poppy,Zygophyllaceae,Annual,Summer Annuals
 kall hirs,Kallstroemia,,hirsutissima,,,Hairy Caltrop,Zygophyllaceae,Annual,Summer Annuals
 kall sp,Kallstroemia,,sp.,,,Unknown,Zygophyllaceae,Annual,Summer Annuals
-vulp octo,Vulpia,octoflora,,Sixweeks fescue,Poaceae,Annual,Winter Annuals,,
-xant spin,Xanthisma,spinulosum,var. chihuahuanum,Chihuahua Tansyaster,Asteraceae,Perennial,Perennials,,
-yucc elat,Yucca,elata,,Soaptree yucca,Agavaceae,Perennial,Perennials,,
-zinn gran,Zinnia,grandiflora,,Wild zinnia,Asteraceae,Perennial,Perennials,,
-zinn pumi,Zinnia,pumila,,Desert zinnia,Asteraceae,Perennial,Perennials,,
-zinn sp,Zinnia,spp.,,Unknown zinnia,Asteraceae,Perennial,Perennials,,
+vulp octo,Vulpia,,octoflora,,,Sixweeks fescue,Poaceae,Annual,Winter Annuals
+xant spin,Xanthisma,,spinulosum,,var. chihuahuanum,Chihuahua Tansyaster,Asteraceae,Perennial,Perennials
+yucc elat,Yucca,,elata,,,Soaptree yucca,Agavaceae,Perennial,Perennials
+zinn gran,Zinnia,,grandiflora,,,Wild zinnia,Asteraceae,Perennial,Perennials
+zinn pumi,Zinnia,,pumila,,,Desert zinnia,Asteraceae,Perennial,Perennials
+zinn sp,Zinnia,,spp.,,,Unknown zinnia,Asteraceae,Perennial,Perennials

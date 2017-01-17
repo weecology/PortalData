@@ -4,11 +4,13 @@
 library(dtplyr)
 library(dplyr)
 library(tidyr)
+library(lubridate)
 
 weather <- function(level) {
   
   weather_new=read.csv('~/PortalData/Weather/Portal_weather.csv', na.strings=c(""), stringsAsFactors = FALSE)
   weather_old=read.csv('~/PortalData/Weather/Portal_weather_19801989.csv', na.strings=c("-99"), stringsAsFactors = FALSE)
+  #NDVI=read.csv('~/PortalData/NDVI/NDVI.csv', na.strings=c("-99"), stringsAsFactors = FALSE)
   
   # Data cleanup
   
