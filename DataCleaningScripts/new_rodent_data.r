@@ -81,7 +81,7 @@ setdiff(hasstar$tag,newcaps$tag)
 #    -conflicts can be resolved if there's a clear majority, or if clear sexual characteristics
 #    -also look back in book to see if sex/species data was manually changed before for a particular tag number
 #    -when making changes to old or new data, note in book
-sqldf("SELECT recentdat.period, recentdat.plot, ws.plot, recentdat.species, ws.species, recentdat.sex, ws.sex, recentdat.tag
+sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recentdat.species, ws.species, recentdat.sex, ws.sex, recentdat.tag
        FROM recentdat INNER JOIN ws ON recentdat.tag = ws.tag
        WHERE (((recentdat.species)<>(ws.species)) And ((recentdat.tag)=(ws.tag))) Or (((recentdat.sex)<>(ws.sex)));")
 
