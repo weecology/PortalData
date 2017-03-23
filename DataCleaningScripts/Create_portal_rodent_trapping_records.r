@@ -40,11 +40,8 @@ check = aggregate(portal_trapping$Sampled,by=list(portal_trapping$Period),FUN = 
 
 check[check$x != 24,]
 
-# Periods prior to Period 26 need to be
-# handled separately because only 23 plots existed
-
 # fill in missing plots with "not trapped"
-short = check$Group.1[check$x<24 && check$Group.1 > 26]
+short = check$Group.1[check$x<24]
 
 missing = c()
 for (n in short) {
