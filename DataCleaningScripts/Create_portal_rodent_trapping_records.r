@@ -8,7 +8,7 @@ library(sqldf)
 # setwd('C:/Users/EC/Desktop/git/PortalData')
 
 # load rodent trapping data
-rodentdat = read.csv('Rodents/Portal_rodent.csv',as.is=T,na.strings = '')
+rodentdat = read.csv('../Rodents/Portal_rodent.csv',as.is=T,na.strings = '')
 
 # select date, period, plot columns
 plotdat = sqldf("SELECT mo, dy, yr, period, plot, note1
@@ -35,13 +35,17 @@ portal_trapping = data.frame(Day = plotdat1$dy,
 # remove duplicate rows
 portal_trapping = portal_trapping[!duplicated(portal_trapping[,c(4,5,6)]),]
 
-# checks
+# checks for periods with less than 24 plots
 check = aggregate(portal_trapping$Sampled,by=list(portal_trapping$Period),FUN = length)
 
 check[check$x != 24,]
 
+# Periods prior to Period 26 need to be
+# handled separately because only 23 plots existed
+
 # fill in missing plots with "not trapped"
-short = check$Group.1[check$x<24]
+short = check$Group.1[check$x<24 && check$Group.1 > 26]
+
 missing = c()
 for (n in short) {
   period = portal_trapping[portal_trapping$Period == n,]
@@ -56,4 +60,4 @@ for (n in short) {
 portal_trapping = portal_trapping[order(portal_trapping$Period,portal_trapping$Plot),]
 
 # write to file
-write.csv(portal_trapping,'Rodents/Portal_rodent_trapping.csv', row.names = F)
+write.csv(portal_trapping,'../Rodents/Portal_rodent_trapping.csv', row.names = F)
