@@ -19,7 +19,7 @@ Before 1989, precipitation was collected in a standard “manual” rain gauge and a
 
 *1989-2017*: Data were downloaded monthly in conjunction with the monthly rodent census. While we do not appear to have documentation on the accuracy of the rain gauge associated with the first automated weather station, we do know that it was a tipping bucket rain gauge and the data suggest that each tip was equal to 0.254 mm. This is equivalent to the tipping bucket rain gauge associated with the weather station that began operation in 2002. Note: weather station battery was bad from Oct 2015 to Feb 2016, use data from this period with caution
 
-*2016-present*: This station was installed in November of 2016. In addition to a temperature sensor and rain gauge, it has a relative humidity sensor, pyranometer, wind monitor and barometer. Data is uploaded remotely each day. Data is organized as described below. In addition to the hourly data, this station collects precipitation data in 5 minute intervals during storm events. This is in the separate table [Storms](./Weather/Portal_Storms.csv).
+*2016-present*: This station was installed in November of 2016. In addition to a temperature sensor and rain gauge, it has a relative humidity sensor, pyranometer, wind monitor and barometer. Data is uploaded remotely each day. Data is organized as described below. In addition to the hourly data, this station collects precipitation data in 5 minute intervals during storm events. This is in the separate table [Storms](./Weather/Portal_storms.csv).
 
 | Column Name	| Units		| Measurement Type | Value |
 | --------------|:-------------:| -----:|:-------------: |

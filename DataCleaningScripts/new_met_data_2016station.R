@@ -80,3 +80,37 @@ plot(newdata$RH,type='l')
 # append new data
 write.table(newdata, file = "~/PortalData/Weather/Portal_weather.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
+
+################################################################################
+
+### Add new storm data to Portal_storms.csv############
+
+# ==============================================================================
+# Load file
+# ==============================================================================
+
+# Open raw .dat file
+
+stormheaders = read.csv("./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_Storms.dat", skip = 1, header = F, nrows = 1, as.is = T)
+stormsnew = read.csv("./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_Storms.dat", skip = 4, header = F)
+colnames(stormsnew)= stormheaders
+
+# Keep new data
+storms=read.csv("./PortalData/Weather/Portal_storms.csv")
+
+stormsnew=stormsnew[stormsnew$RECORD>max(storms$RECORD),]
+
+
+# plot data to look for outliers/weirdness
+plot(stormsnew$TIMESTAMP,stormsnew$Rain_mm_Tot)
+
+
+# ==============================================================================
+# 2. Append new data to file
+# ==============================================================================
+
+
+# append new data
+write.table(stormsnew, file = "~/PortalData/Weather/Portal_storms.csv", 
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
