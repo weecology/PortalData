@@ -16,6 +16,7 @@ library(dplyr)
 headers = read.csv("./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat", skip = 1, header = F, nrows = 1, as.is = T)
 rawdata = read.csv("./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat", skip = 4, header = F)
 colnames(rawdata)= headers
+rawdata=rawdata %>% rename(TempAir=AirTC_Avg,Precipitation=Rain_mm_Tot)
 
 
 # Convert Timestamp to Year, Month, Day, Hour
@@ -28,7 +29,7 @@ rawdata$Hour[rawdata$Hour==0] = 24 ; rawdata$Hour = 100*rawdata$Hour
 # Keep new data
 weather=read.csv("./PortalData/Weather/Portal_weather.csv")
 
-newdata=rawdata[rawdata$RECORD>max(weather$RECORD),]
+newdata=rawdata[rawdata$RECORD>tail(weather$RECORD,n=1),]
 # ==============================================================================
 # 1. Quality control
 # ==============================================================================
@@ -40,13 +41,13 @@ if (any(!(newdata$Hour %in% seq(from=100,to=2400,by=100)))) {
 } else {print('Hour ok')}
 
 # check for errors in air temp (i.e. temp > 100C or < -30)
-if (any(newdata$AirTC_Avg > 100)) {
+if (any(newdata$TempAir > 100)) {
   print('AirT error')
-  newdata = filter(newdata,AirTC_Avg < 100)
+  newdata = filter(newdata,TempAir < 100)
 }
-if (any(newdata$AirTC_Avg < -30)) {
+if (any(newdata$TempAir < -30)) {
   print('TempAir error')
-  newdata = filter(newdata,AirTC_Avg > -30)
+  newdata = filter(newdata,TempAir > -30)
 } else {print('AirT ok')}
 
 # check for errors in rel humidity (either > 100 or < 0)
@@ -68,8 +69,8 @@ if (tail(ymd_hms(weather$TIMESTAMP),n=1)+3600==ymd_hms(newdata$TIMESTAMP)[1]) {
 } else {print('dates do not match')}
 
 # plot data to look for outliers/weirdness
-plot(newdata$AirTC_Avg,type='l')
-plot(newdata$Rain_mm_Tot)
+plot(newdata$TempAir,type='l')
+plot(newdata$Precipitation)
 plot(newdata$RH,type='l')
 
 # ==============================================================================
@@ -79,6 +80,11 @@ plot(newdata$RH,type='l')
 
 # append new data
 write.table(newdata, file = "~/PortalData/Weather/Portal_weather.csv", 
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
+# also append new data to overlap file
+overlap=newdata %>% select(Year,Month,Day,Hour,TIMESTAMP,RECORD,TempAir=AirTC_Avg,Precipitation=Rain_mm_Tot)
+write.table(ovelap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 
