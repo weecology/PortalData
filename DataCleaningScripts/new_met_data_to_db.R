@@ -14,19 +14,22 @@ library(dplyr)
 # ==============================================================================
 
 # Open raw .dat file of new data
-filepath = "C:\\Users\\EC\\Dropbox\\Portal\\PORTAL_primary_data\\Weather\\Raw_data\\2002_Station\\"
+filepath = "./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met457"
+metfile = "Met459"
 
-rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RelHumid'))
+rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RH'))
 
 # Convert Julian day to month and day
 rawdata$date = as.Date(paste(rawdata$Year,rawdata$Jday),format='%Y %j')
 rawdata$Month = as.integer(format(rawdata$date,'%m'))
 rawdata$Day = as.integer(format(rawdata$date,'%d'))
+rawdata$TIMESTAMP = ymd_hms(paste(rawdata$Year,"-",rawdata$Month,"-",rawdata$Day," ",rawdata$Hour/100,":00:00",sep=""))
 
-# Select weather data (Code=101) from battery status data (Code=102)
+# Select weather data (Code=101) from battery status data (Code=102) then add battery data as column
 weathdat = rawdata[rawdata$Code==101,]
+battery= rawdata[rawdata$Code==102,] %>% select(Year,Month,Day,Hour,BattV=Precipitation)
+weathdat=left_join(weathdat,battery,by=c("Year","Month","Day","Hour"))
 
 # ==============================================================================
 # 1. Quality control
@@ -62,25 +65,30 @@ if (any(weathdat$RelHumid < 0)) {
 if (any(rawdata[rawdata$Code==102,5] < 11)) {print('Battery error')} else {print('Battery ok')}
 
 # check that start of new data lines up with end of existing data
-exst_dat = read.csv('Weather/Portal_weather.csv')
-last_old = strptime(paste(tail(exst_dat$Year,1),tail(exst_dat$Month,1),tail(exst_dat$Day,1),tail(exst_dat$Hour/100,1)),format='%Y %m %d %H')
-first_new = strptime(paste(weathdat$Year[1],weathdat$Month[1],weathdat$Day[1],weathdat$Hour[1]/100),format='%Y %m %d %H')
-if (first_new == last_old+3600) {
+#Get max record from overlap data (this works because the last RECORD will always be higher for the old station)
+exst_dat = read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
+
+if (tail(ymd_hms(exst_dat$TIMESTAMP[exst_dat$RECORD==max(exst_dat$RECORD)]),n=1)+3600==ymd_hms(weathdat$TIMESTAMP)[1]) {
   print('dates match')
 } else {print('dates do not match')}
+
+#Add RECORD column
+weathdat$RECORD=max(exst_dat$RECORD)+1:dim(weathdat)[1]
 
 # plot data to look for outliers/weirdness
 plot(weathdat$TempAir,type='l')
 plot(weathdat$Precipitation)
 plot(weathdat$RelHumid,type='l')
 
+
+
 # ==============================================================================
 # 2. Append new data to file
 # ==============================================================================
 
 # get new data columns in correct order
-newdata = weathdat[,c('Year','Month','Day','Hour','TempAir','Precipitation')]
+newdata = weathdat[,c("Year","Month","Day","Hour","TIMESTAMP","RECORD","BattV","TempAir","Precipitation","RH")]
 
 # append new data
-write.table(newdata, file = "Weather/Portal_weather.csv", 
+write.table(newdata, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
