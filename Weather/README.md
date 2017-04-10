@@ -9,7 +9,7 @@ The data set includes continuous weather monitoring near Portal, Arizona. From 1
 
 ### Site description: 
 
-The 24 experimental plots cover an area not more than 20 ha in size. Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Portal Overview Metadata, Figure 1](./SiteandMethods/Portal_Figure1.tif) for location).
+The 24 experimental plots cover an area not more than 20 ha in size. Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Portal Overview Metadata, Figure 1](./SiteandMethods/Portal_Figure1.tif) for location and [Coordinates file](Portal_UTMcoords.csv) for coordinates).
 
 ### Data Collection: 
 
