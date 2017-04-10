@@ -1,8 +1,8 @@
-#Guide to Portal Data Cleaning Procedures
+# Guide to Portal Data Cleaning Procedures
 
 A description of the cleaning procedures applied to new Portal data before they are appended to the relevant data table. Numbered descriptions refer to functions in this folder, applied, in order, to the new data.
 
-##Rodent Data
+## Rodent Data
 1. Compare double-entered data
 
 2. Quality control
@@ -31,7 +31,7 @@ A description of the cleaning procedures applied to new Portal data before they 
 
 4. Append new data to table, write table to file
 
-##Plant Data
+## Plant Data
 1. Compare double-entered data
 
 2. Quality Control
@@ -46,7 +46,7 @@ A description of the cleaning procedures applied to new Portal data before they 
 
 3.Remove empty quadrats, append data to table, write table to file
 
-##Weather Data
+## Weather Data
 1. Quality Control
 
     -dates align with previous data

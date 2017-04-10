@@ -27,7 +27,7 @@ rawdata=cbind(Year = year(ymd_hms(rawdata$TIMESTAMP)),
 rawdata$Hour[rawdata$Hour==0] = 24 ; rawdata$Hour = 100*rawdata$Hour
 
 # Keep new data
-weather=read.csv("./PortalData/Weather/Portal_weather.csv")
+weather=read.csv("~/PortalData/Weather/Portal_weather.csv")
 
 newdata=rawdata[rawdata$RECORD>tail(weather$RECORD,n=1),]
 # ==============================================================================
@@ -83,8 +83,8 @@ write.table(newdata, file = "~/PortalData/Weather/Portal_weather.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
-overlap=newdata %>% select(Year,Month,Day,Hour,TIMESTAMP,RECORD,TempAir=AirTC_Avg,Precipitation=Rain_mm_Tot)
-write.table(ovelap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
+overlap=newdata %>% select(Year,Month,Day,Hour,TIMESTAMP,RECORD,TempAir,Precipitation)
+write.table(overlap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 
@@ -103,9 +103,9 @@ stormsnew = read.csv("./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016
 colnames(stormsnew)= stormheaders
 
 # Keep new data
-storms=read.csv("./PortalData/Weather/Portal_storms.csv")
+storms=read.csv("~/PortalData/Weather/Portal_storms.csv")
 
-stormsnew=stormsnew[stormsnew$RECORD>max(storms$RECORD),]
+stormsnew=stormsnew[stormsnew$TIMESTAMP>max(storms$TIMESTAMP),]
 
 
 # plot data to look for outliers/weirdness

@@ -7,7 +7,7 @@
 
 setwd('C:/Users/EC/Desktop/git/PortalData')
 
-
+library(lubridate)
 library(dplyr)
 # ==============================================================================
 # Load file
@@ -16,7 +16,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met459"
+metfile = "Met460"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RH'))
 
@@ -52,13 +52,13 @@ if (any(weathdat$TempAir < -30)) {
 } else {print('TempAir ok')}
 
 # check for errors in rel humidity (either > 100 or < 0)
-if (any(weathdat$RelHumid >100)) {
+if (any(weathdat$RH >100)) {
   print('RelHumid error')
-  weathdat = filter(weathdat,RelHumid < 100)
+  weathdat = filter(weathdat,RH < 100)
 } 
-if (any(weathdat$RelHumid < 0)) {
+if (any(weathdat$RH < 0)) {
   print('RelHumid error')
-  weathdat = filter(weathdat,RelHumid > 0)
+  weathdat = filter(weathdat,RH > 0)
 } else {print('RelHumid ok')}
 
 # check battery status (should be ~12.5)
@@ -78,7 +78,7 @@ weathdat$RECORD=max(exst_dat$RECORD)+1:dim(weathdat)[1]
 # plot data to look for outliers/weirdness
 plot(weathdat$TempAir,type='l')
 plot(weathdat$Precipitation)
-plot(weathdat$RelHumid,type='l')
+plot(weathdat$RH,type='l')
 
 
 
