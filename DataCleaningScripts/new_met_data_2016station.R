@@ -83,7 +83,8 @@ write.table(newdata, file = "~/PortalData/Weather/Portal_weather.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
-overlap=newdata %>% select(Year,Month,Day,Hour,TIMESTAMP,RECORD,TempAir,Precipitation)
+overlap=newdata %>% select(Year,Month,Day,Hour,TIMESTAMP,RECORD,BattV,TempAir,Precipitation,RH)
+overlap$TIMESTAMP=ymd_hms(overlap$TIMESTAMP)
 write.table(overlap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
