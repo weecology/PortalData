@@ -1,6 +1,9 @@
-# This function checks that all plots are represented in the data (including empty plots)
-
-#    Input: data frame including a field called 'plot'
+#' This function checks that all 24 plots are represented in the data (including empty plots)
+#' 
+#' 
+#' 
+#'
+#' @param df data frame including a field called 'plot'
 
 
 
