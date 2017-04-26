@@ -1,4 +1,4 @@
-source("DataCleaningScripts/new_weather_data.R")
+source("~/PortalData/DataCleaningScripts/new_weather_data.R")
 library(testthat)
 context("checks new weather data")
 

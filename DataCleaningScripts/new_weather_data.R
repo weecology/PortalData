@@ -6,7 +6,6 @@
 library(lubridate)
 library(dplyr)
 
-
 # ==============================================================================
 # Load files, assign column names, and keep new data
 # ==============================================================================
@@ -15,7 +14,7 @@ library(dplyr)
 new_met_data <- function() {
 
 # Open raw MET.dat file, read in headers and data separately (to preserve data types), then assign colnames
-  
+
 headers = read.csv('./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat', skip = 1, header = F, nrows = 1, as.is = T)
 rawdata = read.csv('./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat', skip = 4, header = F)
 colnames(rawdata)= headers
