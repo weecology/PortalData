@@ -1,6 +1,6 @@
 # Portal Plant Monitoring Metadata
 
-[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 – 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
+[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 ? 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
 
 ### Abstract
 
@@ -21,13 +21,13 @@ Typically, germination of summer annuals begins within a few days of the first s
 
 #### Treatments: 
 
-See [Portal Overview Metadata Table 2](../SiteandMethods/Portal_Table2.pptx), for details on treatment assignments for each plot.
+See [Portal Overview Metadata Table 2](../SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot over time. [Portal_plots](../SiteandMethods/Portal_plots.csv) can be used to correctly assign treatment by year and month.
 
 ### Data Collection: 
 
 #### Quadrat Abundance Data
 
-Plant data were collected nearly continuously from 1978-present. Because there are two annual plant communities – one in the winter and one in the summer - there are two plant surveys per year. The surveys occur towards the end of the growing season; occurring in spring for the winter community and fall for the summer community. **Plant censuses were of sufficient quality by 1981 that data has been provided starting in this year. However, there are concerns that not all species were always identified and recorded, especially perennials, in the data from 1981 – 1988.** We are certain that by 1989 all species were being identified and recorded, including all perennials occurring on quadrats. This data is in the [Portal_plant_quadrats](Portal_plant_quadrats.csv) file, where "cover" and "cf" columns were not used. Beginining in the summer of 2015, % cover was recorded by species and included in the abundance table. Unknown species are also assigned a similar species in the "cf" columns where possible. This data is in the [Portal_plant_quadrats](Portal_plant_quadrats.csv) file and uses the "cover" and "cf" columns. It is continually updated with new data. Dates of plant censuses, when known, are listed in [Portal_plant_census_dates](Portal_plant_census_dates.csv). Due to intermittent funding, gaps in data collection exist beginning in 2010. On a quadrat level, the data file [Portal_plant_censuses](Portal_plant_censuses.csv) provides a record of when each quadrat was censused.
+Plant data were collected nearly continuously from 1978-present. Because there are two annual plant communities ? one in the winter and one in the summer - there are two plant surveys per year. The surveys occur towards the end of the growing season; occurring in spring for the winter community and fall for the summer community. **Plant censuses were of sufficient quality by 1981 that data has been provided starting in this year. However, there are concerns that not all species were always identified and recorded, especially perennials, in the data from 1981 ? 1988.** We are certain that by 1989 all species were being identified and recorded, including all perennials occurring on quadrats. This data is in the [Portal_plant_quadrats](Portal_plant_quadrats.csv) file, where "cover" and "cf" columns were not used. Beginining in the summer of 2015, % cover was recorded by species and included in the abundance table. Unknown species are also assigned a similar species in the "cf" columns where possible. This data is in the [Portal_plant_quadrats](Portal_plant_quadrats.csv) file and uses the "cover" and "cf" columns. It is continually updated with new data. Dates of plant censuses, when known, are listed in [Portal_plant_census_dates](Portal_plant_census_dates.csv). Due to intermittent funding, gaps in data collection exist beginning in 2010. On a quadrat level, the data file [Portal_plant_censuses](Portal_plant_censuses.csv) provides a record of when each quadrat was censused.
 
 Quadrat dimensions are 0.25 m x 0.25 m. Quadrats are placed at locations permanently marked by a rebar stake. Plants rooted within 16 fixed quadrats in each plot are counted each spring (winter annual survey) and fall (summer annual survey). Several adjacent stems are counted separately when the species is an annual, and as one individual when the species is a perennial. **Prior to 1989, perennial species were not systematically included in these counts of abundance.** The [species list](Portal_plant_species.csv) indicates species that are considered perennial at the site.
 
