@@ -1,6 +1,6 @@
 # Portal Ant Monitoring Metadata
 
-[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert ant community near Portal, Arizona (1977 ? 2009).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
+[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert ant community near Portal, Arizona (1977 - 2009).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
 
 ### Abstract
 
@@ -10,11 +10,11 @@ The data set covers a 33 year period (1977-2009) of detailed ant sampling of an 
 
 Within the 20 ha study area there are 24 experimental plots. Each plot has an area of 0.25 ha and is fenced to regulate rodent access to the plot. Rodent treatments include controls, kangaroo rat removal, and rodent removal. The ant community, which is also predominately granivorous, is also manipulated. Ant treatments include controls and ant removals. After 1980, poisoning was conducted with AMDRO (American Cyanamide Company) (Davidson et al 1985).
 
-On each plot there are 49 permanent stations marked by rebar stakes forming a 7x7 grid. Rows are numbered 1-7 going from the most northern row to the most southern. Columns are numbered 1-7 going from the most western column to the most eastern. Every stake on a plot has a unique identifying number denoting the coordinate of that stake on that plot. For example, stake 13 is the third stake on the first row (see [Portal Overview Metadata, Fig 1](../SiteandMethods/Portal_Figure1.tif)). Starting in 2005, stakes 15 ? 17 and 27 were no longer censused in plot 24. Changes to plot shape resulted in all or part of the circular quadrats being outside the plot. 
+On each plot there are 49 permanent stations marked by rebar stakes forming a 7x7 grid. Rows are numbered 1-7 going from the most northern row to the most southern. Columns are numbered 1-7 going from the most western column to the most eastern. Every stake on a plot has a unique identifying number denoting the coordinate of that stake on that plot. For example, stake 13 is the third stake on the first row (see [Portal Overview Metadata, Fig 1](../SiteandMethods/Portal_Figure1.tif)). Starting in 2005, stakes 15 - 17 and 27 were no longer censused in plot 24. Changes to plot shape resulted in all or part of the circular quadrats being outside the plot. 
 
 ### Treatments: 
 
-See [Portal Overview Metadata Table 2](../SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot. [Portal_plots](../SiteandMethods/Portal_plots.csv) can be used to correctly assign treatment by year and month.
+See [Portal_plot_treatments](../SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot. [Portal_plots](../SiteandMethods/Portal_plots.csv) can be used to correctly assign treatment by year and month.
 
 ### Data Collection: 
 

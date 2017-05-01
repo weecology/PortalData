@@ -1,6 +1,6 @@
 # Portal Plant Monitoring Metadata
 
-[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 ? 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
+[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 - 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
 
 ### Abstract
 
@@ -21,7 +21,7 @@ Typically, germination of summer annuals begins within a few days of the first s
 
 #### Treatments: 
 
-See [Portal Overview Metadata Table 2](../SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot over time. [Portal_plots](../SiteandMethods/Portal_plots.csv) can be used to correctly assign treatment by year and month.
+See [Portal_ Overview Metadata Table 2_plot_treatments](../SiteandMethods/Portal_plot_treatments.csv), for details on treatment assignments for each plot over time. [Portal_plots](../SiteandMethods/Portal_plots.csv) can be used to correctly assign treatment by year and month.
 
 ### Data Collection: 
 
