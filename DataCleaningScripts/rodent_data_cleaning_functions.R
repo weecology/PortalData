@@ -35,7 +35,8 @@ rodent_data_quality_checks = function(ws,scannerfile) {
   }
   
   # Check all plots present in data
-  all_plots(ws)
+  missingplots = all_plots(ws)
+  if (length(missingplots)>0) {print(paste('missing plots:',paste(missingplots,collapse='  ')))}
   
   # Flag missing data
   #   -fields all lines of data should have
