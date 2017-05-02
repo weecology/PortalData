@@ -39,10 +39,12 @@ rodent_data_quality_checks = function(ws,scannerfile) {
   
   # Flag missing data
   #   -fields all lines of data should have
-  check_missing_data(ws,fields = c('mo','dy','yr','period','plot'))
+  m1 = check_missing_data(ws,fields = c('mo','dy','yr','period','plot'))
+  if (length(m1)>0) {print(paste('missing data in row: ',paste(m1,collapse='  ')))}
   #   -fields that should be filled, excluding cases that already have a flag
   #    in the note1 field
-  check_missing_data(ws[is.na(ws$note1),],fields=c('stake','species','sex','hfl','wgt'))
+  m2 = check_missing_data(ws[is.na(ws$note1),],fields=c('stake','species','sex','hfl','wgt'))
+  if (length(m2)>0) {print(paste('missing data in row: ',paste(m2,collapse='  ')))}
   #   - NOTE: does not check for missing tag or sexual characteristics
   
 }
