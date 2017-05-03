@@ -120,7 +120,7 @@ create_moon_dates = function(moon_data_location,final_data_location) {
   # awkward patch for Feb 1994: period 191 (1994-02-01) and 192 (1994-02-20) share new moon 206 (1994-02-10) as the closest new moon,
   #    but new moon 205 (1994-01-11) has no associated trapping period--> match up period 191 and newmoon 205
   moon_dates[moon_dates$NewMoonNumber==205,'Period'] = 191
-  moon_dates[moon_dates$NewMoonNumber==205,'date'] = as.Date('1994-02-01')
+  moon_dates[moon_dates$NewMoonNumber==205,'CensusDate'] = as.Date('1994-02-01')
   
   # write to csv
   write.csv(moon_dates,file=final_data_location,row.names=F)
