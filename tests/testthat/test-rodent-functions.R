@@ -2,28 +2,28 @@
 
 library(XLConnect)
 library(testthat)
-source('DataCleaningScripts/compare_raw_data.r')
-source('DataCleaningScripts/rodent_data_cleaning_functions.R')
-source('DataCleaningScripts/check_missing_data.r')
-source('DataCleaningScripts/check_all_plots_present.r')
+source('compare_raw_data.r')
+source('rodent_data_cleaning_functions.R')
+
 
 context("checks rodent data cleaning functions")
 
-testfile = 'C:/Users/EC/Desktop/rodent_test_data.xlsx'
+testfile = 'rodent_test_data.xlsx'
 wb = loadWorkbook(testfile)
 testdat = readWorksheet(wb,sheet=1,header = T,colTypes = XLC$DATA_TYPE.STRING)
+scannerfile = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/tag scans/tags451.txt'
 
 
 test_that("worksheets 1 and 2 match", {
-
+  expect_equal(compare_worksheets(testfile),data.frame(row=40,column='hfl'))
 })
 
 test_that("Check that tag numbers match between the sheets and scanner", {
-  
+  expect_equal(compare_tags(testdat,scannerfile),data.frame(where=c('scan','sheet'),tag=c('B267E8','B267EB')))
 })
 
 test_that("Check for conflict between M/F and reproductive characteristics", {
-  
+  expect_equal(male_female_check(testdat),146)
 })
 
 test_that("Check for duplicate plot/stake pairs", {

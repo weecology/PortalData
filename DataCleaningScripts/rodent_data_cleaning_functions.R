@@ -9,7 +9,7 @@ source('check_missing_data.r')
 #' @param ws data frame read in from raw data excel file
 #' @param scannerfile path to txt file of tag numbers downloaded from tag scanner
 #' 
-#' @return none
+#' @return none, unless there are errors in data
 
 rodent_data_quality_checks = function(ws,scannerfile) {
   
@@ -22,9 +22,8 @@ rodent_data_quality_checks = function(ws,scannerfile) {
   
   # Check that reproductive charactaristics match M/F designation
   MFcheck = male_female_check(ws)
-  if (nrow(MFcheck) > 0) {
-    print('check M/F in rows:')
-    print(row.names(MFcheck))
+  if (length(MFcheck) > 0) {
+    print(paste('check M/F in rows:',paste(MFcheck,collapse='  ')))
   }
   
   # Check for duplicate stake numbers within a plot
@@ -98,7 +97,7 @@ compare_tags = function(ws,scannerfile) {
 #'
 #' @param ws data frame read in from raw data excel file
 #' 
-#' @return MFcheck -- a data frame of the rows from the original data where there is a problem
+#' @return MFcheck -- a vector of row numbers where there is a problem
 #'
 male_female_check = function(ws) {
   
@@ -116,10 +115,8 @@ male_female_check = function(ws) {
       if (!is.na(ws1$vagina[n]) || !is.na(ws1$pregnant[n]) || !is.na(ws1$nipples[n]) || !is.na(ws1$lactation[n])){
         issues = append(issues,row.names(ws1)[n+1])
       }
-    }
-    }}
-  MFcheck = filter(ws1,row.names(ws1) %in% issues)
-  return(MFcheck)
+    }}}
+  return(as.numeric(issues))
 }
 
 
@@ -129,7 +126,6 @@ male_female_check = function(ws) {
 #' 
 #' @return dups data frame of duplicated plot and stake
 #' 
-
 
 suspect_stake = function(ws) {
   plotstake = select(ws,plot,stake)
