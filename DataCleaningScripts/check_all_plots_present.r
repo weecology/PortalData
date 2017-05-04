@@ -10,5 +10,5 @@
 all_plots = function(df) {
   plots = unique(df$plot)
   missingplots = setdiff(as.character(1:24),plots)
-  print(paste('missing plots:',missingplots))
+  return(as.numeric(missingplots))
 }

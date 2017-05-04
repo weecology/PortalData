@@ -1,6 +1,9 @@
-# This function checks for missing data in new set
+#' This function checks for missing data in a dataframe
 
-#  Input: dataframe, list of fields that should not be empty
+#'  @param df dataframe to be checked
+#'  @param fields vector of column names that should not be empty
+#'  
+#'  @return vector of rows where data is missing
 
 check_missing_data = function(df,fields) {
   missing = c()
@@ -8,6 +11,5 @@ check_missing_data = function(df,fields) {
     if (any(is.na(df[n,fields])))
     missing = rbind(missing, df[n,])
   }
-  print('missing data:')
-  print(missing)
+  return(as.numeric(row.names(missing))+1)
 }
