@@ -42,7 +42,7 @@ compare_worksheets(newfile)
 ######################
 
 wb = loadWorkbook(newfile)
-ws = readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
+ws = readWorksheet(wb, sheet = 1, header = TRUE)
 
 splist = read.csv('C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_species.csv',as.is=T)
 
@@ -91,6 +91,20 @@ data_clean[is.na(data_clean$species),]
 data_clean[is.na(data_clean$cover),]
 
 # =====================================
+# correct all of the data types
+
+data_clean$year <- as.integer(data_clean$year)
+data_clean$month <- as.integer(data_clean$month)
+data_clean$day <- as.integer(data_clean$day)
+data_clean$season <- noquote(as.factor(data_clean$season))
+data_clean$plot <-   as.integer(data_clean$plot)
+data_clean$quadrat <- as.integer(data_clean$quadrat)
+data_clean$species <- as.factor(data_clean$species)
+data_clean$abundance <- as.integer(data_clean$abundance)
+data_clean$cover <- as.numeric(data_clean$cover)
+data_clean$cf <- as.factor(data_clean$cf)
+
+# =====================================
 # save cleaned up version to Dropbox
 
 write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep = ''), 
@@ -104,4 +118,4 @@ data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "a
 
 # append to existing data file
 write.table(data_append, file = "C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_quadrats.csv", 
-            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
