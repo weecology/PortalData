@@ -17,8 +17,8 @@ source('new_moon_numbers.R')
 newperiod = '461'
 filepath = 'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
-newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep='')
-scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep='')
+newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
+scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep = '')
 
 ##############################################################################
 # 1. Compare double-entered data -- will return 'Worksheets identical' if versions match
@@ -34,17 +34,20 @@ compare_worksheets(newfile)
 wb = loadWorkbook(newfile)
 ws = readWorksheet(wb, sheet = 1, header = TRUE, colTypes = XLC$DATA_TYPE.STRING)
 
-rodent_data_quality_checks(ws,scannerfile)
+rodent_data_quality_checks(ws, scannerfile)
 
 ##############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
 
+# set working directory from which to pull data
+setwd("C:/Users/ellen.bledsoe/Desktop/Git/PortalData/")
+
 # Load current state of database - older data
-olddat = read.csv('../Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
+olddat = read.csv('./Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 
 # Subset of most recent four years of data, for comparing recaptures
-recentdat = olddat[olddat$yr >= as.numeric(ws$yr[1])-3,]
+recentdat = olddat[olddat$yr >= as.numeric(ws$yr[1]) - 3,]
 
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
@@ -54,8 +57,8 @@ newcaps = ws[!(ws$tag %in% unique(recentdat$tag)), c('plot','species','sex','tag
 newcaps
 
 # check to see if * put on note2 by accident: compare entries with * to list of tags not already in database
-hasstar = ws[!is.na(ws$note2),c('plot','species','sex','tag','note2','note5')]
-setdiff(hasstar$tag,newcaps$tag)
+hasstar = ws[!is.na(ws$note2), c('plot','species','sex','tag','note2','note5')]
+setdiff(hasstar$tag, newcaps$tag)
 
 # Check sex/species on recaptures
 #    -conflicts can be resolved if there's a clear majority, or if clear sexual characteristics
@@ -73,7 +76,7 @@ sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recent
 # make column of record IDs for new data
 newdat = cbind(Record_ID = seq(max(olddat$Record_ID) + 1, max(olddat$Record_ID) + length(ws$mo)), ws)
 # append to existing data file
-write.table(newdat, "../Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
+write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
 
 ##############################################################################
 # 5. Update trapping records and new moon records
@@ -82,11 +85,13 @@ write.table(newdat, "../Rodents/Portal_rodent.csv", row.names = F, na = "", appe
 ### Update Trapping Records
 
 # load rodent trapping data
-trappingdat=read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
+trappingdat = read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
 
 # proceed only if rodentdat has more recent data than trappingdat
-if (max(rodentdat$period) > max(trappingdat$Period)) {
+if (max(newdat$period) > max(trappingdat$Period)) {
   
+  # convert newdat columns to integer
+  newdat[,2:7] <- apply(newdat[,2:7], 2, function(x) as.integer(x))
   # extract plot data beyond what's already in trappingdat
   newtrapdat = filter(newdat, period > max(trappingdat$Period)) %>%
     filter(!is.na(plot)) %>% 
@@ -106,8 +111,8 @@ if (max(rodentdat$period) > max(trappingdat$Period)) {
   
   # write updated data frame to csv
   write.csv(updated_trappingdat, 
-            file = "../Rodents/Portal_rodent_trapping.csv", 
-            row.names = F)
+            file = "./Rodents/Portal_rodent_trapping.csv", 
+            row.names = F, quote = F)
   
 }
 
@@ -115,8 +120,10 @@ if (max(rodentdat$period) > max(trappingdat$Period)) {
 
 # load existing moon_dates.csv file
 moon_dates = read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"), stringsAsFactors = F)
-moon_dates$CensusDate = as.Date(moon_dates$CensusDate)
 
+# put date columns in appropriate date format
+moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%m/%d/%Y')
+moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%m/%d/%Y')
 updated_trappingdat$CensusDate = as.Date(paste(updated_trappingdat$Year,
                                                updated_trappingdat$Month,
                                                updated_trappingdat$Day, sep = '-'))
@@ -138,6 +145,6 @@ if (max(updated_trappingdat$Period, na.rm = T) > max(moon_dates$Period, na.rm = 
   }
   
   # write updated data frame to csv
-  write.csv(moon_dates, file = '../Rodents/moon_dates.csv', row.names = F)
+  write.csv(moon_dates, file = './Rodents/moon_dates.csv', row.names = F)
   
 }
