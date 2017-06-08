@@ -1,6 +1,6 @@
 # Portal Plant Monitoring Metadata
 
-[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 ? 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
+[**Long-term monitoring and experimental manipulation of a Chihuahuan Desert plant community near Portal, Arizona (1981 - 2013).**](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full)
 
 ### Abstract
 
