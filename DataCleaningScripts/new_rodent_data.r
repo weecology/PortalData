@@ -10,12 +10,15 @@ source('compare_raw_data.r')
 source('rodent_data_cleaning_functions.R')
 source('new_moon_numbers.R')
 
+# set your working directory
+setwd("~bleds22e/Documents/Git/PortalData/")
+
 ##############################################################################
 # New file to be checked
 ##############################################################################
 
-newperiod = '461'
-filepath = 'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
+newperiod = '462'
+filepath = '~bleds22e/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep = '')
@@ -39,9 +42,6 @@ rodent_data_quality_checks(ws, scannerfile)
 ##############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
-
-# set working directory from which to pull data
-setwd("C:/Users/ellen.bledsoe/Desktop/Git/PortalData/")
 
 # Load current state of database - older data
 olddat = read.csv('./Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
@@ -85,7 +85,7 @@ write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", appen
 ### Update Trapping Records
 
 # load rodent trapping data
-trappingdat = read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
+trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
 
 # proceed only if rodentdat has more recent data than trappingdat
 if (max(newdat$period) > max(trappingdat$Period)) {
@@ -106,24 +106,19 @@ if (max(newdat$period) > max(trappingdat$Period)) {
   newtrapdat = newtrapdat[order(newtrapdat$period, newtrapdat$plot), ]
   # rename columns
   names(newtrapdat) = c('Day', 'Month', 'Year', 'Period', 'Plot', 'Sampled')
-  # append to trappingdat
-  updated_trappingdat = rbind(trappingdat, newtrapdat)
-  
   # write updated data frame to csv
-  write.csv(updated_trappingdat, 
-            file = "./Rodents/Portal_rodent_trapping.csv", 
-            row.names = F, quote = F)
+  write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
   
 }
 
 ### Update New Moon Records
 
 # load existing moon_dates.csv file
-moon_dates = read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"), stringsAsFactors = F)
+moon_dates = read.csv("./Rodents/moon_dates.csv", stringsAsFactors = F)
 
 # put date columns in appropriate date format
-moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%m/%d/%Y')
-moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%m/%d/%Y')
+moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%Y-%m-%d')
+moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%Y-%m-%d')
 updated_trappingdat$CensusDate = as.Date(paste(updated_trappingdat$Year,
                                                updated_trappingdat$Month,
                                                updated_trappingdat$Day, sep = '-'))
