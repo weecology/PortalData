@@ -10,6 +10,9 @@ source('compare_raw_data.r')
 source('rodent_data_cleaning_functions.R')
 source('new_moon_numbers.R')
 
+# set your working directory
+setwd("~bleds22e/Documents/Git/PortalData/")
+
 ##############################################################################
 # New file to be checked
 ##############################################################################
@@ -39,9 +42,6 @@ rodent_data_quality_checks(ws, scannerfile)
 ##############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
-
-# set working directory from which to pull data
-setwd("~bleds22e/Documents/Git/PortalData/")
 
 # Load current state of database - older data
 olddat = read.csv('./Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
@@ -114,11 +114,11 @@ if (max(newdat$period) > max(trappingdat$Period)) {
 ### Update New Moon Records
 
 # load existing moon_dates.csv file
-moon_dates = read.csv(text = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"), stringsAsFactors = F)
+moon_dates = read.csv("./Rodents/moon_dates.csv", stringsAsFactors = F)
 
 # put date columns in appropriate date format
-moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%m/%d/%Y')
-moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%m/%d/%Y')
+moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%Y-%m-%d')
+moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%Y-%m-%d')
 updated_trappingdat$CensusDate = as.Date(paste(updated_trappingdat$Year,
                                                updated_trappingdat$Month,
                                                updated_trappingdat$Day, sep = '-'))
