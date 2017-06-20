@@ -1,27 +1,22 @@
 # This script creates the Portal_rodent_trapping.csv file in the Rodents folder
 # Record of which plots were or were not trapped in each census and exact dates
 
-
-library(RCurl)
 library(dplyr)
 
-
-
-#' Updates file Portal_rodent_trapping.csv with latest trapping dates
+#' Appends new trapping dates to Portal_rodent_trapping
 #'
 #'
-#' @param final_data_location file path where csv of final data should be saved (in the PortalData repo) 
 #' 
-#' @example update_portal_rodent_trapping('C:/Users/EC/Desktop/git/PortalData/Rodents/Portal_rodent_trapping.csv')
+#' @example update_portal_rodent_trapping()
 #' 
 #'
 #'
 
-update_portal_rodent_trapping = function(final_data_location) {
+update_portal_rodent_trapping = function() {
   # load rodent data
-  rodentdat = read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent.csv"),stringsAsFactors = F,as.is=T,na.strings = '')  
+  rodentdat = read.csv("../Rodents/Portal_rodent.csv",stringsAsFactors = F,as.is=T,na.strings = '')  
   # load rodent trapping data
-  trappingdat=read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
+  trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
   
   # proceed only if rodentdat has more recent data than trappingdat
   if (max(rodentdat$period) > max(trappingdat$Period)) {
@@ -37,15 +32,25 @@ update_portal_rodent_trapping = function(final_data_location) {
     # rename columns
     names(newdat) = c('Day','Month','Year','Period','Plot','Sampled')
     # append to trappingdat
-    updated_trappingdat = rbind(trappingdat,newdat)
-    
-    # write updated data frame to csv
-    write.csv(updated_trappingdat,file=final_data_location,row.names=F)
+    trappingdat = rbind(trappingdat,newdat)
   }
-
+  return(trappingdat)
 }
 
+#' Rewrites file Portal_rodent_trapping.csv with latest trapping dates
+#'
+#'
+#' 
+#' @example writetrappingtable(trappingdat)
+#' 
+#'
+#'
+writetrappingtable <- function(trappingdat) {
+  # write updated data frame to csv
+  write.csv(updated_trappingdat,file=final_data_location,row.names=F) }
 
+#################################################################################################################################################
+# This is how Portal_rodent_trapping.csv was originally created
 #' Creates file Portal_rodent_trapping.csv from scratch, using the most current version of Portal_rodent.csv
 #'
 #'
