@@ -72,7 +72,7 @@ update_moon_dates = function() {
     newperiod_dates = find_first_trap_night(newperiod)
 
     # match new period to closest NewMoonDate, and fill in moon_dates data frame
-      closest = closest_newmoon(as.Date(newperiod_dates$CensusDate[newperiod_dates$Period]),as.Date(newmoons$date))
+      closest = closest_newmoon(as.Date(newperiod_dates$CensusDate),as.Date(newmoons$date))
       newmoons=newmoons[1:closest,]
       moon_dates=bind_rows(moon_dates,select(newmoons,c(NewMoonNumber,NewMoonDate=date)))
       
