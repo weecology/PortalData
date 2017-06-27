@@ -1,0 +1,13 @@
+language: r
+cache: packages
+sudo: false
+warnings_are_errors: false
+
+install:
+  - Rscript install-packages.R
+  
+script:
+  - Rscript DataCleaningScripts/FullPath.R
+
+after_success:
+  - bash update_repo.sh
