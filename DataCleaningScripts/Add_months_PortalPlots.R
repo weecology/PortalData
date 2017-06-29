@@ -15,9 +15,9 @@ rodentdat = read.csv("../Rodents/Portal_rodent.csv",stringsAsFactors = F,as.is=T
 
 # define currrent plot treatments
 
-controls = c(4,5,6,7,11,13,14,17,18,20,24)
+controls = c(4,5,6,7,11,13,14,17,18,24)
 removals = c(1,9,10,12,16,23)
-exclosures = c(2,3,8,15,19,21,22)
+exclosures = c(2,3,8,15,19,20,21,22)
 
 # proceed only if rodentdat has more recent data than plot data
 lastplotdates=max(as.yearmon(paste(substr(portal_plots$yr,3,4),portal_plots$month), "%y%m"))
