@@ -1,4 +1,4 @@
-source('new_moon_numbers.r')
+source('../DataCleaningScripts/new_moon_numbers.r')
 
 library(testthat)
 context("checks that new moon numbers are being added correctly")

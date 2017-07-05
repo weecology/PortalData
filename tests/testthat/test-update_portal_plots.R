@@ -1,4 +1,4 @@
-source('Add_months_PortalPlots.r')
+source('../DataCleaningScripts/update_portal_plots.r')
 
 library(testthat)
 context("checks that plot assignments are being added correctly")
