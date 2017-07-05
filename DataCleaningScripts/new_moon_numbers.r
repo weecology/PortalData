@@ -3,6 +3,8 @@
 #   --data from this site is a csv with columns: date, time, phase, phaseid, datetime, timestamp, friendlydate
 
 library(dplyr)
+library(lubridate)
+library(htmltab)
 
 
 #' Find date of first trapping night for each period in a data frame
@@ -53,30 +55,48 @@ update_moon_dates = function() {
   # load rodent trapping data
   trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
   trappingdat$CensusDate = as.Date(paste(trappingdat$Year,trappingdat$Month,trappingdat$Day,sep='-'))
-  # load new moon dates
-  newmoons=read.csv(url('https://www.dropbox.com/s/z9kq7qvu2r7uwzu/moon-phases-1977-2018-America_Phoenix.csv?dl=1'),header = TRUE, stringsAsFactors = FALSE) %>%
-    filter(phaseid==1) 
-  newmoons$date = as.Date(newmoons$date, format='%m/%d/%Y') 
-  #keep only newmoons past those currently assigned a newmoonnumber
-  newmoons=filter(newmoons,date>tail(moon_dates$NewMoonDate,n=1))
-  #add newmoonnumbers to newmoondates
-  newmoons$NewMoonNumber=tail(moon_dates$NewMoonNumber,n=1)+1:dim(newmoons)[1]
+  
   
   # proceed only if trappingdat has more recent dates than moon_dates
-  if (max(abs(trappingdat$Period),na.rm=T) > max(abs(moon_dates$Period),na.rm=TRUE)) {
-    
+  if (max(abs(trappingdat$Period),na.rm=T) > max(abs(moon_dates$Period),na.rm=TRUE)) {  
+   
+  #Get dates and period numbers of new data only  
     # extract trappingdat periods beyond those included in moon_dates
     newperiod = filter(trappingdat,abs(Period)>max(abs(moon_dates$Period),na.rm=TRUE))
     # reduce new trapping data to two columns: Period and CensusDate
-    newperiod_dates = find_first_trap_night(newperiod)
+    newperiod_dates = find_first_trap_night(newperiod)  
+     
+  # get new moon dates
+    #define date range for newmoon dates
+    first=newperiod_dates$CensusDate[1]-30; year=year(first); month=month(first) #shifting back a month just to not skip any
+    newmoondates=htmltab(doc=paste("http://aa.usno.navy.mil/cgi-bin/aa_phases.pl?year=",year,"&month=",month,"&day=1&nump=50&format=t", sep=""))
+    newmoondates=gsub('.{6}$', '', newmoondates$"Date and Time (Universal Time)"[newmoondates$"Moon Phase" == "New Moon"])
+    newmoondates = as.Date(ymd(newmoondates, format='%Y %m %d'))
+  
+  #Set up dataframe for new moon dates to be added
+  newmoons=data.frame(NewMoonNumber= NA, NewMoonDate = as.Date(newmoondates), Period = NA, CensusDate = as.Date(NA))
+    #keep only newmoon dates past those currently assigned a newmoonnumber
+    newmoons=filter(newmoons,NewMoonDate>tail(moon_dates$NewMoonDate,n=1))
+    #add newmoonnumbers to newmoondates
+    newmoons$NewMoonNumber=tail(moon_dates$NewMoonNumber,n=1)+1:dim(newmoons)[1]
 
-    # match new period to closest NewMoonDate, and fill in moon_dates data frame
-      closest = closest_newmoon(as.Date(newperiod_dates$CensusDate),as.Date(newmoons$date))
-      newmoons=newmoons[1:closest,]
-      moon_dates=bind_rows(moon_dates,select(newmoons,c(NewMoonNumber,NewMoonDate=date)))
+  #Match new census dates to moon dates
+
+    # match new period to closest NewMoonDate, 
+    for(i in 1:dim(newperiod_dates)[1]) {
+      closest = closest_newmoon(newperiod_dates$CensusDate[i],newmoondates)
+      newmoons$CensusDate[newmoons$NewMoonDate==newmoondates[closest]]=newperiod_dates$CensusDate[i]
+      newmoons$Period[newmoons$NewMoonDate==newmoondates[closest]]=newperiod_dates$Period[i]
+        }
+    
+    #Only keep newmoon dates up to latest census
+    
+    newmoons=newmoons %>% subset(Period <= max(abs(newmoons$Period),na.rm=TRUE))
+    
+      #append all new rows to moon_dates data frame
+      moon_dates=bind_rows(moon_dates,newmoons)
+
       
-      tail(moon_dates$Period,n=1) = unique(newperiod)
-      tail(moon_dates$CensusDate,n=1) = unique(newperiod_dates$CensusDate)
   }
   return(moon_dates)
 }
