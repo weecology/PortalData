@@ -1,3 +1,5 @@
+library(zoo)
+
 #' Appends new dates to Portal_plots
 #'
 #'
@@ -6,7 +8,8 @@
 #' 
 #'
 #'
-library(zoo)
+
+
 update_portal_plots <- function() {
 #load plot data
 portal_plots = read.csv("../SiteandMethods/Portal_plots.csv")
@@ -20,17 +23,14 @@ removals = c(1,9,10,12,16,23)
 exclosures = c(2,3,8,15,19,20,21,22)
 
 # proceed only if rodentdat has more recent data than plot data
-lastplotdates=max(as.yearmon(paste(substr(portal_plots$yr,3,4),portal_plots$month), "%y%m"))
-newdates=max(as.yearmon(paste(substr(rodentdat$yr,3,4),rodentdat$mo), "%y%m"))
+missing_dates = setdiff(data.frame(yr=rodentdat$yr,month=rodentdat$mo),data.frame(yr=portal_plots$yr,month=portal_plots$month))
 
-if (newdates > 
-    lastplotdates) {
+if (missing_dates>0 ) {
   
-  yr = rep(year(newdates),24)
-  month = rep(month(newdates),24)
-  plot = 1:24
+  plot=1:24
+  newplots=merge(missing_dates,plot,by=NULL) %>% rename(plot=y) %>% arrange(yr,month,plot) 
   
-  newplots = data.frame(cbind(yr,month,plot,treatment=NA))
+  newplots$treatment = NA
   
   newplots = newplots %>% mutate(treatment = ifelse((plot %in% removals),
                                                                     "removal", treatment)) %>% 

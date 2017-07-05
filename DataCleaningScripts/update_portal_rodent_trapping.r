@@ -1,4 +1,4 @@
-# This script creates the Portal_rodent_trapping.csv file in the Rodents folder
+# This creates the Portal_rodent_trapping.csv file in the Rodents folder
 # Record of which plots were or were not trapped in each census and exact dates
 
 library(dplyr)
