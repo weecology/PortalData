@@ -36,7 +36,8 @@ find_first_trap_night = function(dat) {
 #' @example closest_newmoon(as.Date('2017-02-26'),moon_dates$NewMoonDate)
 #' 
 closest_newmoon = function(target_date,newmoondates) {
-  closest = which.min(abs(target_date-newmoondates))
+  loc = which.min(abs(target_date-newmoondates))
+  closest = newmoondates[loc]
   return(closest)
 }
 
@@ -67,8 +68,11 @@ update_moon_dates = function() {
     newperiod_dates = find_first_trap_night(newperiod)  
      
   # get new moon dates
-    #define date range for newmoon dates
-    first=newperiod_dates$CensusDate[1]-30; year=year(first); month=month(first) #shifting back a month just to not skip any
+    #define date range for newmoon dates, shifting back a month just to not skip any
+    first=newperiod_dates$CensusDate[1]-30
+    year=year(first)
+    month=month(first)
+    #pull new moon dates from navy.mil
     newmoondates=htmltab(doc=paste("http://aa.usno.navy.mil/cgi-bin/aa_phases.pl?year=",year,"&month=",month,"&day=1&nump=50&format=t", sep=""))
     newmoondates=gsub('.{6}$', '', newmoondates$"Date and Time (Universal Time)"[newmoondates$"Moon Phase" == "New Moon"])
     newmoondates = as.Date(ymd(newmoondates, format='%Y %m %d'))
@@ -76,17 +80,18 @@ update_moon_dates = function() {
   #Set up dataframe for new moon dates to be added
   newmoons=data.frame(NewMoonNumber= NA, NewMoonDate = as.Date(newmoondates), Period = NA, CensusDate = as.Date(NA))
     #keep only newmoon dates past those currently assigned a newmoonnumber
-    newmoons=filter(newmoons,NewMoonDate>tail(moon_dates$NewMoonDate,n=1))
+    newmoons=filter(newmoons,NewMoonDate>max(moon_dates$NewMoonDate,na.rm=TRUE))
     #add newmoonnumbers to newmoondates
-    newmoons$NewMoonNumber=tail(moon_dates$NewMoonNumber,n=1)+1:dim(newmoons)[1]
+    newmoons$NewMoonNumber=max(moon_dates$NewMoonNumber)+1:dim(newmoons)[1]
 
   #Match new census dates to moon dates
 
     # match new period to closest NewMoonDate, 
     for(i in 1:dim(newperiod_dates)[1]) {
       closest = closest_newmoon(newperiod_dates$CensusDate[i],newmoondates)
-      newmoons$CensusDate[newmoons$NewMoonDate==newmoondates[closest]]=newperiod_dates$CensusDate[i]
-      newmoons$Period[newmoons$NewMoonDate==newmoondates[closest]]=newperiod_dates$Period[i]
+      newdate=which(newmoons$NewMoonDate==closest)
+      newmoons$CensusDate[newdate]=newperiod_dates$CensusDate[i]
+      newmoons$Period[newdate]=newperiod_dates$Period[i]
         }
     
     #Only keep newmoon dates up to latest census
@@ -95,7 +100,6 @@ update_moon_dates = function() {
     
       #append all new rows to moon_dates data frame
       moon_dates=bind_rows(moon_dates,newmoons)
-
       
   }
   return(moon_dates)
