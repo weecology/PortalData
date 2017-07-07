@@ -58,12 +58,12 @@ test_that("Precipitation in multiples of 0.254", {
 
 test_that("start of new data lines up with end of existing data", {
   
-  expect_identical(tail(weather$TIMESTAMP,n=1)+3600,newdata$TIMESTAMP[1])
+  expect_identical(tail(weather$TimeStamp,n=1)+3600,newdata$TimeStamp[1])
 })
 
 test_that("no hours missing", {
   
-  expect_true(sum(diff(newdata$TIMESTAMP)!=1)==0)
+  expect_true(sum(diff(newdata$TimeStamp)!=1)==0)
 })
 
 test_that("no identical rows in newdata and weather", {
