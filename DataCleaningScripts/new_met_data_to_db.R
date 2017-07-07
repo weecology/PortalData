@@ -5,8 +5,6 @@
 
 # written by Erica Christensen 5/2016
 
-setwd('C:/Users/EC/Desktop/git/PortalData')
-
 library(lubridate)
 library(dplyr)
 # ==============================================================================
@@ -16,7 +14,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "./Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met462"
+metfile = "Met459"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.names=c('Code','Year','Jday','Hour','Precipitation','TempAir','RH'))
 
@@ -24,7 +22,7 @@ rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',col.name
 rawdata$date = as.Date(paste(rawdata$Year,rawdata$Jday),format='%Y %j')
 rawdata$Month = as.integer(format(rawdata$date,'%m'))
 rawdata$Day = as.integer(format(rawdata$date,'%d'))
-rawdata$TIMESTAMP = ymd_hms(paste(rawdata$Year,"-",rawdata$Month,"-",rawdata$Day," ",rawdata$Hour/100,":00:00",sep=""))
+rawdata$TimeStamp = ymd_hms(paste(rawdata$Year,"-",rawdata$Month,"-",rawdata$Day," ",rawdata$Hour/100,":00:00",sep=""))
 
 # Select weather data (Code=101) from battery status data (Code=102) then add battery data as column
 weathdat = rawdata[rawdata$Code==101,]
@@ -68,12 +66,12 @@ if (any(rawdata[rawdata$Code==102,5] < 11)) {print('Battery error')} else {print
 #Get max record from overlap data (this works because the last RECORD will always be higher for the old station)
 exst_dat = read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
 
-if (tail(ymd_hms(exst_dat$TIMESTAMP[exst_dat$RECORD==max(exst_dat$RECORD)]),n=1)+3600==ymd_hms(weathdat$TIMESTAMP)[1]) {
+if (tail(ymd_hms(exst_dat$TimeStamp[exst_dat$Record==max(exst_dat$Record)]),n=1)+3600==ymd_hms(weathdat$TimeStamp)[1]) {
   print('dates match')
 } else {print('dates do not match')}
 
 #Add RECORD column
-weathdat$RECORD=max(exst_dat$RECORD)+1:dim(weathdat)[1]
+weathdat$Record=max(exst_dat$Record)+1:dim(weathdat)[1]
 
 # plot data to look for outliers/weirdness
 plot(weathdat$TempAir,type='l')
@@ -87,7 +85,7 @@ plot(weathdat$RH,type='l')
 # ==============================================================================
 
 # get new data columns in correct order
-newdata = weathdat[,c("Year","Month","Day","Hour","TIMESTAMP","RECORD","BattV","TempAir","Precipitation","RH")]
+newdata = weathdat[,c("Year","Month","Day","Hour","TimeStamp","Record","BattV","TempAir","Precipitation","RH")]
 
 # append new data
 write.table(newdata, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
