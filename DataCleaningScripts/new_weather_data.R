@@ -51,7 +51,9 @@ return(list(newdata,weather,stormsnew,storms))
 # 2. Append new data to repo files
 # ==============================================================================
 
-append_weather <- function(data) {
+append_weather <- function() {
+  
+  data=new_met_data()
 
 # append new data
 write.table(data[1], file = "../Weather/Portal_weather.csv", 
