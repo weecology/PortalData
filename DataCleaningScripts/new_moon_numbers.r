@@ -2,8 +2,9 @@
 # new moon dates downloaded from http://www.somacon.com/p570.php
 #   --data from this site is a csv with columns: date, time, phase, phaseid, datetime, timestamp, friendlydate
 
-library(RCurl)
 library(dplyr)
+library(lubridate)
+library(htmltab)
 
 
 #' Find date of first trapping night for each period in a data frame
@@ -32,99 +33,85 @@ find_first_trap_night = function(dat) {
 #' @param target_date single date object
 #' @param newmoondates vector of date objects
 #' 
-#' @example closest_newmoon(as.Date('2017-02-26'),moon_dates$NewMOonDate)
+#' @example closest_newmoon(as.Date('2017-02-26'),moon_dates$NewMoonDate)
 #' 
 closest_newmoon = function(target_date,newmoondates) {
-  closest = which.min(abs(target_date-newmoondates))
+  loc = which.min(abs(target_date-newmoondates))
+  closest = newmoondates[loc]
   return(closest)
 }
 
-#' Updates existing version of moon_dates.csv with latest census numbers, rather than recreate the whole file
+#' Updates existing version of moon_dates.csv with latest census numbers
 #'
 #'
 #'
-#' @param final_data_location file path where csv of final data should be saved (in the PortalData repo)
 #' 
-#' @example update_moon_dates(final_data_location='C:/Users/EC/Desktop/git/PortalData/Rodents/moon_dates.csv')
+#' @example update_moon_dates()
 
-update_moon_dates = function(final_data_location) {
+update_moon_dates = function() {
   # load existing moon_dates.csv file
-  moon_dates=read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/moon_dates.csv"),stringsAsFactors = F)
+  moon_dates=read.csv("../Rodents/moon_dates.csv",stringsAsFactors = FALSE)
+  moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate)
   moon_dates$CensusDate = as.Date(moon_dates$CensusDate)
   # load rodent trapping data
-  trappingdat=read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
+  trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
   trappingdat$CensusDate = as.Date(paste(trappingdat$Year,trappingdat$Month,trappingdat$Day,sep='-'))
   
-  # proceed only if trappingdat has more recent trapping data than moon_dates
-  if (max(trappingdat$Period,na.rm=T) > max(moon_dates$Period,na.rm=T)) {
-    
-    # should check that the last date of moon_dates is beyond the last trapping date --- I don't know how to do this yet
-    
+  
+  # proceed only if trappingdat has more recent dates than moon_dates
+  if (max(abs(trappingdat$Period),na.rm=T) > max(abs(moon_dates$Period),na.rm=TRUE)) {  
+   
+  #Get dates and period numbers of new data only  
     # extract trappingdat periods beyond those included in moon_dates
-    newperiods = filter(trappingdat,Period>max(moon_dates$Period,na.rm=T))
+    newperiod = filter(trappingdat,abs(Period)>max(abs(moon_dates$Period),na.rm=TRUE))
     # reduce new trapping data to two columns: Period and CensusDate
-    newperiods_dates = find_first_trap_night(newperiods)
+    newperiod_dates = find_first_trap_night(newperiod)  
+     
+  # get new moon dates
+    #define date range for newmoon dates, shifting back a month just to not skip any
+    first=newperiod_dates$CensusDate[1]-30
+    year=year(first)
+    month=month(first)
+    #pull new moon dates from navy.mil
+    newmoondates=htmltab(doc=paste("http://aa.usno.navy.mil/cgi-bin/aa_phases.pl?year=",year,"&month=",month,"&day=1&nump=50&format=t", sep=""))
+    newmoondates=gsub('.{6}$', '', newmoondates$"Date and Time (Universal Time)"[newmoondates$"Moon Phase" == "New Moon"])
+    newmoondates = as.Date(ymd(newmoondates, format='%Y %m %d'))
+  
+  #Set up dataframe for new moon dates to be added
+  newmoons=data.frame(NewMoonNumber= NA, NewMoonDate = as.Date(newmoondates), Period = NA, CensusDate = as.Date(NA))
+    #keep only newmoon dates past those currently assigned a newmoonnumber
+    newmoons=filter(newmoons,NewMoonDate>max(moon_dates$NewMoonDate,na.rm=TRUE))
+    #add newmoonnumbers to newmoondates
+    newmoons$NewMoonNumber=max(moon_dates$NewMoonNumber)+1:dim(newmoons)[1]
 
-    # match each new period to closest NewMoonDate, and fill in moon_dates data frame
-    for (p in unique(newperiods_dates$Period)) {
-      closest = closest_newmoon(as.Date(newperiods_dates$CensusDate[newperiods_dates$Period==p]),as.Date(moon_dates$NewMoonDate))
-      moon_dates$Period[closest] = p
-      moon_dates$CensusDate[closest] = newperiods_dates$CensusDate[newperiods_dates$Period==p]
-    }
-    # write updated data frame to csv
-    write.csv(moon_dates,file=final_data_location,row.names=F)
+  #Match new census dates to moon dates
+
+    # match new period to closest NewMoonDate, 
+    for(i in 1:dim(newperiod_dates)[1]) {
+      closest = closest_newmoon(newperiod_dates$CensusDate[i],newmoondates)
+      newdate=which(newmoons$NewMoonDate==closest)
+      newmoons$CensusDate[newdate]=newperiod_dates$CensusDate[i]
+      newmoons$Period[newdate]=newperiod_dates$Period[i]
+        }
+    
+    #Only keep newmoon dates up to latest census
+    
+    newmoons=newmoons %>% subset(Period <= max(abs(newmoons$Period),na.rm=TRUE))
+    
+      #append all new rows to moon_dates data frame
+      moon_dates=bind_rows(moon_dates,newmoons)
+      
   }
+  return(moon_dates)
 }
 
-
-
-
-#' Creates the file moon_dates.csv from scratch
+#' Rewrites file moon_dates.csv with latest trapping dates
 #'
-#'
-#'
-#' @param moon_data_location file path of downloaded moon phase data
-#' @param final_data_location file path where csv of final data should be saved (in the PortalData repo)
+#' @example writenewmoons()
 #' 
-#' @example create_moon_dates(moon_data_location='C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Documents/moon-phases-1977-2018-America_Phoenix.csv',
-#'                            final_data_location='C:/Users/EC/Desktop/git/PortalData/Rodents/moon_dates.csv')
+#' 
 
-
-create_moon_dates = function(moon_data_location,final_data_location) {
-  # download current version of file containing rodent census periods and dates
-  trappingdat=read.csv(text=getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv"))  
-  trappingdat$CensusDate = as.Date(paste(trappingdat$Year,trappingdat$Month,trappingdat$Day,sep='-'))
-  
-  # Create data frame of period numbers and date of first trapping night
-  census_dates = find_first_trap_night(trappingdat)
-  
-  # read file of moon data
-  moondat = read.csv(moon_data_location, stringsAsFactors = F)
-  # date in format R understands
-  moondat$NewMoonDate = as.Date(moondat$date, format='%m/%d/%Y')
-  # extract new moons; make sure data starts no earlier than 7/16/1977
-  newmoon = filter(moondat, phaseid==1, NewMoonDate>=as.Date('1977-07-15')) %>% select(NewMoonDate)
-  # create index of number of new moons since july 1977
-  newmoon$NewMoonNumber = seq(1,length(newmoon$NewMoonDate))
-  
-  # loop through CensusDate and match each to closest NewMoonDate
-  newmoon$Period = rep(NA)
-  for (ind in seq(length(census_dates$CensusDate))) {
-    closest = which.min(abs(census_dates$CensusDate[ind]-newmoon$NewMoonDate))
-    newmoon$Period[closest] = census_dates$Period[ind]
-  }
-  
-  # merge into one big data frame
-  moon_dates = merge(newmoon,census_dates,all.x=T,by=('Period')) %>% arrange(NewMoonDate) %>% select(NewMoonNumber,NewMoonDate, Period, CensusDate)
-  
-  # awkward patch for Feb 1994: period 191 (1994-02-01) and 192 (1994-02-20) share new moon 206 (1994-02-10) as the closest new moon,
-  #    but new moon 205 (1994-01-11) has no associated trapping period--> match up period 191 and newmoon 205
-  moon_dates[moon_dates$NewMoonNumber==205,'Period'] = 191
-  moon_dates[moon_dates$NewMoonNumber==205,'CensusDate'] = as.Date('1994-02-01')
-  
-  # write to csv
-  write.csv(moon_dates,file=final_data_location,row.names=F)
-}
-
-
+writenewmoons <- function() {
+  moon_dates=update_moon_dates()
+write.csv(moon_dates,file="../Rodents/moon_dates.csv",row.names=FALSE) }
 
