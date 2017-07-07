@@ -1,13 +1,16 @@
-# This function checks for new data in the raw .dat file remotely downloaded 
-# from the Portal 2016 weather station, 
-# determines if there are any gaps, and appends the new data to "Portal_weather.csv"
 
 `%>%` <- magrittr::`%>%`
 
-# ==============================================================================
-# Load files, assign column names, and keep new data
-# ==============================================================================
-
+#' Selects new weather data
+#'
+#'
+#' 
+#' @example new_met_data()
+#' 
+#'
+#'
+# This function checks for new data in the raw .dat file remotely downloaded 
+# from the Portal 2016 weather station
 
 new_met_data <- function() {
 
@@ -47,9 +50,14 @@ return(list(newdata,weather,stormsnew,storms))
   
 }
 
-# ==============================================================================
-# 2. Append new data to repo files
-# ==============================================================================
+#' Appends new weather data
+#'
+#'
+#' 
+#' @example append_weather()
+#' 
+#'
+#'
 
 append_weather <- function() {
   
