@@ -7,7 +7,10 @@ install:
   - Rscript install-packages.R
   
 script:
-  - Rscript DataCleaningScripts/FullPath.R
+  - R -e 'setwd("DataCleaningScripts"); source("new_weather_data.R"); append_weather()'
+  - R -e 'setwd("DataCleaningScripts"); source("update_portal_rodent_trapping.r"); writetrappingtable()'
+  - R -e 'setwd("DataCleaningScripts"); source("update_portal_plots.R"); writeportalplots()'
+  - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
 
 after_success:
   - bash update_repo.sh
