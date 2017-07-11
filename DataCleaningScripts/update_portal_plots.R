@@ -1,4 +1,5 @@
 library(zoo)
+library(dplyr)
 
 #' Appends new dates to Portal_plots
 #'
