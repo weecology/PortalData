@@ -54,5 +54,5 @@ return(portal_plots)
 #'
 writeportalplots <- function() {
   portal_plots = update_portal_plots()
-  write.csv(portal_plots, file='../SiteandMethods/Portal_plots.csv',row.names = FALSE)
+  write.csv(portal_plots, file='../SiteandMethods/Portal_plots.csv', row.names = FALSE, quote = FALSE)
 }

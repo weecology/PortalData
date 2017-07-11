@@ -49,5 +49,4 @@ writetrappingtable <- function() {
   
   trappingdat=update_portal_rodent_trapping()
   # write updated data frame to csv
-  write.csv(trappingdat,file="../Rodents/Portal_rodent.csv",row.names=FALSE) }
-
+  write.csv(trappingdat, file="../Rodents/Portal_rodent_trapping.csv", row.names=FALSE, quote = FALSE) }
