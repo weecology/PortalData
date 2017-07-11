@@ -1,4 +1,5 @@
 library(zoo)
+library(dplyr)
 
 #' Appends new dates to Portal_plots
 #'
@@ -25,7 +26,7 @@ exclosures = c(2,3,8,15,19,20,21,22)
 # proceed only if rodentdat has more recent data than plot data
 missing_dates = setdiff(data.frame(yr=rodentdat$yr,month=rodentdat$mo),data.frame(yr=portal_plots$yr,month=portal_plots$month))
 
-if (missing_dates>0 ) {
+if (nrow(missing_dates)>0) {
   
   plot=1:24
   newplots=merge(missing_dates,plot,by=NULL) %>% rename(plot=y) %>% arrange(yr,month,plot) 
@@ -53,5 +54,5 @@ return(portal_plots)
 #'
 writeportalplots <- function() {
   portal_plots = update_portal_plots()
-  write.csv(portal_plots, file='../SiteandMethods/Portal_plots.csv',row.names = FALSE)
+  write.csv(portal_plots, file='../SiteandMethods/Portal_plots.csv', row.names = FALSE, quote = FALSE)
 }
