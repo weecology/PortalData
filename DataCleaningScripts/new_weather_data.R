@@ -14,15 +14,15 @@
 
 new_met_data <- function() {
 
-# Pull raw data (latest 48 records)
+# Pull raw data (latest week of records, plus some overlap for saftey)
 
-rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=100', sep = "")
+rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=200', sep = "")
 
 rawdata=rawdata %>% dplyr::rename(TempAir=AirTC_Avg,Precipitation=Rain_mm_Tot)
 
 # Pull raw storms data (latest 100 records)
 
-stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=100", sep = "")
+stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")
 
 # Convert Timestamp
 rawdata$TimeStamp = lubridate::ymd_hms(rawdata$TimeStamp)
