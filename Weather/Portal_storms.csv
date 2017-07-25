@@ -1,4 +1,4 @@
-"TimeStamp","Record","BattV_Min","Rain_mm_Tot"
+"timestamp","record","BattV_Min","Rain_mm_Tot"
 2016-11-28 01:40:00,0,13.05,0.254
 2016-11-28 01:45:00,1,13.05,0
 2016-11-28 01:50:00,2,13.04,0
