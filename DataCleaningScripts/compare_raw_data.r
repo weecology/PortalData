@@ -31,7 +31,7 @@ compare_worksheets = function(excel_file) {
   # otherwise, loop through rows one at a time
   else {
       unmatched = data.frame(row = c(),column = c())         # empty data frame for storing output
-      num_rows = length(ws1$mo)
+      num_rows = length(ws1$month)
       curr_row = 1
       while (curr_row<=num_rows) {
         v1 = as.character(as.vector(ws1[curr_row,]))          # extract row from worksheet 1

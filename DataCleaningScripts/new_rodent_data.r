@@ -47,7 +47,7 @@ rodent_data_quality_checks(ws, scannerfile)
 olddat = read.csv('./Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 
 # Subset of most recent four years of data, for comparing recaptures
-recentdat = olddat[olddat$yr >= as.numeric(ws$yr[1]) - 3,]
+recentdat = olddat[olddat$year >= as.numeric(ws$year[1]) - 3,]
 
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
@@ -74,7 +74,7 @@ sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recent
 ##############################################################################
 
 # make column of record IDs for new data
-newdat = cbind(Record_ID = seq(max(olddat$Record_ID) + 1, max(olddat$Record_ID) + length(ws$mo)), ws)
+newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws)
 # append to existing data file
 write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
 
@@ -88,24 +88,24 @@ write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", appen
 trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
 
 # proceed only if rodentdat has more recent data than trappingdat
-if (max(newdat$period) > max(trappingdat$Period)) {
+if (max(newdat$period) > max(trappingdat$period)) {
   
   # convert newdat columns to integer
   newdat[,2:7] <- apply(newdat[,2:7], 2, function(x) as.integer(x))
   # extract plot data beyond what's already in trappingdat
-  newtrapdat = filter(newdat, period > max(trappingdat$Period)) %>%
+  newtrapdat = filter(newdat, period > max(trappingdat$period)) %>%
     filter(!is.na(plot)) %>% 
-    select(mo, dy, yr, period, plot, note1)
-  newtrapdat$Sampled = rep(1)
-  newtrapdat$Sampled[newtrapdat$note1 == 4] = 0
+    select(month, day, year, period, plot, note1)
+  newtrapdat$sampled = rep(1)
+  newtrapdat$sampled[newtrapdat$note1 == 4] = 0
   
   # select unique rows and rearrange columns
   newtrapdat = newtrapdat[!duplicated(select(newtrapdat, period, plot)), ] %>%
-    select(dy, mo, yr, period, plot, Sampled)
+    select(day, month, year, period, plot, sampled)
   # put in order of period, plot
   newtrapdat = newtrapdat[order(newtrapdat$period, newtrapdat$plot), ]
   # rename columns
-  names(newtrapdat) = c('Day', 'Month', 'Year', 'Period', 'Plot', 'Sampled')
+  names(newtrapdat) = c('day', 'month', 'year', 'period', 'plot', 'sampled')
   # write updated data frame to csv
   write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
   
@@ -117,26 +117,26 @@ if (max(newdat$period) > max(trappingdat$Period)) {
 moon_dates = read.csv("./Rodents/moon_dates.csv", stringsAsFactors = F)
 
 # put date columns in appropriate date format
-moon_dates$CensusDate = as.Date(moon_dates$CensusDate, format = '%Y-%m-%d')
-moon_dates$NewMoonDate = as.Date(moon_dates$NewMoonDate, format = '%Y-%m-%d')
-updated_trappingdat$CensusDate = as.Date(paste(updated_trappingdat$Year,
-                                               updated_trappingdat$Month,
-                                               updated_trappingdat$Day, sep = '-'))
+moon_dates$censusdate = as.Date(moon_dates$censusdate, format = '%Y-%m-%d')
+moon_dates$newmoondate = as.Date(moon_dates$newmoondate, format = '%Y-%m-%d')
+updated_trappingdat$censusdate = as.Date(paste(updated_trappingdat$year,
+                                               updated_trappingdat$month,
+                                               updated_trappingdat$day, sep = '-'))
 
 # proceed only if trappingdat has more recent trapping data than moon_dates
-if (max(updated_trappingdat$Period, na.rm = T) > max(moon_dates$Period, na.rm = T)) {
+if (max(updated_trappingdat$period, na.rm = T) > max(moon_dates$period, na.rm = T)) {
   
   # extract trappingdat periods beyond those included in moon_dates
-  newperiods = filter(updated_trappingdat, Period > max(moon_dates$Period, na.rm = T))
+  newperiods = filter(updated_trappingdat, period > max(moon_dates$period, na.rm = T))
   # reduce new trapping data to two columns: Period and CensusDate
   newperiods_dates = find_first_trap_night(newperiods)
   
   # match each new period to closest NewMoonDate, and fill in moon_dates data frame
-  for (p in unique(newperiods_dates$Period)) {
-    closest = closest_newmoon(as.Date(newperiods_dates$CensusDate[newperiods_dates$Period == p]), 
-                              as.Date(moon_dates$NewMoonDate))
-    moon_dates$Period[closest] = p
-    moon_dates$CensusDate[closest] = newperiods_dates$CensusDate[newperiods_dates$Period == p]
+  for (p in unique(newperiods_dates$period)) {
+    closest = closest_newmoon(as.Date(newperiods_dates$censusdate[newperiods_dates$period == p]), 
+                              as.Date(moon_dates$newmoondate))
+    moon_dates$period[closest] = p
+    moon_dates$censusdate[closest] = newperiods_dates$censusdate[newperiods_dates$period == p]
   }
   
   # write updated data frame to csv
