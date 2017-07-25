@@ -1,4 +1,4 @@
-sp_code,genus,alt_genus,species,alt_species,subspecies,common_name,family,duration,community
+speciescode,genus,altgenus,species,altspecies,subspecies,commonname,family,duration,community
 carl line,Carlowrightia,,linearifolia,,,Heath wrightwort,Acanthoideae,Perennial,Shrub
 yucc elat,Yucca,,elata,,,Soaptree yucca,Agavaceae,Perennial,Perennials
 tria port,Trianthema,,portulacastrum,,,Desert Horsepurslane,Aizoaceae,Annual,Summer Annuals
