@@ -1,4 +1,4 @@
-Flag,Meaning
+flag,meaning
 1,missing stake data
 2,"suspect data, count missing assumed to be 1"
 3,"no stake recorded, nearest stake recorded in notes, used for stake value"
