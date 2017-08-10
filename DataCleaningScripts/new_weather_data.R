@@ -4,26 +4,25 @@
 #' Selects new weather data
 #'
 #'
-#' 
+#'
 #' @example new_met_data()
-#' 
 #'
 #'
-# This function checks for new data in the raw .dat file remotely downloaded 
+#'
+# This function checks for new data in the raw .dat file remotely downloaded
 # from the Portal 2016 weather station
 
 new_met_data <- function() {
 
-# Pull raw data (latest 48 records)
+# Pull raw data (latest week of records, plus some overlap for saftey)
 
-rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=100', sep = "")
+rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=200', sep = "")
 
-# rename columns
 rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battV=BattV)
 
 # Pull raw storms data (latest 100 records)
 
-stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=100", sep = "")
+stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")
 # rename columns
 stormsnew = stormsnew %>% dplyr::rename(timestamp = TimeStamp, record = Record)
 
@@ -46,36 +45,36 @@ storms=read.csv("../Weather/Portal_storms.csv")
   storms$timestamp = lubridate::ymd_hms(storms$timestamp)
 
 #Keep only new data
-newdata=rawdata[rawdata$timestamp>tail(weather$timestamp,n=1),] 
+newdata=rawdata[rawdata$timestamp>tail(weather$timestamp,n=1),]
 stormsnew=stormsnew[stormsnew$timestamp>tail(storms$timestamp,n=1),]
 
 return(list(newdata,weather,stormsnew,storms))
-  
+
 }
 
 #' Appends new weather data
 #'
 #'
-#' 
+#'
 #' @example append_weather()
-#' 
+#'
 #'
 #'
 
 append_weather <- function() {
-  
+
   data=new_met_data()
 
 # append new data
-write.table(data[1], file = "../Weather/Portal_weather.csv", 
+write.table(data[1], file = "../Weather/Portal_weather.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
-  write.table(data[3], file = "../Weather/Portal_storms.csv", 
+  write.table(data[3], file = "../Weather/Portal_storms.csv",
               row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
 overlap=as.data.frame(data[1]) %>% dplyr::select(year,month,day,hour,timestamp,record,battV,airtemp,precipitation,RH)
 overlap$timestamp=lubridate::ymd_hms(overlap$timestamp)
-write.table(overlap, file = "../Weather/Portal_weather_overlap.csv", 
+write.table(overlap, file = "../Weather/Portal_weather_overlap.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 }
