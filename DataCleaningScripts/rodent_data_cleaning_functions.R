@@ -39,7 +39,7 @@ rodent_data_quality_checks = function(ws,scannerfile) {
   
   # Flag missing data
   #   -fields all lines of data should have
-  m1 = check_missing_data(ws,fields = c('mo','dy','yr','period','plot'))
+  m1 = check_missing_data(ws,fields = c('month','day','year','period','plot'))
   if (length(m1)>0) {print(paste('missing data in row: ',paste(m1,collapse='  ')))}
   #   -fields that should be filled, excluding cases that already have a flag
   #    in the note1 field

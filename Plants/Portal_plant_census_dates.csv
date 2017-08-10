@@ -1,4 +1,4 @@
-Year,Season,Census Done,Census Month,Census Days
+year,season,censusdone,censusmonth,censusdays
 1981,summer,Yes,10,"29, 30, 31"
 1982,winter,Yes,5,"19, 20"
 1982,summer,Yes,9,"8, 9, 10, 11"
