@@ -18,11 +18,13 @@ new_met_data <- function() {
 
 rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=200', sep = "")
 
+# rename columns
 rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battV=BattV)
 
-# Pull raw storms data (latest 100 records)
+# Pull raw storms data (latest 2500 records)
 
 stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")
+
 # rename columns
 stormsnew = stormsnew %>% dplyr::rename(timestamp = TimeStamp, record = Record)
 
