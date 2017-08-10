@@ -52,7 +52,7 @@ transects <- c("T1", "T2")
 # =====================================
 # species names not in official list
 
-unique(ws$species[!(ws$species %in% splist$Sp.Code)])
+unique(ws$species[!(ws$species %in% splist$speciescode)])
 
 # =====================================
 # are all transects present

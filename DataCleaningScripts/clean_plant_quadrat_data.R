@@ -52,7 +52,7 @@ stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
 # =====================================
 # species names not in official list
 
-unique(ws$species[!(ws$species %in% splist$Sp.Code)])
+unique(ws$species[!(ws$species %in% splist$speciescode)])
 
 # =====================================
 # are all quadrats present

@@ -1,4 +1,4 @@
-Species Code,ScientificName,Taxa,CommonName,Census Target,Unidentified,Rodent,Granivore
+speciescode,scientificname,taxa,commonname,censustarget,unidentified,rodent,granivore
 AB,Amphispiza bilineata,Bird,Black-throated sparrow,0,0,0,0
 AH,Ammospermophilus harrisi,Rodent-not censused,Harris's antelope squirrel,0,0,0,0
 BA,Baiomys taylori,Rodent,Northern pygmy mouse,1,0,1,1

@@ -19,18 +19,16 @@ update_portal_rodent_trapping = function() {
   trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
   
   # proceed only if rodentdat has more recent data than trappingdat
-  if (max(abs(rodentdat$period)) > max(abs(trappingdat$Period))) {
+  if (max(abs(rodentdat$period)) > max(abs(trappingdat$period))) {
     
     # extract plot data beyond what's already in trappingdat
-    newdat = filter(rodentdat,period > max(trappingdat$Period)) %>% filter(!is.na(plot)) %>% select(mo,dy,yr,period,plot,note1)
-    newdat$Sampled = rep(1)
-    newdat$Sampled[newdat$note1==4] = 0
+    newdat = filter(rodentdat,period > max(trappingdat$period)) %>% filter(!is.na(plot)) %>% select(month,day,year,period,plot,note1)
+    newdat$sampled = rep(1)
+    newdat$sampled[newdat$note1==4] = 0
     # select unique rows and rearrange columns
-    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(dy,mo,yr,period,plot,Sampled)
+    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(day,month,year,period,plot,sampled)
     # put in order of period, plot
     newdat = newdat[order(newdat$period,newdat$plot),]
-    #rename columns
-    colnames(newdat) = c("Day","Month","Year","Period","Plot","Sampled")
     # append to trappingdat
     trappingdat = rbind(trappingdat,newdat)
   }
