@@ -9,7 +9,7 @@ atri eleg,Atriplex,,elegans,,,Wheelscale Saltbush,Amaranthaceae,Annual,Summer An
 atri wrig,Atriplex,,wrightii,,,Wright's saltbush,Amaranthaceae,Annual,Summer Annuals
 bray dens,Guilleminea,Brayulinea,densa,,var. densa ,Small matweed ,Amaranthaceae,Perennial,Perennial Forb
 chen frem,Chenopodium,,fremontii,,,Fremont's goosefoot,Amaranthaceae,Annual,Summer and Winter Annuals
-chen sp,Chenopodium,,sp.,,,Unknown,Amaranthaceae,Annual,Unknowns
+chen sp,Chenopodium,,sp.,,,Unknown,Amaranthaceae,Annual,Unknown
 euro lana,Krascheninnikovia,Eurotia,lanata,,,Winterfat,Amaranthaceae,Perennial,Shrub
 sals kali,Kali,Salsola,tragus,kali,,Russian Thistle,Amaranthaceae,Annual,Summer Annuals
 tide lanu,Tidestromia,,lanuginosa,,,Woolly Tidestromia,Amaranthaceae,Annual,Summer Annuals
@@ -105,7 +105,7 @@ crot pumi,Crotalaria,,pumila,,,Low rattlebox,Leguminosae,Annual,Summer Annuals
 dale brac,Dalea,,brachystachya,,,Fort Bowie prairie clover,Leguminosae,Annual,Summer and Winter Annuals
 dale nana,Dalea,,nana,,,Dwarf prairie clover,Leguminosae,Perennial,Perennial Forb
 dale pogo,Dalea,,pogonathera,,,Bearded prairie clover,Leguminosae,Perennial,Perennial Forb
-dale sp,Dalea,,sp.,,,Unknown clover,Leguminosae,Unknown,Unknowns
+dale sp,Dalea,,sp.,,,Unknown clover,Leguminosae,Unknown,Unknown
 hoff dens,Hoffmanseggia,,glauca,densiflora,,Hog potato,Leguminosae,Perennial,Perennial Forb
 lupi conc,Lupinus,,concinnus,,,Bajada lupine,Leguminosae,Annual,Winter Annuals
 lupi sp,Lupinus,,sp.,,,Unknown,Leguminosae,Annual,Winter Annuals
@@ -143,7 +143,7 @@ oeno sp,Oenothera,,sp.,,,Unknown,Onagraceae,Annual,Winter Annuals
 esch mexi,Eschscholzia,,californica,mexicana,,California poppy,Papaveraceae,Annual,Winter Annuals
 plan purs,Plantago,,patagonica,purshii,,Woolly plantain,Plantaginaceae,Annual,Winter Annuals
 plan sp,Plantago,,sp.,,,Unknown,Plantaginaceae,Annual,Winter Annuals
-lina texa,Nuttallanthus,Linaria,texanus,texana,,Texas toadflax,Plantaginaceae ,Annual,Winter Annuals
+lina texa,Nuttallanthus,Linaria,texanus,texana,,Texas toadflax,Plantaginaceae,Annual,Winter Annuals
 annu gras,Unknown,,annual grass,,,Unknown,Poaceae,Annual,Unknown
 annu gras2,Unknown,,annual grass,,distinct from annu gras,Unknown,Poaceae,Annual,Unknown
 aris adsc,Aristida,,adscensionis,,,Sixweeks threeawn,Poaceae,Annual,Summer Annuals
