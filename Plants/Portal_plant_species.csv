@@ -1,6 +1,5 @@
 speciescode,genus,altgenus,species,altspecies,subspecies,commonname,family,duration,community
 carl line,Carlowrightia,,linearifolia,,,Heath wrightwort,Acanthoideae,Perennial,Shrub
-yucc elat,Yucca,,elata,,,Soaptree yucca,Agavaceae,Perennial,Perennial
 tria port,Trianthema,,portulacastrum,,,Desert Horsepurslane,Aizoaceae,Annual,Summer Annual
 amar palm,Amaranthus,,palmeri,,,Carelessweed,Amaranthaceae,Annual,Summer Annual
 atri acan,Atriplex,,acanthocarpa,,,Tubercled Saltbush,Amaranthaceae,Perennial,Shrub
@@ -48,13 +47,9 @@ pseu cane,Pseudognaphalium,,canescens,,,Wright's cudweed,Asteraceae,Annual,Summe
 sanv aber,Sanvitalia,,aberti,,,Abert's Creeping Zinnia,Asteraceae,Annual,Summer Annual
 step exig,Stephanomeria,,exigua,,,Small wirelettuce,Asteraceae,Annual,Winter Annual
 verb ence,Verbesina,,encelioides,,,Golden Crownbeard,Asteraceae,Annual,Summer Annual
-xant spin,Xanthisma,,spinulosum,,var. chihuahuanum,Chihuahua Tansyaster,Asteraceae,Perennial,Subshrub
 xant spin,Xanthisma,,spinulosum,,var. chihuahuanum,Chihuahua Tansyaster,Asteraceae,Perennial,Perennial
-zinn gran,Zinnia,,grandiflora,,,Wild zinnia,Asteraceae,Perennial,Subshrub
 zinn gran,Zinnia,,grandiflora,,,Wild zinnia,Asteraceae,Perennial,Perennial
-zinn pumi,Zinnia,,acerosa,pumila,,Desert zinnia,Asteraceae,Perennial,Subshrub
-zinn pumi,Zinnia,,pumila,,,Desert zinnia,Asteraceae,Perennial,Perennial
-zinn sp,Zinnia,,sp.,,,Unknown,Asteraceae,Perennial,Subshrub
+zinn pumi,Zinnia,,acerosa,pumila,,Desert zinnia,Asteraceae,Perennial,Perennial
 zinn sp,Zinnia,,sp.,,,Unknown,Asteraceae,Perennial,Perennial
 amsi inte,Amsinckia,,menziesii,intermedia,,Common fiddleneck,Boraginaceae,Annual,Winter Annual
 amsi tess,Amsinckia,,tessellata,,,Bristly Fiddleneck,Boraginaceae,Annual,Winter Annual
