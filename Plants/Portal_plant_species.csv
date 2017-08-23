@@ -34,8 +34,8 @@ hapl grac,Machaeranthera,Haplopappus,gracilis,,,Slender Goldenweed,Asteraceae,An
 hapl sp,Haplopappus,,sp.,,,Unknown,Asteraceae,Perennial,Subshrub
 hapl spin,Haplopappus,,spinulosus,,,Lacy tansyaster,Asteraceae,Perennial,Subshrub
 hapl tenu,Isocoma,Haplopappus,tenuisectus,,,Burroweed,Asteraceae,Perennial,Subshrub
-hete suba,Heterotheca,,subaxillaris,,,Camphorweed,Asteraceae,Annual,Winter and Summer Annual
-laen coul,Laennecia,,coulteri ,,,Coulter's Horseweed,Asteraceae,Annual,Winter and Summer Annual
+hete suba,Heterotheca,,subaxillaris,,,Camphorweed,Asteraceae,Annual,Summer and Winter Annual
+laen coul,Laennecia,,coulteri,,,Coulter's Horseweed,Asteraceae,Annual,Summer and Winter Annual
 mach tanr,Machaeranthera,,tanacetifoloia,,,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
 mala fend,Malacothrix,,fendleri,,,Fendler's desert dandelion,Asteraceae,Annual,Winter Annual
 mala sp,Malacothrix,,sp.,,,Unknown dandelion,Asteraceae,Annual,Winter Annual
@@ -44,7 +44,7 @@ micr sp,Uropappus,Microseris,sp.,,,Unknown,Asteraceae,Annual,Winter Annual
 part inca,Parthenium,,incanum,,,Mariola,Asteraceae,Perennial,Shrub
 pect papp,Pectis,,papposa,,,Manybristle Chinchweed,Asteraceae,Annual,Summer Annual
 pere nana,Perezia,Acourtia,nana,,,Dwarf desert holly,Asteraceae,Perennial,Perennial Forb
-pseu cane,Pseudognaphalium,,canescens,,,Wright's cudweed,Asteraceae,Annual,Winter and Summer Annual
+pseu cane,Pseudognaphalium,,canescens,,,Wright's cudweed,Asteraceae,Annual,Summer and Winter Annual
 sanv aber,Sanvitalia,,aberti,,,Abert's Creeping Zinnia,Asteraceae,Annual,Summer Annual
 step exig,Stephanomeria,,exigua,,,Small wirelettuce,Asteraceae,Annual,Winter Annual
 verb ence,Verbesina,,encelioides,,,Golden Crownbeard,Asteraceae,Annual,Summer Annual
