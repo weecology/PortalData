@@ -38,7 +38,7 @@ hete suba,Heterotheca,,subaxillaris,,,Camphorweed,Asteraceae,Annual,Summer and W
 laen coul,Laennecia,,coulteri,,,Coulter's Horseweed,Asteraceae,Annual,Summer and Winter Annual
 mach tanr,Machaeranthera,,tanacetifoloia,,,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
 mala fend,Malacothrix,,fendleri,,,Fendler's desert dandelion,Asteraceae,Annual,Winter Annual
-mala sp,Malacothrix,,sp.,,,Unknown dandelion,Asteraceae,Annual,Winter Annual
+mala sp,Malacothrix,,sp.,,,Unknown,Asteraceae,Annual,Winter Annual
 micr lene,Uropappus,Microseris,lindleyi,lenearifolia,,Lindley's silverpuffs,Asteraceae,Annual,Winter Annual
 micr sp,Uropappus,Microseris,sp.,,,Unknown,Asteraceae,Annual,Winter Annual
 part inca,Parthenium,,incanum,,,Mariola,Asteraceae,Perennial,Shrub
@@ -54,8 +54,8 @@ zinn gran,Zinnia,,grandiflora,,,Wild zinnia,Asteraceae,Perennial,Subshrub
 zinn gran,Zinnia,,grandiflora,,,Wild zinnia,Asteraceae,Perennial,Perennial
 zinn pumi,Zinnia,,acerosa,pumila,,Desert zinnia,Asteraceae,Perennial,Subshrub
 zinn pumi,Zinnia,,pumila,,,Desert zinnia,Asteraceae,Perennial,Perennial
-zinn sp,Zinnia,,sp.,,,Unknown zinnia,Asteraceae,Perennial,Subshrub
-zinn sp,Zinnia,,sp.,,,Unknown zinnia,Asteraceae,Perennial,Perennial
+zinn sp,Zinnia,,sp.,,,Unknown,Asteraceae,Perennial,Subshrub
+zinn sp,Zinnia,,sp.,,,Unknown,Asteraceae,Perennial,Perennial
 amsi inte,Amsinckia,,menziesii,intermedia,,Common fiddleneck,Boraginaceae,Annual,Winter Annual
 amsi tess,Amsinckia,,tessellata,,,Bristly Fiddleneck,Boraginaceae,Annual,Winter Annual
 cryp cras,Cryptantha,,crassisepala,,,Thicksepal cryptantha,Boraginaceae,Annual,Winter Annual
@@ -64,7 +64,7 @@ cryp sp,Cryptantha,,sp.,,,Unknown,Boraginaceae,Annual,Winter Annual
 lapp redo,Lappula,,occidentalis,redowskii,,Flatspine stickseed,Boraginaceae,Annual,Winter Annual
 nama hisp,Nama,,hispidum,,,Bristly nama,Boraginaceae,Annual,Winter Annual
 pect recu,Pectocarya,,recurvata,,,Curvenut combseed,Boraginaceae,Annual,Winter Annual
-pect sp,Pectocarya,,sp.,,,Combseed,Boraginaceae,Annual,Winter Annual
+pect sp,Pectocarya,,sp.,,,Unknown,Boraginaceae,Annual,Winter Annual
 phac ariz,Phacelia,,arizonica,,,Arizona scorpionweed,Boraginaceae,Annual,Winter Annual
 plag ariz,Plagiobothrys,,arizonicus,,,Arizona Popcornflower,Boraginaceae,Annual,Winter Annual
 chor tene,Chorispora,,tenella,,,Crossflower,Brassicaceae,Annual,Winter Annual
@@ -78,7 +78,7 @@ lesq gord,Physaria,Lesquerella,gordoni,,,Bladderpod,Brassicaceae,Annual,Winter A
 sisy irio,Sisymbrium,,irio,,,London rocket,Brassicaceae,Annual,Winter Annual
 unkn must,Unknown,,mustard,,,Unknown,Brassicaceae,Annual,Winter Annual
 opun poly,Opuntia,,polyacantha,,,Plains pricklypear,Cactaceae,Perennial,Shrub
-opun sp,Opuntia,,sp.,,,Prickly pear,Cactaceae,Perennial,Shrub
+opun sp,Opuntia,,sp.,,,Unknown,Cactaceae,Perennial,Shrub
 comm erec,Commelina,,erecta,,,Whitemouth dayflower,Commelinaceae,Perennial,Shrub
 cusc sp,Cuscuta,,sp.,,,Unknown,Convolvulaceae,Annual,Summer Annual
 cusc tube,Cuscuta,,tuberculata,,,Tubercle Dodder,Convolvulaceae,Perennial,Perennial Forb
@@ -105,7 +105,7 @@ crot pumi,Crotalaria,,pumila,,,Low rattlebox,Leguminosae,Annual,Summer Annual
 dale brac,Dalea,,brachystachya,,,Fort Bowie prairie clover,Leguminosae,Annual,Summer and Winter Annual
 dale nana,Dalea,,nana,,,Dwarf prairie clover,Leguminosae,Perennial,Perennial Forb
 dale pogo,Dalea,,pogonathera,,,Bearded prairie clover,Leguminosae,Perennial,Perennial Forb
-dale sp,Dalea,,sp.,,,Unknown clover,Leguminosae,Unknown,Unknown
+dale sp,Dalea,,sp.,,,Unknown,Leguminosae,Unknown,Unknown
 hoff dens,Hoffmanseggia,,glauca,densiflora,,Hog potato,Leguminosae,Perennial,Perennial Forb
 lupi conc,Lupinus,,concinnus,,,Bajada lupine,Leguminosae,Annual,Winter Annual
 lupi sp,Lupinus,,sp.,,,Unknown,Leguminosae,Annual,Winter Annual
@@ -129,7 +129,7 @@ moll sp,Mollugo,,sp.,,,Unknown,Molluginaceae,Annual,Summer Annual
 moll vert,Mollugo,,verticillata,,,Green Carpetweed,Molluginaceae,Annual,Summer Annual
 tali angu,Phemeranthus,Talinum,angustissimum,,,Orange fameflower,Montiaceae,Perennial,Perennial Forb
 tali aura,Phemeranthus,Talinum,aurantiacus,aurantiacum,,Orange fameflower,Montiaceae,Perennial,Perennial Forb
-tali sp,Phemeranthus,Talinum,sp.,,,Orange fameflower,Montiaceae,Perennial,Perennial Forb
+tali sp,Phemeranthus,Talinum,sp.,,,Unknown,Montiaceae,Perennial,Perennial Forb
 alli inca,Allionia,,incarnata,,,Trailing windmills,Nyctaginaceae,Perennial,Perennial Forb
 alli sp,Allionia,,sp.,,,Unknown,Nyctaginaceae,Perennial,Perennial Forb
 ammo chen,Ammocodon,,chenopodioides,,,Goosefoot monopod,Nyctaginaceae,Perennial,Perennial Forb
