@@ -1,4 +1,3 @@
-
 `%>%` <- magrittr::`%>%`
 
 #' Selects new weather data
