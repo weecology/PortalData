@@ -24,12 +24,15 @@ update_portal_plots <- function() {
   exclosures = c(2,3,8,15,19,20,21,22)
   
   # proceed only if rodentdat has more recent data than plot data
-  missing_dates = setdiff(data.frame(year=rodentdat$year,month=rodentdat$month),data.frame(year=portal_plots$year,month=portal_plots$month))
+  #find new rows
+  newrows=which(cbind(rodentdat$year,rodentdat$month) %in% 
+                  cbind(portal_plots$year,portal_plots$month)==FALSE)
+  newdat = unique(na.omit(rodentdat[newrows,1:3])) 
   
-  if (nrow(missing_dates)>0) {
+  if (nrow(newdat)>0) {
     
     plot=1:24
-    newplots=merge(missing_dates,plot,by=NULL) %>% rename(plot=y) %>% arrange(year,month,plot) 
+    newplots=merge(newdat,plot,by=NULL) %>% rename(plot=y) %>% arrange(year,month,plot) 
     
     newplots$treatment = NA
     
