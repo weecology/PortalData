@@ -8,7 +8,7 @@ source('../DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 context("checks rodent data cleaning functions")
 
-testfile = 'rodent_test_data.xlsx'
+testfile = '../DataCleaningScripts/rodent_test_data.xlsx'
 wb = loadWorkbook(testfile)
 testdat = readWorksheet(wb,sheet=1,header = T,colTypes = XLC$DATA_TYPE.STRING)
 scannerfile = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/tag scans/tags451.txt'
