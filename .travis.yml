@@ -12,6 +12,6 @@ script:
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_rodent_trapping.r"); writetrappingtable()'
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plots.R"); writeportalplots()'
   - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
-  - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.r"); writecensustable()'
+  - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
 after_success:
   - bash update_repo.sh
