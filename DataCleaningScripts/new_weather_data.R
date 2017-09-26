@@ -39,9 +39,14 @@ rawdata=cbind(year = lubridate::year(rawdata$timestamp),
               hour = lubridate::hour(rawdata$timestamp),rawdata)
 rawdata$hour[rawdata$hour==0] = 24 ; rawdata$hour = 100*rawdata$hour
 
+#Fix column classes
+rawdata$record = as.integer(rawdata$record)
+rawdata[,7:25] = lapply(rawdata[,7:25],as.numeric)
+
 # Load existing data for comparison
 weather=read.csv("../Weather/Portal_weather.csv")
   weather$timestamp = lubridate::ymd_hms(weather$timestamp)
+
 storms=read.csv("../Weather/Portal_storms.csv")
   storms$timestamp = lubridate::ymd_hms(storms$timestamp)
 
