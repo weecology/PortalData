@@ -1,6 +1,6 @@
 # Uses a test dataset to make sure rodent data cleaning functions are catching errors
 
-library(XLConnect)
+library(openxlsx)
 library(testthat)
 source('./DataCleaningScripts/compare_raw_data.r')
 source('./DataCleaningScripts/rodent_data_cleaning_functions.R')
@@ -9,8 +9,8 @@ source('./DataCleaningScripts/rodent_data_cleaning_functions.R')
 context("checks rodent data cleaning functions")
 
 testfile = './DataCleaningScripts/rodent_test_data.xlsx'
-wb = loadWorkbook(testfile)
-testdat = readWorksheet(wb,sheet=1,header = T,colTypes = XLC$DATA_TYPE.STRING)
+
+testdat = read.xlsx(testfile,sheet=1,colNames = T,na.strings = '')
 scannerfile = './DataCleaningScripts/test_tags.txt'
 
 
@@ -27,7 +27,7 @@ test_that("Check for conflict between M/F and reproductive characteristics", {
 })
 
 test_that("Check for duplicate plot/stake pairs", {
-  expect_equal(suspect_stake(testdat),data.frame(plot='17',stake='65',stringsAsFactors = F))
+  expect_equal(suspect_stake(testdat),data.frame(plot=17,stake=65))
 })
 
 test_that("check that all 24 plots present in data", {
