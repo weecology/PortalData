@@ -2,8 +2,8 @@
 
 library(openxlsx)
 library(testthat)
-source('./DataCleaningScripts/compare_raw_data.r')
-source('./DataCleaningScripts/rodent_data_cleaning_functions.R')
+source('../DataCleaningScripts/compare_raw_data.r')
+source('../DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 
 context("checks rodent data cleaning functions")
