@@ -2,16 +2,16 @@
 
 library(openxlsx)
 library(testthat)
-source('./DataCleaningScripts/compare_raw_data.r')
-source('./DataCleaningScripts/rodent_data_cleaning_functions.R')
+source('../DataCleaningScripts/compare_raw_data.r')
+source('../DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 
 context("checks rodent data cleaning functions")
 
-testfile = './DataCleaningScripts/rodent_test_data.xlsx'
+testfile = '../DataCleaningScripts/rodent_test_data.xlsx'
 
 testdat = read.xlsx(testfile,sheet=1,colNames = T,na.strings = '')
-scannerfile = './DataCleaningScripts/test_tags.txt'
+scannerfile = '../DataCleaningScripts/test_tags.txt'
 
 
 test_that("worksheets 1 and 2 match", {
