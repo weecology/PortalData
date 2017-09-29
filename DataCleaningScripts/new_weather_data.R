@@ -15,7 +15,7 @@ new_met_data <- function() {
 
 # Pull raw data (latest week of records, plus some overlap for saftey)
 
-rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=200', sep = "")
+rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")
 
 # rename columns
 rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battV=BattV)
