@@ -5,11 +5,12 @@ library(openxlsx)
 library(sqldf)
 library(RCurl)
 library(dplyr)
-setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
+# setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
 
 source('DataCleaningScripts/compare_raw_data.r')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 source('DataCleaningScripts/new_moon_numbers.R')
+
 
 # set your working directory
 
@@ -120,8 +121,8 @@ if (max(newdat$period) > max(trappingdat$period)) {
   write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
   
 }
-
-### Update New Moon Records
-source('./DataCleaningScripts/new_moon_numbers.r')
-writenewmoons()
+# 
+# ### Update New Moon Records
+# source('./DataCleaningScripts/new_moon_numbers.r')
+# writenewmoons()
 
