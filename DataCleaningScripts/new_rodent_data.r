@@ -5,11 +5,12 @@ library(openxlsx)
 library(sqldf)
 library(RCurl)
 library(dplyr)
-setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
+# setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
 
 source('DataCleaningScripts/compare_raw_data.r')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 source('DataCleaningScripts/new_moon_numbers.R')
+
 
 # set your working directory
 
@@ -17,7 +18,7 @@ source('DataCleaningScripts/new_moon_numbers.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '464'
+newperiod = '465'
 filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
@@ -68,6 +69,11 @@ sexmismatch  = sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, 
        WHERE (((recentdat.species)<>(ws.species)) And ((recentdat.tag)=(ws.tag))) Or (((recentdat.sex)<>(ws.sex)));")
 sexmismatch
 
+tags = (unique(sexmismatch$tag))
+
+tags
+
+
 ##############################################################################
 # 4. Append new data
 ##############################################################################
@@ -115,38 +121,8 @@ if (max(newdat$period) > max(trappingdat$period)) {
   write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
   
 }
+# 
+# ### Update New Moon Records
+# source('./DataCleaningScripts/new_moon_numbers.r')
+# writenewmoons()
 
-### Update New Moon Records
-# this is redundant with writenewmoons() in new_moon_numbers.r 
-
-# load existing moon_dates.csv file
-moon_dates = read.csv("Rodents/moon_dates.csv", stringsAsFactors = F)
-updated_trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
-
-# put date columns in appropriate date format
-moon_dates$censusdate = as.Date(moon_dates$censusdate, format = '%Y-%m-%d')
-moon_dates$newmoondate = as.Date(moon_dates$newmoondate, format = '%Y-%m-%d')
-updated_trappingdat$censusdate = as.Date(paste(updated_trappingdat$year,
-                                               updated_trappingdat$month,
-                                               updated_trappingdat$day, sep = '-'))
-
-# proceed only if trappingdat has more recent trapping data than moon_dates
-if (max(updated_trappingdat$period, na.rm = T) > max(moon_dates$period, na.rm = T)) {
-  
-  # extract trappingdat periods beyond those included in moon_dates
-  newperiods = filter(updated_trappingdat, period > max(moon_dates$period, na.rm = T))
-  # reduce new trapping data to two columns: Period and CensusDate
-  newperiods_dates = find_first_trap_night(newperiods)
-  
-  # match each new period to closest NewMoonDate, and fill in moon_dates data frame
-  for (p in unique(newperiods_dates$period)) {
-    closest = closest_newmoon(as.Date(newperiods_dates$censusdate[newperiods_dates$period == p]), 
-                              as.Date(moon_dates$newmoondate))
-    moon_dates$period[closest] = p
-    moon_dates$censusdate[closest] = newperiods_dates$censusdate[newperiods_dates$period == p]
-  }
-  
-  # write updated data frame to csv
-  write.csv(moon_dates, file = './Rodents/moon_dates.csv', row.names = F)
-  
-}

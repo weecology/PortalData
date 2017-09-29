@@ -50,11 +50,11 @@ closest_newmoon = function(target_date,newmoondates) {
 
 update_moon_dates = function() {
   # load existing moon_dates.csv file
-  moon_dates=read.csv("./Rodents/moon_dates.csv",stringsAsFactors = FALSE)
+  moon_dates=read.csv("../Rodents/moon_dates.csv",stringsAsFactors = FALSE)
   moon_dates$newmoondate = as.Date(moon_dates$newmoondate)
   moon_dates$censusdate = as.Date(moon_dates$censusdate)
   # load rodent trapping data
-  trappingdat=read.csv("./Rodents/Portal_rodent_trapping.csv")  
+  trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
   trappingdat$censusdate = as.Date(paste(trappingdat$year,trappingdat$month,trappingdat$day,sep='-'))
   
   
@@ -113,5 +113,6 @@ update_moon_dates = function() {
 
 writenewmoons <- function() {
   moon_dates=update_moon_dates()
-write.csv(moon_dates,file="../Rodents/moon_dates.csv",row.names=FALSE) }
+write.csv(moon_dates,file="../Rodents/moon_dates.csv",row.names=FALSE) 
+}
 
