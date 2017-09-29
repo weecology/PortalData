@@ -1,4 +1,4 @@
-source('../DataCleaningScripts/update_portal_plots.r')
+source('../DataCleaningScripts/update_portal_plots.R')
 
 library(testthat)
 context("checks that plot assignments are being added correctly")
@@ -15,3 +15,4 @@ test_that("no duplicate data", {
 
   expect_true(sum(duplicated(portal_plots))==0)
 })
+

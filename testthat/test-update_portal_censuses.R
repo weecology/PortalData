@@ -1,4 +1,4 @@
-source('../DataCleaningScripts/update_portal_plant_censuses.r')
+source('../DataCleaningScripts/update_portal_plant_censuses.R')
 
 library(testthat)
 context("checks new plant census dates are being added correctly")
@@ -39,3 +39,4 @@ test_that("no duplicate data", {
   
   expect_true(sum(duplicated(censuses))==0)
 })
+
