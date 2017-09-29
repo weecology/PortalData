@@ -1,24 +1,25 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
 
-library(XLConnect)
+# library(XLConnect)
+library(openxlsx)
 library(sqldf)
 library(RCurl)
 library(dplyr)
+setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
 
-source('compare_raw_data.r')
-source('rodent_data_cleaning_functions.R')
-source('new_moon_numbers.R')
+source('DataCleaningScripts/compare_raw_data.r')
+source('DataCleaningScripts/rodent_data_cleaning_functions.R')
+source('DataCleaningScripts/new_moon_numbers.R')
 
 # set your working directory
-setwd("~bleds22e/Documents/Git/PortalData/")
 
 ##############################################################################
 # New file to be checked
 ##############################################################################
 
-newperiod = '462'
-filepath = '~bleds22e/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
+newperiod = '464'
+filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep = '')
@@ -34,8 +35,7 @@ compare_worksheets(newfile)
 ##############################################################################
 
 # load data from excel workbook
-wb = loadWorkbook(newfile)
-ws = readWorksheet(wb, sheet = 1, header = TRUE, colTypes = XLC$DATA_TYPE.STRING)
+ws = read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
 
 rodent_data_quality_checks(ws, scannerfile)
 
@@ -44,7 +44,7 @@ rodent_data_quality_checks(ws, scannerfile)
 ##############################################################################
 
 # Load current state of database - older data
-olddat = read.csv('./Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
+olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 
 # Subset of most recent four years of data, for comparing recaptures
 recentdat = olddat[olddat$year >= as.numeric(ws$year[1]) - 3,]
@@ -64,10 +64,10 @@ setdiff(hasstar$tag, newcaps$tag)
 #    -conflicts can be resolved if there's a clear majority, or if clear sexual characteristics
 #    -also look back in book to see if sex/species data was manually changed before for a particular tag number
 #    -when making changes to old or new data, note in book
-sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recentdat.species, ws.species, recentdat.sex, ws.sex, recentdat.tag
+sexmismatch  = sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recentdat.species, ws.species, recentdat.sex, ws.sex, recentdat.tag
        FROM recentdat INNER JOIN ws ON recentdat.tag = ws.tag
        WHERE (((recentdat.species)<>(ws.species)) And ((recentdat.tag)=(ws.tag))) Or (((recentdat.sex)<>(ws.sex)));")
-
+sexmismatch
 
 ##############################################################################
 # 4. Append new data
@@ -75,8 +75,14 @@ sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recent
 
 # make column of record IDs for new data
 newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws)
+
 # append to existing data file
-write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
+#write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
+
+# resave updated data file
+correcteddat = rbind(olddat, newdat)
+
+write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
 
 ##############################################################################
 # 5. Update trapping records and new moon records
@@ -112,9 +118,11 @@ if (max(newdat$period) > max(trappingdat$period)) {
 }
 
 ### Update New Moon Records
+# this is redundant with writenewmoons() in new_moon_numbers.r 
 
 # load existing moon_dates.csv file
-moon_dates = read.csv("./Rodents/moon_dates.csv", stringsAsFactors = F)
+moon_dates = read.csv("Rodents/moon_dates.csv", stringsAsFactors = F)
+updated_trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
 
 # put date columns in appropriate date format
 moon_dates$censusdate = as.Date(moon_dates$censusdate, format = '%Y-%m-%d')
