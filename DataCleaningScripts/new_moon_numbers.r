@@ -113,6 +113,6 @@ update_moon_dates = function() {
 
 writenewmoons <- function() {
   moon_dates=update_moon_dates()
-write.csv(moon_dates,file="./Rodents/moon_dates.csv",row.names=FALSE) 
+write.csv(moon_dates,file="../Rodents/moon_dates.csv",row.names=FALSE) 
 }
 
