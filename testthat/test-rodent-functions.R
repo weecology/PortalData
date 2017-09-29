@@ -2,16 +2,16 @@
 
 library(XLConnect)
 library(testthat)
-source('../DataCleaningScripts/compare_raw_data.r')
-source('../DataCleaningScripts/rodent_data_cleaning_functions.R')
+source('./DataCleaningScripts/compare_raw_data.r')
+source('./DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 
 context("checks rodent data cleaning functions")
 
-testfile = '../DataCleaningScripts/rodent_test_data.xlsx'
+testfile = './DataCleaningScripts/rodent_test_data.xlsx'
 wb = loadWorkbook(testfile)
 testdat = readWorksheet(wb,sheet=1,header = T,colTypes = XLC$DATA_TYPE.STRING)
-scannerfile = 'C:/Users/EC/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/tag scans/tags451.txt'
+scannerfile = './DataCleaningScripts/test_tags.txt'
 
 
 test_that("worksheets 1 and 2 match", {
@@ -35,6 +35,6 @@ test_that("check that all 24 plots present in data", {
 })
 
 test_that("look for missing data ", {
-  expect_equal(check_missing_data(testdat,c('mo','dy','yr','period','plot')),c(5,15))
+  expect_equal(check_missing_data(testdat,c('month','day','year','period','plot')),c(5,15))
   expect_equal(check_missing_data(testdat[is.na(testdat$note1),],fields=c('stake','species','sex','hfl','wgt')),11)
 })
