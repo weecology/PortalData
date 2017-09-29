@@ -1,7 +1,6 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
 
-# library(XLConnect)
 library(openxlsx)
 library(sqldf)
 library(RCurl)
