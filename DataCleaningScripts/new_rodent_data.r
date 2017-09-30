@@ -9,7 +9,6 @@ library(dplyr)
 
 source('DataCleaningScripts/compare_raw_data.r')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
-# source('DataCleaningScripts/new_moon_numbers.R')
 
 
 # set your working directory
@@ -47,13 +46,13 @@ rodent_data_quality_checks(ws, scannerfile)
 olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 
 # Subset of most recent four years of data, for comparing recaptures
-recentdat = olddat[olddat$year >= as.numeric(ws$year[1]) - 3,]
+# recentdat = olddat[olddat$year >= as.numeric(ws$year[1]) - 3,]
 
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
 #    -if it does not, check to see if animal was tagged day1 and then recaptured day2
 #    -when making changes, add * to excel file of new data and note in book
-newcaps = ws[!(ws$tag %in% unique(recentdat$tag)), c('plot','species','sex','tag','note2','note5')]
+newcaps = ws[!(ws$tag %in% unique(olddat$tag)), c('plot','species','sex','tag','note2','note5')]
 newcaps
 
 # check to see if * put on note2 by accident: compare entries with * to list of tags not already in database
@@ -64,15 +63,16 @@ setdiff(hasstar$tag, newcaps$tag)
 #    -conflicts can be resolved if there's a clear majority, or if clear sexual characteristics
 #    -also look back in book to see if sex/species data was manually changed before for a particular tag number
 #    -when making changes to old or new data, note in book
-sexmismatch  = sqldf("SELECT recentdat.period, recentdat.note1, recentdat.plot, ws.plot, recentdat.species, ws.species, recentdat.sex, ws.sex, recentdat.tag
-       FROM recentdat INNER JOIN ws ON recentdat.tag = ws.tag
-       WHERE (((recentdat.species)<>(ws.species)) And ((recentdat.tag)=(ws.tag))) Or (((recentdat.sex)<>(ws.sex)));")
+sexmismatch  = sqldf("SELECT olddat.period, olddat.note1, olddat.plot, ws.plot, olddat.species, ws.species, olddat.sex, ws.sex, olddat.tag
+       FROM olddat INNER JOIN ws ON olddat.tag = ws.tag
+       WHERE (((olddat.species)<>(ws.species)) And ((olddat.tag)=(ws.tag))) Or (((olddat.sex)<>(ws.sex)));")
 sexmismatch
 
 tags = (unique(sexmismatch$tag))
 
 tags
 
+# step through the tags and make comparisons and edits manually
 
 ##############################################################################
 # 4. Append new data
@@ -87,7 +87,7 @@ newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + l
 # resave updated data file
 correcteddat = rbind(olddat, newdat)
 
-write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
+write.table(olddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
 
 ##############################################################################
 # 5. Update trapping records and new moon records
