@@ -9,7 +9,7 @@ library(dplyr)
 
 source('DataCleaningScripts/compare_raw_data.r')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
-source('DataCleaningScripts/new_moon_numbers.R')
+# source('DataCleaningScripts/new_moon_numbers.R')
 
 
 # set your working directory
@@ -92,35 +92,35 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 ##############################################################################
 # 5. Update trapping records and new moon records
 ##############################################################################
-
-### Update Trapping Records
-
-# load rodent trapping data
-trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
-
-# proceed only if rodentdat has more recent data than trappingdat
-if (max(newdat$period) > max(trappingdat$period)) {
-  
-  # convert newdat columns to integer
-  newdat[,2:7] <- apply(newdat[,2:7], 2, function(x) as.integer(x))
-  # extract plot data beyond what's already in trappingdat
-  newtrapdat = filter(newdat, period > max(trappingdat$period)) %>%
-    filter(!is.na(plot)) %>% 
-    select(month, day, year, period, plot, note1)
-  newtrapdat$sampled = rep(1)
-  newtrapdat$sampled[newtrapdat$note1 == 4] = 0
-  
-  # select unique rows and rearrange columns
-  newtrapdat = newtrapdat[!duplicated(select(newtrapdat, period, plot)), ] %>%
-    select(day, month, year, period, plot, sampled)
-  # put in order of period, plot
-  newtrapdat = newtrapdat[order(newtrapdat$period, newtrapdat$plot), ]
-  # rename columns
-  names(newtrapdat) = c('day', 'month', 'year', 'period', 'plot', 'sampled')
-  # write updated data frame to csv
-  write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
-  
-}
+# 
+# ### Update Trapping Records
+# 
+# # load rodent trapping data
+# trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
+# 
+# # proceed only if rodentdat has more recent data than trappingdat
+# if (max(newdat$period) > max(trappingdat$period)) {
+#   
+#   # convert newdat columns to integer
+#   newdat[,2:7] <- apply(newdat[,2:7], 2, function(x) as.integer(x))
+#   # extract plot data beyond what's already in trappingdat
+#   newtrapdat = filter(newdat, period > max(trappingdat$period)) %>%
+#     filter(!is.na(plot)) %>% 
+#     select(month, day, year, period, plot, note1)
+#   newtrapdat$sampled = rep(1)
+#   newtrapdat$sampled[newtrapdat$note1 == 4] = 0
+#   
+#   # select unique rows and rearrange columns
+#   newtrapdat = newtrapdat[!duplicated(select(newtrapdat, period, plot)), ] %>%
+#     select(day, month, year, period, plot, sampled)
+#   # put in order of period, plot
+#   newtrapdat = newtrapdat[order(newtrapdat$period, newtrapdat$plot), ]
+#   # rename columns
+#   names(newtrapdat) = c('day', 'month', 'year', 'period', 'plot', 'sampled')
+#   # write updated data frame to csv
+#   write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
+#   
+# }
 # 
 # ### Update New Moon Records
 # source('./DataCleaningScripts/new_moon_numbers.r')
