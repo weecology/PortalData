@@ -17,7 +17,7 @@ source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '465'
+newperiod = '466'
 filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
@@ -153,7 +153,7 @@ if (length(tags) > 0) {
     
     if (length(unique(thisone$sex)) > 1) {
       print('Sex mismatch:')
-      print(thisone[,c('period', 'plot', 'species', 'sex', 'tag')])
+      print(thisone[,c('period', 'plot', 'species', 'sex', 'reprod', 'age', 'testes', 'vagina', 'pregnant', 'nipples', 'lactation','tag')])
       print('Edit a record?')
       edit = readline()
       if (edit == "Y") {
