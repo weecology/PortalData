@@ -70,9 +70,10 @@ if (anyNA(newcaps$note2)) {
     readline(prompt="Press [enter] to continue")
   }
   print('No more missing stars')
+  rm(nostar)
+  
 }
 
-rm(nostar)
 
 # check to see if * put on note2 by accident: compare entries with * to list of tags not already in database
 hasstar = ws[!is.na(ws$note2), c('plot','species','sex','tag','note2','note5')]
