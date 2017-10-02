@@ -55,24 +55,148 @@ olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 newcaps = ws[!(ws$tag %in% unique(olddat$tag)), c('plot','species','sex','tag','note2','note5')]
 newcaps
 
+if (anyNA(newcaps$note2)) {
+  nostar = filter(newcaps, is.na(note2))
+  for (i in 1:nrow(nostar)) {
+    print(nostar[i, ])
+    print("Type Y to add star in worksheet")
+    add.star = readline()
+    if(add.star == 'Y') {
+      ## To add a star: 
+      ws[which(ws$tag == nostar[i, 'tag']), 'note2'] <- '*'
+      print(ws[which(ws$tag == nostar[i, 'tag']), ])
+      print('Remember to record on datasheet + in notebook!')
+    }
+    readline(prompt="Press [enter] to continue")
+  }
+  print('No more missing stars')
+}
+
+rm(nostar)
+
 # check to see if * put on note2 by accident: compare entries with * to list of tags not already in database
 hasstar = ws[!is.na(ws$note2), c('plot','species','sex','tag','note2','note5')]
-setdiff(hasstar$tag, newcaps$tag)
+
+extrastar = hasstar[which(hasstar$tag %in% setdiff(hasstar$tag, newcaps$tag)), ]
+
+if (nrow(extrastar) > 0) {
+  for (i in 1:nrow(extrastar)) {
+    print(extrastar[i, ])
+    print("Type Y to remove star in worksheet")
+    remove.star = readline()
+    if(remove.star == 'Y') {
+      ## To remove a star: 
+      ws[which(ws$tag == extrastar[i, 'tag']), 'note2'] <- NA
+      print(ws[which(ws$tag == extrastar[i, 'tag']), ])
+      print('Remember to record on datasheet + in notebook!')
+    }
+    readline(prompt="Press [enter] to continue")
+  }
+  print('No more extra stars')
+}
+
+rm(hasstar)
+rm(extrastar)
+rm(newcaps)
 
 # Check sex/species on recaptures
 #    -conflicts can be resolved if there's a clear majority, or if clear sexual characteristics
 #    -also look back in book to see if sex/species data was manually changed before for a particular tag number
 #    -when making changes to old or new data, note in book
+
+# introducing a sex error and a species error
+
+head(ws)
+
+ws[3, 'species'] <- 'XX'
+ws[4, 'sex'] <- 'J'
+
 sexmismatch  = sqldf("SELECT olddat.period, olddat.note1, olddat.plot, ws.plot, olddat.species, ws.species, olddat.sex, ws.sex, olddat.tag
        FROM olddat INNER JOIN ws ON olddat.tag = ws.tag
        WHERE (((olddat.species)<>(ws.species)) And ((olddat.tag)=(ws.tag))) Or (((olddat.sex)<>(ws.sex)));")
-sexmismatch
 
 tags = (unique(sexmismatch$tag))
+if (length(tags) > 0) {
+  for(i in 1:length(tags)) {
+    print("Mismatch tag:")
+    print(tags[i])
+    thisone.old = olddat[ which(olddat$tag == tags[i]), 2:29]
+    thisone.new = ws[ which(ws$tag == tags[i]), ]
+    thisone = rbind(thisone.old, thisone.new)
+    # print('Old record(s):')
+    # print(thisone.old)
+    # print('New record(s):')
+    # print(thisone.new)
+    if(length(unique(thisone$species)) >1) {
+      print('Species mismatch:')
+      print(thisone[,c('period', 'plot', 'species', 'tag')])
+      print('Edit a record?')
+      edit = readline()
+      if (edit == "Y") {
+        print("Row number?")
+        row.id = as.integer(readline())
+        print('New species code?')
+        sp.code = readline()
+        
+        if (row.id %in% row.names(thisone.old)) {
+          olddat[row.id, 'species'] <- sp.code
+          print(olddat[row.id, ])
+        }
+        if (row.id %in% row.names(ws)) {
+          ws[row.id, 'species'] <- sp.code
+          print(ws[row.id, ])
+        }
+      }
+      
+      if (edit != 'Y') {
+        print('Not editing')
+      }
+      
+      print('Remember to record in notebook/on datasheet!')
+      
+      readline(prompt="Press [enter] to continue")
+    }
+    
+    if (length(unique(thisone$sex)) > 1) {
+      print('Sex mismatch:')
+      print(thisone[,c('period', 'plot', 'species', 'sex', 'tag')])
+      print('Edit a record?')
+      edit = readline()
+      if (edit == "Y") {
+        print("Row number?")
+        row.id = as.integer(readline())
+        print('New sex?')
+        new.sex = readline()
+        
+        if (row.id %in% row.names(thisone.old)) {
+          olddat[row.id, 'sex'] <- new.sex
+          print(olddat[row.id, ])
+        }
+        if (row.id %in% row.names(ws)) {
+          ws[row.id, 'sex'] <- new.sex
+          print(ws[row.id, ])
+        }
+      }
+      
+      if (edit != 'Y') {
+        print('Not editing')
+      }
+      
+      print('Remember to record in notebook/on datasheet!')
+      
+      readline(prompt="Press [enter] to continue")
+    }
+    
+    # print updated version of records
+    print('Updated records:')
+    print(olddat[which(olddat$tag == tags[i]), 2:29])
+    print(ws[ which(ws$tag == tags[i]), ])
+    readline(prompt="Press [enter] to continue")
+    
+  }
+  print('No more mismatches')
+}
 
-tags
-
-# step through the tags and make comparisons and edits manually
 
 ##############################################################################
 # 4. Append new data
