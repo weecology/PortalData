@@ -104,13 +104,6 @@ rm(newcaps)
 #    -also look back in book to see if sex/species data was manually changed before for a particular tag number
 #    -when making changes to old or new data, note in book
 
-# introducing a sex error and a species error
-
-head(ws)
-
-ws[3, 'species'] <- 'XX'
-ws[4, 'sex'] <- 'J'
-
 sexmismatch  = sqldf("SELECT olddat.period, olddat.note1, olddat.plot, ws.plot, olddat.species, ws.species, olddat.sex, ws.sex, olddat.tag
        FROM olddat INNER JOIN ws ON olddat.tag = ws.tag
        WHERE (((olddat.species)<>(ws.species)) And ((olddat.tag)=(ws.tag))) Or (((olddat.sex)<>(ws.sex)));")
