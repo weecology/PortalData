@@ -1,7 +1,14 @@
 library(dplyr)
 
+currentdir = getwd()
+
+if(substr(currentdir, nchar(currentdir) - 8, nchar(currentdir)) == '/testthat') {
 source('../DataCleaningScripts/check_all_plots_present.r')
 source('../DataCleaningScripts/check_missing_data.r')
+} else {
+  source('DataCleaningScripts/check_all_plots_present.r')
+  source('DataCleaningScripts/check_missing_data.r')
+}
 
 
 #' Main function: runs a few rodent data quality checks
