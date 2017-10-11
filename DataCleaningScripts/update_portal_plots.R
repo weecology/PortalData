@@ -25,9 +25,9 @@ update_portal_plots <- function() {
   
   # proceed only if rodentdat has more recent data than plot data
   #find new rows
-  newrows=which(cbind(rodentdat$year,rodentdat$month) %in% 
-                  cbind(portal_plots$year,portal_plots$month)==FALSE)
-  newdat = unique(na.omit(rodentdat[newrows,1:3])) 
+  newrows=which(paste(rodentdat$year,rodentdat$month) %in% paste(portal_plots$year,portal_plots$month)
+                  ==FALSE)
+  newdat = unique(na.omit(rodentdat[newrows,c(2,4)])) 
   
   if (nrow(newdat)>0) {
     
