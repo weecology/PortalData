@@ -32,7 +32,7 @@ guti saro,Gutierrezia,,microcephala,sarothrae,,Snakeweed,Asteraceae,Perennial,Sh
 hapl grac,Machaeranthera,Haplopappus,gracilis,,,Slender Goldenweed,Asteraceae,Annual,Summer and Winter Annual
 hapl sp,Haplopappus,,sp.,,,Unknown,Asteraceae,Perennial,Subshrub
 hapl spin,Haplopappus,,spinulosus,,,Lacy tansyaster,Asteraceae,Perennial,Subshrub
-hapl tenu,Isocoma,Haplopappus,tenuisectus,,,Burroweed,Asteraceae,Perennial,Subshrub
+hapl tenu,Isocoma,Haplopappus,tenuisecta,,,Burroweed,Asteraceae,Perennial,Subshrub
 hete suba,Heterotheca,,subaxillaris,,,Camphorweed,Asteraceae,Annual,Summer and Winter Annual
 laen coul,Laennecia,,coulteri,,,Coulter's Horseweed,Asteraceae,Annual,Summer and Winter Annual
 mach tanr,Machaeranthera,,tanacetifoloia,,,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
@@ -154,10 +154,10 @@ bout sp,Bouteloua,,sp.,,,Unknown,Poaceae,Annual,Summer Annual
 brom rube,Bromus,,rubens,,,Red brome,Poaceae,Annual,Winter Annual
 chlo virg,Chloris,,virgata,,,Feather fingergrass,Poaceae,Annual,Summer Annual
 enne desv,Enneapogon,,desvauxii,,,Nineawn pappusgrass,Poaceae,Perennial,Perennial
-erag arid,Eragrostis,,pectinaceae,arida,,Desert lovegrass,Poaceae,Annual,Summer Annual
+erag arid,Eragrostis,,pectinacea,arida,,Desert lovegrass,Poaceae,Annual,Summer Annual
 erag cili,Eragrostis,,cilianensis,,,Stinkgrass,Poaceae,Annual,Summer Annual
 erag inte,Eragrostis,,intermedia,,,Plains Lovegrass,Poaceae,Perennial,Perennial
-erag lehm,Eragrostis,,lehmanniana,,,Lehmann’s lovegrass,Poaceae,Perennial,Perennial
+erag lehm,Eragrostis,,lehmanniana,,,Lehmann's lovegrass,Poaceae,Perennial,Perennial
 erag sp,Eragrostis,,sp.,,,Unknown,Poaceae,Perennial,Perennial
 erio lemm,Eriochloa,,lemmonii,,,Canyon cupgrass,Poaceae,Annual,Summer and Winter Annual
 hila muti,Hilaria,,mutica,,,Tobosa grass,Poaceae,Perennial,Perennial
@@ -205,7 +205,7 @@ unkn,Unknown,,plant,,,Unknown,Unknown,Unknown,Unknown
 unkn forb,Unknown,,forb,,,Unknown,Unknown,Unknown,Unknown
 unkn forb2,Unknown,,forb,,distinct from unkn forb,Unknown,Unknown,Unknown,Unknown
 unkn shrb,Unknown,,shrub,,,Unknown,Unknown,Perennial,Shrub
-tetr coul,Tetraclea,,coulteri,,,Coulter’s wrinkle fruit,Verbenaceae,Perennial,Subshrub
+tetr coul,Tetraclea,,coulteri,,,Coulter's wrinkle fruit,Verbenaceae,Perennial,Subshrub
 kall cali,Kallstroemia,,californica,,,California Caltrop,Zygophyllaceae,Annual,Summer Annual
 kall gran,Kallstroemia,,grandiflora,,,Arizona Poppy,Zygophyllaceae,Annual,Summer Annual
 kall hirs,Kallstroemia,,hirsutissima,,,Hairy Caltrop,Zygophyllaceae,Annual,Summer Annual
