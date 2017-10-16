@@ -38,7 +38,7 @@ Below are column descriptions for [Portal_weather.csv](Portal_weather.csv). The 
 
 #### Manual data collection
 
-Manually collected data are stored separately in [Portal_weather_9801989](Portal_weather_9801989.csv). **It is necessary to use only summarized monthly rainfall for this data.** 
+Manually collected data are stored separately in [Portal_weather_9801989](Portal_weather_19801989.csv). **It is necessary to use only summarized monthly rainfall for this data.** 
 
 #### Station overlap
 [Portal_weather_overlap](Portal_weather_overlap.csv) contains duplicate values for air temperature and precipitation from the 2002 and 2016 stations. It can be used to compare the two between stations or create an average.
