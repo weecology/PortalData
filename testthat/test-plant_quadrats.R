@@ -1,5 +1,5 @@
 library(testthat)
-context("checks new shrub transect data")
+context("checks new plant quadrat data")
 
 data <- read.csv("../Plants/Portal_plant_quadrats.csv")
 species <-  read.csv('../Plants/Portal_plant_species.csv')
