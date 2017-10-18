@@ -18,6 +18,7 @@
 #     * a. Make sure to check directory for appending the existing file *
 
 library(XLConnect)
+library(dplyr)
 
 source('compare_raw_data.r')
 
@@ -27,7 +28,7 @@ source('compare_raw_data.r')
 
 season <-  'Winter'
 year <-  '2017'
-filepath <-  'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/2015_2017data/'
+filepath <-  'C:/Users/ellen.bledsoe/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -44,7 +45,7 @@ compare_worksheets(newfile)
 wb = loadWorkbook(newfile)
 ws = readWorksheet(wb, sheet = 1, header = TRUE)
 
-splist = read.csv('C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_species.csv',as.is=T)
+splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
 
 plots = seq(24)
 stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
@@ -53,6 +54,8 @@ stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
 # species names not in official list
 
 unique(ws$species[!(ws$species %in% splist$speciescode)])
+
+#**ADD valid new species to species list**
 
 # =====================================
 # are all quadrats present
@@ -105,6 +108,19 @@ data_clean$cover <- as.numeric(data_clean$cover)
 data_clean$cf <- as.factor(data_clean$cf)
 
 # =====================================
+# Add census to census dates table
+dates = read.csv('./Plants/Portal_plant_census_dates.csv')
+
+if(!(unique(paste(data_clean$year,data_clean$season)) %in% paste(dates$year,dates$season))) {
+  
+newdates = as.Date(with(data_clean, paste(year, month, day, sep="-")), "%Y-%m-%d")
+newrow = cbind(unique(data_clean[,c('year','season')]), censusdone = 'yes', start = format(min(newdates),"%m-%d"), end = format(max(newdates),"%m-%d"))
+# append to existing dates file
+write.table(newrow, file = "./Plants/Portal_plant_census_dates.csv", 
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
+}
+
+# =====================================
 # save cleaned up version to Dropbox
 
 write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep = ''), 
@@ -117,5 +133,5 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf")]
 
 # append to existing data file
-write.table(data_append, file = "C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_quadrats.csv", 
+write.table(data_append, file = "./Plants/Portal_plant_quadrats.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
