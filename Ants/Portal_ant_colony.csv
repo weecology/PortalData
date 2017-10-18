@@ -1,6 +1,6 @@
 day,month,year,plot,stake,species,colonies,openings,flag
-13,7,1977,1,-99,myrm mexi,1,1,1
-13,7,1977,1,-99,myrm mimi,1,1,1
+13,7,1977,1,,myrm mexi,1,1,1
+13,7,1977,1,,myrm mimi,1,1,1
 13,7,1977,1,11,irid prui,1,1,
 13,7,1977,1,11,pogo rugo,1,1,3
 13,7,1977,1,11,sole xylo,1,-99,7
