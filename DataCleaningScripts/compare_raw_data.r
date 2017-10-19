@@ -17,8 +17,8 @@ compare_worksheets = function(excel_file) {
   # this function compares the two excel worksheet to identify inconsistencies
   
   # load data from excel workbook
-  ws1 = read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = '')
-  ws2 = read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = '')
+  ws1 = read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = c('', 'NA', ' '))
+  ws2 = read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = c('', 'NA', ''))
   
   
   # if the two worksheets are identical, exit function
