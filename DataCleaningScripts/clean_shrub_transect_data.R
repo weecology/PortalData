@@ -33,15 +33,18 @@ ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSE
 ######################
 # 3. Quality control #
 ######################
-splist <-  read.csv('Plants/Portal_plant_species.csv', as.is = T)
+
+splist <-  read.csv('./Plants/Portal_plant_species.csv', as.is = T)
 
 plots <-  1:24
-transects <- c("T1", "T2")
+transects <- c("11", "71")
 
 # =====================================
 # species names not in official list
 
 unique(ws$species[!(ws$species %in% splist$speciescode)])
+
+#**ADD valid new species to species list**
 
 # =====================================
 # are all transects present
@@ -51,6 +54,13 @@ plot_trans <-  unique(paste(ws$plot, ws$transect))
 
 # any plot-transect pairs that should be censused that are not in the data
 setdiff(all_trans, plot_trans)
+
+# =====================================
+# check for valid start, stop and height values
+
+ws$start[!(ws$start %in% 0:7500)]   #length of hypotenuse of plots (7000) plus some wiggle room
+ws$stop[!(ws$stop %in% 0:7500)]   
+ws$height[!(ws$height %in% 0:400)]
 
 # =====================================
 # save cleaned up version to Dropbox
@@ -68,6 +78,6 @@ write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", "
 data_append <- data_clean[, c("year", "month", "day", "transect", "plot", "location", "species", "height", "notes")]
 
 # append to existing data file
-write.table(data_append, file = "C:/Users/ellen.bledsoe/Desktop/Git/PortalData/Plants/Portal_plant_transects_2015_present.csv", 
+write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 

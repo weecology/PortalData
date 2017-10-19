@@ -1,28 +1,28 @@
-speciescode,scientificname,IDissues
-camp fest,Camponotus festinatus,"Unclear if in other years this was simply labeled camp sp, or if camp sp is a different species"
-camp sp,Camponotus sp.,
-cono bico,Conomyrma bicolor,
-cono insa,Conomyrma insana,
-crem sp,Crematogastor sp.,
-irid prui,Forelius pruinosus (Iridomyrma pruinosum),"Prior to 1987, simply labeled Dolichoderinae, may include more than this species"
-myrm depi,Myrmecocystus depilis,
-myrm mexi,Myrmecocystus mexicanus,
-myrm mimi,Myrmecocystus mimicus,"Prior to 1982, counts included all myrm mimi and myrm depi"
-myrm nava,Myrmecocystus navajo,
-novo cock,Novomessor cockerelli,
-novo sp,Novomessor spp.,
-phei dese,Pheidole desertorum,
-phei mili,Pheidole militicida,
-phei sp,Pheidole sp,
-phei sita,Pheidole sitarches,
-phei xero,Pheidole xerophila,
-phei yell,Pheidole sp "yellow",No further description
-pogo barb,Pogonomyrmex barbatus,
-pogo dese,Pogonomyrmex desertorum,
-pogo imbe,Pogonomyrmex imbebiculus,
-pogo mari,Pogonomyrmex maricopa,
-pogo pima,Pogonomyrmex pima,
-pogo rugo,Pogonomyrmex rugosus,
-sole sp,Solenopsis sp.,
-sole xylo,Solenopsis xyloni,
-unkn,Unknown species,Possibly contains several species within one year and plot
+speciescode,genus,altgenus,species,altspecies,tribe,subfamily,IDissues
+camp fest,Camponotus,,festinatus,,Camponotini,Formicinae,"Unclear if in other years this was simply labeled camp sp, or if camp sp is a different species"
+camp sp,Camponotus,,sp.,,Camponotini,Formicinae,
+cono bico,Dorymyrmex,Conomyrma,bicolor,,Leptomyrmecini,Dolichederinae,
+cono insa,Dorymyrmex,Conomyrma,insanus,insana,Leptomyrmecini,Dolichederinae,
+crem sp,Crematogastor,,sp.,,Crematogastrini,Myrmicinae,
+irid prui,Forelius,Iridomyrmex,pruinosus,pruinosum,Leptomyrmecini,Dolichoderinae,"Prior to 1987, simply labeled Dolichoderinae, may include more than this species"
+myrm depi,Myrmecocystus,,depilis,,Lasiini,Formicinae,
+myrm mexi,Myrmecocystus,,mexicanus,,Lasiini,Formicinae,
+myrm mimi,Myrmecocystus,,mimicus,,Lasiini,Formicinae,"Prior to 1982, counts included all myrm mimi and myrm depi"
+myrm nava,Myrmecocystus,,navajo,,Lasiini,Formicinae,
+novo cock,Novomessor,,cockerelli,,Stenammini,Myrmicinae,
+novo sp,Novomessor,,sp.,,Stenammini,Myrmicinae,
+phei dese,Pheidole,,desertorum,,Attini,Myrmicinae,
+phei mili,Pheidole,,militicida,,Attini,Myrmicinae,
+phei sp,Pheidole,,sp.,,Attini,Myrmicinae,
+phei sita,Pheidole,,soritis,sitarches,Attini,Myrmicinae,
+phei xero,Pheidole,,xerophila,,Attini,Myrmicinae,
+phei yell,Pheidole,,sp.,,Attini,Myrmicinae,"""Pheidole yellow""; No further description"
+pogo barb,Pogonomyrmex,,barbatus,,Pogonomyrmecini,Myrmicinae,
+pogo dese,Pogonomyrmex,,desertorum,,Pogonomyrmecini,Myrmicinae,
+pogo imbe,Pogonomyrmex,,imberbiculus,,Pogonomyrmecini,Myrmicinae,
+pogo mari,Pogonomyrmex,,maricopa,,Pogonomyrmecini,Myrmicinae,
+pogo pima,Pogonomyrmex,,pima,,Pogonomyrmecini,Myrmicinae,
+pogo rugo,Pogonomyrmex,,rugosus,,Pogonomyrmecini,Myrmicinae,
+sole sp,Solenopsis,,sp.,,Solenopsidini,Myrmicinae,
+sole xylo,Solenopsis,,xyloni,,Solenopsidini,Myrmicinae,
+unkn,unknown,,unknown,,unknown,unknown,Possibly contains several species within one year and plot
