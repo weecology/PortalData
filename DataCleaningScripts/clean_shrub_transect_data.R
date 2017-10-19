@@ -66,8 +66,10 @@ ws$height[!(ws$height %in% 0:400)]
 # save cleaned up version to Dropbox
 
 # make sure you are saving the most up-to-date version of the file
-ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
-
+#ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
+filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
+season = 'summer'
+year = 2017
 write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", ".csv", sep = ''), 
           row.names = FALSE, na = "")
 
@@ -75,7 +77,7 @@ write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", "
 # 4. Append new data to 2015+ plant data in Git #
 #################################################
 
-data_append <- data_clean[, c("year", "month", "day", "transect", "plot", "location", "species", "height", "notes")]
+data_append <- ws[, c("year", "month", "day", "transect", "plot", "species", "height", "notes")]
 
 # append to existing data file
 write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
