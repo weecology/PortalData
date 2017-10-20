@@ -31,7 +31,7 @@ test_that("valid species", {
 
 test_that("valid abundance", {
   
-  expect_true(all(data$abundance %in% 0:1000))
+  expect_true(all(data$abundance %in% 0:2000))
 })
 
 test_that("valid cover", {
