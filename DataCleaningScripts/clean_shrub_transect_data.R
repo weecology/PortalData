@@ -184,15 +184,16 @@ setdiff(all_trans, plot_trans)
 # =====================================
 # check for valid start, stop and height values
 
-ws[which([!(ws$start %in% 0:7500)), ]   #length of hypotenuse of plots (7000) plus some wiggle room
+ws[which(!(ws$start %in% 0:7500)), ]   #length of hypotenuse of plots (7000) plus some wiggle room
 ws[which(!(ws$stop %in% 0:7500)), ]   
-ws[which(!(ws$height %in% 0:400)) ,]
+ws[which(!(ws$height %in% 0:400)) , ]
 
 ws[ which(ws$stop < ws$start), ]
 
 # fix errors
 # summer 2017
-
+ws[1378, 'stop'] <- 4684
+# others pending
 
 # =====================================
 # save cleaned up version to Dropbox
