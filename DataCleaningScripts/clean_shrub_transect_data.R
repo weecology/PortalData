@@ -216,10 +216,3 @@ data_append <- ws[, c("year", "month", "day", "transect", "plot", "species", "he
 write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
-
-# 
-# transects = read.csv('Plants/Portal_plant_transects_2015_present.csv')
-# transects$note1 <- NA
-# 
-# write.table(transects, file = "./Plants/Portal_plant_transects_2015_present.csv", 
-#             row.names = F, col.names = F, na = "", append = F, sep = ",")
