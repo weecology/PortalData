@@ -183,7 +183,9 @@ write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadr
 # 3. Quality control #
 ######################
 
-ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2017_matched.csv')
+ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2017_matched.csv', stringsAsFactors = F)
+
+ws$notes <- NA
 
 splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
 
@@ -197,9 +199,12 @@ new.names = setdiff(ws$species,splist$speciescode)
 
 # NAs can stay because they will be removed later
 ws[which(is.na(ws$species)), ]
-ws[which(ws$species == new.names[2]), ]
-ws[which(ws$species == new.names[3]), ]
-ws[which(ws$species == new.names[4]), ]
+
+ws[which(ws$species == new.names[2]), 'species'] <- 'atri cane'
+ws[which(ws$species == new.names[3]), 'species'] <- 'kall hirs'
+ws[which(ws$species == new.names[4]), c('species', 'notes')] <- c('amar palm', 1)
+
+
 
 #**ADD valid new species to species list**
 
@@ -215,11 +220,19 @@ setdiff(plotquad,allquads)
 # any plot-stake pairs that should be censused that are not in the data
 setdiff(allquads,plotquad)
 
+which(ws$plot == 12)
+ws[2174:2179, 'quadrat'] <- 33
+ws[2174:2179, 'notes'] <- 2
+
+# plot 24 stake 51 - skipped, or empty?
+
+
 # =====================================
 # are there any duplicate entries of plot/quadrat/species
 
 ws[(duplicated(paste(ws$plot, ws$quadrat, ws$species))),]
 
+filter(ws, year == 2017, plot == 4, quadrat == 37, species == 'pani sp')
 # =====================================
 # are there any plants recorded in an "empty" quadrat
 
