@@ -224,10 +224,26 @@ write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.cs
 
 
 # 
-#transects = read.csv('/Users/renatadiaz/Documents/GitHub/PortalData/Plants/Portal_plant_transects_2015_present.csv')
+#  
+# transects = read.csv('/Users/renatadiaz/Documents/GitHub/PortalData/Plants/Portal_plant_transects_2015_present.csv')
+# 
+# transects$diff = transects$stop - transects$start
+# 
+# transects[ which(transects$diff < 0), ]
+# 
+# transects[1389, 'stop'] <- 5955
+# transects[1389, 'start'] <- 5572
+# transects[1389, 'note1'] <- 2
+# 
+# transects[2368, c('start', 'stop', 'note1')] <- c(4585, 4666, 2)
+# transects[2832, c('stop', 'note1')] <- c(6142, 1)
+# transects[3059, c('start', 'stop', 'note1')] <- c(2342, 2378, 2)
+# transects[3060, c('start', 'stop', 'note1')] <- c(2342, 2388, 2)
+# transects[3123, c('start', 'stop', 'note1')] <- c(6440, 6456, 2)
+
 # 
 #tail(transects)
 # 
 # transects$note1 <- NA
 # write.table(transects, file = "./Plants/Portal_plant_transects_2015_present.csv", 
-#             row.names = F, col.names = T, na = "", append = F, sep = ",")
+             row.names = F, col.names = T, na = "", append = F, sep = ",")
