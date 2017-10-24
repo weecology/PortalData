@@ -1,5 +1,5 @@
 library(testthat)
-context("checks new shrub transect data")
+context("checks new plant quadrat data")
 
 data <- read.csv("../Plants/Portal_plant_quadrats.csv")
 species <-  read.csv('../Plants/Portal_plant_species.csv')
@@ -31,7 +31,7 @@ test_that("valid species", {
 
 test_that("valid abundance", {
   
-  expect_true(all(data$abundance %in% 0:1000))
+  expect_true(all(na.omit(data$abundance) %in% 0:2400))
 })
 
 test_that("valid cover", {
