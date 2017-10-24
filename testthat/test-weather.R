@@ -55,11 +55,12 @@ test_that("Precipitation in multiples of 0.254", {
   expect_true(sum(stormsnew$Rain_mm_Tot%%0.254)==0)
 })
 
-
-test_that("start of new data lines up with end of existing data", {
+if(nrow(newdata) != 0) { #this test will fail if there is no new data
+  test_that("start of new data lines up with end of existing data", {
   
-  expect_identical(tail(weather$timestamp,n=1)+3600,newdata$timestamp[1])
-})
+    expect_identical(tail(weather$timestamp,n=1)+3600,newdata$timestamp[1])
+  })
+}
 
 test_that("no hours missing", {
   
