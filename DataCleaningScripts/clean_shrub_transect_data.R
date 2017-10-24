@@ -84,7 +84,6 @@ write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANS
 # 1. Load "clean" .csv file #
 ######################
 ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', stringsAsFactors= F)
-ws$note1 <- NA
 ######################
 # 3. Quality control #
 ######################
@@ -136,38 +135,42 @@ write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", "
 # 4. Append new data to 2015+ plant data in Git #
 #################################################
 
-data_append <- ws[, c("year", "month", "day", "plot", "transect", "species", "start", "stop", "height", "notes", "note1")]
+data_append <- ws[, c("year", "month", "day", "plot", "transect", "species", "start", "stop", "height", "notes")]
 
 # append to existing data file
 write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
-<<<<<<< HEAD
-=======
-
 
 
 # 
 #  
 # transects = read.csv('/Users/renatadiaz/Documents/GitHub/PortalData/Plants/Portal_plant_transects_2015_present.csv')
+# transects$notes[which(!is.na(transects$note1))] <- transects$note1[which(!is.na(transects$note1))]
+# transects[645, 'notes'] <- NA
+# transects[1345:1351, 'notes'] <- 3
+# transects$notes <- NA
+# unique(transects$notes)
+# transects <- transects[,1:10]
 # 
+# head(transects)# 
 # transects$diff = transects$stop - transects$start
 # 
 # transects[ which(transects$diff < 0), ]
 # 
 # transects[1389, 'stop'] <- 5955
 # transects[1389, 'start'] <- 5572
-# transects[1389, 'note1'] <- 2
+# transects[1389, 'note'] <- 2
 # 
 # transects[2368, c('start', 'stop', 'note1')] <- c(4585, 4666, 2)
-# transects[2832, c('stop', 'note1')] <- c(6142, 1)
-# transects[3059, c('start', 'stop', 'note1')] <- c(2342, 2378, 2)
-# transects[3060, c('start', 'stop', 'note1')] <- c(2342, 2388, 2)
-# transects[3123, c('start', 'stop', 'note1')] <- c(6440, 6456, 2)
+# transects[2832, c('stop', 'note')] <- c(6142, 1)
+# transects[3059, c('start', 'stop', 'note')] <- c(2342, 2378, 2)
+# transects[3060, c('start', 'stop', 'note')] <- c(2342, 2388, 2)
+# transects[3123, c('start', 'stop', 'note')] <- c(6440, 6456, 2)
 
 # 
 #tail(transects)
 # 
-# transects$note1 <- NA
+# transects$note<- NA
 # write.table(transects, file = "./Plants/Portal_plant_transects_2015_present.csv", 
-             row.names = F, col.names = T, na = "", append = F, sep = ",")
->>>>>>> 35cd93f2692d07af147e493a44989106d2fe9d1b
+#              row.names = F, col.names = T, na = "", append = F, sep = ",")
+
