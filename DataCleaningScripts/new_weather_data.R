@@ -37,7 +37,10 @@ rawdata=cbind(year = lubridate::year(rawdata$timestamp),
               month = lubridate::month(rawdata$timestamp),
               day = lubridate::day(rawdata$timestamp),
               hour = lubridate::hour(rawdata$timestamp),rawdata)
+
+#Fix hour and day so midnight=2400
 rawdata$hour[rawdata$hour==0] = 24 ; rawdata$hour = 100*rawdata$hour
+rawdata$day[rawdata$hour==2400] = rawdata$day[rawdata$hour==2400] - 1
 
 #Fix column classes
 rawdata$record = as.integer(rawdata$record)
