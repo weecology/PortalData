@@ -142,6 +142,7 @@ data_append <- ws[, c("year", "month", "day", "plot", "transect", "species", "st
 write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -171,3 +172,6 @@ write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.cs
 # write.table(transects, file = "./Plants/Portal_plant_transects_2015_present.csv", 
              row.names = F, col.names = T, na = "", append = F, sep = ",")
 >>>>>>> 35cd93f2692d07af147e493a44989106d2fe9d1b
+=======
+
+>>>>>>> b603d84b6e4be8bb08984a02720de3cb378ae852
