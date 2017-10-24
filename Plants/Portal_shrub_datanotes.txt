@@ -1,0 +1,4 @@
+notes,meaning
+1, start/stop appear incorrect on data sheet and corrected from context
+2, start/stop appear swapped on data sheet
+3, shrub outside plot (applies for some shrubs on plot 24 in summer 2015, before the plot was rebuilt)
