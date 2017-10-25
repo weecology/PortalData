@@ -40,7 +40,9 @@ rawdata=cbind(year = lubridate::year(rawdata$timestamp),
 
 #Fix hour and day so midnight=2400
 rawdata$hour[rawdata$hour==0] = 24 ; rawdata$hour = 100*rawdata$hour
-rawdata$day[rawdata$hour==2400] = rawdata$day[rawdata$hour==2400] - 1
+rawdata$day[rawdata$hour==2400] = rawdata$day[which(rawdata$hour==2400)-1]
+rawdata$month[rawdata$hour==2400] = rawdata$month[which(rawdata$hour==2400)-1]
+rawdata$year[rawdata$hour==2400] = rawdata$year[which(rawdata$hour==2400)-1]
 
 #Fix column classes
 rawdata$record = as.integer(rawdata$record)
