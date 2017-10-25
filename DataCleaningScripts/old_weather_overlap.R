@@ -93,8 +93,10 @@ plot(weathdat$RH,type='l')
 # ==============================================================================
 
 # get new data columns in correct order
-newdata = weathdat[,c("year","month","day","hour","timestamp","record","battv","airtemp","precipitation","RH")]
+newdata = select(weathdat,c(year,month,day,hour,timestamp,record2=record,battv2=battv,airtemp2=airtemp,precipitation2=precipitation,RH2=RH))
 
-# append new data
-write.table(newdata, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
-            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+overlap = full_join(exst_dat,newdata)
+
+# write new data
+write.table(overlap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
+            row.names = F, col.names = T, na = "", sep = ",")
