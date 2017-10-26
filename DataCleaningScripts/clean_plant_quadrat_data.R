@@ -185,4 +185,6 @@ data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "a
 
 # append to existing data file
 write.table(data_append, file = "./Plants/Portal_plant_quadrats.csv", 
-            row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
+            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
+# data_old = read.csv("./Plants/Portal_plant_quadrats.csv", stringsAsFactors = F)
