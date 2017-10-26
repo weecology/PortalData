@@ -30,6 +30,11 @@ weathdat = rawdata[rawdata$code==101,]
 battery= rawdata[rawdata$code==102,] %>% select(year,month,day,hour,battv=precipitation)
 weathdat=left_join(weathdat,battery,by=c("year","month","day","hour"))
 
+# Make precipitation correction 
+# calculate mL from current reading (with what the datalogger *thinks*): 4.73 mL/tip *(weathdat$precipitation mm / .1 mm/tip)
+# then calculate mm based on actual funnel on gauge: .254 mm/tip * calculated mL / 8.25 mL/tip
+weathdat$precipitation=4.73*(.254*weathdat$precipitation/.1)/8.25
+
 # ==============================================================================
 # 1. Quality control
 # ==============================================================================
