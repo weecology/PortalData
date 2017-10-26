@@ -76,105 +76,105 @@ unmatched[i, ]
 ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
-ws2[877, 'species'] <- 'ambr arte'
-ws2[2194, 'abundance'] <- 21
-ws2[1800, 'abundance'] <- 0
-ws2[782, 'abundance'] <- 0
-ws2[753, 'abundance'] <- 0
-ws2[265, 'cover'] <- .1
-ws1[2607, 'species'] <- 'acac palm'
-ws1[2591, 'cover'] <- .1
-ws1[2542, 'cover'] <- 5
-ws1[2541, 'cover'] <- 5
-ws1[2483, 'cf'] <- NA
-ws2[2453, 'abundance'] <- 18
-ws1[2418, 'species'] <- 'kall hirt'
-ws2[2357, 'cover'] <- 1
-ws2[2356, 'cover'] <- 1
-ws1[2294, 'cf'] <- 'dale brac'
-ws2[2292, 'quadrat'] <- 75
-ws1[2290, 'cf'] <- 'dale brac'
-ws1[2282, 'cf'] <- 'dale brac'
-ws1[2279, 'cf'] <- 'dale brac'
-ws1[2272, 'cf'] <- 'dale brac'
-ws1[2264, 'cf'] <- 'dale brac'
-ws2[2257:2262, 'plot'] <- 11
-ws2[2256, 'quadrat'] <- 37
-ws2[2253, 'quadrat'] <- 35
-ws1[2232, 'cover'] <- 1
-ws1[2227, 'cf'] <-'dale brac'
-ws2[2184, 'abundance'] <- 2
-ws1[2181, 'cover'] <- 1
-ws1[2174:2179, 'quadrat'] <- 35
-ws1[2166, 'cf'] <- NA
-ws2[2160:2186, 'plot'] <- 12
-ws1[2148, 'cf'] <- NA
-ws1[2140, 'cf'] <- NA
-ws1[2103, 'cf'] <- NA
-ws1[2100, 'cover'] <- 1
-ws2[2081, 'abundance'] <- 5
-ws2[2074, 'cover'] <- .1
-ws1[2013, 'cf'] <- NA
-ws1[2002, 'cf'] <- NA
-ws1[1982, 'cf'] <- NA
-ws1[1973, 'cf'] <- NA
-ws1[1843, 'cover'] <- 1
-ws1[1805, 'cover'] <- 1
-ws1[1785, 'cf'] <- 'chlo virg erio lemm pani mili'
-ws1[1752, 'cover'] <- 3
-ws1[1751, 'cover'] <- .1
-ws1[1748, 'cover'] <- 1
-ws1[1747, 'cover'] <- 1
-ws1[1725, 'cover'] <- .1
-ws1[1723, 'cover'] <- .1
-ws1[1661, 'cf'] <- NA
-ws2[1658:1660, 'quadrat'] <- 37
-ws2[269, 'cover'] <- .1
-ws2[267, 'cover'] <- .1
-ws2[266, 'cover'] <- .1
-ws2[265, 'cover'] <- .1
-ws2[264, 'cover'] <- .1
-ws2[263, 'cover'] <- .1
-ws2[1609, 'species'] <- 'erag lehm'
-ws2[1589, 'species'] <- 'moll cerv'
-ws2[1531, 'abundance'] <- 5
-ws2[1523, 'cover'] <- 1
-ws2[1502, 'cover'] <- 1
-ws2[1488, 'cover'] <- 1
-ws1[1388, 'cf'] <- NA
-ws2[1362, 'abundance'] <- 27
-ws1[1140, 'cover'] <- 1
-ws2[1119, 'cover'] <- 1
-ws1[1038, 'abundance'] <- 2
-ws1[1025, 'cover'] <- 1
-ws2[992, 'cover'] <- 50
-ws2[991, 'cover'] <- .1
-ws1[974, 'cover'] <- 1
-ws1[967, 'cover'] <- 1
-ws1[964, 'cover'] <- 1
-ws2[951, 'cover'] <- 1
-ws1[857:866, 'plot'] <- 10
-ws1[791, 'abundance'] <- 3
-ws1[601, 'species'] <- 'euph serr'
-ws1[550, 'cover'] <- 1
-ws1[375, 'species'] <- 'euph serp'
-ws1[341, 'cover'] <- 1
-ws1[231, 'abundance'] <- 12
-ws1[213, 'species'] <- 'erag lehm'
-ws2[178, 'abundance'] <- 26
-ws2[144, 'cover'] <- .1
-ws2[142, 'cover'] <- .1
-ws2[142, 'cf'] <- 'dale brac'
-ws2[136, 'abundance'] <- 16
-ws1[122, 'cover'] <- 1
-ws1[87, 'abundance'] <- 1
-ws1[80, 'cf'] <- 'dale brac'
-ws2[41, 'abundance'] <- 64
-ws1[34, 'cf'] <- 'dale brac'
-ws2[30, 'cover'] <- 25
-ws2[30, 'species'] <- 'erag lehm'
-ws1[7, 'cf'] <- 'dale brac'
-
+# ws2[877, 'species'] <- 'ambr arte'
+# ws2[2194, 'abundance'] <- 21
+# ws2[1800, 'abundance'] <- 0
+# ws2[782, 'abundance'] <- 0
+# ws2[753, 'abundance'] <- 0
+# ws2[265, 'cover'] <- .1
+# ws1[2607, 'species'] <- 'acac palm'
+# ws1[2591, 'cover'] <- .1
+# ws1[2542, 'cover'] <- 5
+# ws1[2541, 'cover'] <- 5
+# ws1[2483, 'cf'] <- NA
+# ws2[2453, 'abundance'] <- 18
+# ws1[2418, 'species'] <- 'kall hirt'
+# ws2[2357, 'cover'] <- 1
+# ws2[2356, 'cover'] <- 1
+# ws1[2294, 'cf'] <- 'dale brac'
+# ws2[2292, 'quadrat'] <- 75
+# ws1[2290, 'cf'] <- 'dale brac'
+# ws1[2282, 'cf'] <- 'dale brac'
+# ws1[2279, 'cf'] <- 'dale brac'
+# ws1[2272, 'cf'] <- 'dale brac'
+# ws1[2264, 'cf'] <- 'dale brac'
+# ws2[2257:2262, 'plot'] <- 11
+# ws2[2256, 'quadrat'] <- 37
+# ws2[2253, 'quadrat'] <- 35
+# ws1[2232, 'cover'] <- 1
+# ws1[2227, 'cf'] <-'dale brac'
+# ws2[2184, 'abundance'] <- 2
+# ws1[2181, 'cover'] <- 1
+# ws1[2174:2179, 'quadrat'] <- 35
+# ws1[2166, 'cf'] <- NA
+# ws2[2160:2186, 'plot'] <- 12
+# ws1[2148, 'cf'] <- NA
+# ws1[2140, 'cf'] <- NA
+# ws1[2103, 'cf'] <- NA
+# ws1[2100, 'cover'] <- 1
+# ws2[2081, 'abundance'] <- 5
+# ws2[2074, 'cover'] <- .1
+# ws1[2013, 'cf'] <- NA
+# ws1[2002, 'cf'] <- NA
+# ws1[1982, 'cf'] <- NA
+# ws1[1973, 'cf'] <- NA
+# ws1[1843, 'cover'] <- 1
+# ws1[1805, 'cover'] <- 1
+# ws1[1785, 'cf'] <- 'chlo virg erio lemm pani mili'
+# ws1[1752, 'cover'] <- 3
+# ws1[1751, 'cover'] <- .1
+# ws1[1748, 'cover'] <- 1
+# ws1[1747, 'cover'] <- 1
+# ws1[1725, 'cover'] <- .1
+# ws1[1723, 'cover'] <- .1
+# ws1[1661, 'cf'] <- NA
+# ws2[1658:1660, 'quadrat'] <- 37
+# ws2[269, 'cover'] <- .1
+# ws2[267, 'cover'] <- .1
+# ws2[266, 'cover'] <- .1
+# ws2[265, 'cover'] <- .1
+# ws2[264, 'cover'] <- .1
+# ws2[263, 'cover'] <- .1
+# ws2[1609, 'species'] <- 'erag lehm'
+# ws2[1589, 'species'] <- 'moll cerv'
+# ws2[1531, 'abundance'] <- 5
+# ws2[1523, 'cover'] <- 1
+# ws2[1502, 'cover'] <- 1
+# ws2[1488, 'cover'] <- 1
+# ws1[1388, 'cf'] <- NA
+# ws2[1362, 'abundance'] <- 27
+# ws1[1140, 'cover'] <- 1
+# ws2[1119, 'cover'] <- 1
+# ws1[1038, 'abundance'] <- 2
+# ws1[1025, 'cover'] <- 1
+# ws2[992, 'cover'] <- 50
+# ws2[991, 'cover'] <- .1
+# ws1[974, 'cover'] <- 1
+# ws1[967, 'cover'] <- 1
+# ws1[964, 'cover'] <- 1
+# ws2[951, 'cover'] <- 1
+# ws1[857:866, 'plot'] <- 10
+# ws1[791, 'abundance'] <- 3
+# ws1[601, 'species'] <- 'euph serr'
+# ws1[550, 'cover'] <- 1
+# ws1[375, 'species'] <- 'euph serp'
+# ws1[341, 'cover'] <- 1
+# ws1[231, 'abundance'] <- 12
+# ws1[213, 'species'] <- 'erag lehm'
+# ws2[178, 'abundance'] <- 26
+# ws2[144, 'cover'] <- .1
+# ws2[142, 'cover'] <- .1
+# ws2[142, 'cf'] <- 'dale brac'
+# ws2[136, 'abundance'] <- 16
+# ws1[122, 'cover'] <- 1
+# ws1[87, 'abundance'] <- 1
+# ws1[80, 'cf'] <- 'dale brac'
+# ws2[41, 'abundance'] <- 64
+# ws1[34, 'cf'] <- 'dale brac'
+# ws2[30, 'cover'] <- 25
+# ws2[30, 'species'] <- 'erag lehm'
+# ws1[7, 'cf'] <- 'dale brac'
+# 
 
 # Save matching datasheet
 write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2017_matched.csv', row.names = FALSE)
@@ -198,12 +198,12 @@ stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
 new.names = setdiff(ws$species,splist$speciescode)
 
 # NAs can stay because they will be removed later
-ws[which(is.na(ws$species)), ]
-
-ws[which(ws$species == new.names[2]), 'species'] <- 'atri cane'
-ws[which(ws$species == new.names[3]), 'species'] <- 'kall hirs'
-ws[which(ws$species == new.names[4]), c('species', 'notes')] <- c('amar palm', 1)
-
+# ws[which(is.na(ws$species)), ]
+# 
+# ws[which(ws$species == new.names[2]), 'species'] <- 'atri cane'
+# ws[which(ws$species == new.names[3]), 'species'] <- 'kall hirs'
+# ws[which(ws$species == new.names[4]), c('species', 'notes')] <- c('amar palm', 1)
+# 
 
 
 #**ADD valid new species to species list**
@@ -219,26 +219,43 @@ setdiff(plotquad,allquads)
 
 # any plot-stake pairs that should be censused that are not in the data
 setdiff(allquads,plotquad)
+# 
+# which(ws$plot == 12)
+# ws[2174:2179, 'quadrat'] <- 33
+# ws[2174:2179, 'notes'] <- 2
 
-which(ws$plot == 12)
-ws[2174:2179, 'quadrat'] <- 33
-ws[2174:2179, 'notes'] <- 2
-
-# plot 24 stake 51 - skipped, or empty?
+# plot 24 stake 51 empty (see below)
 
 
 # =====================================
 # are there any duplicate entries of plot/quadrat/species
 
 ws[(duplicated(paste(ws$plot, ws$quadrat, ws$species))),]
+# 
+# ws[ which((ws$plot == 4) & (ws$quadrat == 37) & (ws$species == 'pani sp')), ]
+# ws = ws[c(1:490, 492:2679), ]
+# 
+# ws[ which((ws$plot == 7) & (ws$quadrat == 55) & (ws$species == 'tide lanu')), ]
+# ws = ws[c(1:993, 995:2678), ]
+# 
+# ws[ which((ws$plot == 14) & (ws$quadrat == 37) & (ws$species == 'aris adsc')), ]
+# ws = ws[c(1:1821, 1823:2677), ]
+# 
+# ws[ which((ws$plot == 14) & (ws$quadrat == 37) & (ws$species == 'bout aris')), ]
+# ws = ws[c(1:1819, 1821:26776), ]
+# 
+# ws[ which((ws$plot == 18) & (ws$quadrat == 37) & (ws$species == 'boer sp')), ]
+# ws = ws[c(1:1888, 1890:2675), ]
 
-filter(ws, year == 2017, plot == 4, quadrat == 37, species == 'pani sp')
 # =====================================
 # are there any plants recorded in an "empty" quadrat
 
 empties <-  ws[ws$abundance == 0,]
 ws[(paste(ws$plot,ws$quadrat) %in% paste(empties$plot,empties$quadrat)),]
 
+which(ws$abundance == 0)
+
+# ws[752,'quadrat'] <- 51
 
 # ====================================
 # remove empty quadrats
@@ -265,6 +282,7 @@ data_clean$species <- as.factor(data_clean$species)
 data_clean$abundance <- as.integer(data_clean$abundance)
 data_clean$cover <- as.numeric(data_clean$cover)
 data_clean$cf <- as.factor(data_clean$cf)
+data_clean$notes <- as.integer(data_clean$notes)
 
 # =====================================
 # Add census to census dates table
@@ -289,8 +307,12 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 # 4. Append new data to 2015+ plant data in Git #
 #################################################
 
-data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf")]
+data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf", "notes")]
 
 # append to existing data file
 write.table(data_append, file = "./Plants/Portal_plant_quadrats.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
+# 
+# data_old = read.csv("./Plants/Portal_plant_quadrats.csv", stringsAsFactors = F)
+# data_old$notes <- NA
+# write.csv(data_old, "./Plants/Portal_plant_quadrats.csv", row.names= F, na = "")
