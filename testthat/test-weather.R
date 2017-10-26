@@ -32,27 +32,27 @@ test_that("Air Temperature ok", {
 test_that("Relative humidity ok", {
 
   expect_true(all(newdata$RH > 0))
-  expect_true(all(newdata$RH < 100))
+  expect_true(all(newdata$RH <= 100))
 })
 
 test_that("battery status ok", {
   
-  expect_true(all(newdata$battV > 9))
-  expect_true(all(storms$battV > 9))
+  expect_true(all(newdata$battv > 9))
+  expect_true(all(stormsnew$battv > 9))
 })
 
 test_that("Precipitation ok", {
   
   expect_true(all(newdata$precipitation >= 0))
   expect_true(all(newdata$precipitation < 100))
-  expect_true(all(stormsnew$Rain_mm_Tot >= 0))
-  expect_true(all(stormsnew$Rain_mm_Tot < 10))
+  expect_true(all(stormsnew$precipitation >= 0))
+  expect_true(all(stormsnew$precipitation < 10))
 })
 
 test_that("Precipitation in multiples of 0.254", {
   
   expect_true(sum(newdata$precipitation%%0.254)==0)
-  expect_true(sum(stormsnew$Rain_mm_Tot%%0.254)==0)
+  expect_true(sum(stormsnew$precipitation%%0.254)==0)
 })
 
 if(nrow(newdata) != 0) { #this test will fail if there is no new data
