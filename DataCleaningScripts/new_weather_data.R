@@ -18,7 +18,7 @@ new_met_data <- function() {
 rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")
 
 # rename columns
-rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battV=BattV)
+rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battv=BattV)
 
 # Pull raw storms data (latest 2500 records)
 
@@ -83,7 +83,7 @@ write.table(data[1], file = "../Weather/Portal_weather.csv",
               row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
-overlap=as.data.frame(data[1]) %>% dplyr::select(year,month,day,hour,timestamp,record,battV,airtemp,precipitation,RH)
+overlap=as.data.frame(data[1]) %>% dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
 overlap$timestamp=lubridate::ymd_hms(overlap$timestamp)
 write.table(overlap, file = "../Weather/Portal_weather_overlap.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
