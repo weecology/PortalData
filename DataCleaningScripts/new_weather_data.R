@@ -13,24 +13,22 @@
 
 new_met_data <- function() {
 
-# Pull raw data (latest week of records, plus some overlap for saftey)
+# Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
 
-rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")
+rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")  %>% 
 
-# rename columns
-rawdata=rawdata %>% dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battv=BattV)
+  dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battv=BattV)
 
-# Pull raw storms data (latest 2500 records)
+# Pull raw storms data (latest 2500 records) & rename columns
 
-stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")
-
-# rename columns
-stormsnew = stormsnew %>% dplyr::rename(timestamp = TimeStamp, record = Record)
+stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")  %>%
+ 
+  dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
 
 # Convert Timestamp
 rawdata$timestamp = lubridate::ymd_hms(rawdata$timestamp)
 stormsnew$timestamp = lubridate::ymd_hms(stormsnew$timestamp)
-class(stormsnew$Rain_mm_Tot)="numeric"
+class(stormsnew$precipitation)="numeric"
 
 #Get Year, Month, Day, Hour
 rawdata=cbind(year = lubridate::year(rawdata$timestamp),
@@ -79,6 +77,7 @@ append_weather <- function() {
 # append new data
 write.table(data[1], file = "../Weather/Portal_weather.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
   write.table(data[3], file = "../Weather/Portal_storms.csv",
               row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 

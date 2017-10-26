@@ -1,9 +1,8 @@
 # This script takes a raw .dat file downloaded directly from the Portal weather 
 # station, determines if there are any gaps, and appends the new data to the
-# database.
+# weather overlap file.
 # Met445.dat can be used for testing - it has a lot of problems
 
-# written by Erica Christensen 5/2016
 
 library(lubridate)
 library(dplyr)
