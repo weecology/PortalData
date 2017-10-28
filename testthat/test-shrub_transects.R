@@ -36,10 +36,9 @@ test_that("valid stop", {
 })
 
 
-test_that("start before stop", {
-   
-   expect_true(all((data$stop - data$start) >= 0))
-   
+test_that("stop greater than start", {
+  
+  expect_true(all(data$stop >= data$start))
 })
 
 test_that("valid height", {
