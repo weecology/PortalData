@@ -1,3 +1,0 @@
-notes,meaning
-1, suspect species
-2, suspect quadrat
