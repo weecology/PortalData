@@ -35,6 +35,7 @@ test_that("valid stop", {
   expect_true(all(data$stop %in% 0:7500))
 })
 
+
 test_that("stop greater than start", {
   
   expect_true(all(data$stop >= data$start))
@@ -42,11 +43,13 @@ test_that("stop greater than start", {
 
 test_that("valid height", {
   
-  expect_true(all(data$height %in% 0:400))
+  expect_true(min(data$height, na.rm = T) > 0)
+  expect_true(max(data$height, na.rm = T) <= 400)
 })
 
 test_that("no duplicate data", {
   
   expect_true(sum(duplicated(data))==0)
 })
+
 

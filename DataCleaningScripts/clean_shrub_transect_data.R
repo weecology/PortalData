@@ -20,16 +20,70 @@
 library(openxlsx)
 library(dplyr)
 
-# source('DataCleaningScripts/compare_raw_data.r')
+# First manually compare and edit double-entered data 
 
-# First manually compare and edit double-entered data using specific script
+source('DataCleaningScripts/compare_raw_data.r')
+
+library(openxlsx)
+library(dplyr)
+
+season <-  'Summer'
+year <-  '2017'
+filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
+
+excel_file <-  paste(filepath, "ShrubTransect_", season, year, '.xlsx', sep='')
+
+# load data from excel workbook
+ws1 = read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = c('', 'NA', ' '))
+ws2 = read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = c('', 'NA', ''))
+
+# if the two worksheets are identical, exit function
+if (identical(ws1,ws2)) {                                   
+  print('Worksheets identical')
+} else {
+  unmatched = data.frame(row = c(),column = c())         # empty data frame for storing output
+  num_rows = length(ws1$month)
+  curr_row = 1
+  while (curr_row<=num_rows) {
+    v1 = as.character(as.vector(ws1[curr_row,]))          # extract row from worksheet 1
+    v2 = as.character(as.vector(ws2[curr_row,]))          # extract row from worksheet 2
+    
+    # if the two versions of the row are not identical
+    if (!identical(v1,v2)) {
+      # loop through each element in the row
+      col_error = vector()
+      for (n in seq(length(v1))) {                        
+        if (!identical(v1[n],v2[n])) {
+          # add the column name to output vector
+          col_error = append(col_error,colnames(ws1)[n])
+        }
+      }
+      # append row and column info to output data frame (curr_row+1 to skip header in excel file)
+      unmatched = rbind(unmatched,data.frame(row = curr_row+1,column = col_error))
+    }
+    curr_row = curr_row+1             # increment index and continue loop
+  }
+  
+}
+
+# iterate through mismatches and fix them
+i = 1
+
+i  = i + 1
+unmatched[i, ]
+ws1[unmatched[i, 'row'] -1 , ]
+ws2[unmatched[i, 'row'] - 1, ]
+
+
+
+# Save matching datasheet
+write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', row.names = FALSE)
 
 
 ######################
 # 1. Load "clean" .csv file #
 ######################
 ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', stringsAsFactors= F)
-
 ######################
 # 3. Quality control #
 ######################
@@ -58,16 +112,22 @@ setdiff(all_trans, plot_trans)
 # =====================================
 # check for valid start, stop and height values
 
-ws$start[!(ws$start %in% 0:7500)]   #length of hypotenuse of plots (7000) plus some wiggle room
-ws$stop[!(ws$stop %in% 0:7500)]   
-ws$height[!(ws$height %in% 0:400)]
+ws[which(!(ws$start %in% 0:7500)), ]   #length of hypotenuse of plots (7000) plus some wiggle room
+ws[which(!(ws$stop %in% 0:7500)), ]   
+ws[which(!(ws$height %in% 0:400)) , ]
+
+ws[ which(ws$stop < ws$start), ]
+
+# fix errors
 
 # =====================================
 # save cleaned up version to Dropbox
 
 # make sure you are saving the most up-to-date version of the file
-ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
-
+#ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
+filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
+season = 'summer'
+year = 2017
 write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", ".csv", sep = ''), 
           row.names = FALSE, na = "")
 
@@ -75,9 +135,42 @@ write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", "
 # 4. Append new data to 2015+ plant data in Git #
 #################################################
 
-data_append <- data_clean[, c("year", "month", "day", "transect", "plot", "location", "species", "height", "notes")]
+data_append <- ws[, c("year", "month", "day", "plot", "transect", "species", "start", "stop", "height", "notes")]
 
 # append to existing data file
 write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
+
+# 
+#  
+# transects = read.csv('/Users/renatadiaz/Documents/GitHub/PortalData/Plants/Portal_plant_transects_2015_present.csv')
+# transects$notes[which(!is.na(transects$note1))] <- transects$note1[which(!is.na(transects$note1))]
+# transects[645, 'notes'] <- NA
+# transects[1345:1351, 'notes'] <- 3
+# transects$notes <- NA
+# unique(transects$notes)
+# transects <- transects[,1:10]
+# 
+# head(transects)# 
+# transects$diff = transects$stop - transects$start
+# 
+# transects[ which(transects$diff < 0), ]
+# 
+# transects[1389, 'stop'] <- 5955
+# transects[1389, 'start'] <- 5572
+# transects[1389, 'note'] <- 2
+# 
+# transects[2368, c('start', 'stop', 'note1')] <- c(4585, 4666, 2)
+# transects[2832, c('stop', 'note')] <- c(6142, 1)
+# transects[3059, c('start', 'stop', 'note')] <- c(2342, 2378, 2)
+# transects[3060, c('start', 'stop', 'note')] <- c(2342, 2388, 2)
+# transects[3123, c('start', 'stop', 'note')] <- c(6440, 6456, 2)
+
+# 
+#tail(transects)
+# 
+# transects$note<- NA
+# write.table(transects, file = "./Plants/Portal_plant_transects_2015_present.csv", 
+#              row.names = F, col.names = T, na = "", append = F, sep = ",")
 
