@@ -1,231 +1,229 @@
-"speciescode","genus","altgenus","species","altspecies","subspecies","commonname","family","duration","community"
-"carl line","Carlowrightia",NA,"linearifolia",NA,NA,"Heath wrightwort","Acanthoideae","Perennial","Shrub"
-"tria port","Trianthema",NA,"portulacastrum",NA,NA,"Desert Horsepurslane","Aizoaceae","Annual","Summer Annual"
-"amar palm","Amaranthus",NA,"palmeri",NA,NA,"Carelessweed","Amaranthaceae","Annual","Summer Annual"
-"atri acan","Atriplex",NA,"acanthocarpa",NA,NA,"Tubercled Saltbush","Amaranthaceae","Perennial","Shrub"
-"atri cane","Atriplex",NA,"canescens",NA,NA,"Four-wing Saltbush","Amaranthaceae","Perennial","Shrub"
-"atri eleg","Atriplex",NA,"elegans",NA,NA,"Wheelscale Saltbush","Amaranthaceae","Annual","Summer Annual"
-"atri wrig","Atriplex",NA,"wrightii",NA,NA,"Wright's saltbush","Amaranthaceae","Annual","Summer Annual"
-"bray dens","Guilleminea","Brayulinea","densa",NA,"var. densa","Small matweed","Amaranthaceae","Perennial","Perennial Forb"
-"chen frem","Chenopodium",NA,"fremontii",NA,NA,"Fremont's goosefoot","Amaranthaceae","Annual","Summer and Winter Annual"
-"chen sp","Chenopodium",NA,"sp.",NA,NA,"Unknown","Amaranthaceae","Annual","Unknown"
-"euro lana","Krascheninnikovia","Eurotia","lanata",NA,NA,"Winterfat","Amaranthaceae","Perennial","Shrub"
-"sals kali","Kali","Salsola","tragus","kali",NA,"Russian Thistle","Amaranthaceae","Annual","Summer Annual"
-"tide lanu","Tidestromia",NA,"lanuginosa",NA,NA,"Woolly Tidestromia","Amaranthaceae","Annual","Summer Annual"
-"tide sp","Tidestromia",NA,"sp.",NA,NA,"Unknown","Amaranthaceae","Annual","Unknown"
-"sper echi","Spermolepis",NA,"echinata",NA,NA,"Bristly scaleseed","Apiaceae","Annual","Winter Annual"
-"dich pulc","Dichlostemma",NA,"capitatum","pulchellum","subsp. pauciflorum","Blue Dicks","Asparagaceae","Perennial","Perennial Forb"
-"yucc elat","Yucca",NA,"elata",NA,NA,"Soaptree yucca","Asparagaceae","Perennial","Shrub"
-"ambr arte","Ambrosia",NA,"artemisiifolia",NA,NA,"Annual ragweed","Asteraceae","Annual","Summer and Winter Annual"
-"bahi absi","Bahia",NA,"absinthifolia",NA,NA,"Sageleaf Bahia","Asteraceae","Perennial","Perennial Forb"
-"bahi bite","Bahia",NA,"biternata",NA,NA,"Slimlobe bahia","Asteraceae","Annual","Summer Annual"
-"bail mult","Baileya",NA,"multiradiata",NA,NA,"Desert marigold","Asteraceae","Annual","Summer and Winter Annual"
-"bric eupa","Brickellia",NA,"eupatorioides",NA,"var. chlorolepis","False Boneset","Asteraceae","Perennial","Subshrub"
-"caly wrig","Calycoseris",NA,"wrightii",NA,NA,"White tackstem","Asteraceae","Annual","Winter Annual"
-"chae eric","Chaetopappa",NA,"ericoides",NA,NA,"Rose heath","Asteraceae","Perennial","Perennial Forb"
-"chae stev","Chaenactis",NA,"stevioides",NA,NA,"Esteve's pincushion","Asteraceae","Annual","Winter Annual"
-"cirs neom","Cirsium",NA,"neomexicanum",NA,NA,"New Mexico thistle","Asteraceae","Perennial","Perennial Forb"
-"dyss pent","Thymophylla","Dyssodia","pentachaeta",NA,NA,"Fiveneedle pricklyleaf","Asteraceae","Perennial","Subshrub"
-"erig conc","Erigeron",NA,"concinnus",NA,NA,"Navajo Fleabane","Asteraceae","Perennial","Subshrub"
-"erig dive","Erigeron",NA,"divergens",NA,NA,"Spreading fleabane","Asteraceae","Annual","Summer and Winter Annual"
-"erig sp","Erigeron",NA,"sp.",NA,NA,"Unknown","Asteraceae","Unknown","Unknown"
-"flou cern","Flourensia",NA,"cernua",NA,NA,"Tarbush","Asteraceae","Perennial","Shrub"
-"guti saro","Gutierrezia",NA,"microcephala","sarothrae",NA,"Snakeweed","Asteraceae","Perennial","Shrub"
-"hapl grac","Machaeranthera","Haplopappus","gracilis",NA,NA,"Slender Goldenweed","Asteraceae","Annual","Summer and Winter Annual"
-"hapl sp","Haplopappus",NA,"sp.",NA,NA,"Unknown","Asteraceae","Perennial","Subshrub"
-"hapl spin","Haplopappus",NA,"spinulosus",NA,NA,"Lacy tansyaster","Asteraceae","Perennial","Subshrub"
-"hapl tenu","Isocoma","Haplopappus","tenuisecta",NA,NA,"Burroweed","Asteraceae","Perennial","Subshrub"
-"hete suba","Heterotheca",NA,"subaxillaris",NA,NA,"Camphorweed","Asteraceae","Annual","Summer and Winter Annual"
-"laen coul","Laennecia",NA,"coulteri",NA,NA,"Coulter's Horseweed","Asteraceae","Annual","Summer and Winter Annual"
-"mach tanr","Machaeranthera",NA,"tanacetifoloia",NA,NA,"Tansyleaf Tansyaster","Asteraceae","Annual","Summer Annual"
-"mala fend","Malacothrix",NA,"fendleri",NA,NA,"Fendler's desert dandelion","Asteraceae","Annual","Winter Annual"
-"mala sp","Malacothrix",NA,"sp.",NA,NA,"Unknown","Asteraceae","Annual","Winter Annual"
-"micr lene","Uropappus","Microseris","lindleyi","lenearifolia",NA,"Lindley's silverpuffs","Asteraceae","Annual","Winter Annual"
-"micr sp","Uropappus","Microseris","sp.",NA,NA,"Unknown","Asteraceae","Annual","Winter Annual"
-"part inca","Parthenium",NA,"incanum",NA,NA,"Mariola","Asteraceae","Perennial","Shrub"
-"pect papp","Pectis",NA,"papposa",NA,NA,"Manybristle Chinchweed","Asteraceae","Annual","Summer Annual"
-"pere nana","Perezia","Acourtia","nana",NA,NA,"Dwarf desert holly","Asteraceae","Perennial","Perennial Forb"
-"pseu cane","Pseudognaphalium",NA,"canescens",NA,NA,"Wright's cudweed","Asteraceae","Annual","Summer and Winter Annual"
-"sanv aber","Sanvitalia",NA,"aberti",NA,NA,"Abert's Creeping Zinnia","Asteraceae","Annual","Summer Annual"
-"step exig","Stephanomeria",NA,"exigua",NA,NA,"Small wirelettuce","Asteraceae","Annual","Winter Annual"
-"verb ence","Verbesina",NA,"encelioides",NA,NA,"Golden Crownbeard","Asteraceae","Annual","Summer Annual"
-"xant spin","Xanthisma",NA,"spinulosum",NA,"var. chihuahuanum","Chihuahua Tansyaster","Asteraceae","Perennial","Perennial"
-"zinn gran","Zinnia",NA,"grandiflora",NA,NA,"Wild zinnia","Asteraceae","Perennial","Perennial"
-"zinn pumi","Zinnia",NA,"acerosa","pumila",NA,"Desert zinnia","Asteraceae","Perennial","Perennial"
-"zinn sp","Zinnia",NA,"sp.",NA,NA,"Unknown","Asteraceae","Perennial","Perennial"
-"amsi inte","Amsinckia",NA,"menziesii","intermedia",NA,"Common fiddleneck","Boraginaceae","Annual","Winter Annual"
-"amsi sp","Amsinckia",NA,"sp.",NA,NA,"Unknown","Boraginaceae","Annual","Winter Annual"
-"amsi tess","Amsinckia",NA,"tessellata",NA,NA,"Bristly Fiddleneck","Boraginaceae","Annual","Winter Annual"
-"cryp cras","Cryptantha",NA,"crassisepala",NA,NA,"Thicksepal cryptantha","Boraginaceae","Annual","Winter Annual"
-"cryp micr","Cryptantha",NA,"micrantha",NA,NA,"Redroot cryptantha","Boraginaceae","Annual","Winter Annual"
-"cryp sp","Cryptantha",NA,"sp.",NA,NA,"Unknown","Boraginaceae","Annual","Winter Annual"
-"cryp sp2","Cryptantha",NA,"sp.",NA,"distinct from cryp sp","Unknown","Boraginaceae","Annual","Winter Annual"
-"lapp redo","Lappula",NA,"occidentalis","redowskii",NA,"Flatspine stickseed","Boraginaceae","Annual","Winter Annual"
-"nama hisp","Nama",NA,"hispidum",NA,NA,"Bristly nama","Boraginaceae","Annual","Winter Annual"
-"pect recu","Pectocarya",NA,"recurvata",NA,NA,"Curvenut combseed","Boraginaceae","Annual","Winter Annual"
-"pect sp","Pectocarya",NA,"sp.",NA,NA,"Unknown","Boraginaceae","Annual","Winter Annual"
-"phac ariz","Phacelia",NA,"arizonica",NA,NA,"Arizona scorpionweed","Boraginaceae","Annual","Winter Annual"
-"plag ariz","Plagiobothrys",NA,"arizonicus",NA,NA,"Arizona Popcornflower","Boraginaceae","Annual","Winter Annual"
-"chor tene","Chorispora",NA,"tenella",NA,NA,"Crossflower","Brassicaceae","Annual","Winter Annual"
-"desc obtu","Descurainia",NA,"obtusa",NA,NA,"Blunt tansymustard","Brassicaceae","Annual","Winter Annual"
-"desc pinn","Descurainia",NA,"pinnata",NA,NA,"Western tansymustard","Brassicaceae","Annual","Winter Annual"
-"desc sp","Descurainia",NA,"sp.",NA,NA,"Unknown","Brassicaceae","Annual","Winter Annual"
-"dith wisl","Dimorphocarpa","Dithyrea","wislizeni",NA,NA,"Spectaclepod","Brassicaceae","Annual","Summer and Winter Annual"
-"lepi lasi","Lepidium",NA,"lasiocarpum",NA,NA,"Shaggyfruit pepperweed","Brassicaceae","Annual","Winter Annual"
-"lepi sp","Lepidium",NA,"sp.",NA,NA,"Unknown","Brassicaceae","Annual","Winter Annual"
-"lesq gord","Physaria","Lesquerella","gordoni",NA,NA,"Bladderpod","Brassicaceae","Annual","Winter Annual"
-"sisy irio","Sisymbrium",NA,"irio",NA,NA,"London rocket","Brassicaceae","Annual","Winter Annual"
-"unkn must","Unknown",NA,"mustard",NA,NA,"Unknown","Brassicaceae","Annual","Winter Annual"
-"cyli fulg","Cylindropuntia",NA,"fulgida",NA,NA,"Jumping Cholla","Cactaceae","Perennial","Shrub"
-"cyli sp","Cylindropuntia",NA,"sp.",NA,NA,"Unknown","Cactaceae","Perennial","Shrub"
-"opun poly","Opuntia",NA,"polyacantha",NA,NA,"Plains pricklypear","Cactaceae","Perennial","Shrub"
-"opun sp","Opuntia",NA,"sp.",NA,NA,"Unknown","Cactaceae","Perennial","Shrub"
-"comm erec","Commelina",NA,"erecta",NA,NA,"Whitemouth dayflower","Commelinaceae","Perennial","Shrub"
-"cusc mitr","Cuscuta",NA,"mitriformis",NA,NA,"Cochise Dodder","Convolvulaceae","Perennial","Perennial Forb"
-"cusc sp","Cuscuta",NA,"sp.",NA,NA,"Unknown","Convolvulaceae","Annual","Summer Annual"
-"cusc tube","Cuscuta",NA,"tuberculata",NA,NA,"Tubercle Dodder","Convolvulaceae","Perennial","Perennial Forb"
-"ipom cost","Ipomoea",NA,"costellata",NA,NA,"Crestrib Morning Glory","Convolvulaceae","Annual","Summer Annual"
-"apod undu","Apodanthera",NA,"undulata",NA,NA,"Melon loco","Cucurbitaceae","Perennial","Perennial Forb"
-"ephe trif","Ephedra",NA,"trifurca",NA,NA,"Longleaf jointfir","Ephedraceae","Perennial","Shrub"
-"crot cory","Croton",NA,"potsii","corymbulosus",NA,"Leatherweed","Euphorbiaceae","Perennial","Subshrub"
-"euph exst","Euphorbia",NA,"exstipulata",NA,NA,"Squareseed spurge","Euphorbiaceae","Annual","Summer Annual"
-"euph fend","Euphorbia",NA,"fendleri",NA,NA,"Fendler's sandmat","Euphorbiaceae","Annual","Summer Annual"
-"euph micr","Euphorbia",NA,"micromera",NA,NA,"Sonoran sandmat","Euphorbiaceae","Annual","Summer Annual"
-"euph serp","Euphorbia",NA,"serpyllifolia",NA,NA,"Thymeleaf sandmat","Euphorbiaceae","Annual","Summer Annual"
-"euph serr","Euphorbia",NA,"serrula",NA,NA,"Sawtooth sandmat","Euphorbiaceae","Annual","Summer Annual"
-"euph sp","Euphorbia",NA,"sp.",NA,NA,"Unknown","Euphorbiaceae","Annual","Summer and Winter Annual"
-"erod cicu","Erodium",NA,"cicutarium",NA,NA,"Redstem stork's bill","Geraniaceae","Annual","Summer and Winter Annual"
-"erod texa","Erodium",NA,"texanum",NA,NA,"Texas stork's bill","Geraniaceae","Annual","Winter Annual"
-"acac cons","Acacia",NA,"constricta",NA,NA,"Whitethorn acacia","Leguminosae","Perennial","Shrub"
-"acac greg","Acacia",NA,"greggii",NA,NA,"Catclaw acacia","Leguminosae","Perennial","Shrub"
-"astr allo","Astragalus",NA,"allochrous",NA,NA,"Halfmoon milkvetch","Leguminosae","Annual","Winter Annual"
-"astr nutt","Astragalus",NA,"nuttallianus",NA,NA,"Smallflowered milkvetch","Leguminosae","Annual","Winter Annual"
-"astr sp","Astragalus",NA,"sp.",NA,NA,"Unknown","Leguminosae","Annual","Winter Annual"
-"cass bauh","Senna","Cassia","bauhinoides",NA,NA,"Twinleaf senna","Leguminosae","Perennial","Subshrub"
-"cass lept","Chamaecrista","Cassia","nictitans","leptadenia","var. mensalis","Sensitive partridge pea","Leguminosae","Annual","Summer Annual"
-"crot pumi","Crotalaria",NA,"pumila",NA,NA,"Low rattlebox","Leguminosae","Annual","Summer Annual"
-"dale brac","Dalea",NA,"brachystachya",NA,NA,"Fort Bowie prairie clover","Leguminosae","Annual","Summer and Winter Annual"
-"dale nana","Dalea",NA,"nana",NA,NA,"Dwarf prairie clover","Leguminosae","Perennial","Perennial Forb"
-"dale pogo","Dalea",NA,"pogonathera",NA,NA,"Bearded prairie clover","Leguminosae","Perennial","Perennial Forb"
-"dale sp","Dalea",NA,"sp.",NA,NA,"Unknown","Leguminosae","Unknown","Unknown"
-"hoff dens","Hoffmanseggia",NA,"glauca","densiflora",NA,"Hog potato","Leguminosae","Perennial","Perennial Forb"
-"lupi conc","Lupinus",NA,"concinnus",NA,NA,"Bajada lupine","Leguminosae","Annual","Winter Annual"
-"lupi sp","Lupinus",NA,"sp.",NA,NA,"Unknown","Leguminosae","Annual","Winter Annual"
-"lupi sp2","Lupinus",NA,"sp.",NA,"distinct from lupi sp","Unknown","Leguminosae","Annual","Winter Annual"
-"lupi spar","Lupinus",NA,"sparsiflorus",NA,NA,"Coulter's lupine","Leguminosae","Annual","Winter Annual"
-"mimo acul","Mimosa",NA,"aculeaticarpa",NA,NA,"Catclaw mimosa","Leguminosae","Perennial","Shrub"
-"pros glan","Prosopis",NA,"glandulosa",NA,NA,"Honey Mesquite","Leguminosae","Perennial","Shrub"
-"pros sp","Prosopis",NA,"sp.",NA,NA,"Unknown","Leguminosae","Perennial","Shrub"
-"pros velu","Prosopis",NA,"velutina",NA,NA,"Velvet Mesquite","Leguminosae","Perennial","Shrub"
-"malv lepi","Malvella",NA,"lepidota",NA,NA,"Scurfy mallow","Malvaceae","Perennial","Perennial Forb"
-"sida phys","Rhynchosida","Sida","physocalyx",NA,NA,"Buffpetal","Malvaceae","Perennial","Subshrub"
-"sida proc","Sida",NA,"abutifolia","procumbens",NA,"Spreading fanpetals","Malvaceae","Perennial","Perennial Forb"
-"sida sp","Sida",NA,"sp.",NA,NA,"Unknown","Malvaceae","Annual","Summer Annual"
-"sida spin","Sida",NA,"spinosa",NA,NA,"Prickly Fanpetals","Malvaceae","Annual","Summer Annual"
-"spha angu","Sphaeralcea",NA,"angustifolia",NA,NA,"Copper globemallow","Malvaceae","Perennial","Subshrub"
-"spha coul","Sphaeralcea",NA,"coulteri",NA,NA,"Coulter's globemallow","Malvaceae","Annual","Summer and Winter Annual"
-"spha hast","Sphaeralcea",NA,"hastulata",NA,NA,"Spear globemallow","Malvaceae","Perennial","Subshrub"
-"spha inca","Sphaeralcea",NA,"incana",NA,NA,"Gray Globemallow","Malvaceae","Perennial","Subshrub"
-"spha laxa","Sphaeralcea",NA,"laxa",NA,NA,"Caliche globemallow","Malvaceae","Perennial","Subshrub"
-"spha sp","Sphaeralcea",NA,"sp.",NA,NA,"Unknown","Malvaceae","Unknown","Unknown"
-"prob parv","Proboscidea",NA,"parviflora",NA,NA,"Devil's Claw","Martyniaceae","Annual","Summer Annual"
-"moll cerv","Mollugo",NA,"cerviana",NA,NA,"Threadstem Carpetweed","Molluginaceae","Annual","Summer Annual"
-"moll sp","Mollugo",NA,"sp.",NA,NA,"Unknown","Molluginaceae","Annual","Summer Annual"
-"moll vert","Mollugo",NA,"verticillata",NA,NA,"Green Carpetweed","Molluginaceae","Annual","Summer Annual"
-"tali angu","Phemeranthus","Talinum","angustissimum",NA,NA,"Orange fameflower","Montiaceae","Perennial","Perennial Forb"
-"tali aura","Phemeranthus","Talinum","aurantiacus","aurantiacum",NA,"Orange fameflower","Montiaceae","Perennial","Perennial Forb"
-"tali sp","Phemeranthus","Talinum","sp.",NA,NA,"Unknown","Montiaceae","Perennial","Perennial Forb"
-"alli inca","Allionia",NA,"incarnata",NA,NA,"Trailing windmills","Nyctaginaceae","Perennial","Perennial Forb"
-"alli sp","Allionia",NA,"sp.",NA,NA,"Unknown","Nyctaginaceae","Perennial","Perennial Forb"
-"ammo chen","Ammocodon",NA,"chenopodioides",NA,NA,"Goosefoot monopod","Nyctaginaceae","Perennial","Perennial Forb"
-"boer cocc","Boerhavia",NA,"coccinea",NA,NA,"Garnet spiderling","Nyctaginaceae","Perennial","Perennial Forb"
-"boer coul","Boerhavia",NA,"coulteri",NA,NA,"Coulter's spiderling","Nyctaginaceae","Annual","Summer Annual"
-"boer inte","Boerhavia",NA,"intermedia",NA,NA,"Firewing spiderling","Nyctaginaceae","Annual","Summer Annual"
-"boer sp","Boerhavia",NA,"sp.",NA,NA,"Unknown","Nyctaginaceae","Annual","Summer Annual"
-"boer torr","Boerhavia",NA,"spicata","torreyana",NA,"Creeping spiderling","Nyctaginaceae","Annual","Summer Annual"
-"oeno prim","Oenothera",NA,"primiveris",NA,NA,"Desert evening primrose","Onagraceae","Annual","Winter Annual"
-"oeno sp","Oenothera",NA,"sp.",NA,NA,"Unknown","Onagraceae","Annual","Winter Annual"
-"esch mexi","Eschscholzia",NA,"californica","mexicana",NA,"California poppy","Papaveraceae","Annual","Winter Annual"
-"lina texa","Nuttallanthus","Linaria","texanus","texana",NA,"Texas toadflax","Plantaginaceae","Annual","Winter Annual"
-"plan purs","Plantago",NA,"patagonica","purshii",NA,"Woolly plantain","Plantaginaceae","Annual","Winter Annual"
-"plan sp","Plantago",NA,"sp.",NA,NA,"Unknown","Plantaginaceae","Annual","Winter Annual"
-"annu gras","Unknown",NA,"annual grass",NA,NA,"Unknown","Poaceae","Annual","Unknown"
-"annu gras1","Unknown",NA,"annual grass",NA,"distinct from other annugrass","Unknown","Poaceae","Annual","Unknown"
-"annu gras2","Unknown",NA,"annual grass",NA,"distinct from other annugrass","Unknown","Poaceae","Annual","Unknown"
-"aris adsc","Aristida",NA,"adscensionis",NA,NA,"Sixweeks threeawn","Poaceae","Annual","Summer Annual"
-"aris hamu","Aristida",NA,"ternipes","hamulosa","var. gentilis","Spidergrass","Poaceae","Perennial","Perennial"
-"aris long","Aristida",NA,"purpurea",NA,"var. longiseta","Purple threeawn","Poaceae","Perennial","Perennial"
-"aris sp","Aristida",NA,"sp.",NA,NA,"Unknown","Poaceae","Unknown","Unknown"
-"both barb","Bothriochloa",NA,"barbinodis",NA,NA,"Cane bluestem","Poaceae","Perennial","Perennial"
-"bout aris","Bouteloua",NA,"aristidoides",NA,NA,"Needle grama","Poaceae","Annual","Summer Annual"
-"bout barb","Chondrosum","Bouteloua","barbatum","barbata",NA,"Sixweeks grama","Poaceae","Annual","Summer Annual"
-"bout dact","Buchloe","Bouteloua","dactyloides",NA,NA,"Buffalo grass","Poaceae","Perennial","Perennial"
-"bout erio","Chondrosum","Bouteloua","eriopodum","eriopoda",NA,"Black grama","Poaceae","Perennial","Perennial"
-"bout grac","Bouteloua",NA,"gracilis",NA,NA,"Blue grama","Poaceae","Perennial","Perennial"
-"bout sp","Bouteloua",NA,"sp.",NA,NA,"Unknown","Poaceae","Annual","Summer Annual"
-"brom rube","Bromus",NA,"rubens",NA,NA,"Red brome","Poaceae","Annual","Winter Annual"
-"chlo virg","Chloris",NA,"virgata",NA,NA,"Feather fingergrass","Poaceae","Annual","Summer Annual"
-"enne desv","Enneapogon",NA,"desvauxii",NA,NA,"Nineawn pappusgrass","Poaceae","Perennial","Perennial"
-"erag arid","Eragrostis",NA,"pectinacea","arida",NA,"Desert lovegrass","Poaceae","Annual","Summer Annual"
-"erag cili","Eragrostis",NA,"cilianensis",NA,NA,"Stinkgrass","Poaceae","Annual","Summer Annual"
-"erag inte","Eragrostis",NA,"intermedia",NA,NA,"Plains Lovegrass","Poaceae","Perennial","Perennial"
-"erag lehm","Eragrostis",NA,"lehmanniana",NA,NA,"Lehmann's lovegrass","Poaceae","Perennial","Perennial"
-"erag sp","Eragrostis",NA,"sp.",NA,NA,"Unknown","Poaceae","Perennial","Perennial"
-"erio lemm","Eriochloa",NA,"lemmonii",NA,NA,"Canyon cupgrass","Poaceae","Annual","Summer and Winter Annual"
-"hila muti","Hilaria",NA,"mutica",NA,NA,"Tobosa grass","Poaceae","Perennial","Perennial"
-"lycu phle","Lycurus",NA,"phleoides",NA,NA,"Wolf tail","Poaceae","Perennial","Perennial"
-"muhl port","Muhlenbergia",NA,"porteri",NA,NA,"Bush Muhly","Poaceae","Perennial","Perennial"
-"muhl sp","Muhlenbergia",NA,"sp.",NA,NA,"Unknown","Poaceae","Unknown","Unknown"
-"pani ariz","Brachiaria","Panicum","arizonica",NA,NA,"Arizona Signalgrass","Poaceae","Annual","Summer Annual"
-"pani hirt","Panicum",NA,"hirticaule",NA,NA,"Mexican panicgrass","Poaceae","Annual","Summer and Winter Annual"
-"pani mili","Panicum",NA,"miliaceum",NA,NA,"Broomcorn Millet","Poaceae","Annual","Summer Annual"
-"pani sp","Panicum",NA,"sp.",NA,NA,"Unknown","Poaceae","Annual","Summer Annual"
-"pere gras","Unknown",NA,"perenial grass",NA,NA,"Unknown","Poaceae","Perennial","Perennial"
-"schi barb","Schismus",NA,"barbatus",NA,NA,"Mediterranean grass","Poaceae","Annual","Winter Annual"
-"seta leuc","Setaria",NA,"leucopila",NA,NA,"Plains Bristlegrass","Poaceae","Perennial","Perennial Grass"
-"seta macr","Setaria",NA,"macrostachya",NA,NA,"Bristle grass","Poaceae","Perennial","Perennial"
-"sita hyst","Elymus","Sitanion","elymoides","hystrix",NA,"Squirreltail","Poaceae","Perennial","Perennial"
-"spor cont","Sporobolus",NA,"contractus",NA,NA,"Spike dropseed","Poaceae","Perennial","Perennial"
-"trag bert","Tragus",NA,"berteronianus",NA,NA,"Spiked Bur Grass","Poaceae","Annual","Summer Annual"
-"tric cali","Digitaria","Trichachne","californica",NA,NA,"Arizona cottontop","Poaceae","Perennial","Perennial"
-"trid pulc","Erioneuron","Tridens","pulchellum",NA,NA,"Fluff grass","Poaceae","Perennial","Perennial"
-"unkn gras","Unknown",NA,"grass",NA,NA,"Unknown","Poaceae","Unknown","Unknown"
-"unkn gras2","Unknown",NA,"grass",NA,"distinct from unkn gras","Unknown","Poaceae","Unknown","Unknown"
-"vulp octo","Vulpia",NA,"octoflora",NA,NA,"Sixweeks fescue","Poaceae","Annual","Winter Annual"
-"eria diff","Eriastrum",NA,"diffusum",NA,NA,"Miniature woollystar","Polemoniaceae","Annual","Winter Annual"
-"gili mexi","Gilia",NA,"mexicana",NA,NA,"El Paso gilia","Polemoniaceae","Annual","Winter Annual"
-"gili sinu","Gilia",NA,"sinuata",NA,NA,"Rosy gilia","Polemoniaceae","Annual","Winter Annual"
-"gili sp","Gilia",NA,"sp.",NA,NA,"Unknown","Polemoniaceae","Annual","Winter Annual"
-"lina bige","Linanthus",NA,"bigelovii",NA,NA,"Bigelow's linanthus","Polemoniaceae","Annual","Winter Annual"
-"lina sp","Linanthus",NA,"sp.",NA,NA,"Unknown","Polemoniaceae","Annual","Winter Annual"
-"poly twee","Polygala",NA,"tweedyi",NA,NA,"Shrubby milkwort","Polygalaceae","Perennial","Subshrub"
-"erio aber","Eriogonum",NA,"abertianum",NA,NA,"Abert's buckwheat","Polygonaceae","Annual","Summer and Winter Annual"
-"erio poly","Eriogonum",NA,"polycladon",NA,NA,"Sorrel buckwheat","Polygonaceae","Annual","Summer Annual"
-"rume alti","Rumex",NA,"altissimus",NA,NA,"Smooth dock","Polygonaceae","Perennial","Perennial Forb"
-"rume angu","Rumex",NA,"crispus","angustifolium",NA,"Curly dock","Polygonaceae","Perennial","Perennial Forb"
-"rume hyme","Rumex",NA,"hymenosepalus",NA,NA,"Desert dock","Polygonaceae","Perennial","Perennial Forb"
-"port parv","Portulaca",NA,"halimoides","parvula",NA,"Silkcotton Purslane","Portulacaceae","Annual","Summer Annual"
-"port sp","Portulaca",NA,"sp.",NA,NA,"Unknown","Portulacaceae","Annual","Summer Annual"
-"port suff","Portulaca",NA,"suffretescens",NA,NA,"Shrubby purslane","Portulacaceae","Perennial","Subshrub"
-"andr occi","Androsace",NA,"occidentalis",NA,NA,"Western rockjasmine","Primulaceae","Annual","Winter Annual"
-"delp sp","Delphinium",NA,"sp.",NA,NA,"Unknown","Ranunculaceae","Annual","Winter Annual"
-"lyci ande","Lycium",NA,"andersonii",NA,NA,"Anderson wolfberry","Solanaceae","Perennial","Shrub"
-"lyci torr","Lycium",NA,"torreyi",NA,NA,"Torrey wolfberry","Solanaceae","Perennial","Shrub"
-"sola elea","Solanum",NA,"elaeagnifolium",NA,NA,"Silverleaf nightshade","Solanaceae","Perennial","Subshrub"
-"sola rost","Solanum",NA,"rostratum",NA,NA,"Buffalobur Nightshade","Solanaceae","Annual","Summer Annual"
-"annu forb","Unknown",NA,"annual forb",NA,NA,"Unknown","Unknown","Annual","Unknown"
-"annu forb2","Unknown",NA,"annual forb",NA,"distinct from other annuforbs","Unknown","Unknown","Annual","Unknown"
-"annu forb3","Unknown",NA,"annual forb",NA,"distinct from other annuforbs","Unknown","Unknown","Annual","Unknown"
-"annu forb4","Unknown",NA,"annual forb",NA,"distinct from other annuforbs","Unknown","Unknown","Annual","Unknown"
-"annu forb5","Unknown",NA,"annual forb",NA,"distinct from other annuforbs","Unknown","Unknown","Annual","Unknown"
-"papp vagi","Unknown",NA,NA,NA,NA,"Unknown","Unknown","Unknown","Unknown"
-"pere forb","Unknown",NA,"perennial forb",NA,NA,"Unknown","Unknown","Perennial","Perennial Forb"
-"unkn","Unknown",NA,"plant",NA,NA,"Unknown","Unknown","Unknown","Unknown"
-"unkn forb","Unknown",NA,"forb",NA,NA,"Unknown","Unknown","Unknown","Unknown"
-"unkn forb2","Unknown",NA,"forb",NA,"distinct from unkn forb","Unknown","Unknown","Unknown","Unknown"
-"unkn shrb","Unknown",NA,"shrub",NA,NA,"Unknown","Unknown","Perennial","Shrub"
-"tetr coul","Tetraclea",NA,"coulteri",NA,NA,"Coulter's wrinkle fruit","Verbenaceae","Perennial","Subshrub"
-"kall cali","Kallstroemia",NA,"californica",NA,NA,"California Caltrop","Zygophyllaceae","Annual","Summer Annual"
-"kall gran","Kallstroemia",NA,"grandiflora",NA,NA,"Arizona Poppy","Zygophyllaceae","Annual","Summer Annual"
-"kall hirs","Kallstroemia",NA,"hirsutissima",NA,NA,"Hairy Caltrop","Zygophyllaceae","Annual","Summer Annual"
-"kall sp","Kallstroemia",NA,"sp.",NA,NA,"Unknown","Zygophyllaceae","Annual","Summer Annual"
+speciescode,genus,altgenus,species,altspecies,subspecies,commonname,family,duration,community
+carl line,Carlowrightia,NA,linearifolia,NA,NA,Heath wrightwort,Acanthoideae,Perennial,Shrub
+tria port,Trianthema,NA,portulacastrum,NA,NA,Desert Horsepurslane,Aizoaceae,Annual,Summer Annual
+amar palm,Amaranthus,NA,palmeri,NA,NA,Carelessweed,Amaranthaceae,Annual,Summer Annual
+atri acan,Atriplex,NA,acanthocarpa,NA,NA,Tubercled Saltbush,Amaranthaceae,Perennial,Shrub
+atri cane,Atriplex,NA,canescens,NA,NA,Four-wing Saltbush,Amaranthaceae,Perennial,Shrub
+atri eleg,Atriplex,NA,elegans,NA,NA,Wheelscale Saltbush,Amaranthaceae,Annual,Summer Annual
+atri wrig,Atriplex,NA,wrightii,NA,NA,Wright's saltbush,Amaranthaceae,Annual,Summer Annual
+bray dens,Guilleminea,Brayulinea,densa,NA,var. densa,Small matweed,Amaranthaceae,Perennial,Perennial Forb
+chen frem,Chenopodium,NA,fremontii,NA,NA,Fremont's goosefoot,Amaranthaceae,Annual,Summer and Winter Annual
+chen sp,Chenopodium,NA,sp.,NA,NA,Unknown,Amaranthaceae,Annual,Unknown
+euro lana,Krascheninnikovia,Eurotia,lanata,NA,NA,Winterfat,Amaranthaceae,Perennial,Shrub
+sals kali,Kali,Salsola,tragus,kali,NA,Russian Thistle,Amaranthaceae,Annual,Summer Annual
+tide lanu,Tidestromia,NA,lanuginosa,NA,NA,Woolly Tidestromia,Amaranthaceae,Annual,Summer Annual
+tide sp,Tidestromia,NA,sp.,NA,NA,Unknown,Amaranthaceae,Annual,Unknown
+sper echi,Spermolepis,NA,echinata,NA,NA,Bristly scaleseed,Apiaceae,Annual,Winter Annual
+dich pulc,Dichlostemma,NA,capitatum,pulchellum,subsp. pauciflorum,Blue Dicks,Asparagaceae,Perennial,Perennial Forb
+yucc elat,Yucca,NA,elata,NA,NA,Soaptree yucca,Asparagaceae,Perennial,Shrub
+ambr arte,Ambrosia,NA,artemisiifolia,NA,NA,Annual ragweed,Asteraceae,Annual,Summer and Winter Annual
+bahi absi,Bahia,NA,absinthifolia,NA,NA,Sageleaf Bahia,Asteraceae,Perennial,Perennial Forb
+bahi bite,Bahia,NA,biternata,NA,NA,Slimlobe bahia,Asteraceae,Annual,Summer Annual
+bail mult,Baileya,NA,multiradiata,NA,NA,Desert marigold,Asteraceae,Annual,Summer and Winter Annual
+bric eupa,Brickellia,NA,eupatorioides,NA,var. chlorolepis,False Boneset,Asteraceae,Perennial,Subshrub
+caly wrig,Calycoseris,NA,wrightii,NA,NA,White tackstem,Asteraceae,Annual,Winter Annual
+chae eric,Chaetopappa,NA,ericoides,NA,NA,Rose heath,Asteraceae,Perennial,Perennial Forb
+chae stev,Chaenactis,NA,stevioides,NA,NA,Esteve's pincushion,Asteraceae,Annual,Winter Annual
+cirs neom,Cirsium,NA,neomexicanum,NA,NA,New Mexico thistle,Asteraceae,Perennial,Perennial Forb
+dyss pent,Thymophylla,Dyssodia,pentachaeta,NA,NA,Fiveneedle pricklyleaf,Asteraceae,Perennial,Subshrub
+erig conc,Erigeron,NA,concinnus,NA,NA,Navajo Fleabane,Asteraceae,Perennial,Subshrub
+erig dive,Erigeron,NA,divergens,NA,NA,Spreading fleabane,Asteraceae,Annual,Summer and Winter Annual
+erig sp,Erigeron,NA,sp.,NA,NA,Unknown,Asteraceae,Unknown,Unknown
+flou cern,Flourensia,NA,cernua,NA,NA,Tarbush,Asteraceae,Perennial,Shrub
+guti saro,Gutierrezia,NA,microcephala,sarothrae,NA,Snakeweed,Asteraceae,Perennial,Shrub
+hapl grac,Machaeranthera,Haplopappus,gracilis,NA,NA,Slender Goldenweed,Asteraceae,Annual,Summer and Winter Annual
+hapl sp,Haplopappus,NA,sp.,NA,NA,Unknown,Asteraceae,Perennial,Subshrub
+hapl spin,Haplopappus,NA,spinulosus,NA,NA,Lacy tansyaster,Asteraceae,Perennial,Subshrub
+hapl tenu,Isocoma,Haplopappus,tenuisecta,NA,NA,Burroweed,Asteraceae,Perennial,Subshrub
+hete suba,Heterotheca,NA,subaxillaris,NA,NA,Camphorweed,Asteraceae,Annual,Summer and Winter Annual
+laen coul,Laennecia,NA,coulteri,NA,NA,Coulter's Horseweed,Asteraceae,Annual,Summer and Winter Annual
+mach tanr,Machaeranthera,NA,tanacetifoloia,NA,NA,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
+mala fend,Malacothrix,NA,fendleri,NA,NA,Fendler's desert dandelion,Asteraceae,Annual,Winter Annual
+mala sp,Malacothrix,NA,sp.,NA,NA,Unknown,Asteraceae,Annual,Winter Annual
+micr lene,Uropappus,Microseris,lindleyi,lenearifolia,NA,Lindley's silverpuffs,Asteraceae,Annual,Winter Annual
+micr sp,Uropappus,Microseris,sp.,NA,NA,Unknown,Asteraceae,Annual,Winter Annual
+part inca,Parthenium,NA,incanum,NA,NA,Mariola,Asteraceae,Perennial,Shrub
+pect papp,Pectis,NA,papposa,NA,NA,Manybristle Chinchweed,Asteraceae,Annual,Summer Annual
+pere nana,Perezia,Acourtia,nana,NA,NA,Dwarf desert holly,Asteraceae,Perennial,Perennial Forb
+pseu cane,Pseudognaphalium,NA,canescens,NA,NA,Wright's cudweed,Asteraceae,Annual,Summer and Winter Annual
+sanv aber,Sanvitalia,NA,aberti,NA,NA,Abert's Creeping Zinnia,Asteraceae,Annual,Summer Annual
+step exig,Stephanomeria,NA,exigua,NA,NA,Small wirelettuce,Asteraceae,Annual,Winter Annual
+verb ence,Verbesina,NA,encelioides,NA,NA,Golden Crownbeard,Asteraceae,Annual,Summer Annual
+xant spin,Xanthisma,NA,spinulosum,NA,var. chihuahuanum,Chihuahua Tansyaster,Asteraceae,Perennial,Perennial
+zinn gran,Zinnia,NA,grandiflora,NA,NA,Wild zinnia,Asteraceae,Perennial,Perennial
+zinn pumi,Zinnia,NA,acerosa,pumila,NA,Desert zinnia,Asteraceae,Perennial,Perennial
+zinn sp,Zinnia,NA,sp.,NA,NA,Unknown,Asteraceae,Perennial,Perennial
+amsi inte,Amsinckia,NA,menziesii,intermedia,NA,Common fiddleneck,Boraginaceae,Annual,Winter Annual
+amsi sp,Amsinckia,NA,sp.,NA,NA,Unknown,Boraginaceae,Annual,Winter Annual
+amsi tess,Amsinckia,NA,tessellata,NA,NA,Bristly Fiddleneck,Boraginaceae,Annual,Winter Annual
+cryp cras,Cryptantha,NA,crassisepala,NA,NA,Thicksepal cryptantha,Boraginaceae,Annual,Winter Annual
+cryp micr,Cryptantha,NA,micrantha,NA,NA,Redroot cryptantha,Boraginaceae,Annual,Winter Annual
+cryp sp,Cryptantha,NA,sp.,NA,NA,Unknown,Boraginaceae,Annual,Winter Annual
+cryp sp2,Cryptantha,NA,sp.,NA,distinct from cryp sp,Unknown,Boraginaceae,Annual,Winter Annual
+lapp redo,Lappula,NA,occidentalis,redowskii,NA,Flatspine stickseed,Boraginaceae,Annual,Winter Annual
+nama hisp,Nama,NA,hispidum,NA,NA,Bristly nama,Boraginaceae,Annual,Winter Annual
+pect recu,Pectocarya,NA,recurvata,NA,NA,Curvenut combseed,Boraginaceae,Annual,Winter Annual
+pect sp,Pectocarya,NA,sp.,NA,NA,Unknown,Boraginaceae,Annual,Winter Annual
+phac ariz,Phacelia,NA,arizonica,NA,NA,Arizona scorpionweed,Boraginaceae,Annual,Winter Annual
+plag ariz,Plagiobothrys,NA,arizonicus,NA,NA,Arizona Popcornflower,Boraginaceae,Annual,Winter Annual
+chor tene,Chorispora,NA,tenella,NA,NA,Crossflower,Brassicaceae,Annual,Winter Annual
+desc obtu,Descurainia,NA,obtusa,NA,NA,Blunt tansymustard,Brassicaceae,Annual,Winter Annual
+desc pinn,Descurainia,NA,pinnata,NA,NA,Western tansymustard,Brassicaceae,Annual,Winter Annual
+desc sp,Descurainia,NA,sp.,NA,NA,Unknown,Brassicaceae,Annual,Winter Annual
+dith wisl,Dimorphocarpa,Dithyrea,wislizeni,NA,NA,Spectaclepod,Brassicaceae,Annual,Summer and Winter Annual
+lepi lasi,Lepidium,NA,lasiocarpum,NA,NA,Shaggyfruit pepperweed,Brassicaceae,Annual,Winter Annual
+lepi sp,Lepidium,NA,sp.,NA,NA,Unknown,Brassicaceae,Annual,Winter Annual
+lesq gord,Physaria,Lesquerella,gordoni,NA,NA,Bladderpod,Brassicaceae,Annual,Winter Annual
+sisy irio,Sisymbrium,NA,irio,NA,NA,London rocket,Brassicaceae,Annual,Winter Annual
+unkn must,Unknown,NA,mustard,NA,NA,Unknown,Brassicaceae,Annual,Winter Annual
+cyli fulg,Cylindropuntia,NA,fulgida,NA,NA,Jumping Cholla,Cactaceae,Perennial,Shrub
+cyli sp,Cylindropuntia,NA,sp.,NA,NA,Unknown,Cactaceae,Perennial,Shrub
+opun poly,Opuntia,NA,polyacantha,NA,NA,Plains pricklypear,Cactaceae,Perennial,Shrub
+opun sp,Opuntia,NA,sp.,NA,NA,Unknown,Cactaceae,Perennial,Shrub
+comm erec,Commelina,NA,erecta,NA,NA,Whitemouth dayflower,Commelinaceae,Perennial,Shrub
+cusc mitr,Cuscuta,NA,mitriformis,NA,NA,Cochise Dodder,Convolvulaceae,Perennial,Perennial Forb
+cusc sp,Cuscuta,NA,sp.,NA,NA,Unknown,Convolvulaceae,Annual,Summer Annual
+cusc tube,Cuscuta,NA,tuberculata,NA,NA,Tubercle Dodder,Convolvulaceae,Perennial,Perennial Forb
+ipom cost,Ipomoea,NA,costellata,NA,NA,Crestrib Morning Glory,Convolvulaceae,Annual,Summer Annual
+apod undu,Apodanthera,NA,undulata,NA,NA,Melon loco,Cucurbitaceae,Perennial,Perennial Forb
+ephe trif,Ephedra,NA,trifurca,NA,NA,Longleaf jointfir,Ephedraceae,Perennial,Shrub
+crot cory,Croton,NA,potsii,corymbulosus,NA,Leatherweed,Euphorbiaceae,Perennial,Subshrub
+euph exst,Euphorbia,NA,exstipulata,NA,NA,Squareseed spurge,Euphorbiaceae,Annual,Summer Annual
+euph fend,Euphorbia,NA,fendleri,NA,NA,Fendler's sandmat,Euphorbiaceae,Annual,Summer Annual
+euph micr,Euphorbia,NA,micromera,NA,NA,Sonoran sandmat,Euphorbiaceae,Annual,Summer Annual
+euph serp,Euphorbia,NA,serpyllifolia,NA,NA,Thymeleaf sandmat,Euphorbiaceae,Annual,Summer Annual
+euph serr,Euphorbia,NA,serrula,NA,NA,Sawtooth sandmat,Euphorbiaceae,Annual,Summer Annual
+euph sp,Euphorbia,NA,sp.,NA,NA,Unknown,Euphorbiaceae,Annual,Summer and Winter Annual
+erod cicu,Erodium,NA,cicutarium,NA,NA,Redstem stork's bill,Geraniaceae,Annual,Summer and Winter Annual
+erod texa,Erodium,NA,texanum,NA,NA,Texas stork's bill,Geraniaceae,Annual,Winter Annual
+acac cons,Acacia,NA,constricta,NA,NA,Whitethorn acacia,Leguminosae,Perennial,Shrub
+acac greg,Acacia,NA,greggii,NA,NA,Catclaw acacia,Leguminosae,Perennial,Shrub
+astr allo,Astragalus,NA,allochrous,NA,NA,Halfmoon milkvetch,Leguminosae,Annual,Winter Annual
+astr nutt,Astragalus,NA,nuttallianus,NA,NA,Smallflowered milkvetch,Leguminosae,Annual,Winter Annual
+astr sp,Astragalus,NA,sp.,NA,NA,Unknown,Leguminosae,Annual,Winter Annual
+cass bauh,Senna,Cassia,bauhinoides,NA,NA,Twinleaf senna,Leguminosae,Perennial,Subshrub
+cass lept,Chamaecrista,Cassia,nictitans,leptadenia,var. mensalis,Sensitive partridge pea,Leguminosae,Annual,Summer Annual
+crot pumi,Crotalaria,NA,pumila,NA,NA,Low rattlebox,Leguminosae,Annual,Summer Annual
+dale brac,Dalea,NA,brachystachya,NA,NA,Fort Bowie prairie clover,Leguminosae,Annual,Summer and Winter Annual
+dale nana,Dalea,NA,nana,NA,NA,Dwarf prairie clover,Leguminosae,Perennial,Perennial Forb
+dale pogo,Dalea,NA,pogonathera,NA,NA,Bearded prairie clover,Leguminosae,Perennial,Perennial Forb
+dale sp,Dalea,NA,sp.,NA,NA,Unknown,Leguminosae,Unknown,Unknown
+hoff dens,Hoffmanseggia,NA,glauca,densiflora,NA,Hog potato,Leguminosae,Perennial,Perennial Forb
+lupi conc,Lupinus,NA,concinnus,NA,NA,Bajada lupine,Leguminosae,Annual,Winter Annual
+lupi sp,Lupinus,NA,sp.,NA,NA,Unknown,Leguminosae,Annual,Winter Annual
+lupi sp2,Lupinus,NA,sp.,NA,distinct from lupi sp,Unknown,Leguminosae,Annual,Winter Annual
+lupi spar,Lupinus,NA,sparsiflorus,NA,NA,Coulter's lupine,Leguminosae,Annual,Winter Annual
+mimo acul,Mimosa,NA,aculeaticarpa,NA,NA,Catclaw mimosa,Leguminosae,Perennial,Shrub
+pros glan,Prosopis,NA,glandulosa,NA,NA,Honey Mesquite,Leguminosae,Perennial,Shrub
+pros sp,Prosopis,NA,sp.,NA,NA,Unknown,Leguminosae,Perennial,Shrub
+pros velu,Prosopis,NA,velutina,NA,NA,Velvet Mesquite,Leguminosae,Perennial,Shrub
+malv lepi,Malvella,NA,lepidota,NA,NA,Scurfy mallow,Malvaceae,Perennial,Perennial Forb
+sida phys,Rhynchosida,Sida,physocalyx,NA,NA,Buffpetal,Malvaceae,Perennial,Subshrub
+sida proc,Sida,NA,abutifolia,procumbens,NA,Spreading fanpetals,Malvaceae,Perennial,Perennial Forb
+sida sp,Sida,NA,sp.,NA,NA,Unknown,Malvaceae,Annual,Summer Annual
+sida spin,Sida,NA,spinosa,NA,NA,Prickly Fanpetals,Malvaceae,Annual,Summer Annual
+spha angu,Sphaeralcea,NA,angustifolia,NA,NA,Copper globemallow,Malvaceae,Perennial,Subshrub
+spha coul,Sphaeralcea,NA,coulteri,NA,NA,Coulter's globemallow,Malvaceae,Annual,Summer and Winter Annual
+spha hast,Sphaeralcea,NA,hastulata,NA,NA,Spear globemallow,Malvaceae,Perennial,Subshrub
+spha inca,Sphaeralcea,NA,incana,NA,NA,Gray Globemallow,Malvaceae,Perennial,Subshrub
+spha laxa,Sphaeralcea,NA,laxa,NA,NA,Caliche globemallow,Malvaceae,Perennial,Subshrub
+spha sp,Sphaeralcea,NA,sp.,NA,NA,Unknown,Malvaceae,Unknown,Unknown
+prob parv,Proboscidea,NA,parviflora,NA,NA,Devil's Claw,Martyniaceae,Annual,Summer Annual
+moll cerv,Mollugo,NA,cerviana,NA,NA,Threadstem Carpetweed,Molluginaceae,Annual,Summer Annual
+moll sp,Mollugo,NA,sp.,NA,NA,Unknown,Molluginaceae,Annual,Summer Annual
+moll vert,Mollugo,NA,verticillata,NA,NA,Green Carpetweed,Molluginaceae,Annual,Summer Annual
+tali angu,Phemeranthus,Talinum,angustissimum,NA,NA,Orange fameflower,Montiaceae,Perennial,Perennial Forb
+tali aura,Phemeranthus,Talinum,aurantiacus,aurantiacum,NA,Orange fameflower,Montiaceae,Perennial,Perennial Forb
+tali sp,Phemeranthus,Talinum,sp.,NA,NA,Unknown,Montiaceae,Perennial,Perennial Forb
+alli inca,Allionia,NA,incarnata,NA,NA,Trailing windmills,Nyctaginaceae,Perennial,Perennial Forb
+alli sp,Allionia,NA,sp.,NA,NA,Unknown,Nyctaginaceae,Perennial,Perennial Forb
+ammo chen,Ammocodon,NA,chenopodioides,NA,NA,Goosefoot monopod,Nyctaginaceae,Perennial,Perennial Forb
+boer cocc,Boerhavia,NA,coccinea,NA,NA,Garnet spiderling,Nyctaginaceae,Perennial,Perennial Forb
+boer coul,Boerhavia,NA,coulteri,NA,NA,Coulter's spiderling,Nyctaginaceae,Annual,Summer Annual
+boer inte,Boerhavia,NA,intermedia,NA,NA,Firewing spiderling,Nyctaginaceae,Annual,Summer Annual
+boer sp,Boerhavia,NA,sp.,NA,NA,Unknown,Nyctaginaceae,Annual,Summer Annual
+boer torr,Boerhavia,NA,spicata,torreyana,NA,Creeping spiderling,Nyctaginaceae,Annual,Summer Annual
+oeno prim,Oenothera,NA,primiveris,NA,NA,Desert evening primrose,Onagraceae,Annual,Winter Annual
+oeno sp,Oenothera,NA,sp.,NA,NA,Unknown,Onagraceae,Annual,Winter Annual
+esch mexi,Eschscholzia,NA,californica,mexicana,NA,California poppy,Papaveraceae,Annual,Winter Annual
+lina texa,Nuttallanthus,Linaria,texanus,texana,NA,Texas toadflax,Plantaginaceae,Annual,Winter Annual
+plan purs,Plantago,NA,patagonica,purshii,NA,Woolly plantain,Plantaginaceae,Annual,Winter Annual
+annu gras,Unknown,NA,annual grass,NA,NA,Unknown,Poaceae,Annual,Unknown
+annu gras1,Unknown,NA,annual grass,NA,distinct from other annugrass,Unknown,Poaceae,Annual,Unknown
+annu gras2,Unknown,NA,annual grass,NA,distinct from other annugrass,Unknown,Poaceae,Annual,Unknown
+aris adsc,Aristida,NA,adscensionis,NA,NA,Sixweeks threeawn,Poaceae,Annual,Summer Annual
+aris hamu,Aristida,NA,ternipes,hamulosa,var. gentilis,Spidergrass,Poaceae,Perennial,Perennial
+aris long,Aristida,NA,purpurea,NA,var. longiseta,Purple threeawn,Poaceae,Perennial,Perennial
+aris sp,Aristida,NA,sp.,NA,NA,Unknown,Poaceae,Unknown,Unknown
+both barb,Bothriochloa,NA,barbinodis,NA,NA,Cane bluestem,Poaceae,Perennial,Perennial
+bout aris,Bouteloua,NA,aristidoides,NA,NA,Needle grama,Poaceae,Annual,Summer Annual
+bout barb,Chondrosum,Bouteloua,barbatum,barbata,NA,Sixweeks grama,Poaceae,Annual,Summer Annual
+bout dact,Buchloe,Bouteloua,dactyloides,NA,NA,Buffalo grass,Poaceae,Perennial,Perennial
+bout erio,Chondrosum,Bouteloua,eriopodum,eriopoda,NA,Black grama,Poaceae,Perennial,Perennial
+bout grac,Bouteloua,NA,gracilis,NA,NA,Blue grama,Poaceae,Perennial,Perennial
+bout sp,Bouteloua,NA,sp.,NA,NA,Unknown,Poaceae,Annual,Summer Annual
+brom rube,Bromus,NA,rubens,NA,NA,Red brome,Poaceae,Annual,Winter Annual
+chlo virg,Chloris,NA,virgata,NA,NA,Feather fingergrass,Poaceae,Annual,Summer Annual
+enne desv,Enneapogon,NA,desvauxii,NA,NA,Nineawn pappusgrass,Poaceae,Perennial,Perennial
+erag arid,Eragrostis,NA,pectinacea,arida,NA,Desert lovegrass,Poaceae,Annual,Summer Annual
+erag cili,Eragrostis,NA,cilianensis,NA,NA,Stinkgrass,Poaceae,Annual,Summer Annual
+erag inte,Eragrostis,NA,intermedia,NA,NA,Plains Lovegrass,Poaceae,Perennial,Perennial
+erag lehm,Eragrostis,NA,lehmanniana,NA,NA,Lehmann's lovegrass,Poaceae,Perennial,Perennial
+erag sp,Eragrostis,NA,sp.,NA,NA,Unknown,Poaceae,Perennial,Perennial
+erio lemm,Eriochloa,NA,lemmonii,NA,NA,Canyon cupgrass,Poaceae,Annual,Summer and Winter Annual
+hila muti,Hilaria,NA,mutica,NA,NA,Tobosa grass,Poaceae,Perennial,Perennial
+lycu phle,Lycurus,NA,phleoides,NA,NA,Wolf tail,Poaceae,Perennial,Perennial
+muhl port,Muhlenbergia,NA,porteri,NA,NA,Bush Muhly,Poaceae,Perennial,Perennial
+muhl sp,Muhlenbergia,NA,sp.,NA,NA,Unknown,Poaceae,Unknown,Unknown
+pani ariz,Brachiaria,Panicum,arizonica,NA,NA,Arizona Signalgrass,Poaceae,Annual,Summer Annual
+pani hirt,Panicum,NA,hirticaule,NA,NA,Mexican panicgrass,Poaceae,Annual,Summer and Winter Annual
+pani mili,Panicum,NA,miliaceum,NA,NA,Broomcorn Millet,Poaceae,Annual,Summer Annual
+pani sp,Panicum,NA,sp.,NA,NA,Unknown,Poaceae,Annual,Summer Annual
+pere gras,Unknown,NA,perenial grass,NA,NA,Unknown,Poaceae,Perennial,Perennial
+schi barb,Schismus,NA,barbatus,NA,NA,Mediterranean grass,Poaceae,Annual,Winter Annual
+seta leuc,Setaria,NA,leucopila,NA,NA,Plains Bristlegrass,Poaceae,Perennial,Perennial Grass
+seta macr,Setaria,NA,macrostachya,NA,NA,Bristle grass,Poaceae,Perennial,Perennial
+sita hyst,Elymus,Sitanion,elymoides,hystrix,NA,Squirreltail,Poaceae,Perennial,Perennial
+spor cont,Sporobolus,NA,contractus,NA,NA,Spike dropseed,Poaceae,Perennial,Perennial
+trag bert,Tragus,NA,berteronianus,NA,NA,Spiked Bur Grass,Poaceae,Annual,Summer Annual
+tric cali,Digitaria,Trichachne,californica,NA,NA,Arizona cottontop,Poaceae,Perennial,Perennial
+trid pulc,Erioneuron,Tridens,pulchellum,NA,NA,Fluff grass,Poaceae,Perennial,Perennial
+unkn gras,Unknown,NA,grass,NA,NA,Unknown,Poaceae,Unknown,Unknown
+unkn gras2,Unknown,NA,grass,NA,distinct from unkn gras,Unknown,Poaceae,Unknown,Unknown
+vulp octo,Vulpia,NA,octoflora,NA,NA,Sixweeks fescue,Poaceae,Annual,Winter Annual
+eria diff,Eriastrum,NA,diffusum,NA,NA,Miniature woollystar,Polemoniaceae,Annual,Winter Annual
+gili mexi,Gilia,NA,mexicana,NA,NA,El Paso gilia,Polemoniaceae,Annual,Winter Annual
+gili sinu,Gilia,NA,sinuata,NA,NA,Rosy gilia,Polemoniaceae,Annual,Winter Annual
+lina bige,Linanthus,NA,bigelovii,NA,NA,Bigelow's linanthus,Polemoniaceae,Annual,Winter Annual
+lina sp,Linanthus,NA,sp.,NA,NA,Unknown,Polemoniaceae,Annual,Winter Annual
+poly twee,Polygala,NA,tweedyi,NA,NA,Shrubby milkwort,Polygalaceae,Perennial,Subshrub
+erio aber,Eriogonum,NA,abertianum,NA,NA,Abert's buckwheat,Polygonaceae,Annual,Summer and Winter Annual
+erio poly,Eriogonum,NA,polycladon,NA,NA,Sorrel buckwheat,Polygonaceae,Annual,Summer Annual
+rume alti,Rumex,NA,altissimus,NA,NA,Smooth dock,Polygonaceae,Perennial,Perennial Forb
+rume angu,Rumex,NA,crispus,angustifolium,NA,Curly dock,Polygonaceae,Perennial,Perennial Forb
+rume hyme,Rumex,NA,hymenosepalus,NA,NA,Desert dock,Polygonaceae,Perennial,Perennial Forb
+port parv,Portulaca,NA,halimoides,parvula,NA,Silkcotton Purslane,Portulacaceae,Annual,Summer Annual
+port sp,Portulaca,NA,sp.,NA,NA,Unknown,Portulacaceae,Annual,Summer Annual
+port suff,Portulaca,NA,suffretescens,NA,NA,Shrubby purslane,Portulacaceae,Perennial,Subshrub
+andr occi,Androsace,NA,occidentalis,NA,NA,Western rockjasmine,Primulaceae,Annual,Winter Annual
+delp sp,Delphinium,NA,sp.,NA,NA,Unknown,Ranunculaceae,Annual,Winter Annual
+lyci ande,Lycium,NA,andersonii,NA,NA,Anderson wolfberry,Solanaceae,Perennial,Shrub
+lyci torr,Lycium,NA,torreyi,NA,NA,Torrey wolfberry,Solanaceae,Perennial,Shrub
+sola elea,Solanum,NA,elaeagnifolium,NA,NA,Silverleaf nightshade,Solanaceae,Perennial,Subshrub
+sola rost,Solanum,NA,rostratum,NA,NA,Buffalobur Nightshade,Solanaceae,Annual,Summer Annual
+annu forb,Unknown,NA,annual forb,NA,NA,Unknown,Unknown,Annual,Unknown
+annu forb2,Unknown,NA,annual forb,NA,distinct from other annuforbs,Unknown,Unknown,Annual,Unknown
+annu forb3,Unknown,NA,annual forb,NA,distinct from other annuforbs,Unknown,Unknown,Annual,Unknown
+annu forb4,Unknown,NA,annual forb,NA,distinct from other annuforbs,Unknown,Unknown,Annual,Unknown
+annu forb5,Unknown,NA,annual forb,NA,distinct from other annuforbs,Unknown,Unknown,Annual,Unknown
+papp vagi,Unknown,NA,NA,NA,NA,Unknown,Unknown,Unknown,Unknown
+pere forb,Unknown,NA,perennial forb,NA,NA,Unknown,Unknown,Perennial,Perennial Forb
+unkn,Unknown,NA,plant,NA,NA,Unknown,Unknown,Unknown,Unknown
+unkn forb,Unknown,NA,forb,NA,NA,Unknown,Unknown,Unknown,Unknown
+unkn forb2,Unknown,NA,forb,NA,distinct from unkn forb,Unknown,Unknown,Unknown,Unknown
+unkn shrb,Unknown,NA,shrub,NA,NA,Unknown,Unknown,Perennial,Shrub
+tetr coul,Tetraclea,NA,coulteri,NA,NA,Coulter's wrinkle fruit,Verbenaceae,Perennial,Subshrub
+kall cali,Kallstroemia,NA,californica,NA,NA,California Caltrop,Zygophyllaceae,Annual,Summer Annual
+kall gran,Kallstroemia,NA,grandiflora,NA,NA,Arizona Poppy,Zygophyllaceae,Annual,Summer Annual
+kall hirs,Kallstroemia,NA,hirsutissima,NA,NA,Hairy Caltrop,Zygophyllaceae,Annual,Summer Annual
+kall sp,Kallstroemia,NA,sp.,NA,NA,Unknown,Zygophyllaceae,Annual,Summer Annual
