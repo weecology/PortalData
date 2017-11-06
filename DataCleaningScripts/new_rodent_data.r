@@ -5,19 +5,16 @@ library(openxlsx)
 library(sqldf)
 library(RCurl)
 library(dplyr)
-# setwd("~/Users/renatadiaz/Documents/GitHub/PortalData")
 
 source('DataCleaningScripts/compare_raw_data.r')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 
-# set your working directory
-
 ##############################################################################
 # New file to be checked
 ##############################################################################
 
-newperiod = '466'
+newperiod = '467'
 filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
@@ -45,8 +42,70 @@ rodent_data_quality_checks(ws, scannerfile)
 # Load current state of database - older data
 olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 
-# Subset of most recent four years of data, for comparing recaptures
-# recentdat = olddat[olddat$year >= as.numeric(ws$year[1]) - 3,]
+# check for unusual weight/hfl measurements by species
+
+speciesnorms = read.csv('Rodents/Portal_rodent_species.csv', header = T, stringsAsFactors = F, na.strings = "")
+
+speciesnorms = filter(speciesnorms, censustarget == 1) %>%
+  filter(speciescode != "UR") %>%
+  select('speciescode')
+
+colnames(speciesnorms) = c('species')
+
+speciesnorms$wgt.min = NA
+speciesnorms$wgt.max = NA
+speciesnorms$hfl.min = NA
+speciesnorms$hfl.max = NA
+
+
+for (i in 1:nrow(speciesnorms)) {
+
+  this.sp = filter(olddat, species == speciesnorms$species[i])
+  this.sp = this.sp[ which(this.sp$note1 != 12 | is.na(this.sp$note1)), ]
+  speciesnorms$wgt.min[i] = min(this.sp$wgt, na.rm = T)
+  speciesnorms$wgt.max[i] = max(this.sp$wgt, na.rm = T)
+  speciesnorms$hfl.min[i] = min(this.sp$hfl, na.rm = T)
+  speciesnorms$hfl.max[i] = max(this.sp$hfl, na.rm = T)
+    
+}
+
+records = left_join(ws, speciesnorms, by = 'species')
+  records = mutate(records, rownum = 1:nrow(records)) %>%
+mutate(record_measurement = ((wgt < wgt.min) | (wgt > wgt.max )| (hfl < hfl.min )| (hfl > hfl.max))) %>%
+  filter(record_measurement == TRUE)
+
+if (nrow(records) > 0) {
+  for (i in 1:nrow(records)) {
+    print("Record weight or hindfoot measurement:")
+    print(records[i])
+    change = readline(prompt="Type Y to edit ws or add note")
+    if (change == "Y") {
+      new.wgt = readline(prompt = "Change weight? (Type Y for yes)")
+      if (new.wgt == "Y") {
+        newval = readline(prompt = "New weight:")
+        ws[records$rownum[i], 'wgt'] <- newval
+      }
+      
+      new.hfl = readline(prompt = "Change hfl? (Type Y for yes)")
+      
+      if (new.hfl == "Y") {
+        newval = readline(prompt = "New hfl:")
+        ws[records$rownum[i], 'hfl'] <- newval
+      }
+      
+      add.note = readline(prompt = "Add note1 = 12 for suspect wgt/hlf? (Type Y for yes)")
+      if (add.note == "Y") {
+        ws[records$rownum[i], 'note1'] <- 12
+      }
+    }
+    
+  }
+  
+}
+
+rm(records)
+rm(speciesnorms)
+rm(this.sp)
 
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
