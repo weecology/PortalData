@@ -11,7 +11,7 @@ stakedata=data %>% filter(period > 0, complete.cases(stake))
 
 species = read.csv("../Rodents/Portal_rodent_species.csv",na.strings = c(""))
 
-bodysizedata = data %>% filter(!(note1 %in% 12),!is.na(species)) %>% group_by(species) %>% 
+bodysizedata = data %>% filter(!(note1 == 12),!is.na(species)) %>% group_by(species) %>% 
   left_join(species,by=c("species"="speciescode")) %>% filter(censustarget==1)
   
 
