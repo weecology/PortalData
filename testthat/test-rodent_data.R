@@ -9,7 +9,7 @@ data = read.csv("../Rodents/Portal_rodent.csv",
 stakes = c(11:17,21:27,31:37,41:47,51:57,61:67,71:77)
 stakedata=data %>% filter(period > 0, complete.cases(stake))
 
-species = read.csv("../Rodents/Portal_rodent_species.csv",na.strings = c(""))
+species = read.csv("../Rodents/Portal_rodent_species.csv",na.strings = c(""), colClasses=c(speciescode="character"))
 
 bodysizedata = data %>% filter(!(note1 == 12),!is.na(species)) %>% group_by(species) %>% 
   left_join(species,by=c("species"="speciescode")) %>% filter(censustarget==1)
@@ -77,7 +77,7 @@ test_that("new tag indicators are *", {
 
 test_that("special trapping codes (note4 and note5) are valid", {
   
-  expect_true(all(na.omit(data$note4) %in% c("UT","TE","T")))
+  expect_true(all(na.omit(data$note4) %in% c("UT","TE","TA","TL","TR","TB")))
   expect_true(all(na.omit(data$note5) %in% c("E","R","D")))
 
 })
