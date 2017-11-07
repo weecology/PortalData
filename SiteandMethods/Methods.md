@@ -117,13 +117,55 @@ Rodent access to plots is regulated using gates cut into the fencing. Large gate
 
 ### Data Collection: 
 
-From 1977-present, plots were trapped around each new moon, which occurs approximately once a month. Though occasionally blue moons do occur, resulting in 2 separate surveys in a month. Occasionally, months are missed. Months that are entirely missed are not noted in the database. Sometimes weather or other unforeseen occurrences prevent the complete trapping of a survey, and these are [noted](../Rodents/Portal_rodent_datanotes.csv) in the data in the `Note2` column. Due to intermittent funding, gaps in data collection exist beginning in 2010.
+From 1977-present, plots were trapped around each new moon, which occurs approximately once a month. The survey occurs as close to the new moon as possible to minimize external effects on trapping success which could be misconstrued as actual changes in populations. Occasionally blue moons do occur, resulting in 2 separate surveys in a month. Occasionally, months are missed. Months that are entirely missed are not noted in the database. Sometimes weather or other unforeseen occurrences prevent the complete trapping of a survey, and these are [noted](../Rodents/Portal_rodent_datanotes.csv) in the data in the `note1` column. Due to intermittent funding, gaps in data collection exist in 2010 and 2011. The [moon dates](../Rodents/moon_dates.csv) table can be used to link our period codes to the regularly-spaced new moon intervals.
 
-The site is surveyed for rodents approximately once each month. The survey occurs as close to the new moon as possible to minimize external effects on trapping success which could be misconstrued as actual changes in populations. During a survey, each plot is trapped for one night with treatments divided evenly between nights to eliminate differences between controls and treatments caused by environmental differences on different nights. When a plot is surveyed, all gates are closed to ensure that only resident individuals are captured. At each stake, one Sherman live-trap is placed and baited with millet seed. Traps are collected the next morning and individuals processed.
+During a survey (2 nights), each plot is trapped for one night, with treatments divided evenly between the 2 nights to eliminate differences between controls and treatments caused by environmental differences on different nights. When a plot is surveyed, all gates are closed to ensure that only resident individuals are captured. At each stake, one Sherman live-trap is placed and baited with millet seed. Traps are collected the next morning and individuals processed.
  
-Any animal found in a trap is recorded. Non-rodent species are occasionally trapped and so are given species codes. Several flags are included in the species table to restrict the species list to only rodents, only target species, or only granivores. Additionally, the `Note2` column in the rodent data table contains a flag for non-target species (`13`).
+Any animal found in a trap is recorded. Non-rodent species are occasionally trapped and so are given species codes. Several flags are included in the [species table](../Rodents/Portal_rodent_species.csv) to restrict the species list to only rodents, only target species, or only granivores. Additionally, the `note1` column in the rodent data table contains a flag for non-target species (`13`).
 
-Each individual of a target species is tagged and data on species, location caught (plot and stake), sex, reproductive condition, weight, and hindfoot length are recorded. It is noted in the data in the `Note5` column if either an animal escaped before all information was gathered (`E`), was removed from the site because it was caught on a plot it was supposed to be excluded from (`R`), or died during trapping (`D`).
+Each individual of a target species is tagged and data on species, location caught (`plot` and `stake`), `sex`, reproductive condition (see below), weight (`wgt`), and hindfoot length (`hfl`) are recorded. The `tag` column contains the primary individual identifier, and the only one when PIT tags were used. `ltag` contains secondary tag information when ear tags were used in both ears. `prevrt` and `prevlt` are used to keep track of previous tag history when an individual needed to be retagged. Information on nearest stake was recorded initially, but the columns are no longer used. 
+
+The reproductive data are divided into separate columns to allow for more than one value assigned to an individual: 
+
+|Category|Column|Value|Meaning|
+| --------------|:-------------:| ---:|:-------------: |
+|non-reproductive adults|`reprod`|`Z`|Zero|
+|juveniles|`age`|`J`|Juvenile|
+|scrotal males|`testes`|`S`|Scrotal|
+|recently scrotal males|`testes`|`R`|Recent|
+|pre-scrotal males|`testes`|`M`|Minor|
+|reproductive females|`vagina`|`S`|Swollen|
+|reproductive females|`vagina`|`P`|Plugged|
+|reproductive females|`vagina`|`B`|Both|
+|pregnant females|`pregnant`|`P`|Pregnant|
+|reproductive females|`nipples`|`E`|Enlarged|
+|reproductive females|`nipples`|`S`|Swollen|
+|reproductive females|`nipples`|`B`|Both|
+|reproductive females|`lactation`|`L`|Lactating| 
+
+#### The data 'note' system for flagging data
+
+There are 5 note columns we use to keep track of special cases in data collection. 
+
+The `note1` column is used to flag minor problems in the data that may require special attention. They do not necessarily indicate the data should not be used. There are several of these, and the meaning of these notes are recorded in [datanotes](../Rodents/Portal_rodent_datanotes.csv).
+
+Columns `note2` and `note3` are used to flag newly tagged individuals with a `*` (`note2` for `tag` and `note3` for `ltag`). The `note4` column notes further details about tag condition. `UT` marks an untagged individual (it may have died during trapping, or escaped before getting a tag). `TA` indicates a tagged individual (in cases where the tag was not recorded, making it unclear from the rest of the data that it was tagged, e.g. it may have escaped before reading the tag). `TE` notes an individual with a torn ear, indicating it likely had a tag but lost it. `TR`, `TL`, or `TB` specify that it was the right ear, the left ear, or both that were torn, respectively.
+
+The `note5` column notes special cases in how an individual was released. It is noted if an animal escaped before all information was gathered (`E`), was removed from the site because it was caught on a plot it was supposed to be excluded from (`R`), or died during trapping (`D`).
+
+#### Negative period codes
+
+Trapping records that do not follow normal protocols are indicated with a negative period code. In almost all cases, **negative periods codes should be excluded before using the data.** Negative period codes may indicate trapping for a specific individual, or cases in which an individual was found dead, or it's tag was found. Infrequently, trapping has been conducted at specific locations around the outside of the plots. These trapping records are assigned negative period codes and should be removed from the regular trapping data.
+In these off-plot trapping sessions, stake numbers are assigned to the outside perimeter of the plot as follows:
+
+|Stake|Location|
+| ---|:-------------:|
+|`01`|N fence, W corner|
+|`07`|N fence, E corner|
+|`18`|E fence, N corner|
+|`88`|E fence, S corner|
+|`08`|SW corner|
+|`50`|middle of W fence|
 
 ## [Weather Monitoring Data](../Weather)
 
@@ -156,28 +198,28 @@ Column descriptions for [Portal_weather.csv](../weather/Portal_weather.csv). The
 
 | Column Name	| Units		| Measurement Type | Value |
 | --------------|:-------------:| -----:|:-------------: |
-| year		| Years		|	| Year			|	
-| month		| Months	|	| Month			|	
-| day		| Days		|	| Day			|
-| hour		| 2400-hour	|	| Hour			|
-| timestamp 	| y-m-d h : m : s	|	|			|
-| record 	| 		|	| Record value on weather station 	|
-| battv 	| Volts		| Smp	| Battery Voltage       |
-| PTemp_C 	| Deg C		| Smp	| Panel Temperature 	|
-| airtemp	| Deg C		| Avg	| Air Temperature	|
-| RH 		| %		| Smp	| Relative Humidity 	|
-| precipitation	| mm		| Tot	| Total Precipitation	|
-| BP_mmHg_Avg	| mmHg		| Avg	| Barometric Pressure	|
-| SlrkW_Avg	| kW/m^2	| Avg	| Average Radiation	|
-| SlrMJ_Tot	| MJ/m^2	| Tot	| Total Radiation 	|
-| ETos		| Deg C		| ETXs	| Total Evapotranspiration |
-| Rso		| Deg C		| Rso	| Clear Sky Solar Radiation |
-| WS_ms_Avg	| meters/second	| Avg	| Wind Speed		|
-| WindDir	| degrees	| Smp	| Wind Direction	|
-| WS_ms_S_WVT	| meters/second	| WVc	| Wind Vector: Speed	|
-| WindDir_D1_WVT | Deg		| WVc	| Wind Vector: Direction |
-| WindDir_SD1_WVT | Deg		| WVc	| Wind Vector: Std Dev (Dir) 	|
-| HI_C_Avg	| Deg C		| Avg	| Heat Index		|
-| SunHrs_Tot	| hours		| Tot	| Sunshine Hours 	|
-| PotSlrW_Avg	| W/m^2		| Avg	| Potential Solar Radiation |
-| WC_C_Avg	| Deg C		| Avg	| Wind Chill		|
+| `year`		| Years		|	| Year			|	
+| `month`		| Months	|	| Month			|	
+| `day`		| Days		|	| Day			|
+| `hour`		| 2400-hour	|	| Hour			|
+| `timestamp` 	| y-m-d h : m : s	|	|			|
+| `record` 	| 		|	| Record value on weather station 	|
+| `battv` 	| Volts		| Smp	| Battery Voltage       |
+| `PTemp_C` 	| Deg C		| Smp	| Panel Temperature 	|
+| `airtemp`	| Deg C		| Avg	| Air Temperature	|
+| `RH` 		| %		| Smp	| Relative Humidity 	|
+| `precipitation`	| mm		| Tot	| Total Precipitation	|
+| `BP_mmHg_Avg`	| mmHg		| Avg	| Barometric Pressure	|
+| `SlrkW_Avg`	| kW/m^2	| Avg	| Average Radiation	|
+| `SlrMJ_Tot`	| MJ/m^2	| Tot	| Total Radiation 	|
+| `ETos`		| Deg C		| ETXs	| Total Evapotranspiration |
+| `Rso`		| Deg C		| Rso	| Clear Sky Solar Radiation |
+| `WS_ms_Avg`	| meters/second	| Avg	| Wind Speed		|
+| `WindDir`	| degrees	| Smp	| Wind Direction	|
+| `WS_ms_S_WVT`	| meters/second	| WVc	| Wind Vector: Speed	|
+| `WindDir_D1_WVT` | Deg		| WVc	| Wind Vector: Direction |
+| `WindDir_SD1_WVT` | Deg		| WVc	| Wind Vector: Std Dev (Dir) 	|
+| `HI_C_Avg`	| Deg C		| Avg	| Heat Index		|
+| `SunHrs_Tot`	| hours		| Tot	| Sunshine Hours 	|
+| `PotSlrW_Avg`	| W/m^2		| Avg	| Potential Solar Radiation |
+| `WC_C_Avg`	| Deg C		| Avg	| Wind Chill		|
