@@ -6,7 +6,7 @@ These data have been used in a variety of publications documenting the effects o
 
 ## Site Description:
 
-The site occurs in an upper-elevation Chihuahuan Desert habitat (1330 m), dominated by a mixture of shrubs (e.g. *Acacia sp., Prosopis sp., Flourensia cernua*) and grasses (e.g. *Aristida sp. Bouteloua sp., Muhlenbergia porteri*.). Dominance of grasses versus shrubs has shifted over the 40 years of the study, shifting from what was mainly a desertified open grassland to a mixed shrubland (Brown et al 1997). The site itself sits on a bajada at the base of the Chiricahua Mountains and consists of mainly sandy soils.
+The site occurs in an upper-elevation Chihuahuan Desert habitat (1330 m), dominated by a mixture of shrubs (e.g. *Acacia constricta, Prosopis sp., Flourensia cernua*) and grasses (e.g. *Aristida sp. Bouteloua sp., Eragrostis sp.*.). Dominance of grasses versus shrubs has shifted over the 40 years of the study, shifting from what was mainly a desertified open grassland to a mixed shrubland (Brown et al 1997). The site itself sits on a bajada at the base of the Chiricahua Mountains and consists of mainly sandy soils.
 
 The entire study area is approximately 20 ha and within this area there are 24 experimental plots [Figure 1](Portal_Figure1.tif). Each plot is 0.25 ha (50m x 50m) and fenced with hardware cloth topped with aluminum flashing. Access to these plots by rodents is regulated by gates cut into fencing. On each plot there are permanent census grids: one for rodents and ants and another for plants. For the rodent/ant grid, 49 permanent trapping stations are marked by rebar stakes forming a 7x7 grid, with 6.25 m between stakes. Every stake on a plot has a unique identifying number denoting the coordinate of that stake on that plot. For example, stake 11 is the first stake on the first row. Rows are numbered 1 through 7 going from the most northern row to the most southern. Columns are numbered 1 through 7 going from the most western column to the most eastern [Figure 1](Portal_Figure1.tif). The plant grid contains fewer rows and columns (4 rows, 4 columns). Numbering of the plant stakes follows similar rules to the rodent/ant grid, except that even numbered rows and columns are skipped (censuses use rows 1, 3, 5, 7 and columns 1, 3, 5, 7). Each plant quadrat is 1 m south of the rodent/ant stake of the corresponding number. Details for how these grids are used for data collection can be found in the section for the specific dataset files below. 
 
@@ -95,7 +95,7 @@ See the [Treatments table](../SiteandMethods/Portal_plot_treatments.csv), for de
 
 ### Data Collection: 
 
-#### [Quadrat Abundance Data](../Plants/Portal_plant_quadrats.csv):
+#### [Quadrat Abundance Data](../Plants/Portal_plant_quadrats.csv)
 
 Plant data were collected nearly continuously from 1978-present. Because there are two annual plant communities - one in the winter and one in the summer - there are two plant surveys per year. The surveys occur towards the end of the growing season; occurring in spring for the winter community and fall for the summer community. **Plant censuses were of sufficient quality by 1981 that data has been provided starting in this year. However, there are concerns that not all species were always identified and recorded, especially perennials, in the data from 1981 - 1988.** We are certain that by 1989 all species were being identified and recorded, including all perennials occurring on quadrats. These data are in the [Portal_plant_quadrats](../Plants/Portal_plant_quadrats.csv) file, where "cover" and "cf" columns were not used. Beginining in the summer of 2015, % cover was recorded by species and included in the abundance table. Unknown species are also assigned a similar species in the "cf" columns where possible. These data in the [Portal_plant_quadrats](../Plants/Portal_plant_quadrats.csv) file and use the "cover" and "cf" columns. It is continually updated with new data. Dates of plant censuses, when known, are listed in [Portal_plant_census_dates](../Plants/Portal_plant_census_dates.csv). 
 
@@ -103,9 +103,20 @@ Plant data were collected nearly continuously from 1978-present. Because there a
 
 Quadrat dimensions are 0.5 m x 0.5 m. Quadrats are placed at locations permanently marked by a rebar stake. Plants rooted within 16 fixed quadrats in each plot are counted each spring (winter annual survey) and fall (summer annual survey). Several adjacent stems are counted separately when the species is an annual, and as one individual when the species is a perennial. **Prior to 1989, perennial species were not systematically included in these counts of abundance.** The [Plant species list](../Plants/Portal_plant_species.csv) indicates species that are considered perennial at the site.
 
-#### [Transect Shrub Data](../Plants/Portal_plant_transects_2015_present.csv):
+#### [Transect Shrub Data](../Plants/Portal_plant_transects_2015_present.csv)
 
 Transect data on shrub cover and abundance resumed in 2015. This data is collected yearly, during the summer plant census. Transects are run diagonally across the plots, from the corner nearest stake 11, and the corner nearest stake 71. Species, width intersecting the transect, and greatest height are recorded. Only species with woody or persistent growth are counted in this census. **Annual and herbaceaous perennial species are not included in this data.** In the first year of collection, 2015, only one location on the transect was recorded for each individual (start and stop values are the same, and are actually the midpoint at which the shrub intersected the transect).
+
+#### [Data notes](../Plants/Portal_plant_datanotes.txt)
+Several datanotes are used to indicate specific problems in data collection. In most cases, the data are still appropriate for use.
+
+Note `6` - species ID issue, refers to a few specific cases of uncertainty in species ID. These are outlined below. We have left the original species in the data, but flagged it with a `6`. We recommend you use the corrected species for most analyses.
+
+|Original Species|Corrected Species|Explanation|
+|---|---|---------------------------------------------------------------------------------------------------------------------:|
+|`acac greg`|`mimo acul`|`mimo acul` was called `acac greg` until a specimen was vouchered in 2017, we cannot be certain that all of these `acac greg` IDs were incorrect, but most are extremely likely to be `mimo acul`|
+|`lyci torr`|`lyci ande`|`lyci ande` was called `lyci torr` until a specimen was vouchered in 2016, we cannot be certain that all of these `lyci torr` IDs were incorrect, but most are extremely likely to be `lyci ande`|
+|`tali angu`|`tali aura`|Originally recorded as separate species, `tali angu` and `tali aura` are considered synonyms. only `tali aura` was used starting in 2017.|
 
 ## [Rodent Data](../Rodents)
 
@@ -128,7 +139,7 @@ Each individual of a target species is tagged and data on species, location caug
 The reproductive data are divided into separate columns to allow for more than one value assigned to an individual: 
 
 |Category|Column|Value|Meaning|
-| --------------|:-------------:| ---:|:-------------: |
+|---|:---:|:---:|---:|
 |non-reproductive adults|`reprod`|`Z`|Zero|
 |juveniles|`age`|`J`|Juvenile|
 |scrotal males|`testes`|`S`|Scrotal|
@@ -159,7 +170,7 @@ Trapping records that do not follow normal protocols are indicated with a negati
 In these off-plot trapping sessions, stake numbers are assigned to the outside perimeter of the plot as follows:
 
 |Stake|Location|
-| ---|:-------------:|
+|---|---|
 |`01`|N fence, W corner|
 |`07`|N fence, E corner|
 |`18`|E fence, N corner|
@@ -196,11 +207,11 @@ For a period after the initial installation (until 5/27/2017), the battery would
 
 Column descriptions for [Portal_weather.csv](../weather/Portal_weather.csv). The data in this file span three weather stations. The first only recorded Air Temperature and Precipitation, and the second only Air Temperature, Precipitation and Relative Humidity, so other columns are left blank. The column RECORD contains a unique value for each hourly reading on a datalogger. Thus, when the data switches to the new station, RECORD starts over at 0. 
 
-| Column Name	| Units		| Measurement Type | Value |
-| --------------|:-------------:| -----:|:-------------: |
+|Column Name|Units|Measurement Type|Value|
+|-----------|:---:|:-----:|-----:|
 | `year`		| Years		|	| Year			|	
 | `month`		| Months	|	| Month			|	
-| `day`		| Days		|	| Day			|
+| `day`		  | Days		|	| Day			|
 | `hour`		| 2400-hour	|	| Hour			|
 | `timestamp` 	| y-m-d h : m : s	|	|			|
 | `record` 	| 		|	| Record value on weather station 	|

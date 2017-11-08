@@ -7,6 +7,9 @@ Quadrat data is collected in the winter and summer each year. However, due to ga
 
 An indicator of whether or not an individual quadrat was censused in each season can be found in [Portal_plant_censuses](Portal_plant_censuses.csv). This can be used to differentiate between real zeros and missing data in the abundance data.
 
+#### [Data notes](Portal_plant_datanotes.txt)
+Several datanotes are used to indicate specific problems in data collection. In most cases, the data are still appropriate for use.
+
 #### Quadrat Abundance Data
 [Portal_plant_quadrats](Portal_plant_quadrats.csv) includes data collected by counting all individuals on a 0.5 m x 0.5 m quadrat at each of 16 permanent locations on each plot. `species` and `abundance` are recorded. Starting in 2015, `cover` (visually estimated) and `cf` (used for unknown species) are also recorded for this data.
 
