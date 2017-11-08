@@ -1,10 +1,10 @@
 "speciescode","scientificname","taxa","commonname","censustarget","unidentified","rodent","granivore","minhfl","meanhfl","maxhfl","minwgt","meanwgt","maxwgt","juvwgt"
 "AH","Ammospermophilus harrisi","Rodent","Harris's antelope squirrel",0,0,0,0,31,33,35,,,,
-"BA","Baiomys taylori","Rodent","Northern pygmy mouse",1,0,1,1,6,13.250645994832,21,6,9.4490861618799,18,
+"BA","Baiomys taylori","Rodent","Northern pygmy mouse",1,0,1,1,6,13.250645994832,15,6,9.4490861618799,18,
 "PB","Chaetodipus baileyi","Rodent","Bailey's pocket mouse",1,0,1,1,16,26.03125,47,10,31.8735151781786,79,18.9950495049505
 "PH","Chaetodipus hispidus","Rodent","Hispid pocket mouse",1,0,1,1,21,25.1282051282051,28,18,30.7179487179487,48,24
 "PI","Chaetodipus intermedius","Rodent","Rock pocket mouse",1,0,1,1,18,21.9626168224299,24,10,17.4666666666667,28,10
-"PP","Chaetodipus penicillatus","Rodent","Desert pocket mouse",1,0,1,1,11,21.4786086708092,41,4,17.6185129201756,42,11.6660341555977
+"PP","Chaetodipus penicillatus","Rodent","Desert pocket mouse",1,0,1,1,11,21.4786086708092,27,4,17.6185129201756,42,11.6660341555977
 "PX","Chaetodipus sp.","Rodent","Pocket Mouse",1,1,1,1,11,,47,4,,79,
 "DM","Dipodomys merriami","Rodent","Merriam's kangaroo rat",1,0,1,1,21,35.8838853253044,50,13,43.5272165744434,66,26.392578125
 "DO","Dipodomys ordii","Rodent","Ord's kangaroo rat",1,0,1,1,15,35.531684698609,64,12,49.0395195660597,85,29.4710144927536
@@ -14,7 +14,7 @@
 "OL","Onychomys leucogaster","Rodent","Northern Grasshopper Mouse",1,0,1,0,12,20.334085778781,39,7,31.1267197682839,56,18.4324324324324
 "OX","Onychomys sp.","Rodent","Grasshopper mouse",1,1,1,0,11,,39,5,,56,
 "OT","Onychomys torridus","Rodent","Southern grasshopper mouse",1,0,1,0,11,20.025980911983,31,5,24.0559957739039,46,15.5345622119816
-"PF","Perognathus flavus","Rodent","Silky pocket mouse",1,0,1,1,7,15.4469618949537,35,4,7.89974937343358,25,5.86666666666667
+"PF","Perognathus flavus","Rodent","Silky pocket mouse",1,0,1,1,7,15.4469618949537,22,4,7.89974937343358,16,5.86666666666667
 "PE","Peromyscus eremicus","Rodent","Cactus mouse",1,0,1,1,11,19.947031183255,30,7,21.9828164291702,71,15.1461538461538
 "PL","Peromyscus leucopus","Rodent","White-footed mouse",1,0,1,1,10,20.4460431654676,23,8,22.9264705882353,35,13
 "PM","Peromyscus maniculatus","Rodent","Deer Mouse",1,0,1,1,12,20.3029197080292,32,7,21.7079252003562,39,13.8125
