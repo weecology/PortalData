@@ -10,6 +10,6 @@ note1,meaning
 9,outside plot on exterior grid
 10,plot fence down
 11,plot number suspect
-12,mass suspect
+12,mass or hindfootlength suspect
 13,"not a target animal, no data collected"
 14,plot not completely trapped

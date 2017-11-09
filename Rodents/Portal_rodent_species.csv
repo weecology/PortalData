@@ -1,40 +1,50 @@
-speciescode,scientificname,taxa,commonname,censustarget,unidentified,rodent,granivore
-AB,Amphispiza bilineata,Bird,Black-throated sparrow,0,0,0,0
-AH,Ammospermophilus harrisi,Rodent-not censused,Harris's antelope squirrel,0,0,0,0
-BA,Baiomys taylori,Rodent,Northern pygmy mouse,1,0,1,1
-CB,Campylorhynchus brunneicapillus,Bird,Cactus wren,0,0,0,0
-CQ,Callipepla squamata,Bird,Scaled quail,0,0,0,0
-DM,Dipodomys merriami,Rodent,Merriam's kangaroo rat,1,0,1,1
-DO,Dipodomys ordii,Rodent,Ord's kangaroo rat,1,0,1,1
-DS,Dipodomys spectabilis,Rodent,Banner-tailed kangaroo rat,1,0,1,1
-DX,Dipodomys sp.,Rodent,Kangaroo rat,1,1,1,1
-EO,Eumeces obsoletus,Reptile,Great Plains skink,0,0,0,0
-NA,Neotoma albigula,Rodent,White-throated woodrat,1,0,1,0
-OL,Onychomys leucogaster,Rodent,Northern Grasshopper Mouse,1,0,1,0
-OT,Onychomys torridus,Rodent,Southern grasshopper mouse,1,0,1,0
-OX,Onychomys sp.,Rodent,Grasshopper mouse,1,1,1,0
-PB,Chaetodipus baileyi,Rodent,Bailey's pocket mouse,1,0,1,1
-PC,Pipilo chlorurus,Bird,Green-tailed towhee,0,0,0,0
-PE,Peromyscus eremicus,Rodent,Cactus mouse,1,0,1,1
-PF,Perognathus flavus,Rodent,Silky pocket mouse,1,0,1,1
-PH,Chaetodipus hispidus,Rodent,Hispid pocket mouse,1,0,1,1
-PI,Chaetodipus intermedius,Rodent,Rock pocket mouse,1,0,1,1
-PL,Peromyscus leucopus,Rodent,White-footed mouse,1,0,1,1
-PM,Peromyscus maniculatus,Rodent,Deer Mouse,1,0,1,1
-PP,Chaetodipus penicillatus,Rodent,Desert pocket mouse,1,0,1,1
-PU,Pipilo fuscus,Bird,Brown towhee,0,0,0,0
-PX,Chaetodipus sp.,Rodent,Pocket Mouse,1,1,1,1
-RF,Reithrodontomys fulvescens,Rodent,Fulvous harvest mouse,1,0,1,1
-RM,Reithrodontomys megalotis,Rodent,Western harvest mouse,1,0,1,1
-RO,Reithrodontomys montanus,Rodent,Plains harvest mouse,1,0,1,1
-RX,Reithrodontomys sp.,Rodent,Harvest mouse,1,1,1,1
-SA,Sylvilagus audubonii,Rabbit,Desert cottontail,0,0,0,0
-SB,Spizella breweri,Bird,Brewer's sparrow,0,0,0,0
-SF,Sigmodon fulviventer,Rodent,Tawny-bellied cotton rat,1,0,1,0
-SH,Sigmodon hispidus,Rodent,Hispid cotton rat,1,0,1,0
-SO,Sigmodon ochrognathus,Rodent,Yellow nosed cotton rat,1,0,1,0
-SS,Spermophilus spilosoma,Rodent-not censused,Spotted ground squirrel,0,0,0,0
-SX,Sigmodon sp.,Rodent,Cotton rat,0,1,1,0
-UR,Rodent sp.,Rodent,Unidentified rodent,1,1,1,0
-US,Sparrow sp.,Bird,Unidentified sparrow,0,1,0,0
-ZL,Zonotrichia leucophrys,Bird,White Crowned Sparrow,0,0,0,0
+"speciescode","scientificname","taxa","commonname","censustarget","unidentified","rodent","granivore","minhfl","meanhfl","maxhfl","minwgt","meanwgt","maxwgt","juvwgt"
+"AH","Ammospermophilus harrisi","Rodent","Harris's antelope squirrel",0,0,0,0,31,33,35,,,,
+"BA","Baiomys taylori","Rodent","Northern pygmy mouse",1,0,1,1,6,13.250645994832,15,6,9.4490861618799,18,
+"PB","Chaetodipus baileyi","Rodent","Bailey's pocket mouse",1,0,1,1,16,26.03125,47,10,31.8735151781786,79,18.9950495049505
+"PH","Chaetodipus hispidus","Rodent","Hispid pocket mouse",1,0,1,1,21,25.1282051282051,28,18,30.7179487179487,48,24
+"PI","Chaetodipus intermedius","Rodent","Rock pocket mouse",1,0,1,1,18,21.9626168224299,24,10,17.4666666666667,28,10
+"PP","Chaetodipus penicillatus","Rodent","Desert pocket mouse",1,0,1,1,11,21.4786086708092,27,4,17.6185129201756,42,11.6660341555977
+"PX","Chaetodipus sp.","Rodent","Pocket Mouse",1,1,1,1,11,,47,4,,79,
+"DM","Dipodomys merriami","Rodent","Merriam's kangaroo rat",1,0,1,1,21,35.8838853253044,50,13,43.5272165744434,66,26.392578125
+"DO","Dipodomys ordii","Rodent","Ord's kangaroo rat",1,0,1,1,15,35.531684698609,64,12,49.0395195660597,85,29.4710144927536
+"DX","Dipodomys sp.","Rodent","Kangaroo rat",1,1,1,1,15,,64,12,,190,
+"DS","Dipodomys spectabilis","Rodent","Banner-tailed kangaroo rat",1,0,1,1,39,49.9278538812785,58,12,119.927560366361,190,76.82
+"NA","Neotoma albigula","Rodent","White-throated woodrat",1,0,1,0,21,32.0757142857143,42,30,162.534773801485,280,83.7522123893805
+"OL","Onychomys leucogaster","Rodent","Northern Grasshopper Mouse",1,0,1,0,12,20.334085778781,39,7,31.1267197682839,56,18.4324324324324
+"OX","Onychomys sp.","Rodent","Grasshopper mouse",1,1,1,0,11,,39,5,,56,
+"OT","Onychomys torridus","Rodent","Southern grasshopper mouse",1,0,1,0,11,20.025980911983,31,5,24.0559957739039,46,15.5345622119816
+"PF","Perognathus flavus","Rodent","Silky pocket mouse",1,0,1,1,7,15.4469618949537,22,4,7.89974937343358,16,5.86666666666667
+"PE","Peromyscus eremicus","Rodent","Cactus mouse",1,0,1,1,11,19.947031183255,30,7,21.9828164291702,71,15.1461538461538
+"PL","Peromyscus leucopus","Rodent","White-footed mouse",1,0,1,1,10,20.4460431654676,23,8,22.9264705882353,35,13
+"PM","Peromyscus maniculatus","Rodent","Deer Mouse",1,0,1,1,12,20.3029197080292,32,7,21.7079252003562,39,13.8125
+"RF","Reithrodontomys fulvescens","Rodent","Fulvous harvest mouse",1,0,1,1,15,17.5189873417722,20,9,13.4125,20,
+"RM","Reithrodontomys megalotis","Rodent","Western harvest mouse",1,0,1,1,6,16.3637742718447,23,4,10.7292344073308,21,7.14583333333333
+"RO","Reithrodontomys montanus","Rodent","Plains harvest mouse",1,0,1,1,11,15.6235294117647,17,5,10.7647058823529,16,
+"RX","Reithrodontomys sp.","Rodent","Harvest mouse",1,1,1,1,6,,23,4,,21,
+"UR","Rodent sp.","Rodent","Unidentified rodent",1,1,1,0,,,,,,,
+"SF","Sigmodon fulviventer","Rodent","Tawny-bellied cotton rat",1,0,1,0,19,25.9485094850948,38,13,68.758064516129,199,25.8
+"SH","Sigmodon hispidus","Rodent","Hispid cotton rat",1,0,1,0,20,28.6789587852495,39,16,88.4617021276596,205,36.2105263157895
+"SO","Sigmodon ochrognathus","Rodent","Yellow nosed cotton rat",1,0,1,0,15,25.6585365853659,36,15,55.4146341463415,105,42
+"SX","Sigmodon sp.","Rodent","Cotton rat",0,1,1,0,15,,39,13,,205,
+"SS","Spermophilus spilosoma","Rodent","Spotted ground squirrel",0,0,0,0,,,,57,93.5,130,
+"ST","Xerospermophilus tereticaudus","Rodent","Round-tailed Ground Squirrel",0,0,1,0,,,,,,,
+"SA","Sylvilagus audubonii","Rabbit","Desert cottontail",0,0,0,0,,,,,,,
+"CS","Crotalus scutulatus","Reptile","Mojave Rattlesnake",0,0,0,0,,,,,,,
+"CV","Crotalus viridis","Reptile","Prairie Rattlesnake",0,0,0,0,,,,,,,
+"EO","Eumeces obsoletus","Reptile","Great Plains skink",0,0,0,0,,,,,,,
+"SC","Sceloporus sp","Reptile","Spiny Lizard",0,0,0,0,,,,,,,
+"SU","Sceloporus undulatus","Reptile","Eastern Fence Lizard",0,0,0,0,,,,,,,
+"UL","Unknown Lizard","Reptile","Unknown Lizard",0,0,0,0,,,,,,,
+"AS","Ammodramus savannarum","Bird","Grasshopper Sparrow",0,0,0,0,,,,,,,
+"AB","Amphispiza bilineata","Bird","Black-throated sparrow",0,0,0,0,,,,,,,
+"CM","Calamospiza melanocorys","Bird","Lark Bunting",0,0,0,0,,,,,,,
+"CQ","Callipepla squamata","Bird","Scaled quail",0,0,0,0,,,,,,,
+"CB","Campylorhynchus brunneicapillus","Bird","Cactus wren",0,0,0,0,,,,,,,
+"PC","Pipilo chlorurus","Bird","Green-tailed towhee",0,0,0,0,,,,,,,
+"PU","Pipilo fuscus","Bird","Brown towhee",0,0,0,0,,,,,,,
+"UP","Piplio sp","Bird","Towhee",0,0,0,0,,,,,,,
+"PG","Pooecetes gramineus","Bird","Vesper Sparrow",0,0,0,0,,,,,,,
+"US","Sparrow sp.","Bird","Unidentified sparrow",0,1,0,0,,,,,,,
+"SB","Spizella breweri","Bird","Brewer's sparrow",0,0,0,0,,,,,,,
+"ZL","Zonotrichia leucophrys","Bird","White Crowned Sparrow",0,0,0,0,,,,,,,

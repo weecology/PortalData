@@ -76,6 +76,3 @@ test_that("no identical rows in new storm data and storms", {
   
   expect_true(sum(duplicated(dplyr::bind_rows(storms,stormsnew)))==0)
 })
-
-
-
