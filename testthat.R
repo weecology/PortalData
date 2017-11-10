@@ -1,3 +1,3 @@
 library(testthat)
 
-test_dir("testthat",stop_on_failure = TRUE)
+test_dir("testthat", reporter = c("check"))
