@@ -28,7 +28,6 @@ stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&t
 # Convert Timestamp
 rawdata$timestamp = lubridate::ymd_hms(rawdata$timestamp)
 stormsnew$timestamp = lubridate::ymd_hms(stormsnew$timestamp)
-class(stormsnew$precipitation)="numeric"
 
 #Get Year, Month, Day, Hour
 rawdata=cbind(year = lubridate::year(rawdata$timestamp),
@@ -45,6 +44,10 @@ rawdata$year[rawdata$hour==2400] = rawdata$year[which(rawdata$hour==2400)-1]
 #Fix column classes
 rawdata$record = as.integer(rawdata$record)
 rawdata[,7:25] = lapply(rawdata[,7:25],as.numeric)
+
+class(stormsnew$record)="numeric"
+class(stormsnew$battv)="numeric"
+class(stormsnew$precipitation)="numeric"
 
 # Load existing data for comparison
 weather=read.csv("../Weather/Portal_weather.csv")
