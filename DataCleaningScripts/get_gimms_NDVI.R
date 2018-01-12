@@ -117,4 +117,8 @@ get_gimms_ndvi = function(gimms_folder = './GIMMS'){
 #MASTER CODE FOR CALLING THE FUNCTIONS
 ###############################
 portal_ndvi = get_gimms_ndvi(gimms_folder = './')
+
+# Change monthly abbreviations to month number
+portal_ndvi$month = match(ndvi$month, tolower(month.abb))
+
 write.csv(portal_ndvi, 'NDVI/monthly_NDVI.csv', row.names=FALSE)
