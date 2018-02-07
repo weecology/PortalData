@@ -7,7 +7,7 @@ trappingdat=update_portal_rodent_trapping()
 
 test_that("no skipped periods, in order", {
   
-  expect_true(all(diff(unique(trappingdat$Period))==1))
+  expect_true(all(diff(unique(trappingdat$period))==1))
 })
 
 
