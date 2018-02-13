@@ -1,4 +1,4 @@
-# Portal Site Description, Methods, and Metadata
+﻿# Portal Site Description, Methods, and Metadata
 
 Desert ecosystems have long served as model systems in the study of ecological concepts (e.g., competition, resource pulses, top-down/bottom-up dynamics). However, the inherent variability of resource availability in deserts, and hence consumer dynamics, can also make them challenging ecosystems to understand. Study of a Chihuahuan desert ecosystem near Portal, AZ began in 1977. At this site, 24 experimental plots were established in 1977 and divided among controls and experimental manipulations. Experimental manipulations over the years include removal of all or some rodent species, all or some ants, seed additions, and various alterations of the annual plant community. Data have also been published as a [data paper](http://onlinelibrary.wiley.com/doi/10.1890/15-2115.1/full) in Ecological Archives (Ernest et al 2009, 2016).
 
@@ -30,7 +30,7 @@ The study consists of 24 experimental plots, assigned to various ant, rodent, an
 
 #### Treatments: 
 
-As a result of direct changes to the plots, or the termination of experimental manipulations, changes in treatment assignment occurred in 1985, 1987, 2005, 2009 and 2015. These changes are described in [Portal_plot_treatments](Portal_plot_treatments.csv). Unlike the others, Plot 24 was built in 1979. Blank cells denote no changes in treatment from the previous time period. *Pogonomyrmex rugosus* is an ant species that built very large colonies at the site, but eventually declined until removal treatments were no longer necessary. *Dipodomys spectabilis* is a large and typically dominant rodent granivore that also declined during the 1980s. (Table modified from Brown 1998). The experimental rodent treatments were switched on all of the short-term plots in 2015. The plots with no entry after the first column are the subset of plots that have maintained a consistent manipulation since 1977. [Portal_plots](Portal_plots.csv) can be used to correctly assign each plot's treatment over time.
+As a result of direct changes to the plots, or the termination of experimental manipulations, changes in treatment assignment occurred in 1985, 1987, 2005, 2009 and 2015. These changes are described in [Portal_plot_treatments](Portal_plot_treatments.csv). Unlike the others, Plot 24 was built in 1979. Blank cells denote no changes in treatment from the previous time period. *Pogonomyrmex rugosus* is an ant species that built very large colonies at the site, but eventually declined until removal treatments were no longer necessary. *Dipodomys spectabilis* is a large and typically dominant rodent granivore that also declined during the 1980s. (Table modified from Brown 1998). The experimental rodent treatments were switched on all of the short-term plots on March 31 2015. The plots with no entry after the first column are the subset of plots that have maintained a consistent manipulation since 1977. [Portal_plots](Portal_plots.csv) can be used to correctly assign each plot's treatment over time.
 
 #### Rodent treatments:  
 
@@ -38,11 +38,11 @@ Rodents are manipulated using gates in the fencing of each plot. Rodent removals
 
 #### Plant treatments: 
 
-Since 1988 there have been no direct manipulations of the plant community. Before 1988, annuals were “removed” by applying an herbicide (brand: Roundup), but this removal was not considered successful and was discontinued (Brown 1998). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
+Since 1988 there have been no direct manipulations of the plant community. From July 1985 to 1988, annuals were “removed” by applying an herbicide (brand: Roundup), but this removal was not considered successful and was discontinued (Brown 1998). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
 
 #### Seed additions: 
 
-Since 1985 there have been no seed additions to any plot. Before 1985, seed additions were conducted by applying 96 kg of milo (*Sorghum vulgare*) and/or millet (*Panicum miliaceum*) seeds to designated plots (Davidson et al 1985). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
+Since 1985 there have been no seed additions to any plot. From September 1977 to July 1985, seed additions were conducted by applying 96 kg of milo (*Sorghum vulgare*) and/or millet (*Panicum miliaceum*) seeds to designated plots (Davidson et al 1985). In July 1985 seed addition was discontinued and these plots were re-assigned to plant removal treatments (Brown and Heske 1990). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
 
 #### Ant treatments: 
 
