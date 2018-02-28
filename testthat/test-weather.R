@@ -12,6 +12,11 @@ stormsnew_cols = colnames(stormsnew)
 storms = data[[4]]
 storms_cols = colnames(storms)
 
+portal4sw = read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T,
+                   colClasses=c("character", rep("integer",3), "character", "integer", rep("character",3), "Date"))
+sansimon = read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T,
+                        colClasses=c("character", rep("integer",3), "character", "integer", rep("character",3), "Date"))
+
 test_that("required column names in new weather df", {
   
   expect_identical(weather_cols, newdata_cols)
