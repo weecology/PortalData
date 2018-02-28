@@ -20,14 +20,12 @@ update_portal_plant_censuses = function() {
   # load quadrat data
   plantdat = read.csv("../Plants/Portal_plant_quadrats.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   # load rodent trapping data
-  censuses=read.csv("../Plants/Portal_plant_censuses.csv")  
+  censuses=read.csv("../Plants/Portal_plant_censuses.csv",stringsAsFactors = FALSE)  
   
   # proceed only if plantdat has more recent data than censuses
   
   #find new rows
-  newrows=which(cbind(plantdat$year,plantdat$season,plantdat$plot) %in% 
-                    cbind(censuses$year,censuses$season,censuses$plot)==FALSE)
-  newdat = unique(na.omit(plantdat[newrows,1:3]))
+  newdat = unique(anti_join(plantdat[,1:3],censuses[,1:3], by = c("year", "season", "plot")))
   
   if (nrow(newdat) != 0) {
     

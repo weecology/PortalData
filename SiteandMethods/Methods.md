@@ -38,7 +38,7 @@ Rodents are manipulated using gates in the fencing of each plot. Rodent removals
 
 #### Plant treatments: 
 
-Since 1988 there have been no direct manipulations of the plant community. From July 1985 to 1988, annuals were “removed” by applying an herbicide (brand: Roundup), but this removal was not considered successful and was discontinued (Brown 1998). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
+Since January 1988 there have been no direct manipulations of the plant community. From July 1985 to December 1987, annuals were “removed” by applying an herbicide (brand: Roundup), but this removal was not considered successful and was discontinued (Brown 1998). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv).
 
 #### Seed additions: 
 
@@ -46,7 +46,7 @@ Since 1985 there have been no seed additions to any plot. From September 1977 to
 
 #### Ant treatments: 
 
-Ant manipulations were conducted by applying a commercial poison (Mirex [Allied Chemical Corporation] through 1980 and AMDRO [American Cyanamide Company] afterwards) to designated plots (Davidson et al 1985). Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv). After the July 2009 census, ant treatments and ant censuses were discontinued. 
+Ant manipulations were conducted by applying a commercial poison (Mirex [Allied Chemical Corporation] through 1980 and AMDRO [American Cyanamide Company] afterwards) to designated plots (Davidson et al 1985). Poison was either applied broadly over the plot to remove all species of ants, or applied just to the conspicuous mounds of *Pogonomyrmex rugosus* and *P. barbatus*. Plots affected by these treatments are listed in [Portal_plot_treatments](Portal_plot_treatments.csv). After the July 2009 census, ant treatments and ant censuses were discontinued. 
 
 ## [Ant Data](../Ants)
 
