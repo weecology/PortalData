@@ -1,4 +1,4 @@
-"id","year","month","day","element","value","mflag","qflag","sflag","date"
+"id","year","month","day","element","value","measurement_flag","quality_flag","source","date"
 "US1AZCH0005",2009,8,22,"PRCP",38," "," ","N",2009-08-22
 "US1AZCH0005",2009,8,24,"PRCP",18," "," ","N",2009-08-24
 "US1AZCH0005",2009,8,27,"PRCP",0," "," ","N",2009-08-27
