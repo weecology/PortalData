@@ -45,11 +45,14 @@ data_out$month  = as.integer(substr(stationdata,16,17))
 data_out$day = 1
 data_out$element  = as.character(substr(stationdata,18,21))
 data_out$value  = as.integer(substr(stationdata,22,26))
-data_out$mflag  = as.character(substr(stationdata,27,27))
-data_out$qflag  = as.character(substr(stationdata,28,28))
-data_out$sflag  = as.character(substr(stationdata,29,29))
+data_out$measurement_flag  = as.character(substr(stationdata,27,27))
+data_out$quality_flag  = as.character(substr(stationdata,28,28))
+data_out$source = as.character(substr(stationdata,29,29))
 
 # Build days 2 through 31 as new rows
+# Initiate v, m, q, and s 
+# (These are indices for the location of the value (v) and it's 3 associated flags (m, q, and s))
+
 v = 22
 m = 27
 q = 28
@@ -57,6 +60,8 @@ s = 29
 
 for(t in 2:31) {
   
+  # update counter for the location of the next value (v), and it's 3 associated flags 
+
   v = v + 8
   m = m + 8
   q = q + 8
@@ -68,9 +73,9 @@ for(t in 2:31) {
   tmp$day = t
   tmp$element  = as.character(substr(stationdata,18,21))
   tmp$value  = as.integer(substr(stationdata,v,v+4))
-  tmp$mflag  = as.character(substr(stationdata,m,m))
-  tmp$qflag  = as.character(substr(stationdata,q,q))
-  tmp$sflag  = as.character(substr(stationdata,s,s))
+  tmp$measurement_flag  = as.character(substr(stationdata,m,m))
+  tmp$quality_flag  = as.character(substr(stationdata,q,q))
+  tmp$source  = as.character(substr(stationdata,s,s))
   
   data_out = rbind(data_out,tmp)
   
@@ -79,7 +84,7 @@ for(t in 2:31) {
 data_out[data_out == -9999] = NA
 
 data_out = data_out %>% dplyr::group_by(year,month,day,element) %>%
-  dplyr::arrange(year,month,day) %>% tidyr::drop_na(value:sflag) %>%
+  dplyr::arrange(year,month,day) %>% tidyr::drop_na(value:source) %>%
   dplyr::mutate(date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d"))
 
 return(data_out)
