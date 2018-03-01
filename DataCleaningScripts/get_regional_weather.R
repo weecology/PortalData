@@ -52,7 +52,6 @@ data_out$source = as.character(substr(stationdata,29,29))
 # Build days 2 through 31 as new rows
 # Initiate v, m, q, and s 
 # (These are indices for the location of the value (v) and it's 3 associated flags (m, q, and s))
-
 v = 22
 m = 27
 q = 28
@@ -61,7 +60,6 @@ s = 29
 for(t in 2:31) {
   
   # update counter for the location of the next value (v), and it's 3 associated flags 
-
   v = v + 8
   m = m + 8
   q = q + 8
