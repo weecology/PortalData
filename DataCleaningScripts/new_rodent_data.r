@@ -14,7 +14,7 @@ source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '469'
+newperiod = '471'
 filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
@@ -47,7 +47,7 @@ olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
 speciesnorms = read.csv('Rodents/Portal_rodent_species.csv', header = T, stringsAsFactors = F, na.strings = "")
 
 speciesnorms = filter(speciesnorms, censustarget == 1) %>%
-  filter(speciescode != "UR") %>%
+  filter(unidentified == 0) %>%
   select('speciescode')
 
 colnames(speciesnorms) = c('species')

@@ -24,9 +24,11 @@ update_portal_rodent_trapping = function() {
     # extract plot data beyond what's already in trappingdat
     newdat = filter(rodentdat,period > max(trappingdat$period)) %>% filter(!is.na(plot)) %>% select(month,day,year,period,plot,note1)
     newdat$sampled = rep(1)
+    newdat$effort = rep(49)
     newdat$sampled[newdat$note1==4] = 0
+    newdat$effort[newdat$note1==4] = 0
     # select unique rows and rearrange columns
-    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(day,month,year,period,plot,sampled)
+    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(day,month,year,period,plot,sampled,effort)
     # put in order of period, plot
     newdat = newdat[order(newdat$period,newdat$plot),]
     # append to trappingdat
