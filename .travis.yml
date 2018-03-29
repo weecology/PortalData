@@ -15,4 +15,5 @@ script:
   - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
 after_success:
+  - Rscript update_version.R
   - bash update_repo.sh
