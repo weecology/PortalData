@@ -14,9 +14,12 @@ sals kali,Kali,Salsola,tragus,kali,NA,Russian Thistle,Amaranthaceae,Annual,Summe
 tide lanu,Tidestromia,NA,lanuginosa,NA,NA,Woolly Tidestromia,Amaranthaceae,Annual,Summer Annual
 tide sp,Tidestromia,NA,sp.,NA,NA,Unknown,Amaranthaceae,Annual,Unknown
 sper echi,Spermolepis,NA,echinata,NA,NA,Bristly scaleseed,Apiaceae,Annual,Winter Annual
+funa hart,Funastrum,Sarcostemma,hartwegii,cynanchoides,NA,Hartweg's twinevine,Apocynaceae,Perennial,Perennial Forb
 dich pulc,Dichlostemma,NA,capitatum,pulchellum,subsp. pauciflorum,Blue Dicks,Asparagaceae,Perennial,Perennial Forb
 yucc elat,Yucca,NA,elata,NA,NA,Soaptree yucca,Asparagaceae,Perennial,Shrub
 ambr arte,Ambrosia,NA,artemisiifolia,NA,NA,Annual ragweed,Asteraceae,Annual,Summer and Winter Annual
+ambr conf,Ambrosia,NA,confertiflora,NA,NA,Weakleaf bur ragweed,Asteraceae,Perennial,Perennial Forb
+ambr sals,Ambrosia,NA,salsola,NA,NA,Winged ragweed,Asteraceae,Perennial,Perennial Shrub
 bahi absi,Bahia,NA,absinthifolia,NA,NA,Sageleaf Bahia,Asteraceae,Perennial,Perennial Forb
 bahi bite,Bahia,NA,biternata,NA,NA,Slimlobe bahia,Asteraceae,Annual,Summer Annual
 bail mult,Baileya,NA,multiradiata,NA,NA,Desert marigold,Asteraceae,Annual,Summer and Winter Annual
@@ -37,7 +40,7 @@ hapl spin,Haplopappus,NA,spinulosus,NA,NA,Lacy tansyaster,Asteraceae,Perennial,S
 hapl tenu,Isocoma,Haplopappus,tenuisecta,NA,NA,Burroweed,Asteraceae,Perennial,Subshrub
 hete suba,Heterotheca,NA,subaxillaris,NA,NA,Camphorweed,Asteraceae,Annual,Summer and Winter Annual
 laen coul,Laennecia,NA,coulteri,NA,NA,Coulter's Horseweed,Asteraceae,Annual,Summer and Winter Annual
-mach tanr,Machaeranthera,NA,tanacetifoloia,NA,NA,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
+mach tanr,Machaeranthera,NA,tagetina,tanacetifolia,NA,Tansyleaf Tansyaster,Asteraceae,Annual,Summer Annual
 mala fend,Malacothrix,NA,fendleri,NA,NA,Fendler's desert dandelion,Asteraceae,Annual,Winter Annual
 mala sp,Malacothrix,NA,sp.,NA,NA,Unknown,Asteraceae,Annual,Winter Annual
 micr lene,Uropappus,Microseris,lindleyi,lenearifolia,NA,Lindley's silverpuffs,Asteraceae,Annual,Winter Annual
@@ -46,6 +49,7 @@ part inca,Parthenium,NA,incanum,NA,NA,Mariola,Asteraceae,Perennial,Shrub
 pect papp,Pectis,NA,papposa,NA,NA,Manybristle Chinchweed,Asteraceae,Annual,Summer Annual
 pere nana,Perezia,Acourtia,nana,NA,NA,Dwarf desert holly,Asteraceae,Perennial,Perennial Forb
 pseu cane,Pseudognaphalium,NA,canescens,NA,NA,Wright's cudweed,Asteraceae,Annual,Summer and Winter Annual
+rafi neom,Rafinesquia,NA,neomexicana,NA,NA,New Mexico plumeseed,Asteraceae,Annual,Summer and Winter Annual
 sanv aber,Sanvitalia,NA,aberti,NA,NA,Abert's Creeping Zinnia,Asteraceae,Annual,Summer Annual
 step exig,Stephanomeria,NA,exigua,NA,NA,Small wirelettuce,Asteraceae,Annual,Winter Annual
 verb ence,Verbesina,NA,encelioides,NA,NA,Golden Crownbeard,Asteraceae,Annual,Summer Annual
@@ -112,12 +116,13 @@ hoff dens,Hoffmanseggia,NA,glauca,densiflora,NA,Hog potato,Leguminosae,Perennial
 lupi conc,Lupinus,NA,concinnus,NA,NA,Bajada lupine,Leguminosae,Annual,Winter Annual
 lupi sp,Lupinus,NA,sp.,NA,NA,Unknown,Leguminosae,Annual,Winter Annual
 lupi sp2,Lupinus,NA,sp.,NA,distinct from lupi sp,Unknown,Leguminosae,Annual,Winter Annual
-lupi spar,Lupinus,NA,sparsiflorus,NA,NA,Coulter's lupine,Leguminosae,Annual,Winter Annual
+lupi spar,Lupinus,NA,brevicaulis,NA,NA,Shortstem lupine,Leguminosae,Annual,Winter Annual
 mimo acul,Mimosa,NA,aculeaticarpa,NA,NA,Catclaw mimosa,Leguminosae,Perennial,Shrub
 pros glan,Prosopis,NA,glandulosa,NA,NA,Honey Mesquite,Leguminosae,Perennial,Shrub
 pros sp,Prosopis,NA,sp.,NA,NA,Unknown,Leguminosae,Perennial,Shrub
 pros velu,Prosopis,NA,velutina,NA,NA,Velvet Mesquite,Leguminosae,Perennial,Shrub
-malv lepi,Malvella,NA,lepidota,NA,NA,Scurfy mallow,Malvaceae,Perennial,Perennial Forb
+abut parv,Abutilon,NA,parvulum,NA,NA,Indian mallow,Malvaceae,Perennial,Perennial Forb
+sida neom,Sida,NA,neomexicana,NA,NA,New Mexico fanpetals,Malvaceae,Perennial,Perennial Forb
 sida phys,Rhynchosida,Sida,physocalyx,NA,NA,Buffpetal,Malvaceae,Perennial,Subshrub
 sida proc,Sida,NA,abutifolia,procumbens,NA,Spreading fanpetals,Malvaceae,Perennial,Perennial Forb
 sida sp,Sida,NA,sp.,NA,NA,Unknown,Malvaceae,Annual,Summer Annual
@@ -160,7 +165,6 @@ bout aris,Bouteloua,NA,aristidoides,NA,NA,Needle grama,Poaceae,Annual,Summer Ann
 bout barb,Chondrosum,Bouteloua,barbatum,barbata,NA,Sixweeks grama,Poaceae,Annual,Summer Annual
 bout dact,Buchloe,Bouteloua,dactyloides,NA,NA,Buffalo grass,Poaceae,Perennial,Perennial
 bout erio,Chondrosum,Bouteloua,eriopodum,eriopoda,NA,Black grama,Poaceae,Perennial,Perennial
-bout grac,Bouteloua,NA,gracilis,NA,NA,Blue grama,Poaceae,Perennial,Perennial
 bout sp,Bouteloua,NA,sp.,NA,NA,Unknown,Poaceae,Annual,Summer Annual
 brom rube,Bromus,NA,rubens,NA,NA,Red brome,Poaceae,Annual,Winter Annual
 chlo virg,Chloris,NA,virgata,NA,NA,Feather fingergrass,Poaceae,Annual,Summer Annual
@@ -170,7 +174,7 @@ erag cili,Eragrostis,NA,cilianensis,NA,NA,Stinkgrass,Poaceae,Annual,Summer Annua
 erag inte,Eragrostis,NA,intermedia,NA,NA,Plains Lovegrass,Poaceae,Perennial,Perennial
 erag lehm,Eragrostis,NA,lehmanniana,NA,NA,Lehmann's lovegrass,Poaceae,Perennial,Perennial
 erag sp,Eragrostis,NA,sp.,NA,NA,Unknown,Poaceae,Perennial,Perennial
-erio lemm,Eriochloa,NA,lemmonii,NA,NA,Canyon cupgrass,Poaceae,Annual,Summer and Winter Annual
+erio lemm,Eriochloa,NA,acuminata,lemmonii,NA,Canyon cupgrass,Poaceae,Annual,Summer and Winter Annual
 hila muti,Hilaria,NA,mutica,NA,NA,Tobosa grass,Poaceae,Perennial,Perennial
 lycu phle,Lycurus,NA,phleoides,NA,NA,Wolf tail,Poaceae,Perennial,Perennial
 muhl port,Muhlenbergia,NA,porteri,NA,NA,Bush Muhly,Poaceae,Perennial,Perennial
@@ -227,3 +231,4 @@ kall cali,Kallstroemia,NA,californica,NA,NA,California Caltrop,Zygophyllaceae,An
 kall gran,Kallstroemia,NA,grandiflora,NA,NA,Arizona Poppy,Zygophyllaceae,Annual,Summer Annual
 kall hirs,Kallstroemia,NA,hirsutissima,NA,NA,Hairy Caltrop,Zygophyllaceae,Annual,Summer Annual
 kall sp,Kallstroemia,NA,sp.,NA,NA,Unknown,Zygophyllaceae,Annual,Summer Annual
+larr trid,Larrea,NA,tridentata,NA,NA,Creosote bush,Zygophyllaceae,Perennial,Perennial Shrub
