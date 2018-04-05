@@ -1,0 +1,86 @@
+{
+  "creators": [
+    {
+      "affiliation": "University of Florida",
+      "name": "S. K. Morgan Ernest",
+      "orcid": "0000-0002-6026-8530"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Glenda M. Yenni",
+      "orcid": "0000-0001-6969-1848"
+    },
+    {
+      "affiliation": "George Washington University",
+      "name": "Ginger Allington",
+      "orcid": "0000-0003-0446-0576"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Ellen K. Bledsoe",
+      "orcid": "0000-0002-3629-7235"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Erica M. Christensen",
+      "orcid": "0000-0002-5635-2502"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Renata Diaz"
+    },
+    {
+      "affiliation": "University of Nebraska Kearney",
+      "name": "Keith Geluso"
+    },
+    {
+      "affiliation": "University of Wyoming",
+      "name": "Jacob R. Goheen"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Joan M. Meiners",
+      "orcid": "0000-0001-9369-9313"
+    },
+    {
+      "affiliation": "McKendree University",
+      "name": "Michelle R. Schutzenhofer"
+    },
+    {
+      "affiliation": "Denison University",
+      "name": "Sarah R. Supp",
+      "orcid": "0000-0002-0072-029X"
+    },
+    {
+      "affiliation": "National Ecological Observatory Network",
+      "name": "Katherine M. Thibault"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Shawn D. Taylor",
+      "orcid": "0000-0002-6178-6903"
+    },
+    {
+      "affiliation": "Saint Louis University",
+      "name": "Thomas J. Valone",
+      "orcid": "0000-0002-7657-3126"
+    },
+    {
+      "affiliation": "University of Florida",
+      "name": "Ethan P. White",
+      "orcid": "0000-0001-6728-7745"
+    },
+    {
+      "affiliation": "University of New Mexico",
+      "name": "James H. Brown"
+    }
+  ],
+  "keywords": [
+    "ecology",
+    "time-series",
+    "long-term",
+    "continuous analysis"
+  ],
+  "license": "cc-zero",
+  "upload_type": "dataset"
+}
