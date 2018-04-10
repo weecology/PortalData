@@ -5,6 +5,8 @@ warnings_are_errors: false
 
 install:
   - Rscript install-packages.R
+  - git checkout master
+  - R -e 'repo <- git2r::repository("."); last_commit <- git2r::commits(repo)[[1]]; last_commit@summary'
   
 script:
   - R -e 'setwd("DataCleaningScripts"); source("get_regional_weather.R"); append_regional_weather()'
@@ -14,6 +16,7 @@ script:
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plots.R"); writeportalplots()'
   - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
+
 after_success:
   - Rscript update_version.R
   - bash update_repo.sh
