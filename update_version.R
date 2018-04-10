@@ -4,7 +4,7 @@
 #' If [major] or [patch] is in the last commit summary increment the matching
 #' version instead.
 
-repo <- git2r::repository(".")
+repo <- git2r::repository(".", discover = TRUE)
 last_commit <- git2r::commits(repo)[[1]]
 current_ver <- semver::parse_version(readLines("version.txt"))
 
