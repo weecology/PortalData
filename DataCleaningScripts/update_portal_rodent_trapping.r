@@ -2,6 +2,7 @@
 # Record of which plots were or were not trapped in each census and exact dates
 
 library(dplyr)
+library(zoo)
 
 #' Appends new trapping dates to Portal_rodent_trapping
 #'
@@ -27,12 +28,16 @@ update_portal_rodent_trapping = function() {
     newdat$effort = rep(49)
     newdat$sampled[newdat$note1==4] = 0
     newdat$effort[newdat$note1==4] = 0
+    newdat$qcflag = 0
     # select unique rows and rearrange columns
-    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(day,month,year,period,plot,sampled,effort)
+    newdat = newdat[!duplicated(select(newdat,period,plot)),] %>% select(day,month,year,period,plot,sampled,effort,qcflag)
     # put in order of period, plot
     newdat = newdat[order(newdat$period,newdat$plot),]
     # append to trappingdat
     trappingdat = rbind(trappingdat,newdat)
+    
+    dates = as.yearmon(paste(trappingdat$month,"/",trappingdat$year,sep=""), "%m/%Y")
+    trappingdat$qcflag[dates<as.yearmon(Sys.Date())-1] = 1
   }
   return(trappingdat)
 }
