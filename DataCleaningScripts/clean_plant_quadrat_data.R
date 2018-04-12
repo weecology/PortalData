@@ -25,9 +25,9 @@ library(dplyr)
 # 1. Load Excel file #
 ######################
 
-season <-  'Summer'
-year <-  '2017'
-filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
+season <-  'Winter'
+year <-  '2018'
+filepath <-  '/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -77,17 +77,17 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2017_matched.csv', row.names = FALSE)
+write.csv(ws1, '/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Winter2018_matched.csv', row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2017_matched.csv', stringsAsFactors = F)
+ws = read.csv('/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Winter2018_matched.csv', stringsAsFactors = F)
 
 ws$notes <- NA
 
-splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
+splist = read.csv('../Plants/Portal_plant_species.csv',as.is=T)
 
 plots = seq(24)
 stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
@@ -160,14 +160,17 @@ data_clean$notes <- as.integer(data_clean$notes)
 
 # =====================================
 # Add census to census dates table
-dates = read.csv('./Plants/Portal_plant_census_dates.csv')
+dates = read.csv('../Plants/Portal_plant_census_dates.csv')
 
 if(!(unique(paste(data_clean$year,data_clean$season)) %in% paste(dates$year,dates$season))) {
   
-newdates = as.Date(with(data_clean, paste(year, month, day, sep="-")), "%Y-%m-%d")
-newrow = cbind(unique(data_clean[,c('year','season')]), censusdone = 'yes', start = format(min(newdates),"%m-%d"), end = format(max(newdates),"%m-%d"))
+start_month = min(data_clean$month)
+end_month = max(data_clean$month)
+start_day = min(data_clean$day[which(data_clean$month == start_month)])
+end_day = max(data_clean$day[which(data_clean$month == end_month)])
+newrow = cbind(unique(data_clean[,c('year','season')]), censusdone = 'yes', start_month = start_month, start_day = start_day, end_month = end_month, end_day = end_day)
 # append to existing dates file
-write.table(newrow, file = "./Plants/Portal_plant_census_dates.csv", 
+write.table(newrow, file = "../Plants/Portal_plant_census_dates.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
 }
 
@@ -184,7 +187,7 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf", "notes")]
 
 # append to existing data file
-write.table(data_append, file = "./Plants/Portal_plant_quadrats.csv", 
+write.table(data_append, file = "../Plants/Portal_plant_quadrats.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # data_old = read.csv("./Plants/Portal_plant_quadrats.csv", stringsAsFactors = F)
