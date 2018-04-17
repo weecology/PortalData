@@ -13,7 +13,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met466"
+metfile = "Met472"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
@@ -68,38 +68,49 @@ if (any(weathdat$RH < 0)) {
 if (any(weathdat$battv < 11,na.rm=T)) {print('Battery error')} else {print('Battery ok')}
 
 # check that start of new data lines up with end of existing data
-#Get max record from overlap data (this works because the last RECORD will always be higher for the old station)
 exst_dat = read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
-last = tail(ymd_hms(exst_dat$timestamp[exst_dat$record==max(exst_dat$record)]),n=1)
+exst_dat$timestamp = ymd_hms(exst_dat$timestamp)
+first = head(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5],n=1)
+last = tail(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5],n=1)
 
-if (last + 3600==ymd_hms(weathdat$timestamp)[1]) {
-  print('dates match')
+if (ymd_hms(first) %in% ymd_hms(weathdat$timestamp)) {
+  print('dates match, trimming data to match')
+  
+  weathdat = subset(weathdat,ymd_hms(timestamp) >= ymd_hms(first)) %>% 
+             subset(ymd_hms(timestamp) <= ymd_hms(last))
+  
 } else {print('dates do not match')
   print('Looking for data after')
-  print(last)
-  
-  weathdat = subset(weathdat,ymd_hms(timestamp) >=
-          last+3600)
+  print(first)
   }
 
 #Add RECORD column
-weathdat$record=max(exst_dat$record)+1:dim(weathdat)[1]
+weathdat$record2=max(exst_dat$record2,na.rm=TRUE)+1:dim(weathdat)[1]
 
 # plot data to look for outliers/weirdness
 plot(weathdat$airtemp,type='l')
 plot(weathdat$precipitation)
 plot(weathdat$RH,type='l')
 
-
-
 # ==============================================================================
 # 2. Append new data to file
 # ==============================================================================
 
 # get new data columns in correct order
-newdata = select(weathdat,c(year,month,day,hour,timestamp,record2=record,battv2=battv,airtemp2=airtemp,precipitation2=precipitation,RH2=RH))
+newdata = select(weathdat,c(year,month,day,hour,timestamp,record2,battv2=battv,airtemp2=airtemp,precipitation2=precipitation,RH2=RH))
 
-overlap = full_join(exst_dat,newdata)
+overlap = exst_dat %>% 
+          left_join(newdata,by = c("year", "month", "day", "hour", "timestamp")) %>% 
+          mutate(record2 = coalesce(record2.x, record2.y),
+                 battv2 = coalesce(battv2.x, battv2.y),
+                 airtemp2 = coalesce(airtemp2.x, airtemp2.y),
+                 precipitation2 = coalesce(precipitation2.x, precipitation2.y),
+                 RH2 = coalesce(RH2.x, RH2.y)) %>% 
+          select(colnames(exst_dat))
+
+if(any(dim(overlap) != dim(exst_dat))) {
+  print("Overlap table dimensions have changed, error in merge")
+}
 
 # write new data
 write.table(overlap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
