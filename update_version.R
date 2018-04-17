@@ -7,6 +7,9 @@
 repo <- git2r::repository(".")
 last_commit <- git2r::commits(repo)[[1]]
 current_ver <- semver::parse_version(readLines("version.txt"))
+if (grepl("Merge pull request", last_commit@summary)){
+    last_commit <- git2r::commits(repo)[[2]]
+}
 
 if (grepl("\\[no version bump\\]", last_commit@summary)) {
   new_ver <- current_ver
