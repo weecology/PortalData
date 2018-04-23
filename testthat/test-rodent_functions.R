@@ -2,7 +2,7 @@
 
 library(openxlsx)
 library(testthat)
-source('../DataCleaningScripts/compare_raw_data.r')
+source('../DataCleaningScripts/general_data_cleaning_functions.R')
 source('../DataCleaningScripts/rodent_data_cleaning_functions.R')
 
 
