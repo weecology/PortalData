@@ -36,7 +36,9 @@ newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 # 2. Compare double-entered data #
 ##################################
 
-unmatched = compare_worksheets(newfile)
+splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
+
+unmatched = compare_worksheets(newfile,splist)
 
 # iterate through mismatches and fix them
 ws1 = openxlsx::read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')

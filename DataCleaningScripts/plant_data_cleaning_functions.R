@@ -11,11 +11,10 @@ if(substr(currentdir, nchar(currentdir) - 8, nchar(currentdir)) == '/testthat') 
 #' @title quadrat data quality check
 #'
 #' @param df data frame of plant quadrat data (loaded from excel file of entered data)
+#' @param splist data frame of Portal_plant_species.csv: contains column speciescode
 #'
-quadrat_data_quality_checks = function(df) {
-  
+quadrat_data_quality_checks = function(df,splist) {
   # find species not in species list
-  splist = read.csv('../Plants/Portal_plant_species.csv',as.is=T)
   sp_check = check_species(df,splist$speciescode)
   if (length(sp_check)>0) {print('species not in species list:')
     print(sp_check)}
@@ -33,7 +32,8 @@ quadrat_data_quality_checks = function(df) {
   
   # check all quadrats present
   missingquads = all_quads(ws,plots=seq(24),quads)
-  if (length(missingquads)>0) {print(paste('missing quadrats:',paste(missingquads,collapse='  ')))}
+  if (dim(missingquads)[1]>0) {print('missing quadrats:')
+    print(missingquads)}
   
   # check that empty quadrats are handled appropriately (species=NA, abundance=0)
   emptyquad_problem = check_empty_quads(ws)
@@ -112,4 +112,65 @@ remove_empty_quads = function(df) {
   emptyrows = row.names(abund0)
   otherrows = row.names(df)[!(row.names(df) %in% emptyrows)]
   return(df[otherrows,])
+}
+
+#' @title transect data quality checks
+#' 
+#' @param df data frame of transect data
+#' @param splist data frame of Portal_plant_species.csv: contains column speciescode
+#'
+transect_data_quality_checks = function(df,splist) {
+  # find species not in species list
+  sp_check = check_species(df,splist$speciescode)
+  if (dim(sp_check)[1]>0) {print('species not in species list:')
+    print(sp_check)}
+  
+  # check for illegal transect number
+  transects <- c("11", "71")
+  badtransects = ws[!(ws$transect %in% transects),]
+  if (dim(badtransects)[1]>0) {print('bad quadrat numbers:')
+    print(badtransects)}
+  
+  # check all transects present
+  missingtransects = all_transects(df,plots=seq(24),transects=c(11,71))
+  if (dim(missingtransects)[1]>0) {print('missing transects:')
+    print(missingtransects)}
+  
+  # check for valid stop and start values (length of hypotenuse of plots (7000) plus some wiggle room)
+  startstop = check_start_stop(df)
+  if (dim(startstop)[1]>0) {print('check start/stop:')
+    print(startstop)}
+  
+  # check for valid height value
+  checkheight = df[which(!(df$height %in% 0:400)),]
+  if (dim(checkheight)[1]>0) {print('check height:')
+    print(checkheight)}
+
+}
+
+#' @title check all (2) transects present
+#' @description checks that all combinations of plot and transect are accounted for in data (even if empty). 2 transects per plot.
+#' 
+#' @param df data frame of transect data. required column names: plot, transect
+#' @param plots list of plots there should be (default 1:24)
+#' @param transects list of transects there should be
+#' 
+#' @return data frame with plot and transect columns, pairs not found in data
+#' 
+all_transects = function(df,plots=seq(24),transects) {
+  alltransects <- expand.grid(plot=plots,transect=transects)
+  plottransect <- dplyr::select(df,plot,transect) %>% unique()
+  
+  # return any plot-transect pairs that should be censused that are not in the data
+  missingtransects = dplyr::anti_join(alltransects,plottransect,by=c('plot','transect')) 
+  return(data.frame(missingtransects))
+}
+
+#' @title check transect start and stop values
+#' 
+#' @param df data frame of transect data. required column names: plot, transect
+#'
+check_start_stop = function(df) {
+  stopstart = df[which((!(df$start %in% 0:7500)) | (!(df$stop %in% 0:7500)) | df$start > df$stop), ]
+  return(stopstart)
 }
