@@ -1,6 +1,4 @@
 # some code to match new moon dates to period sampling dates
-# new moon dates downloaded from http://www.somacon.com/p570.php
-#   --data from this site is a csv with columns: date, time, phase, phaseid, datetime, timestamp, friendlydate
 
 library(dplyr)
 library(lubridate)
