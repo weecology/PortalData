@@ -1,5 +1,5 @@
 library(testthat)
-context("checks new plant quadrat data")
+context("checks new plant quadrat data and plant species list")
 
 data <- read.csv("../Plants/Portal_plant_quadrats.csv")
 species <-  read.csv('../Plants/Portal_plant_species.csv')
@@ -43,4 +43,15 @@ test_that("valid cover", {
 test_that("no duplicate data", {
   
   expect_true(sum(duplicated(data))==0)
+})
+
+
+test_that("valid duration in Portal_plant_species", {
+  
+  expect_true(all(species$duration %in% c('Perennial','Annual','Unknown')))
+})
+
+test_that("valid community in Portal_plant_species", {
+  
+  expect_true(all(species$community %in% c('Shrub','Summer Annual','Perennial Forb','Summer and Winter Annual','Unknown','Winter Annual','Subshrub','Perennial Grass')))
 })

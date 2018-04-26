@@ -3,11 +3,9 @@ library(dplyr)
 currentdir = getwd()
 
 if(substr(currentdir, nchar(currentdir) - 8, nchar(currentdir)) == '/testthat') {
-source('../DataCleaningScripts/check_all_plots_present.r')
-source('../DataCleaningScripts/check_missing_data.r')
+source('../DataCleaningScripts/general_data_cleaning_functions.R')
 } else {
-  source('DataCleaningScripts/check_all_plots_present.r')
-  source('DataCleaningScripts/check_missing_data.r')
+  source('DataCleaningScripts/general_data_cleaning_functions.R')
 }
 
 
