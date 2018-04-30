@@ -1,5 +1,5 @@
 note1,meaning
-1,"some missing data (i.e. stake missing, mass, gender) but otherwise record is good"
+1,"some missing data (i.e. stake missing, mass, sex) but otherwise record is good"
 2,"plot trapped, no animals present"
 3,stake numbers suspect
 4,plot not trapped (this and note1=2 allows differentiation between real zero abundances and missing data)
@@ -13,3 +13,5 @@ note1,meaning
 12,mass or hindfootlength suspect
 13,"not a target animal, no data collected"
 14,plot not completely trapped
+15,"animal found, not trapped"
+16,sex and/or species data filled in based on PIT tag number
