@@ -2,6 +2,7 @@
 # most of the code taken from EMC
 # organized by EKB
 # May 10, 2016
+# updated 4/23/18 by EMC
 
 # Notes:
 #   Section 1 
@@ -9,17 +10,17 @@
 #     * b. Make sure filepath is assigned to the appropriate directory *
 #       c. Use the most up-to-date version of the species list from GitHub
 #   Section 2
-#       a. This source code is take from the rodent data QC (EMC)
+#       a. From general_data_cleaning_functions.R
 #   Section 3
 #       a. This code is taken from EMC's "clean_plant_2014_2015.r
-#     * b. Make sure to check directory for splist *
+#       b. QC code in plant_data_cleaning_functions.R
 #       c. Add new species to "Portal_plant_species.csv"
 #   Section 4
 #     * a. Make sure to check directory for appending the existing file *
 
-library(openxlsx)
 library(dplyr)
-
+source('../DataCleaningScripts/general_data_cleaning_functions.R')
+source('../DataCleaningScripts/plant_data_cleaning_functions.R')
 
 ######################
 # 1. Load Excel file #
@@ -34,41 +35,15 @@ newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 ##################################
 # 2. Compare double-entered data #
 ##################################
-excel_file = newfile
-# load data from excel workbook
-ws1 = read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = c('', 'NA', ' '))
-ws2 = read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = c('', 'NA', ''))
 
-# if the two worksheets are identical, exit function
-if (identical(ws1,ws2)) {                                   
-  print('Worksheets identical')
-} else {
-  unmatched = data.frame(row = c(),column = c())         # empty data frame for storing output
-  num_rows = length(ws1$month)
-  curr_row = 1
-  while (curr_row<=num_rows) {
-    v1 = as.character(as.vector(ws1[curr_row,]))          # extract row from worksheet 1
-    v2 = as.character(as.vector(ws2[curr_row,]))          # extract row from worksheet 2
-    
-    # if the two versions of the row are not identical
-    if (!identical(v1,v2)) {
-      # loop through each element in the row
-      col_error = vector()
-      for (n in seq(length(v1))) {                        
-        if (!identical(v1[n],v2[n])) {
-          # add the column name to output vector
-          col_error = append(col_error,colnames(ws1)[n])
-        }
-      }
-      # append row and column info to output data frame (curr_row+1 to skip header in excel file)
-      unmatched = rbind(unmatched,data.frame(row = curr_row+1,column = col_error))
-    }
-    curr_row = curr_row+1             # increment index and continue loop
-  }
-  
-}
+splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
+
+unmatched = compare_worksheets(newfile,splist)
 
 # iterate through mismatches and fix them
+ws1 = openxlsx::read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
+ws2 = openxlsx::read.xlsx(newfile, sheet = 2, colNames = TRUE, na.strings = '')
+
 i = 1
 
 i  = i + 1
@@ -85,63 +60,23 @@ write.csv(ws1, '/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quad
 
 ws = read.csv('/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Winter2018_matched.csv', stringsAsFactors = F)
 
-ws$notes <- NA
+ws$notes = NA
 
-splist = read.csv('../Plants/Portal_plant_species.csv',as.is=T)
+quadrat_data_quality_checks(ws)
 
-plots = seq(24)
-stakes = c(11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77)
-
-# =====================================
-# species names not in official list
-
-new.names = setdiff(ws$species,splist$speciescode)
-
-
-
-#**ADD valid new species to species list**
-
-# =====================================
-# are all quadrats present
-
-allquads <-  apply(expand.grid(plots,stakes),1,paste,collapse=' ')
-plotquad <-  unique(paste(ws$plot,ws$quadrat))
-
-# any plot-stake pairs in the data that are not supposed to be censused
-setdiff(plotquad,allquads)
-
-# any plot-stake pairs that should be censused that are not in the data
-setdiff(allquads,plotquad)
-# 
-
-
-
-# =====================================
-# are there any duplicate entries of plot/quadrat/species
-
-ws[(duplicated(paste(ws$plot, ws$quadrat, ws$species))),]
-# 
-
-# =====================================
-# are there any plants recorded in an "empty" quadrat
-
-empties <-  ws[ws$abundance == 0,]
-ws[(paste(ws$plot,ws$quadrat) %in% paste(empties$plot,empties$quadrat)),]
-
-which(ws$abundance == 0)
 
 
 # ====================================
 # remove empty quadrats
 
-data_clean <- ws[!is.na(ws$species),]
+data_clean <- remove_empty_quads(ws)
 
 # ====================================
-# any empty data cells
+# check for missing data
+fields = c('year','month','day','season','plot','quadrat','species','abundance','cover')
 
-data_clean[is.na(data_clean$abundance),]
-data_clean[is.na(data_clean$species),]
-data_clean[is.na(data_clean$cover),]
+missingdat = check_missing_data(data_clean,fields)
+if (length(missingdat)>0) {print(paste('missing data in row: ',paste(missingdat,collapse='  ')))}
 
 # =====================================
 # correct all of the data types
@@ -190,4 +125,3 @@ data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "a
 write.table(data_append, file = "../Plants/Portal_plant_quadrats.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
-# data_old = read.csv("./Plants/Portal_plant_quadrats.csv", stringsAsFactors = F)

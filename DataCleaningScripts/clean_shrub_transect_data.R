@@ -2,12 +2,13 @@
 # most of the code taken from EMC
 # organized by EKB
 # May 11, 2016
+# refactored 4/24/18 EMC
 
 # Notes:
 #   Section 1
 #     * a. Ensure season, year, and filepath are correct *
 #   Section 2
-#       a. Source code from rodent checking (EMC)
+#       a. check double-entered data [general_data_cleaning_functions.R]
 #   Section 3
 #     * a. Ensure that species list path is correct *
 #   Section 4
@@ -16,57 +17,30 @@
 
 #####################################################################################
 
-# library(XLConnect) ### Does not work on my computer (RMD).
 library(openxlsx)
 library(dplyr)
+source('DataCleaningScripts/general_data_cleaning_functions.R')
+source('DataCleaningScripts/plant_data_cleaning_functions.R')
 
-# First manually compare and edit double-entered data 
-
-source('DataCleaningScripts/compare_raw_data.r')
-
-library(openxlsx)
-library(dplyr)
-
+######################
+# 1. Load Excel file #
+######################
 season <-  'Summer'
 year <-  '2017'
 filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
 
 excel_file <-  paste(filepath, "ShrubTransect_", season, year, '.xlsx', sep='')
 
-# load data from excel workbook
-ws1 = read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = c('', 'NA', ' '))
-ws2 = read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = c('', 'NA', ''))
+##################################
+# 2. Compare double-entered data #
+##################################
 
-# if the two worksheets are identical, exit function
-if (identical(ws1,ws2)) {                                   
-  print('Worksheets identical')
-} else {
-  unmatched = data.frame(row = c(),column = c())         # empty data frame for storing output
-  num_rows = length(ws1$month)
-  curr_row = 1
-  while (curr_row<=num_rows) {
-    v1 = as.character(as.vector(ws1[curr_row,]))          # extract row from worksheet 1
-    v2 = as.character(as.vector(ws2[curr_row,]))          # extract row from worksheet 2
-    
-    # if the two versions of the row are not identical
-    if (!identical(v1,v2)) {
-      # loop through each element in the row
-      col_error = vector()
-      for (n in seq(length(v1))) {                        
-        if (!identical(v1[n],v2[n])) {
-          # add the column name to output vector
-          col_error = append(col_error,colnames(ws1)[n])
-        }
-      }
-      # append row and column info to output data frame (curr_row+1 to skip header in excel file)
-      unmatched = rbind(unmatched,data.frame(row = curr_row+1,column = col_error))
-    }
-    curr_row = curr_row+1             # increment index and continue loop
-  }
-  
-}
+unmatched = compare_worksheets(excel_file)
 
 # iterate through mismatches and fix them
+ws1 = openxlsx::read.xlsx(excel_file, sheet = 1, colNames = TRUE, na.strings = '')
+ws2 = openxlsx::read.xlsx(excel_file, sheet = 2, colNames = TRUE, na.strings = '')
+
 i = 1
 
 i  = i + 1
@@ -74,62 +48,22 @@ unmatched[i, ]
 ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
-
-
 # Save matching datasheet
 write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', row.names = FALSE)
 
-
-######################
-# 1. Load "clean" .csv file #
-######################
-ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', stringsAsFactors= F)
 ######################
 # 3. Quality control #
 ######################
 
-splist <-  read.csv('./Plants/Portal_plant_species.csv', as.is = T)
+ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', stringsAsFactors= F)
 
-plots <-  1:24
-transects <- c("11", "71")
+splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
 
-# =====================================
-# species names not in official list
+transect_data_quality_checks(ws,splist)
 
-unique(ws$species[!(ws$species %in% splist$speciescode)])
 
-#**ADD valid new species to species list**
+# fix any errors, save cleaned version to dropbox
 
-# =====================================
-# are all transects present
-
-all_trans <-  apply(expand.grid(plots, transects), 1, paste, collapse = ' ') %>% trimws()
-plot_trans <-  unique(paste(ws$plot, ws$transect))
-
-# any plot-transect pairs that should be censused that are not in the data
-setdiff(all_trans, plot_trans)
-
-# =====================================
-# check for valid start, stop and height values
-
-ws[which(!(ws$start %in% 0:7500)), ]   #length of hypotenuse of plots (7000) plus some wiggle room
-ws[which(!(ws$stop %in% 0:7500)), ]   
-ws[which(!(ws$height %in% 0:400)) , ]
-
-ws[ which(ws$stop < ws$start), ]
-
-# fix errors
-
-# =====================================
-# save cleaned up version to Dropbox
-
-# make sure you are saving the most up-to-date version of the file
-#ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
-filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
-season = 'summer'
-year = 2017
-write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", ".csv", sep = ''), 
-          row.names = FALSE, na = "")
 
 #################################################
 # 4. Append new data to 2015+ plant data in Git #
@@ -142,7 +76,40 @@ write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.cs
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 
-# 
+# =====================================
+# old code: these checks have been incorporated into transect_data_quality_checks(), leaving them here for reference
+# =====================================
+# are all transects present
+
+#all_trans <-  apply(expand.grid(plots, transects), 1, paste, collapse = ' ') %>% trimws()
+#plot_trans <-  unique(paste(ws$plot, ws$transect))
+
+# any plot-transect pairs that should be censused that are not in the data
+#setdiff(all_trans, plot_trans)
+
+# -----------------------------------------
+# check for valid start, stop and height values
+
+#ws[which(!(ws$start %in% 0:7500)), ]   #length of hypotenuse of plots (7000) plus some wiggle room
+#ws[which(!(ws$stop %in% 0:7500)), ]   
+#ws[which(!(ws$height %in% 0:400)) , ]
+
+#ws[ which(ws$stop < ws$start), ]
+
+# fix errors
+
+# ---------------------------------------
+# save cleaned up version to Dropbox
+
+# make sure you are saving the most up-to-date version of the file
+#ws <-  readWorksheet(wb, sheet = 1, header = TRUE,colTypes = XLC$DATA_TYPE.STRING)
+#filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
+#season = 'summer'
+#year = 2017
+#write.csv(ws, file = paste(filepath, "ShrubTransect_", season, year, "_clean", ".csv", sep = ''), 
+#          row.names = FALSE, na = "")
+
+# --------------------------------------
 #  
 # transects = read.csv('/Users/renatadiaz/Documents/GitHub/PortalData/Plants/Portal_plant_transects_2015_present.csv')
 # transects$notes[which(!is.na(transects$note1))] <- transects$note1[which(!is.na(transects$note1))]

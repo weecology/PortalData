@@ -1,11 +1,8 @@
 # some code to match new moon dates to period sampling dates
-# new moon dates downloaded from http://www.somacon.com/p570.php
-#   --data from this site is a csv with columns: date, time, phase, phaseid, datetime, timestamp, friendlydate
 
 library(dplyr)
 library(lubridate)
-library(htmltab)
-
+library(lunar)
 
 #' Find date of first trapping night for each period in a data frame
 #' Returns data frame of Period (unique period numbers) and CensusDate
@@ -24,7 +21,6 @@ find_first_trap_night = function(dat) {
   }
   return(trap_dates)
 }
-
 
 #' Finds the date in a vector of dates (new moons) that is closest to a target date (a census)
 #' Returns the index of the vector
@@ -51,11 +47,11 @@ closest_newmoon = function(target_date,newmoondates) {
 update_moon_dates = function() {
   # load existing moon_dates.csv file
   moon_dates=read.csv("../Rodents/moon_dates.csv",stringsAsFactors = FALSE)
-  moon_dates$newmoondate = as.Date(moon_dates$newmoondate)
-  moon_dates$censusdate = as.Date(moon_dates$censusdate)
+  moon_dates$newmoondate = as_date(moon_dates$newmoondate)
+  moon_dates$censusdate = as_date(moon_dates$censusdate)
   # load rodent trapping data
   trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
-  trappingdat$censusdate = as.Date(paste(trappingdat$year,trappingdat$month,trappingdat$day,sep='-'))
+  trappingdat$censusdate = as_date(paste(trappingdat$year,trappingdat$month,trappingdat$day,sep='-'))
   
   
   # proceed only if trappingdat has more recent dates than moon_dates
@@ -69,26 +65,27 @@ update_moon_dates = function() {
      
   # get new moon dates
     #define date range for newmoon dates, shifting back a month just to not skip any
-    first=newperiod_dates$censusdate[1]-30
-    year=year(first)
-    month=month(first)
-    #pull new moon dates from navy.mil
-    newmoondates=htmltab(doc=paste("http://aa.usno.navy.mil/cgi-bin/aa_phases.pl?year=",year,"&month=",month,"&day=1&nump=50&format=t", sep=""))
-    newmoondates=gsub('.{6}$', '', newmoondates$"Date and Time (Universal Time)"[newmoondates$"Moon Phase" == "New Moon"])
-    newmoondates = as.Date(ymd(newmoondates, format='%Y %m %d'))
+    first = newperiod_dates$censusdate[1]-30
+    dates = as_date(first:Sys.Date())
+
+    #pull new moon dates from lunar package
+    newmoondates = data.frame(newmoondate = dates, phase = lunar.phase(dates,name=8)) %>% 
+      filter(phase=="New") %>%
+      mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
+      group_by(group) %>%
+      summarise(newmoondate = median(newmoondate))
   
   #Set up dataframe for new moon dates to be added
-  newmoons=data.frame(newmoonnumber= NA, newmoondate = as.Date(newmoondates), period = NA, censusdate = as.Date(NA))
-    #keep only newmoon dates past those currently assigned a newmoonnumber
-    newmoons=filter(newmoons,newmoondate>max(moon_dates$newmoondate,na.rm=TRUE))
-    #add newmoonnumbers to newmoondates
-    newmoons$newmoonnumber=max(moon_dates$newmoonnumber)+1:dim(newmoons)[1]
+  newmoons=data.frame(newmoonnumber= NA, newmoondate = as_date(newmoondates$newmoondate), 
+                      period = NA, censusdate = as.Date(NA)) %>%
+    filter(newmoondate>max(moon_dates$newmoondate+4,na.rm=TRUE)) %>% 
+    mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:n())
 
   #Match new census dates to moon dates
 
     # match new period to closest NewMoonDate, 
     for(i in 1:dim(newperiod_dates)[1]) {
-      closest = closest_newmoon(newperiod_dates$censusdate[i],newmoondates)
+      closest = closest_newmoon(newperiod_dates$censusdate[i],newmoondates$newmoondate)
       newdate=which(newmoons$newmoondate==closest)
       newmoons$censusdate[newdate]=newperiod_dates$censusdate[i]
       newmoons$period[newdate]=newperiod_dates$period[i]
