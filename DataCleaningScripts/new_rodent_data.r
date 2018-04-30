@@ -250,6 +250,81 @@ if (length(tags) > 0) {
   print('No more mismatches')
 }
 
+# Check to see if you can fill in species of sex data from previous records
+#   - will also allow you to change note1 to 16 
+#   - only do this if no other data are missing (e.g. hfl, wgt)
+
+
+missingdat_PIT <-ws[!is.na(ws$tag) & (is.na(ws$sex) | is.na(ws$species)),
+                    c("period", "plot", "species", "sex", "tag")]
+
+tags = (unique(missingdat_PIT$tag))
+
+if (length(tags) > 0) {
+  for (i in 1:length(tags)) {
+    thisone.old = olddat[which(olddat$tag == tags[i]), 2:29]
+    thisone.new = ws[which(ws$tag == tags[i]),]
+    thisone = rbind(thisone.old, thisone.new)
+    
+    if (nrow(thisone) > 1) {
+      print('Missing data can be filled:')
+      print(thisone[, c('period', 'plot', 'note1', 'species', 'sex', 'tag')])
+      print('Edit a record? (Y/N)')
+      edit = readline()
+      
+      if (edit == "Y") {
+        print("Row number?")
+        row.id = as.integer(readline())
+        print('Edit species? (Y/N)')
+        sp_edit = readline()
+        
+        if (sp_edit == 'Y') {
+          print('New species code?')
+          sp.code = readline()
+          ws[row.id, 'species'] <- sp.code
+          print(ws[row.id,])
+        } else {
+          print('Not editing species')
+        }
+        
+        print('Edit sex? (Y/N)')
+        sex_edit = readline()
+        
+        if (sex_edit == 'Y') {
+          print('New sex?')
+          sex.code = readline()
+          ws[row.id, 'sex'] <- sex.code
+          print(ws[row.id,])
+        } else {
+          print('Not editing sex')
+        }
+        
+        print('Change note1 to 16 (only if no other missing data)? (Y/N)')
+        note1_edit = readline()
+        
+        if (note1_edit == 'Y') {
+          ws[row.id, 'note1'] <- 16
+        } else {
+          print('Not editing note1')
+        }
+        
+        readline(prompt = "Press [enter] to continue")
+        print('Remember to record in notebook/on datasheet!')
+        readline(prompt = "Press [enter] to continue")
+        
+      }
+      
+      if (edit != 'Y') {
+        print('Not editing')
+        readline(prompt = "Press [enter] to continue")
+        
+      }
+      
+    }
+    
+  }
+  print('No more edits to make')
+}
 
 ##############################################################################
 # 4. Append new data
