@@ -1,7 +1,8 @@
 library(testthat)
-context("checks new shrub transect data")
+context("checks shrub transect data")
 
 data <- read.csv("../Plants/Portal_plant_transects_2015_present.csv")
+old_transects <- read.csv("../Plants/Portal_plant_transects_1989_2009.csv")
 species <-  read.csv('../Plants/Portal_plant_species.csv')
 
 test_that("valid year", {
@@ -50,6 +51,31 @@ test_that("valid height", {
 test_that("no duplicate data", {
   
   expect_true(sum(duplicated(data))==0)
+})
+
+test_that("valid year", {
+  
+  expect_true(all(old_transects$year %in% c(1989,1992,1995,1998,2001,2004,2009)))
+})
+
+test_that("valid plot", {
+  
+  expect_true(all(old_transects$plot %in% 1:24))
+})
+
+test_that("valid transect", {
+  
+  expect_true(all(old_transects$transect %in% c("NW","SW","NE","SE","")))
+})
+
+test_that("valid species", {
+  
+  expect_true(all(old_transects$species %in% species$speciescode))
+})
+
+test_that("valid point", {
+  
+  expect_true(all(old_transects$point %in% c(1:250,NA)))
 })
 
 
