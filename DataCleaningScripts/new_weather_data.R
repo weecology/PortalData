@@ -8,10 +8,11 @@
 #'
 #'
 #'
-# This function checks for new data in the raw .dat file remotely downloaded
-# from the Portal 2016 weather station
+# This function checks for new data at the datalogger-hosted website
 
 new_met_data <- function() {
+  
+  #httr::set_config(httr::timeout(seconds = 120))
 
 # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
 
