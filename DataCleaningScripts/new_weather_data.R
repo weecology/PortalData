@@ -12,7 +12,7 @@
 
 new_met_data <- function() {
   
-  httr::set_config(httr::timeout(seconds = 120))
+  #httr::set_config(httr::timeout(seconds = 120))
 
 # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
 
