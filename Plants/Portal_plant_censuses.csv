@@ -25330,7 +25330,7 @@ year,season,plot,quadrat,censused,area
 2014,winter,24,11,1,0.25
 2014,winter,24,13,1,0.25
 2014,winter,24,15,1,0.25
-2014,winter,24,17,1,0.25
+2014,winter,24,17,0,0.25
 2014,winter,24,31,1,0.25
 2014,winter,24,33,1,0.25
 2014,winter,24,35,1,0.25
@@ -25714,7 +25714,7 @@ year,season,plot,quadrat,censused,area
 2014,summer,24,11,1,0.25
 2014,summer,24,13,1,0.25
 2014,summer,24,15,1,0.25
-2014,summer,24,17,1,0.25
+2014,summer,24,17,0,0.25
 2014,summer,24,31,1,0.25
 2014,summer,24,33,1,0.25
 2014,summer,24,35,1,0.25
@@ -26098,7 +26098,7 @@ year,season,plot,quadrat,censused,area
 2015,winter,24,11,1,0.25
 2015,winter,24,13,1,0.25
 2015,winter,24,15,1,0.25
-2015,winter,24,17,1,0.25
+2015,winter,24,17,0,0.25
 2015,winter,24,31,1,0.25
 2015,winter,24,33,1,0.25
 2015,winter,24,35,1,0.25
@@ -26482,7 +26482,7 @@ year,season,plot,quadrat,censused,area
 2015,summer,24,11,1,0.25
 2015,summer,24,13,1,0.25
 2015,summer,24,15,1,0.25
-2015,summer,24,17,1,0.25
+2015,summer,24,17,0,0.25
 2015,summer,24,31,1,0.25
 2015,summer,24,33,1,0.25
 2015,summer,24,35,1,0.25
