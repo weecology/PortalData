@@ -27,7 +27,8 @@
     },
     {
       "affiliation": "University of Florida",
-      "name": "Renata Diaz"
+      "name": "Renata Diaz",
+      "orcid": "0000-0003-0803-4734"
     },
     {
       "affiliation": "University of Nebraska Kearney",
@@ -35,7 +36,21 @@
     },
     {
       "affiliation": "University of Wyoming",
-      "name": "Jacob R. Goheen"
+      "name": "Jacob R. Goheen",
+      "orcid": "0000-0001-6609-0692"
+    },
+    {
+      "affiliation": "U.S. Forest Service",
+      "name": "Qinfeng Guo",
+      "orcid": "0000-0002-4375-4916"
+    },
+    {
+      "affiliation": "University of Illinois",
+      "name": "Edward Heske"
+    },
+    {
+      "affiliation": "University of California Davis",
+      "name": "Douglas Kelt"
     },
     {
       "affiliation": "University of Florida",
@@ -43,8 +58,25 @@
       "orcid": "0000-0001-9369-9313"
     },
     {
+      "affiliation": "Boise State University",
+      "name": "Jim Munger"
+    },
+    {
+      "affiliation": "University of Puerto Rico - Rio Piedras",
+      "name": "Carla Restrepo",
+      "orcid": "0000-0002-1656-7816"
+    },
+    {
+      "affiliation": "Sapelo Island National Estuarine Research Reserve",
+      "name": "Douglas A. Samson"
+    },
+    {
       "affiliation": "McKendree University",
       "name": "Michelle R. Schutzenhofer"
+    },
+    {
+      "affiliation": "SRA International",
+      "name": "Marian Skupski"
     },
     {
       "affiliation": "Denison University",
@@ -61,19 +93,23 @@
       "orcid": "0000-0002-6178-6903"
     },
     {
-      "affiliation": "Saint Louis University",
-      "name": "Thomas J. Valone",
-      "orcid": "0000-0002-7657-3126"
-    },
-    {
       "affiliation": "University of Florida",
       "name": "Ethan P. White",
       "orcid": "0000-0001-6728-7745"
     },
     {
+      "affiliation": "University of Utah",
+      "name": "Diane W. Davidson"
+    },
+    {
       "affiliation": "University of New Mexico",
       "name": "James H. Brown"
     }
+    {
+      "affiliation": "Saint Louis University",
+      "name": "Thomas J. Valone",
+      "orcid": "0000-0002-7657-3126"
+    },
   ],
   "keywords": [
     "ecology",
