@@ -13,7 +13,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met472"
+metfile = "Met476"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
@@ -100,7 +100,7 @@ plot(weathdat$RH,type='l')
 newdata = select(weathdat,c(year,month,day,hour,timestamp,record2,battv2=battv,airtemp2=airtemp,precipitation2=precipitation,RH2=RH))
 
 overlap = exst_dat %>% 
-          left_join(newdata,by = c("year", "month", "day", "hour", "timestamp")) %>% 
+          full_join(newdata,by = c("year", "month", "day", "hour", "timestamp")) %>% 
           mutate(record2 = coalesce(record2.x, record2.y),
                  battv2 = coalesce(battv2.x, battv2.y),
                  airtemp2 = coalesce(airtemp2.x, airtemp2.y),
@@ -109,7 +109,7 @@ overlap = exst_dat %>%
           select(colnames(exst_dat))
 
 if(any(dim(overlap) != dim(exst_dat))) {
-  print("Overlap table dimensions have changed, error in merge")
+  print("Overlap table dimensions have changed, error in merge, or you need to add data from 2016 station")
 }
 
 # write new data
