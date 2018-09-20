@@ -51,12 +51,14 @@ test_that("Precipitation ok", {
   expect_true(all(newdata$precipitation >= 0))
   expect_true(all(newdata$precipitation < 100))
   expect_true(all(stormsnew$precipitation >= 0))
-  expect_true(all(stormsnew$precipitation < 10))
+  expect_true(all(stormsnew$precipitation < 12))
 })
 
 test_that("Precipitation in multiples of 0.254", {
   
-  expect_true(sum(newdata$precipitation%%0.254)==0)
+  expect_true(all(lapply(newdata$precipitation > 9, ifelse,
+    abs(newdata$precipitation / 0.254 - signif(newdata$precipitation / 0.254, digits = 3)) < 0.02,
+    newdata$precipitation%%0.254==0)))
   expect_true(sum(stormsnew$precipitation%%0.254)==0)
 })
 
