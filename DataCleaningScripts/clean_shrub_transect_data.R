@@ -26,7 +26,7 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 season <-  'Summer'
-year <-  '2017'
+year <-  '2018'
 filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
 
 excel_file <-  paste(filepath, "ShrubTransect_", season, year, '.xlsx', sep='')
@@ -49,15 +49,15 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', row.names = FALSE)
+write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2018_clean.csv', row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2017_clean.csv', stringsAsFactors= F)
+ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2018_clean.csv', stringsAsFactors= F)
 
-splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
+splist = read.csv('Plants/Portal_plant_species.csv',as.is=T)
 
 transect_data_quality_checks(ws,splist)
 
@@ -72,7 +72,7 @@ transect_data_quality_checks(ws,splist)
 data_append <- ws[, c("year", "month", "day", "plot", "transect", "species", "start", "stop", "height", "notes")]
 
 # append to existing data file
-write.table(data_append, file = "./Plants/Portal_plant_transects_2015_present.csv", 
+write.table(data_append, file = "Plants/Portal_plant_transects_2015_present.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 
