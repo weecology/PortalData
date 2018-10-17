@@ -19,16 +19,16 @@
 #     * a. Make sure to check directory for appending the existing file *
 
 library(dplyr)
-source('../DataCleaningScripts/general_data_cleaning_functions.R')
-source('../DataCleaningScripts/plant_data_cleaning_functions.R')
+source('DataCleaningScripts/general_data_cleaning_functions.R')
+source('DataCleaningScripts/plant_data_cleaning_functions.R')
 
 ######################
 # 1. Load Excel file #
 ######################
 
-season <-  'Winter'
+season <-  'Summer'
 year <-  '2018'
-filepath <-  '/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
+filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -38,7 +38,7 @@ newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
 splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
 
-unmatched = compare_worksheets(newfile,splist)
+unmatched = compare_worksheets(newfile)
 
 # iterate through mismatches and fix them
 ws1 = openxlsx::read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
@@ -52,17 +52,17 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Winter2018_matched.csv', row.names = FALSE)
+write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('/Users/joanmeiners/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Winter2018_matched.csv', stringsAsFactors = F)
+ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', stringsAsFactors = F)
 
 ws$notes = NA
 
-quadrat_data_quality_checks(ws)
+quadrat_data_quality_checks(ws, splist = splist)
 
 
 
@@ -95,7 +95,7 @@ data_clean$notes <- as.integer(data_clean$notes)
 
 # =====================================
 # Add census to census dates table
-dates = read.csv('../Plants/Portal_plant_census_dates.csv')
+dates = read.csv('Plants/Portal_plant_census_dates.csv')
 
 if(!(unique(paste(data_clean$year,data_clean$season)) %in% paste(dates$year,dates$season))) {
   
@@ -105,7 +105,7 @@ start_day = min(data_clean$day[which(data_clean$month == start_month)])
 end_day = max(data_clean$day[which(data_clean$month == end_month)])
 newrow = cbind(unique(data_clean[,c('year','season')]), censusdone = 'yes', start_month = start_month, start_day = start_day, end_month = end_month, end_day = end_day)
 # append to existing dates file
-write.table(newrow, file = "../Plants/Portal_plant_census_dates.csv", 
+write.table(newrow, file = "Plants/Portal_plant_census_dates.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
 }
 
@@ -122,6 +122,6 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf", "notes")]
 
 # append to existing data file
-write.table(data_append, file = "../Plants/Portal_plant_quadrats.csv", 
+write.table(data_append, file = "Plants/Portal_plant_quadrats.csv", 
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
