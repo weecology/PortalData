@@ -4,7 +4,7 @@ note1,meaning
 3,stake numbers suspect
 4,plot not trapped (this and note1=2 allows differentiation between real zero abundances and missing data)
 5,gates open+non-survey
-6,gates open
+6,gates open (5 or more)
 7,"animal caught on site, but outside plot"
 8,non-survey
 9,outside plot on exterior grid
@@ -15,3 +15,5 @@ note1,meaning
 14,plot not completely trapped
 15,"animal found, not trapped"
 16,sex and/or species data filled in based on PIT tag number
+17,gave birth in trap
+18,gates open (fewer than 5)
