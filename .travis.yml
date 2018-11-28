@@ -17,5 +17,4 @@ script:
 
 after_success:
   - git checkout master
-  - Rscript update_version.R
-  - bash update_repo.sh
+  - Rscript archive.R
