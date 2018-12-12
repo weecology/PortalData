@@ -15,16 +15,22 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
 
 # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
+  message("Pulling raw weather data")
 
 rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")  %>% 
 
   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battv=BattV)
 
+  message("Raw weather data loaded")
+
 # Pull raw storms data (latest 2500 records) & rename columns
+message("Pulling raw storms data")
 
 stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")  %>%
  
   dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
+
+  message("Raw storms data loaded")
 
 # Convert Timestamp
 rawdata$timestamp = lubridate::ymd_hms(rawdata$timestamp)

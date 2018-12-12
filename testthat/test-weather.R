@@ -2,7 +2,9 @@ source("../DataCleaningScripts/new_weather_data.R")
 library(testthat)
 context("checks new weather data")
 
+message("Get weather data for testing")
 data=new_met_data()
+message("Weather data for testing loaded")
 newdata = data[[1]]
 newdata_cols = colnames(newdata)
 weather = data[[2]]
