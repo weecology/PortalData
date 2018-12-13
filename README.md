@@ -9,3 +9,5 @@ Official Repo of the Portal Project Data
 [Methods.md](SiteandMethods/Methods.md) contains a full decription of the methods for all data.
 
 Detailed descriptions of individual data components are located in README.md files in the individual data folders.
+
+If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods.
