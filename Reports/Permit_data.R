@@ -57,7 +57,7 @@ create_permit_frame = function(new_df) {
 # ============================================================================
 
 datafile = "Rodents/Portal_rodent.csv"
-year = 2017
+year = 2018
 #read in raw data
 rawdata = read.csv(datafile,head=T,sep=',',na.strings=' ',as.is=T)
 
