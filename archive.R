@@ -52,12 +52,10 @@ git2r::push(repo, name = "deploy", refspec = "refs/heads/master", credentials = 
 
 github_token = Sys.getenv("GITHUB_TOKEN")
 git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
-# git2r::push(repo,
-#             name = "deploy",
-#             refspec = paste("refs/tags/", new_ver, sep=""),
-#             credentials = cred)
-# api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
-# httr::POST(url = api_release_url,
-#            httr::content_type_json(),
-#            httr::add_headers(Authorization = paste("token", github_token)),
-#            body = paste('{"tag_name":"', new_ver, '"}', sep=''))
+system("git remote add deploytags https://${GITHUB_TOKEN}@github.com/weecology/PortalData.git > /dev/null 2>&1")
+system("git push --quiet deploytags --tags > /dev/null 2>&1")
+api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
+httr::POST(url = api_release_url,
+           httr::content_type_json(),
+           httr::add_headers(Authorization = paste("token", github_token)),
+           body = paste('{"tag_name":"', new_ver, '"}', sep=''))
