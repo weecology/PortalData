@@ -1,3 +1,8 @@
+#' Functions for downloading and processing the weather data
+#'
+#' See `weather_server_update.py` for code that pulls the data from
+#' the data logger and posts it to the web.
+
 `%>%` <- magrittr::`%>%`
 
 #' Selects new weather data
@@ -17,7 +22,7 @@ new_met_data <- function() {
 # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
   message("Pulling raw weather data")
 
-rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&table=MET&records=1000', sep = "")  %>% 
+rawdata = htmltab::htmltab(doc='http://157.230.136.69/weather-data.html', sep = "")  %>%
 
   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,battv=BattV)
 
@@ -26,7 +31,7 @@ rawdata = htmltab::htmltab(doc='http://166.153.133.121/?command=TableDisplay&tab
 # Pull raw storms data (latest 2500 records) & rename columns
 message("Pulling raw storms data")
 
-stormsnew = htmltab::htmltab(doc="http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500", sep = "")  %>%
+stormsnew = htmltab::htmltab(doc="http://157.230.136.69/storms-data.html", sep = "")  %>%
  
   dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
 
