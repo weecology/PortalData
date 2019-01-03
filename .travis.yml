@@ -16,5 +16,8 @@ script:
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
   - git checkout master
   - Rscript archive.R
+  - git remote add deploytags https://${GITHUB_TOKEN}@github.com/weecology/PortalData.git > /dev/null 2>&1
+  - git push --quiet deploytags --tags > /dev/null 2>&1
+  - curl -v -i -X POST -H "Content-Type:application/json" -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/weecology/PortalData/releases -d "{\"tag_name\":\"$version\"}"
   
 after_success:
