@@ -4,6 +4,10 @@
 #' If [major] or [patch] is in the last commit summary increment the matching
 #' version instead.
 
+library(yaml)
+library(git2r)
+library(semver)
+
 config <- yaml::yaml.load_file("config.yml")
 
 repo <- git2r::repository(".")
