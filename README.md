@@ -10,4 +10,4 @@ Official Repo of the Portal Project Data
 
 Detailed descriptions of individual data components are located in README.md files in the individual data folders.
 
-If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods.
+If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods
