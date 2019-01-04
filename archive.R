@@ -8,7 +8,6 @@ config <- yaml::yaml.load_file("config.yml")
 
 repo <- git2r::repository(".")
 repo_url <- paste("https://github.com/", config$repo, ".git", sep = "")
-git2r::checkout(repo, branch = "master")
 git2r::remote_add(repo, name = "deploy", url = repo_url)
 cred <- git2r::cred_token("GITHUB_TOKEN")
 
@@ -37,6 +36,7 @@ if (grepl("\\[no version bump\\]", last_commit['summary'])) {
 writeLines(as.character(new_ver), "version.txt")
 
 travis_build <- Sys.getenv("TRAVIS_BUILD_NUMBER")
+git2r::checkout(repo, branch = "master")
 commit_message <- paste("Update data and trigger archive: Travis Build",
                         travis_build,
                         "[skip ci]")
