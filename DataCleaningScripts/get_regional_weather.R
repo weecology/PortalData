@@ -83,7 +83,8 @@ data_out[data_out == -9999] = NA
 
 data_out = data_out %>% dplyr::group_by(year,month,day,element) %>%
   dplyr::arrange(year,month,day) %>% tidyr::drop_na(value:source) %>%
-  dplyr::mutate(date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d"))
+  dplyr::mutate(date = as.Date(paste(year,month,day,sep="-"),"%Y-%m-%d")) %>%
+  dplyr::filter(is.integer(year),is.integer(month),is.integer(day))
 
 return(data_out)
 }
