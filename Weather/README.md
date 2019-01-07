@@ -1,6 +1,6 @@
 ## Portal Weather Monitoring Data
 
-These data stitch together manually collected weather data (1980 - 1989) and data from three overlapping automated weather stations (1989 - present). This data is continuously updated.
+These data stitch together manually collected weather data (1980 - 1989) and data from three overlapping automated weather stations (1989 - present). This data are continuously updated.
 
 #### Storm Data
 In addition to the hourly data, the 2016 station collects precipitation data in 5 minute intervals during storm events. This is in the separate table [Portal_storms](./Weather/Portal_storms.csv).
@@ -41,7 +41,7 @@ Below are column descriptions for [Portal_weather](Portal_weather.csv). The data
 Manually collected data are stored separately in [Portal_weather_9801989](Portal_weather_19801989.csv). **It is necessary to use only summarized monthly rainfall for this data.** 
 
 #### Station overlap
-[Portal_weather_overlap](Portal_weather_overlap.csv) contains duplicate values for air temperature and precipitation from the 2002 and 2016 stations. The 2002 station's columns come second and their names end in 2. It can be used to compare the two between stations or create an average. It also contains the `record` column for both stations, so it can be used to determine which station's data is used in the main [Portal_weather](Portal_weather.csv) data.
+[Portal_weather_overlap](Portal_weather_overlap.csv) contains duplicate values for air temperature and precipitation from the 2002 and 2016 stations. The 2002 station's columns come second and their names end in 2. It can be used to compare the two between stations or create an average. It also contains the `record` column for both stations, so it can be used to determine which station's data are used in the main [Portal_weather](Portal_weather.csv) data.
 
 
 
