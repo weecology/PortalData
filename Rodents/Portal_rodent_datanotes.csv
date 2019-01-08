@@ -1,19 +1,19 @@
 note1,meaning
 1,"some missing data (i.e. stake missing, mass, sex) but otherwise record is good"
 2,"plot trapped, no animals present"
-3,stake numbers suspect
-4,plot not trapped (this and note1=2 allows differentiation between real zero abundances and missing data)
-5,gates open+non-survey
-6,gates open (5 or more)
+3,"stake numbers suspect"
+4,"plot not trapped (this and note1=2 allows differentiation between real zero abundances and missing data)"
+5,"gates open+non-survey"
+6,"gates open (5 or more)"
 7,"animal caught on site, but outside plot"
-8,non-survey
-9,outside plot on exterior grid
-10,plot fence down
-11,plot number suspect
-12,mass or hindfootlength suspect
+8,"non-survey"
+9,"outside plot on exterior grid"
+10,"plot fence down"
+11,"plot number suspect"
+12,"mass or hindfootlength suspect"
 13,"not a target animal, no data collected"
-14,plot not completely trapped
+14,"plot not completely trapped (note number of traps missing and reduce effort accordingly)"
 15,"animal found, not trapped"
-16,sex and/or species data filled in based on PIT tag number
-17,gave birth in trap
-18,gates open (fewer than 5)
+16,"sex and/or species data filled in based on PIT tag number"
+17,"gave birth in trap"
+18,"gates open (fewer than 5)"
