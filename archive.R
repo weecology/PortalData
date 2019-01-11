@@ -42,13 +42,13 @@ commit_message <- paste("Update data and trigger archive: Travis Build",
                         "[skip ci]")
 git2r::add(repo, "*")
 git2r::commit(repo, message = commit_message)
-git2r::push(repo, name = "deploy", refspec = "refs/heads/master", credentials = cred)
 
 # Create a new release to trigger Zenodo archiving
 
 github_token = Sys.getenv("GITHUB_TOKEN")
 git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
 system("git remote add deploytags https://${GITHUB_TOKEN}@github.com/weecology/PortalData.git > /dev/null 2>&1")
+system("git push --quiet deploytags master > /dev/null 2>&1")
 system("git push --quiet deploytags --tags > /dev/null 2>&1")
 api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
 httr::POST(url = api_release_url,
