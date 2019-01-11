@@ -46,10 +46,12 @@ git2r::commit(repo, message = commit_message)
 # Create a new release to trigger Zenodo archiving
 
 github_token = Sys.getenv("GITHUB_TOKEN")
+pull_request = Sys.getenv("TRAVIS_PULL_REQUEST")
 git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
+
 system("git remote add deploytags https://${GITHUB_TOKEN}@github.com/weecology/PortalData.git > /dev/null 2>&1")
-system("git push --quiet deploytags master > /dev/null 2>&1")
-system("git push --quiet deploytags --tags > /dev/null 2>&1")
+system("git push --quiet deploytags master > /dev/null 2>&1", intern = TRUE)
+system("git push --quiet deploytags --tags > /dev/null 2>&1", intern = TRUE)
 api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
 httr::POST(url = api_release_url,
            httr::content_type_json(),
