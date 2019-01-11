@@ -15,7 +15,6 @@ script:
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plots.R"); writeportalplots()'
   - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
   - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
-  - git checkout master
   - Rscript archive.R
   
 after_success:
