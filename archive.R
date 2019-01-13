@@ -53,9 +53,13 @@ git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
 # a pull request.
 if (pull_request != 'false'){
   git2r::push(repo,
-            name = "deploy",
-            refspec = paste("refs/tags/", new_ver, sep=""),
-            credentials = cred)
+              name = "deploy",
+              refspec = "refs/heads/master",
+              credentials = cred)
+  git2r::push(repo,
+              name = "deploy",
+              refspec = paste("refs/tags/", new_ver, sep=""),
+              credentials = cred)
   api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
   httr::POST(url = api_release_url,
             httr::content_type_json(),
