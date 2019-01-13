@@ -46,13 +46,19 @@ git2r::commit(repo, message = commit_message)
 # Create a new release to trigger Zenodo archiving
 
 github_token = Sys.getenv("GITHUB_TOKEN")
+pull_request = Sys.getenv("TRAVIS_PULL_REQUEST")
 git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
-git2r::push(repo,
+
+# Don't try to push the changes and create a release when changes are part of
+# a pull request.
+if (pull_request != 'false'){
+  git2r::push(repo,
             name = "deploy",
             refspec = paste("refs/tags/", new_ver, sep=""),
             credentials = cred)
-api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
-httr::POST(url = api_release_url,
-           httr::content_type_json(),
-           httr::add_headers(Authorization = paste("token", github_token)),
-           body = paste('{"tag_name":"', new_ver, '"}', sep=''))
+  api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
+  httr::POST(url = api_release_url,
+            httr::content_type_json(),
+            httr::add_headers(Authorization = paste("token", github_token)),
+            body = paste('{"tag_name":"', new_ver, '"}', sep=''))
+}
