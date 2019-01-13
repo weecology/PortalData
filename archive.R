@@ -47,15 +47,16 @@ git2r::commit(repo, message = commit_message)
 
 github_token = Sys.getenv("GITHUB_TOKEN")
 pull_request = Sys.getenv("TRAVIS_PULL_REQUEST")
-git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
 
-# Don't try to push the changes and create a release when changes are part of
-# a pull request.
-if (pull_request == 'false'){
+# If the version has been incremented and this is not a pull request
+# then push the updated data, create a new tag, push the tag and
+# trigger a release.
+if (new_ver > current_ver & pull_request == 'false'){
   git2r::push(repo,
               name = "deploy",
               refspec = "refs/heads/master",
               credentials = cred)
+  git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
   git2r::push(repo,
               name = "deploy",
               refspec = paste("refs/tags/", new_ver, sep=""),
