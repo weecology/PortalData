@@ -51,7 +51,7 @@ git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
 
 # Don't try to push the changes and create a release when changes are part of
 # a pull request.
-if (pull_request != 'false'){
+if (pull_request == 'false'){
   git2r::push(repo,
               name = "deploy",
               refspec = "refs/heads/master",
