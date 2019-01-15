@@ -15,7 +15,7 @@ source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 ##############################################################################
 
 newperiod = '481'
-filepath = '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
+filepath = '~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep = '')
@@ -66,7 +66,7 @@ for (i in 1:nrow(speciesnorms)) {
   speciesnorms$wgt.max[i] = max(this.sp$wgt, na.rm = T)
   speciesnorms$hfl.min[i] = min(this.sp$hfl, na.rm = T)
   speciesnorms$hfl.max[i] = max(this.sp$hfl, na.rm = T)
-    
+
 }
 
 records = left_join(ws, speciesnorms, by = 'species')
@@ -85,22 +85,22 @@ if (nrow(records) > 0) {
         newval = readline(prompt = "New weight:")
         ws[records$rownum[i], 'wgt'] <- newval
       }
-      
+
       new.hfl = readline(prompt = "Change hfl? (Type Y for yes)")
-      
+
       if (new.hfl == "Y") {
         newval = readline(prompt = "New hfl:")
         ws[records$rownum[i], 'hfl'] <- newval
       }
-      
+
       add.note = readline(prompt = "Add note1 = 12 for suspect wgt/hlf? (Type Y for yes)")
       if (add.note == "Y") {
         ws[records$rownum[i], 'note1'] <- 12
       }
     }
-    
+
   }
-  
+
 }
 
 rm(records)
@@ -121,7 +121,7 @@ if (anyNA(newcaps$note2)) {
     print("Type Y to add star in worksheet")
     add.star = readline()
     if(add.star == 'Y') {
-      ## To add a star: 
+      ## To add a star:
       ws[which(ws$tag == nostar[i, 'tag']), 'note2'] <- '*'
       print(ws[which(ws$tag == nostar[i, 'tag']), ])
       print('Remember to record on datasheet + in notebook!')
@@ -130,7 +130,7 @@ if (anyNA(newcaps$note2)) {
   }
   print('No more missing stars')
   rm(nostar)
-  
+
 }
 
 
@@ -145,7 +145,7 @@ if (nrow(extrastar) > 0) {
     print("Type Y to remove star in worksheet")
     remove.star = readline()
     if(remove.star == 'Y') {
-      ## To remove a star: 
+      ## To remove a star:
       ws[which(ws$tag == extrastar[i, 'tag']), 'note2'] <- NA
       print(ws[which(ws$tag == extrastar[i, 'tag']), ])
       print('Remember to record on datasheet + in notebook!')
@@ -190,7 +190,7 @@ if (length(tags) > 0) {
         row.id = as.integer(readline())
         print('New species code?')
         sp.code = readline()
-        
+
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'species'] <- sp.code
           print(olddat[row.id, ])
@@ -200,16 +200,16 @@ if (length(tags) > 0) {
           print(ws[row.id, ])
         }
       }
-      
+
       if (edit != 'Y') {
         print('Not editing')
       }
-      
+
       print('Remember to record in notebook/on datasheet!')
-      
+
       readline(prompt="Press [enter] to continue")
     }
-    
+
     if (length(unique(thisone$sex)) > 1) {
       print('Sex mismatch:')
       print(thisone[,c('period', 'plot', 'species', 'sex', 'reprod', 'age', 'testes', 'vagina', 'pregnant', 'nipples', 'lactation','tag')])
@@ -220,7 +220,7 @@ if (length(tags) > 0) {
         row.id = as.integer(readline())
         print('New sex?')
         new.sex = readline()
-        
+
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'sex'] <- new.sex
           print(olddat[row.id, ])
@@ -230,28 +230,28 @@ if (length(tags) > 0) {
           print(ws[row.id, ])
         }
       }
-      
+
       if (edit != 'Y') {
         print('Not editing')
       }
-      
+
       print('Remember to record in notebook/on datasheet!')
-      
+
       readline(prompt="Press [enter] to continue")
     }
-    
+
     # print updated version of records
     print('Updated records:')
     print(olddat[which(olddat$tag == tags[i]), 2:29])
     print(ws[ which(ws$tag == tags[i]), ])
     readline(prompt="Press [enter] to continue")
-    
+
   }
   print('No more mismatches')
 }
 
 # Check to see if you can fill in species of sex data from previous records
-#   - will also allow you to change note1 to 16 
+#   - will also allow you to change note1 to 16
 #   - only do this if no other data are missing (e.g. hfl, wgt)
 
 
@@ -265,19 +265,19 @@ if (length(tags) > 0) {
     thisone.old = olddat[which(olddat$tag == tags[i]), 2:29]
     thisone.new = ws[which(ws$tag == tags[i]),]
     thisone = rbind(thisone.old, thisone.new)
-    
+
     if (nrow(thisone) > 1) {
       print('Missing data can be filled:')
       print(thisone[, c('period', 'plot', 'note1', 'species', 'sex', 'tag')])
       print('Edit a record? (Y/N)')
       edit = readline()
-      
+
       if (edit == "Y") {
         print("Row number?")
         row.id = as.integer(readline())
         print('Edit species? (Y/N)')
         sp_edit = readline()
-        
+
         if (sp_edit == 'Y') {
           print('New species code?')
           sp.code = readline()
@@ -286,10 +286,10 @@ if (length(tags) > 0) {
         } else {
           print('Not editing species')
         }
-        
+
         print('Edit sex? (Y/N)')
         sex_edit = readline()
-        
+
         if (sex_edit == 'Y') {
           print('New sex?')
           sex.code = readline()
@@ -298,30 +298,30 @@ if (length(tags) > 0) {
         } else {
           print('Not editing sex')
         }
-        
+
         print('Change note1 to 16 (only if no other missing data)? (Y/N)')
         note1_edit = readline()
-        
+
         if (note1_edit == 'Y') {
           ws[row.id, 'note1'] <- 16
         } else {
           print('Not editing note1')
         }
-        
+
         readline(prompt = "Press [enter] to continue")
         print('Remember to record in notebook/on datasheet!')
         readline(prompt = "Press [enter] to continue")
-        
+
       }
-      
+
       if (edit != 'Y') {
         print('Not editing')
         readline(prompt = "Press [enter] to continue")
-        
+
       }
-      
+
     }
-    
+
   }
   print('No more edits to make')
 }
@@ -344,24 +344,24 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 ##############################################################################
 # 5. Update trapping records and new moon records
 ##############################################################################
-# 
+#
 # ### Update Trapping Records
-# 
+#
 # # load rodent trapping data
-# trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)  
-# 
+# trappingdat = read.csv("./Rodents/Portal_rodent_trapping.csv", stringsAsFactors = F)
+#
 # # proceed only if rodentdat has more recent data than trappingdat
 # if (max(newdat$period) > max(trappingdat$period)) {
-#   
+#
 #   # convert newdat columns to integer
 #   newdat[,2:7] <- apply(newdat[,2:7], 2, function(x) as.integer(x))
 #   # extract plot data beyond what's already in trappingdat
 #   newtrapdat = filter(newdat, period > max(trappingdat$period)) %>%
-#     filter(!is.na(plot)) %>% 
+#     filter(!is.na(plot)) %>%
 #     select(month, day, year, period, plot, note1)
 #   newtrapdat$sampled = rep(1)
 #   newtrapdat$sampled[newtrapdat$note1 == 4] = 0
-#   
+#
 #   # select unique rows and rearrange columns
 #   newtrapdat = newtrapdat[!duplicated(select(newtrapdat, period, plot)), ] %>%
 #     select(day, month, year, period, plot, sampled)
@@ -371,10 +371,9 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 #   names(newtrapdat) = c('day', 'month', 'year', 'period', 'plot', 'sampled')
 #   # write updated data frame to csv
 #   write.table(newtrapdat, "./Rodents/Portal_rodent_trapping.csv", row.names = F, col.names = F, append = T, sep = ",", quote = F)
-#   
+#
 # }
-# 
+#
 # ### Update New Moon Records
 # source('./DataCleaningScripts/new_moon_numbers.r')
 # writenewmoons()
-

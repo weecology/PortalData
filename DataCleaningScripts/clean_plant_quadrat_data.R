@@ -1,11 +1,11 @@
-# Clean Plant Quadrat Data 
+# Clean Plant Quadrat Data
 # most of the code taken from EMC
 # organized by EKB
 # May 10, 2016
 # updated 4/23/18 by EMC
-
+ 
 # Notes:
-#   Section 1 
+#   Section 1
 #       a. Season and year should be changed accordingly
 #     * b. Make sure filepath is assigned to the appropriate directory *
 #       c. Use the most up-to-date version of the species list from GitHub
@@ -28,7 +28,7 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 
 season <-  'Summer'
 year <-  '2018'
-filepath <-  '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
+filepath <-  '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -52,13 +52,13 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', row.names = FALSE)
+write.csv(ws1, '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('/Users/renatadiaz/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', stringsAsFactors = F)
+ws = read.csv('~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', stringsAsFactors = F)
 
 ws$notes = NA
 
@@ -98,21 +98,21 @@ data_clean$notes <- as.integer(data_clean$notes)
 dates = read.csv('Plants/Portal_plant_census_dates.csv')
 
 if(!(unique(paste(data_clean$year,data_clean$season)) %in% paste(dates$year,dates$season))) {
-  
+
 start_month = min(data_clean$month)
 end_month = max(data_clean$month)
 start_day = min(data_clean$day[which(data_clean$month == start_month)])
 end_day = max(data_clean$day[which(data_clean$month == end_month)])
 newrow = cbind(unique(data_clean[,c('year','season')]), censusdone = 'yes', start_month = start_month, start_day = start_day, end_month = end_month, end_day = end_day)
 # append to existing dates file
-write.table(newrow, file = "Plants/Portal_plant_census_dates.csv", 
+write.table(newrow, file = "Plants/Portal_plant_census_dates.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",", quote = FALSE)
 }
 
 # =====================================
 # save cleaned up version to Dropbox
 
-write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep = ''), 
+write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep = ''),
           row.names = FALSE, na = "")
 
 #################################################
@@ -122,6 +122,5 @@ write.csv(data_clean, file = paste(filepath, season, year, "_clean", ".csv", sep
 data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "abundance", "cover", "cf", "notes")]
 
 # append to existing data file
-write.table(data_append, file = "Plants/Portal_plant_quadrats.csv", 
+write.table(data_append, file = "Plants/Portal_plant_quadrats.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
-
