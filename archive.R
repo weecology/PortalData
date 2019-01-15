@@ -47,11 +47,12 @@ git2r::commit(repo, message = commit_message)
 
 github_token = Sys.getenv("GITHUB_TOKEN")
 pull_request = Sys.getenv("TRAVIS_PULL_REQUEST")
+branch = Sys.getenv("TRAVIS_BRANCH")
 
-# If the version has been incremented and this is not a pull request
-# then push the updated data, create a new tag, push the tag and
-# trigger a release.
-if (new_ver > current_ver & pull_request == 'false'){
+# If the version has been incremented, this is not a pull request,
+# and it is the master branch of the repo, then push the updated data,
+# create a new tag, push the tag and trigger a release.
+if (new_ver > current_ver & branch == 'master' & pull_request == 'false'){
   git2r::push(repo,
               name = "deploy",
               refspec = "refs/heads/master",
