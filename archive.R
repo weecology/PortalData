@@ -35,11 +35,20 @@ if (grepl("\\[no version bump\\]", last_commit['summary'])) {
 
 writeLines(as.character(new_ver), "version.txt")
 
+# set up the new commit
 travis_build <- Sys.getenv("TRAVIS_BUILD_NUMBER")
 git2r::checkout(repo, branch = "master")
 commit_message <- paste("Update data and trigger archive: Travis Build",
                         travis_build,
                         "[skip ci]")
+
+# detect if this is a Travis CI build triggered by Cron
+travis_event <- Sys.getenv("TRAVIS_EVENT_TYPE")
+if (travis_event == "cron") {
+    commit_message <- paste(commit_message, "[cron]")
+}
+
+# write out the new version and add the commit
 git2r::add(repo, "*")
 git2r::commit(repo, message = commit_message)
 
