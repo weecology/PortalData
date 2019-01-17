@@ -6,8 +6,8 @@ All plots are trapped approximately monthly (1977 - present). Sampling is ongoin
 [Portal_rodent](Portal_rodent.csv) contains the rodent trapping data. Each individual of a target species is PIT tagged and data on species, location caught (plot and stake), sex, reproductive condition, weight, and hindfoot length are recorded.
 In almost all cases, you will want to remove negative period codes before using this data. Negative period codes indicate data collected outside of the normal census protocols, and should absolutely not be used as regular trapping data.
 
-#### Data Notes 
-[Portal_rodent_datanotes](Portal_rodent_datanotes.csv) lists the data flags used in the `Note2` column of [Portal_rodent](Portal_rodent.csv).
+#### Data Notes
+[Portal_rodent_datanotes](Portal_rodent_datanotes.csv) lists the data flags used in the `Note1` column of [Portal_rodent](Portal_rodent.csv).
 
 #### Species
 [Portal_rodent_species](Portal_rodent_species.csv) contains the species codes used in [Portal_rodent](Portal_rodent.csv). Any animal found in a trap is recorded. Non-rodent species are occasionally trapped and so are given species codes. Several columns are also included in the species table to restrict the species list to only rodents, only target species, or only granivores.
