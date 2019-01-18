@@ -19,7 +19,7 @@ git2r::config(repo,
 # Check the most recent commit for version instructions 
 last_commit <- git2r::commits(repo)[[1]]
 current_ver <- semver::parse_version(readLines("version.txt"))
-if (grepl("Merge pull request", last_commit['summary'])){
+if (grepl("Merge", last_commit['summary'])){
   last_commit <- git2r::commits(repo)[[2]]
 }
 
@@ -27,10 +27,16 @@ if (grepl("\\[no version bump\\]", last_commit['summary'])) {
   new_ver <- current_ver
 } else if (grepl("\\[major\\]", last_commit['summary'])) {
   new_ver <- semver::increment_version(current_ver, "major", 1L)
+} else if (grepl("\\[minor\\]", last_commit['summary'])){
+  new_ver <- semver::increment_version(current_ver, "minor", 1L)
 } else if (grepl("\\[patch\\]", last_commit['summary'])) {
   new_ver <- semver::increment_version(current_ver, "patch", 1L)
 } else {
-  new_ver <- semver::increment_version(current_ver, "minor", 1L)
+  stop(paste("The final commit message in a set of changes must be tagged",
+             "with version increment information.\nOptions include",
+             "[major], [minor], [patch], and [no version bump].\n",
+             "The last commit in this set of changes is:\n",
+             last_commit['summary']))
 }
 
 writeLines(as.character(new_ver), "version.txt")
