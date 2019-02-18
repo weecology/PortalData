@@ -34,5 +34,3 @@ vignettes/*.pdf
 
 #Custom view
 .DS_Store
-.Rproj.user
-PortalData.Rproj
