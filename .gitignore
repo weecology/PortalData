@@ -16,6 +16,7 @@
 
 # RStudio files
 .Rproj.user/
+PortalData.Rproj
 
 # produced vignettes
 vignettes/*.html
@@ -34,3 +35,4 @@ vignettes/*.pdf
 
 #Custom view
 .DS_Store
+.Rproj.user
