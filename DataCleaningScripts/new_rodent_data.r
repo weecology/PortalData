@@ -14,7 +14,7 @@ source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '481'
+newperiod = '482'
 filepath = '~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')

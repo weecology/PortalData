@@ -1,8 +1,5 @@
 #' Update the version number
 #'
-#' By default update the minor version number since most changes are new data.
-#' If [major] or [patch] is in the last commit summary increment the matching
-#' version instead.
 
 config <- yaml::yaml.load_file("config.yml")
 
