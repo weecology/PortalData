@@ -40,7 +40,6 @@ writeLines(as.character(new_ver), "version.txt")
 
 # set up the new commit
 travis_build <- Sys.getenv("TRAVIS_BUILD_NUMBER")
-git2r::checkout(repo, branch = "master")
 commit_message <- paste("Update data and trigger archive: Travis Build",
                         travis_build,
                         "[skip ci]")
@@ -51,20 +50,23 @@ if (travis_event == "cron") {
     commit_message <- paste(commit_message, "[cron]")
 }
 
-# write out the new version and add the commit
-git2r::add(repo, "*")
-git2r::commit(repo, message = commit_message)
+# get info about the Travis build environment
+pull_request <- Sys.getenv("TRAVIS_PULL_REQUEST")
+branch <- Sys.getenv("TRAVIS_BRANCH")
 
 # Create a new release to trigger Zenodo archiving
-
-github_token = Sys.getenv("GITHUB_TOKEN")
-pull_request = Sys.getenv("TRAVIS_PULL_REQUEST")
-branch = Sys.getenv("TRAVIS_BRANCH")
 
 # If the version has been incremented, this is not a pull request,
 # and it is the master branch of the repo, then push the updated data,
 # create a new tag, push the tag and trigger a release.
-if (new_ver > current_ver & branch == 'master' & pull_request == 'false'){
+if (new_ver > current_ver & branch == 'master' & pull_request == 'false')
+{
+  # write out the new version and add the commit
+  github_token <- Sys.getenv("GITHUB_TOKEN")
+  git2r::checkout(repo, branch = "master")
+  git2r::add(repo, "*")
+  git2r::commit(repo, message = commit_message)
+  
   git2r::push(repo,
               name = "deploy",
               refspec = "refs/heads/master",
@@ -76,7 +78,7 @@ if (new_ver > current_ver & branch == 'master' & pull_request == 'false'){
               credentials = cred)
   api_release_url = paste("https://api.github.com/repos/", config$repo, "/releases", sep = "")
   httr::POST(url = api_release_url,
-            httr::content_type_json(),
-            httr::add_headers(Authorization = paste("token", github_token)),
-            body = paste('{"tag_name":"', new_ver, '"}', sep=''))
+             httr::content_type_json(),
+             httr::add_headers(Authorization = paste("token", github_token)),
+             body = paste('{"tag_name":"', new_ver, '"}', sep=''))
 }
