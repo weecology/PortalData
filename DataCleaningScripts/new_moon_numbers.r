@@ -90,10 +90,10 @@ update_moon_dates = function() {
       newmoons$censusdate[newdate]=newperiod_dates$censusdate[i]
       newmoons$period[newdate]=newperiod_dates$period[i]
         }
+    }
     
     #Only keep newmoon dates up to latest census
     
-    newmoons=newmoons %>% subset(period <= max(abs(newmoons$period),na.rm=TRUE))
     newmoons=newmoons %>% subset(period <= max(abs(newmoons$period),na.rm=TRUE) | is.na(period))
     
       #append all new rows to moon_dates data frame
