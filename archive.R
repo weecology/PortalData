@@ -43,19 +43,19 @@ if (Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") # is this a build triggered by Cr
 } else { # this is triggered by an update to Master or by a PR on a branch
   # parse the most recent commit for version instructions 
   last_commit <- git2r::commits(repo)[[1]]
-  if (grepl("Merge", last_commit['summary']))
+  if (grepl("Merge", last_commit['summary'], ignore.case = TRUE))
   {
     last_commit <- git2r::commits(repo)[[2]]
   }
   
-  if (grepl("\\[no version bump\\]", last_commit['summary']))
+  if (grepl("\\[no version bump\\]", last_commit['summary'], ignore.case = TRUE))
   {
     new_ver <- current_ver
-  } else if (grepl("\\[major\\]", last_commit['summary'])) {
+  } else if (grepl("\\[major\\]", last_commit['summary'], ignore.case = TRUE)) {
     new_ver <- semver::increment_version(current_ver, "major", 1L)
-  } else if (grepl("\\[minor\\]", last_commit['summary'])) {
+  } else if (grepl("\\[minor\\]", last_commit['summary'], ignore.case = TRUE)) {
     new_ver <- semver::increment_version(current_ver, "minor", 1L)
-  } else if (grepl("\\[patch\\]", last_commit['summary'])) {
+  } else if (grepl("\\[patch\\]", last_commit['summary'], ignore.case = TRUE)) {
     new_ver <- semver::increment_version(current_ver, "patch", 1L)
   } else {
     stop(paste("The final commit message in a set of changes must be tagged",
