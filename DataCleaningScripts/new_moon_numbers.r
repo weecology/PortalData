@@ -89,7 +89,6 @@ update_moon_dates = function() {
       newdate=which(newmoons$newmoondate==closest)
       newmoons$censusdate[newdate]=newperiod_dates$censusdate[i]
       newmoons$period[newdate]=newperiod_dates$period[i]
-        }
     }
     
     #Only keep newmoon dates up to latest census
