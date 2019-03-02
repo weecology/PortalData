@@ -97,7 +97,8 @@ write.table(data[1], file = "../Weather/Portal_weather.csv",
               row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
-overlap=as.data.frame(data[1]) %>% dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
+overlap=as.data.frame(data[1]) %>% 
+  dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
 overlap$timestamp=lubridate::ymd_hms(overlap$timestamp)
 write.table(overlap, file = "../Weather/Portal_weather_overlap.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
