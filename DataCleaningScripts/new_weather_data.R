@@ -62,10 +62,10 @@ class(stormsnew$battv)="numeric"
 class(stormsnew$precipitation)="numeric"
 
 # Load existing data for comparison
-weather=read.csv("../Weather/Portal_weather.csv")
+weather=read.csv("Weather/Portal_weather.csv")
   weather$timestamp = lubridate::ymd_hms(weather$timestamp)
 
-storms=read.csv("../Weather/Portal_storms.csv")
+storms=read.csv("Weather/Portal_storms.csv")
   storms$timestamp = lubridate::ymd_hms(storms$timestamp)
 
 #Keep only new data
@@ -90,18 +90,18 @@ append_weather <- function() {
   data=new_met_data()
 
 # append new data
-write.table(data[1], file = "../Weather/Portal_weather.csv",
-            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+write.table(data[1], file = "Weather/Portal_weather.csv",
+            row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
 
-  write.table(data[3], file = "../Weather/Portal_storms.csv",
-              row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+  write.table(data[3], file = "Weather/Portal_storms.csv",
+              row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
 
 # also append new data to overlap file
 overlap=as.data.frame(data[1]) %>% 
   dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
 overlap$timestamp=lubridate::ymd_hms(overlap$timestamp)
-write.table(overlap, file = "../Weather/Portal_weather_overlap.csv",
-            row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+write.table(overlap, file = "Weather/Portal_weather_overlap.csv",
+            row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
 
 }
 

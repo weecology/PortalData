@@ -1,4 +1,3 @@
-library(testthat)
 context("checks shrub transect data")
 
 data <- read.csv("../Plants/Portal_plant_transects_2015_present.csv")

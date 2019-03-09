@@ -8,13 +8,8 @@ install:
   - Rscript install-packages.R
   
 script:
-  - R -e 'setwd("DataCleaningScripts"); source("get_regional_weather.R"); append_regional_weather()'
+  - Rscript update-data.R
   - Rscript testthat.R
-  - R -e 'setwd("DataCleaningScripts"); source("new_weather_data.R"); append_weather()'
-  - R -e 'setwd("DataCleaningScripts"); source("update_portal_rodent_trapping.r"); writetrappingtable()'
-  - R -e 'setwd("DataCleaningScripts"); source("update_portal_plots.R"); writeportalplots()'
-  - R -e 'setwd("DataCleaningScripts"); source("new_moon_numbers.r"); writenewmoons()'
-  - R -e 'setwd("DataCleaningScripts"); source("update_portal_plant_censuses.R"); writecensustable()'
   - Rscript archive.R
   
 after_success:

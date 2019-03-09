@@ -14,10 +14,12 @@ portal4sw = clean_station_data(portal4sw_station)
 sansimon = clean_station_data(sansimon_station)
 
 #Keep only new data
-all_4sw = read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T,
-                   colClasses=c("character", rep("integer",3), "character", "integer", rep("character",3), "Date"))
-all_sansimon = read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T,
-                        colClasses=c("character", rep("integer",3), "character", "integer", rep("character",3), "Date"))
+all_4sw = read.csv(file = "Weather/Portal4sw_regional_weather.csv",header=T,
+                   colClasses=c("character", rep("integer",3), "character", "integer", 
+                                rep("character",3), "Date"))
+all_sansimon = read.csv(file = "Weather/Sansimon_regional_weather.csv",header=T,
+                        colClasses=c("character", rep("integer",3), "character", "integer", 
+                                     rep("character",3), "Date"))
 
 new_4sw=dplyr::setdiff(portal4sw,all_4sw)
 new_sansimon=dplyr::setdiff(sansimon,all_sansimon)
@@ -100,10 +102,10 @@ append_regional_weather <- function() {
   data=get_regional_weather()
   
   # append new data
-  write.table(data[1], file = "../Weather/Portal4sw_regional_weather.csv",
-              row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+  write.table(data[1], file = "Weather/Portal4sw_regional_weather.csv",
+              row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
-  write.table(data[2], file = "../Weather/Sansimon_regional_weather.csv",
-              row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+  write.table(data[2], file = "Weather/Sansimon_regional_weather.csv",
+              row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
 }
