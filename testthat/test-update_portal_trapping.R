@@ -1,9 +1,15 @@
-source('../DataCleaningScripts/update_portal_rodent_trapping.r')
-
-library(testthat)
 context("checks new trapping dates are being added correctly")
 
-trappingdat=update_portal_rodent_trapping()
+trappingdat <- read.csv("../Rodents/Portal_rodent_trapping.csv") 
+rodentdat <- read.csv("../Rodents/Portal_rodent.csv")
+newperiod <- max(rodentdat$period)
+newdat <- rodentdat[rodentdat$period==newperiod,]
+newtrapping <- trappingdat[trappingdat$period==newperiod,]
+
+test_that("new period in data", {
+  
+  expect_true(max(trappingdat$period) == newperiod)
+})
 
 test_that("no skipped periods, in order", {
   
@@ -13,5 +19,18 @@ test_that("no skipped periods, in order", {
 
 test_that("no duplicate data", {
 
-  expect_true(sum(duplicated(trappingdat))==0)
+  expect_false(any(duplicated(trappingdat)))
+})
+
+test_that("all plots added",{
+  expect_true(length(newtrapping$plot)==24)
+})
+
+test_that("effort added correctly", {
+  if(14 %in% newdat$note1) { 
+  expect_false(all(newtrapping$effort %in% c(0,49)))
+  }
+  else {
+    expect_true(all(newtrapping$effort %in% c(0,49)))
+  }
 })

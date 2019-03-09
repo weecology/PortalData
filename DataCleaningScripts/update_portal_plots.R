@@ -13,9 +13,9 @@ library(dplyr)
 
 update_portal_plots <- function() {
   #load plot data
-  portal_plots = read.csv("../SiteandMethods/Portal_plots.csv",stringsAsFactors = FALSE)
+  portal_plots = read.csv("SiteandMethods/Portal_plots.csv",stringsAsFactors = FALSE)
   # load rodent data
-  rodentdat = read.csv("../Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
+  rodentdat = read.csv("Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   
   # define currrent plot treatments
   
@@ -57,5 +57,5 @@ update_portal_plots <- function() {
 #'
 writeportalplots <- function() {
   portal_plots = update_portal_plots()
-  write.csv(portal_plots, file='../SiteandMethods/Portal_plots.csv', row.names = FALSE, quote = FALSE)
+  write.csv(portal_plots, file='SiteandMethods/Portal_plots.csv', row.names = FALSE, quote = FALSE)
 }

@@ -18,9 +18,9 @@ library(dplyr)
 
 update_portal_plant_censuses = function() {
   # load quadrat data
-  plantdat = read.csv("../Plants/Portal_plant_quadrats.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
+  plantdat = read.csv("Plants/Portal_plant_quadrats.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   # load rodent trapping data
-  censuses=read.csv("../Plants/Portal_plant_censuses.csv",stringsAsFactors = FALSE)  
+  censuses=read.csv("Plants/Portal_plant_censuses.csv",stringsAsFactors = FALSE)  
   
   # proceed only if plantdat has more recent data than censuses
   
@@ -53,4 +53,4 @@ writecensustable <- function() {
   
   censuses=update_portal_plant_censuses()
   # write updated data frame to csv
-  write.csv(censuses, file="../Plants/Portal_plant_censuses.csv", row.names=FALSE, quote = FALSE) }
+  write.csv(censuses, file="Plants/Portal_plant_censuses.csv", row.names=FALSE, quote = FALSE) }

@@ -1,9 +1,8 @@
-source('../DataCleaningScripts/update_portal_plant_censuses.R')
-
-library(testthat)
 context("checks new plant census dates are being added correctly")
 
-censuses=update_portal_plant_censuses()
+censuses <- read.csv("../Plants/Portal_plant_censuses.csv")
+census_dates <- read.csv("../Plants/Portal_plant_census_dates.csv")
+quadrats <- read.csv("../Plants/Portal_plant_quadrats.csv")
 
 test_that("valid season", {
   
@@ -32,11 +31,19 @@ test_that("valid censuses", {
 
 test_that("valid area", {
   
-  expect_true(all(censuses$area %in% c(0,0.5,0.25)))
+  expect_true(all(censuses$area %in% c(0,0.25)))
 })
 
 test_that("no duplicate data", {
   
-  expect_true(sum(duplicated(censuses))==0)
+  expect_false(any(duplicated(censuses)))
 })
+
+test_that("census dates updated", {
+  
+  expect_true(unique(paste(quadrats$year, quadrats$season) %in%
+                     paste(census_dates$year, census_dates$season)))
+})
+
+
 

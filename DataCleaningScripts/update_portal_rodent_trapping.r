@@ -15,9 +15,9 @@ library(zoo)
 
 update_portal_rodent_trapping = function() {
   # load rodent data
-  rodentdat = read.csv("../Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
+  rodentdat = read.csv("Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   # load rodent trapping data
-  trappingdat=read.csv("../Rodents/Portal_rodent_trapping.csv")  
+  trappingdat=read.csv("Rodents/Portal_rodent_trapping.csv")  
   
   # proceed only if rodentdat has more recent data than trappingdat
   if (max(abs(rodentdat$period)) > max(abs(trappingdat$period))) {
@@ -54,4 +54,4 @@ writetrappingtable <- function() {
   
   trappingdat=update_portal_rodent_trapping()
   # write updated data frame to csv
-  write.csv(trappingdat, file="../Rodents/Portal_rodent_trapping.csv", row.names=FALSE, quote = FALSE) }
+  write.csv(trappingdat, file="Rodents/Portal_rodent_trapping.csv", row.names=FALSE, quote = FALSE) }
