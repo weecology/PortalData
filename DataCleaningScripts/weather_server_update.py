@@ -32,12 +32,13 @@ if os.path.exists('weather-data.html'):
 if os.path.exists('storms-data.html'):
     os.remove('storms-data.html')
 
-weather_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=1000'
-storms_url = 'http://166.153.133.121/?command=TableDisplay&table=Storms&records=2500'
+weather_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=200'
+storms_url = 'http://166.153.133.121/?command=TableDisplay&table=Storms&records=1650'
 
 r_weather = requests.get(weather_url, allow_redirects=True)
-r_storms = requests.get(storms_url, allow_redirects=True)
 open('weather-data.html', 'wb').write(r_weather.content)
-open('storms-data.html', 'wb').write(r_storms.content)
 shutil.copyfile('weather-data.html', '/var/www/html/weather-data.html')
+
+r_storms = requests.get(storms_url, allow_redirects=True)
+open('storms-data.html', 'wb').write(r_storms.content)
 shutil.copyfile('storms-data.html', '/var/www/html/storms-data.html')
