@@ -18,7 +18,24 @@
 new_met_data <- function() {
   
   #httr::set_config(httr::timeout(seconds = 120))
-
+  
+# To read from .dat file
+# header=read.table("../../Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat", 
+#                    skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
+#   
+# rawdata=read.table("../../Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_MET.dat", 
+#                    skip = 4, header = FALSE,sep=",") %>%
+#   `colnames<-`(header) %>%
+#   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV)
+# 
+# header_storms=read.table("../../Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/485_CR1000_storms.dat", 
+#                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
+# 
+# stormsnew=read.table("../../Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/485_CR1000_storms.dat", 
+#                    skip = 4, header = FALSE,sep=",") %>%
+#   `colnames<-`(header_storms) %>%
+#   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
+  
 # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
   message("Pulling raw weather data")
 
