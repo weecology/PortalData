@@ -107,26 +107,6 @@ rm(records)
 rm(speciesnorms)
 rm(this.sp)
 
-#' Look for individuals captured twice in a census
-double_caps = ws %>%
-  filter(!is.na(tag)) %>%
-  select(tag) %>%
-  group_by(tag) %>%
-  tally() %>%
-  filter(n > 1) 
-
-if (nrow(double_caps) > 0) {
-  for (i in 1:nrow(double_caps)) {
-    print("Individual captured twice during census:")
-    print(ws[ which(ws$tag == double_caps$tag[i]), ])
-    change = readline(prompt="Add note1=19?")
-    if (change == "Y") {
-      ws[which(ws$tag == double_caps$tag[i]), 'note1'] <- 19
-    }
-  }
-}
-
-
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
 #    -if it does not, check to see if animal was tagged day1 and then recaptured day2
@@ -134,6 +114,15 @@ if (nrow(double_caps) > 0) {
 newcaps = ws[!(ws$tag %in% unique(olddat$tag)), c('plot','species','sex','tag','note2','note5')]
 
 newcaps
+
+
+# Look for individuals captured twice in a census
+double_caps = ws %>%
+  filter(!is.na(tag)) %>%
+  select(tag) %>%
+  group_by(tag) %>%
+  tally() %>%
+  filter(n > 1) 
 
 if (anyNA(newcaps$note2)) {
   nostar = newcaps[ which(is.na(newcaps$note2)), ]
