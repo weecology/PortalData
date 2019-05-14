@@ -59,19 +59,19 @@ speciesnorms$hfl.max = NA
 
 
 for (i in 1:nrow(speciesnorms)) {
-
+  
   this.sp = filter(olddat, species == speciesnorms$species[i])
   this.sp = this.sp[ which(this.sp$note1 != 12 | is.na(this.sp$note1)), ]
   speciesnorms$wgt.min[i] = min(this.sp$wgt, na.rm = T)
   speciesnorms$wgt.max[i] = max(this.sp$wgt, na.rm = T)
   speciesnorms$hfl.min[i] = min(this.sp$hfl, na.rm = T)
   speciesnorms$hfl.max[i] = max(this.sp$hfl, na.rm = T)
-
+  
 }
 
 records = left_join(ws, speciesnorms, by = 'species')
-  records = mutate(records, rownum = 1:nrow(records)) %>%
-mutate(record_measurement = ((wgt < wgt.min) | (wgt > wgt.max )| (hfl < hfl.min )| (hfl > hfl.max))) %>%
+records = mutate(records, rownum = 1:nrow(records)) %>%
+  mutate(record_measurement = ((wgt < wgt.min) | (wgt > wgt.max )| (hfl < hfl.min )| (hfl > hfl.max))) %>%
   filter(record_measurement == TRUE)
 
 if (nrow(records) > 0) {
@@ -85,52 +85,89 @@ if (nrow(records) > 0) {
         newval = readline(prompt = "New weight:")
         ws[records$rownum[i], 'wgt'] <- newval
       }
-
+      
       new.hfl = readline(prompt = "Change hfl? (Type Y for yes)")
-
+      
       if (new.hfl == "Y") {
         newval = readline(prompt = "New hfl:")
         ws[records$rownum[i], 'hfl'] <- newval
       }
-
+      
       add.note = readline(prompt = "Add note1 = 12 for suspect wgt/hlf? (Type Y for yes)")
       if (add.note == "Y") {
         ws[records$rownum[i], 'note1'] <- 12
       }
     }
-
+    
   }
-
+  
 }
 
 rm(records)
 rm(speciesnorms)
 rm(this.sp)
 
+#' Look for individuals captured twice in a census
+double_caps = ws %>%
+  filter(!is.na(tag)) %>%
+  select(tag) %>%
+  group_by(tag) %>%
+  tally() %>%
+  filter(n > 1) 
+
+if (nrow(double_caps) > 0) {
+  for (i in 1:nrow(double_caps)) {
+    print("Individual captured twice during census:")
+    print(ws[ which(ws$tag == double_caps$tag[i]), ])
+    change = readline(prompt="Add note1=19?")
+    if (change == "Y") {
+      ws[which(ws$tag == double_caps$tag[i]), 'note1'] <- 19
+    }
+  }
+}
+
+
 # check for missing * on new captures: looks for tags not already in database
 #    -all entries in following results should have * in note2
 #    -if it does not, check to see if animal was tagged day1 and then recaptured day2
 #    -when making changes, add * to excel file of new data and note in book
 newcaps = ws[!(ws$tag %in% unique(olddat$tag)), c('plot','species','sex','tag','note2','note5')]
+
 newcaps
 
 if (anyNA(newcaps$note2)) {
-  nostar = filter(newcaps, is.na(note2))
+  nostar = newcaps[ which(is.na(newcaps$note2)), ]
   for (i in 1:nrow(nostar)) {
-    print(nostar[i, ])
+    if(nostar[i, 'tag'] %in% double_caps$tag) {
+      all_caps = ws[ which(ws$tag == nostar[i, 'tag']), ]
+      if(any(!is.na(all_caps$note2))) {
+        next
+      } else {
+        print("Captured twice this census and missing star for both.")
+        print("Type Y to add star to first record for this individidual in this census")
+        add.star = readline()
+        if(add.star == 'Y') {
+          ws[min(row.names(all_caps)), 'note2'] <- '*'
+          print( ws[min(row.names(all_caps)), ])
+          print('Remember to record on datasheet + in notebook!')
+          next
+        }
+      }
+    }
+    print(nostar[which(nostar$tag == nostar$tag[[i]]), ])
     print("Type Y to add star in worksheet")
     add.star = readline()
     if(add.star == 'Y') {
       ## To add a star:
-      ws[which(ws$tag == nostar[i, 'tag']), 'note2'] <- '*'
-      print(ws[which(ws$tag == nostar[i, 'tag']), ])
+      ws[row.names(nostar)[i], 'note2'] <- '*'
+      print(ws[row.names(nostar)[i], ])
       print('Remember to record on datasheet + in notebook!')
     }
     readline(prompt="Press [enter] to continue")
   }
   print('No more missing stars')
   rm(nostar)
-
+  
 }
 
 
@@ -165,8 +202,8 @@ rm(newcaps)
 #    -when making changes to old or new data, note in book
 
 sexmismatch  = sqldf("SELECT olddat.period, olddat.note1, olddat.plot, ws.plot, olddat.species, ws.species, olddat.sex, ws.sex, olddat.tag
-       FROM olddat INNER JOIN ws ON olddat.tag = ws.tag
-       WHERE (((olddat.species)<>(ws.species)) And ((olddat.tag)=(ws.tag))) Or (((olddat.sex)<>(ws.sex)));")
+                     FROM olddat INNER JOIN ws ON olddat.tag = ws.tag
+                     WHERE (((olddat.species)<>(ws.species)) And ((olddat.tag)=(ws.tag))) Or (((olddat.sex)<>(ws.sex)));")
 
 tags = (unique(sexmismatch$tag))
 if (length(tags) > 0) {
@@ -190,7 +227,7 @@ if (length(tags) > 0) {
         row.id = as.integer(readline())
         print('New species code?')
         sp.code = readline()
-
+        
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'species'] <- sp.code
           print(olddat[row.id, ])
@@ -200,16 +237,16 @@ if (length(tags) > 0) {
           print(ws[row.id, ])
         }
       }
-
+      
       if (edit != 'Y') {
         print('Not editing')
       }
-
+      
       print('Remember to record in notebook/on datasheet!')
-
+      
       readline(prompt="Press [enter] to continue")
     }
-
+    
     if (length(unique(thisone$sex)) > 1) {
       print('Sex mismatch:')
       print(thisone[,c('period', 'plot', 'species', 'sex', 'reprod', 'age', 'testes', 'vagina', 'pregnant', 'nipples', 'lactation','tag')])
@@ -220,7 +257,7 @@ if (length(tags) > 0) {
         row.id = as.integer(readline())
         print('New sex?')
         new.sex = readline()
-
+        
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'sex'] <- new.sex
           print(olddat[row.id, ])
@@ -230,22 +267,22 @@ if (length(tags) > 0) {
           print(ws[row.id, ])
         }
       }
-
+      
       if (edit != 'Y') {
         print('Not editing')
       }
-
+      
       print('Remember to record in notebook/on datasheet!')
-
+      
       readline(prompt="Press [enter] to continue")
     }
-
+    
     # print updated version of records
     print('Updated records:')
     print(olddat[which(olddat$tag == tags[i]), 2:29])
     print(ws[ which(ws$tag == tags[i]), ])
     readline(prompt="Press [enter] to continue")
-
+    
   }
   print('No more mismatches')
 }
@@ -265,19 +302,19 @@ if (length(tags) > 0) {
     thisone.old = olddat[which(olddat$tag == tags[i]), 2:29]
     thisone.new = ws[which(ws$tag == tags[i]),]
     thisone = rbind(thisone.old, thisone.new)
-
+    
     if (nrow(thisone) > 1) {
       print('Missing data can be filled:')
       print(thisone[, c('period', 'plot', 'note1', 'species', 'sex', 'tag')])
       print('Edit a record? (Y/N)')
       edit = readline()
-
+      
       if (edit == "Y") {
         print("Row number?")
         row.id = as.integer(readline())
         print('Edit species? (Y/N)')
         sp_edit = readline()
-
+        
         if (sp_edit == 'Y') {
           print('New species code?')
           sp.code = readline()
@@ -286,10 +323,10 @@ if (length(tags) > 0) {
         } else {
           print('Not editing species')
         }
-
+        
         print('Edit sex? (Y/N)')
         sex_edit = readline()
-
+        
         if (sex_edit == 'Y') {
           print('New sex?')
           sex.code = readline()
@@ -298,30 +335,30 @@ if (length(tags) > 0) {
         } else {
           print('Not editing sex')
         }
-
+        
         print('Change note1 to 16 (only if no other missing data)? (Y/N)')
         note1_edit = readline()
-
+        
         if (note1_edit == 'Y') {
           ws[row.id, 'note1'] <- 16
         } else {
           print('Not editing note1')
         }
-
+        
         readline(prompt = "Press [enter] to continue")
         print('Remember to record in notebook/on datasheet!')
         readline(prompt = "Press [enter] to continue")
-
+        
       }
-
+      
       if (edit != 'Y') {
         print('Not editing')
         readline(prompt = "Press [enter] to continue")
-
+        
       }
-
+      
     }
-
+    
   }
   print('No more edits to make')
 }
