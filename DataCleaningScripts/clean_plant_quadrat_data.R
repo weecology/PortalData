@@ -26,8 +26,8 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 
-season <-  'Summer'
-year <-  '2018'
+season <-  'Winter'
+year <-  '2019'
 filepath <-  '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
@@ -52,13 +52,14 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', row.names = FALSE)
+savepath = paste0('~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/', season, year, '_matched.csv')
+write.csv(ws1, savepath, row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/Summer2018_matched.csv', stringsAsFactors = F)
+ws = read.csv(savepath, stringsAsFactors = F)
 
 ws$notes = NA
 
