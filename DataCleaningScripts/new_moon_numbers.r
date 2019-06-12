@@ -1,8 +1,6 @@
 # some code to match new moon dates to period sampling dates
 
-library(dplyr)
-library(lubridate)
-library(lunar)
+`%>%` <- magrittr::`%>%`
 
 #' Find date of first trapping night for each period in a data frame
 #' Returns data frame of Period (unique period numbers) and CensusDate
@@ -16,7 +14,11 @@ library(lunar)
 find_first_trap_night = function(dat) {
   trap_dates = c()
   for (p in unique(dat$period)) {
-    perioddate <- dat %>% filter(period==p) %>% filter(censusdate == min(censusdate)) %>% head(1) %>% select(period,censusdate)
+    perioddate <- dat %>% 
+                  dplyr::filter(period==p) %>% 
+                  dplyr::filter(censusdate == min(censusdate)) %>% 
+                  head(1) %>% 
+                  dplyr::select(period,censusdate)
     trap_dates = rbind(trap_dates,perioddate)
   }
   return(trap_dates)
@@ -47,11 +49,12 @@ closest_newmoon = function(target_date,newmoondates) {
 update_moon_dates = function() {
   # load existing moon_dates.csv file
   moon_dates=read.csv("Rodents/moon_dates.csv",stringsAsFactors = FALSE)
-  moon_dates$newmoondate = as_date(moon_dates$newmoondate)
-  moon_dates$censusdate = as_date(moon_dates$censusdate)
+  moon_dates$newmoondate = lubridate::as_date(moon_dates$newmoondate)
+  moon_dates$censusdate = lubridate::as_date(moon_dates$censusdate)
   # load rodent trapping data
   trappingdat=read.csv("Rodents/Portal_rodent_trapping.csv")  
-  trappingdat$censusdate = as_date(paste(trappingdat$year,trappingdat$month,trappingdat$day,sep='-'))
+  trappingdat$censusdate = lubridate::as_date(paste(trappingdat$year,trappingdat$month,
+                                                    trappingdat$day,sep='-'))
   
   
   # proceed only if trappingdat has more recent dates than moon_dates
@@ -59,27 +62,27 @@ update_moon_dates = function() {
    
   #Get dates and period numbers of new data only  
     # extract trappingdat periods beyond those included in moon_dates
-    newperiod = filter(trappingdat,abs(period)>max(abs(moon_dates$period),na.rm=TRUE))
+    newperiod = dplyr::filter(trappingdat,abs(period)>max(abs(moon_dates$period),na.rm=TRUE))
     # reduce new trapping data to two columns: Period and CensusDate
     newperiod_dates = find_first_trap_night(newperiod)  
      
   # get new moon dates
     #define date range for newmoon dates, shifting back a month just to not skip any
     first = newperiod_dates$censusdate[1]-30
-    dates = as_date(first:Sys.Date())
+    dates = lubridate::as_date(first:Sys.Date())
 
     #pull new moon dates from lunar package
-    newmoondates = data.frame(newmoondate = dates, phase = lunar.phase(dates,name=8)) %>% 
-      filter(phase=="New") %>%
-      mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
-      group_by(group) %>%
-      summarise(newmoondate = median(newmoondate))
+    newmoondates = data.frame(newmoondate = dates, phase = lunar::lunar.phase(dates,name=8)) %>% 
+                   dplyr::filter(phase=="New") %>%
+                   dplyr::mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
+                   dplyr::group_by(group) %>%
+                   dplyr::summarise(newmoondate = median(newmoondate))
   
   #Set up dataframe for new moon dates to be added
-  newmoons=data.frame(newmoonnumber= NA, newmoondate = as_date(newmoondates$newmoondate), 
-                      period = NA, censusdate = as.Date(NA)) %>%
-    filter(newmoondate>max(moon_dates$newmoondate+4,na.rm=TRUE)) %>% 
-    mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:n())
+  newmoons=data.frame(newmoonnumber= NA, newmoondate = lubridate::as_date(newmoondates$newmoondate), 
+                      period = NA, censusdate = lubridate::as_date(NA)) %>%
+            dplyr::filter(newmoondate>max(moon_dates$newmoondate+4,na.rm=TRUE)) %>% 
+            dplyr::mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:dplyr::n())
 
   #Match new census dates to moon dates
 
@@ -96,7 +99,7 @@ update_moon_dates = function() {
     newmoons=newmoons %>% subset(period <= max(abs(newmoons$period),na.rm=TRUE) | is.na(period))
     
       #append all new rows to moon_dates data frame
-      moon_dates=bind_rows(moon_dates,newmoons)
+      moon_dates=dplyr::bind_rows(moon_dates,newmoons)
       
   }
   return(moon_dates)
