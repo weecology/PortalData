@@ -77,15 +77,16 @@ update_moon_dates = function() {
                    dplyr::mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
                    dplyr::group_by(group) %>%
                    dplyr::summarise(newmoondate = median(newmoondate)) %>%
-                   dplyr::filter(newmoondate %in% moon_dates$newmoondate[is.na(moon_dates$period)])
+                   dplyr::filter(as.character(newmoondate) %in% 
+                                   as.character(moon_dates$newmoondate[is.na(moon_dates$period)]))
   
   # Check that row doesn't already exist before adding new one
-  if(any(newmoondates$newmoondate %in% moon_dates$newmoondate)) { 
+  if(any(as.character(newmoondates$newmoondate) %in% as.character(moon_dates$newmoondate))) { 
     # match new period to closest NewMoonDate, 
     for(i in 1:dim(newperiod_dates)[1]) {
-      closest = closest_newmoon(newperiod_dates$censusdate[i],newmoondates$newmoondate)
-      moon_dates$censusdate[moon_dates$newmoondate==closest]=newperiod_dates$censusdate[i]
-      moon_dates$period[moon_dates$newmoondate==closest]=newperiod_dates$period[i]
+      closest = as.character(closest_newmoon(newperiod_dates$censusdate[i],newmoondates$newmoondate))
+      moon_dates$censusdate[as.character(moon_dates$newmoondate)==closest]=newperiod_dates$censusdate[i]
+      moon_dates$period[as.character(moon_dates$newmoondate)==closest]=newperiod_dates$period[i]
     }
     
     }  
