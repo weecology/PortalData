@@ -77,7 +77,8 @@ test_that("Precipitation ok", {
 
 test_that("Precipitation in multiples of 0.254", {
   
-  expect_true(sum(storms$precipitation%%0.254)==0)
+  expect_true(round(sum(storms$precipitation%%0.254),3)%%0.254==0)
+  expect_true(round(sum(overlap$precipitation[overlap$precipitation<9]%%0.254,na.rm=TRUE),3)%%0.254==0)
 })
 
 test_that("no hours missing", {
