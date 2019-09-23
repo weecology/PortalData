@@ -5,3 +5,4 @@ notes,meaning
 4, suspect species
 5, suspect quadrat (for quadrat data)
 6, species ID issue (see metadata for issues by species)
+7, missing cover data (for quadrat data)
