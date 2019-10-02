@@ -26,7 +26,7 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 
-season <-  'Winter'
+season <-  'Summer'
 year <-  '2019'
 filepath <-  '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
 
@@ -48,7 +48,7 @@ i = 1
 
 i  = i + 1
 unmatched[i, ]
-ws1[unmatched[i, 'row'] -1 , ]
+ws1[unmatched[i, 'row'] -1 , ] 
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet

@@ -26,7 +26,7 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 season <-  'Summer'
-year <-  '2018'
+year <-  '2019'
 filepath <-  '~/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/'
 
 excel_file <-  paste(filepath, "ShrubTransect_", season, year, '.xlsx', sep='')
@@ -49,13 +49,13 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-write.csv(ws1, '~/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2018_clean.csv', row.names = FALSE)
+write.csv(ws1, paste0(filepath, "ShrubTransect_Summer", year, "_clean.csv"), row.names = FALSE)
 
 ######################
 # 3. Quality control #
 ######################
 
-ws = read.csv('~/Dropbox/Portal/PORTAL_primary_data/Plant/TRANSECTS/ShrubTransects(2015-present)/RawData/ShrubTransect_Summer2018_clean.csv', stringsAsFactors= F)
+ws = read.csv(paste0(filepath, "ShrubTransect_Summer", year, "_clean.csv"), stringsAsFactors= F)
 
 splist = read.csv('Plants/Portal_plant_species.csv',as.is=T)
 
