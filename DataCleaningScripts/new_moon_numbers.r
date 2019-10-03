@@ -128,6 +128,7 @@ update_moon_dates = function() {
 
 writenewmoons <- function() {
   moon_dates=update_moon_dates()
+  try(if(any(sapply(moon_dates, function(x) all(is.na(x))))) stop("newmoon dates missing"))
 write.csv(moon_dates,file="Rodents/moon_dates.csv",row.names=FALSE) 
 }
 
