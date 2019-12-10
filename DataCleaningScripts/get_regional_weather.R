@@ -7,8 +7,10 @@
 
 get_regional_weather <- function() {
   
-portal4sw_station=readLines('https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/USC00026716.dly')
-sansimon_station=readLines('https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/US1AZCH0005.dly')
+portal4sw_station=readLines(
+  'https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/USC00026716.csv')
+sansimon_station=readLines(
+  'https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/US1AZCH0005.csv')
 
 portal4sw = clean_station_data(portal4sw_station)
 sansimon = clean_station_data(sansimon_station)
