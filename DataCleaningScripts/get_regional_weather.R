@@ -57,7 +57,7 @@ return(list(new_4sw,new_sansimon))
 
 append_regional_weather <- function() {
   
-  data=get_regional_weather()
+  data = get_regional_weather()
   
   # append new data
   write.table(data[1], file = "Weather/Portal4sw_regional_weather.csv",
