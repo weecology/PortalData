@@ -16,12 +16,8 @@ overlap <- read.csv(file = "../Weather/Portal_weather_overlap.csv",header=T,
 overlap$timestamp <- lubridate::ymd_hms(overlap$timestamp)
 overlap_cols <- colnames(overlap)
 
-portal4sw <- read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T,
-                   colClasses=c("character", rep("integer",3), "character", "integer", 
-                                rep("character",3), "Date"))
-sansimon <- read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T,
-                        colClasses=c("character", rep("integer",3), "character", "integer", 
-                                     rep("character",3), "Date"))
+portal4sw <- read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T)
+sansimon <- read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T)
 
 test_that("required column names in new weather df", {
   
