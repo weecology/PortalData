@@ -17,6 +17,5 @@ notifications:
   
 after_success:
 slack:
-  if: branch = master
       on_success: never
       on_failure: always
