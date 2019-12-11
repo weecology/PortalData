@@ -12,4 +12,10 @@ script:
   - Rscript testthat.R
   - Rscript archive.R
 
+notifications:
+  slack: weecology:CwWehNkftf60m2nc1LN7QMqx
+  
 after_success:
+slack:
+      on_success: change
+      on_failure: always
