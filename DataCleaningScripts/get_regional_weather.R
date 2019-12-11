@@ -36,8 +36,11 @@ sansimon = read.csv(
 
 
 #Keep only new data
-all_4sw = read.csv(file = "Weather/Portal4sw_regional_weather.csv",header=T)
-all_sansimon = read.csv(file = "Weather/Sansimon_regional_weather.csv",header=T)
+all_4sw = read.csv(file = "Weather/Portal4sw_regional_weather.csv",header=T, stringsAsFactors=FALSE)
+all_4sw$date = lubridate::ymd(all_4sw$date)
+
+all_sansimon = read.csv(file = "Weather/Sansimon_regional_weather.csv",header=T, stringsAsFactors=FALSE)
+all_sansimon$date = lubridate::ymd(all_sansimon$date) 
 
 new_4sw = dplyr::setdiff(portal4sw,all_4sw)
 new_sansimon = dplyr::setdiff(sansimon,all_sansimon)
