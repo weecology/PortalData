@@ -14,7 +14,6 @@ script:
 
 notifications:
   slack: weecology:CwWehNkftf60m2nc1LN7QMqx
-    if: branch = master
   
 after_success:
 slack:
