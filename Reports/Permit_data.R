@@ -75,7 +75,7 @@ ra_initials <- data.frame(
             "Diaz, Renata")
 )
 
-periods$inits <- c("RMD", "RMD", "EKB", "RMD", "EKB", "EKB", "EKB", "EKB", "RMD", "EKB")
+periods$inits <- c("RMD", "RMD", "EKB", "RMD", "EKB", "EKB", "EKB", "EKB", "RMD", "EKB", "RMD")
 
 periods <- dplyr::left_join(periods, ra_initials, by = "inits")
 
