@@ -77,8 +77,8 @@ update_moon_dates = function() {
                    dplyr::mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
                    dplyr::group_by(group) %>%
                    dplyr::summarise(newmoondate = median(newmoondate)) %>%
-                   dplyr::filter(as.character(newmoondate) %in% 
-                                   as.character(moon_dates$newmoondate[is.na(moon_dates$period)]))
+                   dplyr::filter(!(as.character(newmoondate) %in% 
+                                   as.character(moon_dates$newmoondate[!is.na(moon_dates$period)])))
   
   # Check that row doesn't already exist before adding new one
   if(any(as.character(newmoondates$newmoondate) %in% as.character(moon_dates$newmoondate))) { 
