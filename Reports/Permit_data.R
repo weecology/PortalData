@@ -67,7 +67,7 @@ rawdata = read.csv(datafile,head=T,sep=',',na.strings=' ',as.is=T)
 thisyear = rawdata[rawdata$year == year,]
 
 periods <- dplyr::select(thisyear, period)
-  periods <-  dplyr::distinct(periods)
+periods <-  dplyr::distinct(periods)
 
 ra_initials <- data.frame(
   inits = c("EKB", "RMD"),
@@ -75,7 +75,7 @@ ra_initials <- data.frame(
             "Diaz, Renata")
 )
 
-periods$inits <- c("RMD", "RMD", "EKB", "RMD", "EKB", "EKB", "EKB", "EKB", "RMD", "EKB", "RMD")
+periods$inits <- c("RMD", "RMD", "EKB", "RMD", "EKB", "EKB", "EKB", "EKB", "RMD", "EKB", "RMD", "RMD")
 
 periods <- dplyr::left_join(periods, ra_initials, by = "inits")
 
