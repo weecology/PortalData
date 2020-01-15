@@ -19,7 +19,11 @@ portal4sw = read.csv(
   dplyr::mutate_at("date",as.Date) %>%
   dplyr::mutate(day = lubridate::day(date), 
                 month = lubridate::month(date), 
-                year = lubridate::year(date)) %>%
+                year = lubridate::year(date),
+                prcp = prcp/10,
+                tmax = tmax/10,
+                tmin = tmin/10, 
+                tobs = tobs/10) %>%
   dplyr::select(year, month, day, dplyr::everything())
   
 
@@ -31,7 +35,8 @@ sansimon = read.csv(
   dplyr::mutate_at("date",as.Date) %>%
   dplyr::mutate(day = lubridate::day(date), 
                 month = lubridate::month(date), 
-                year = lubridate::year(date)) %>%
+                year = lubridate::year(date),
+                prcp = prcp/10) %>%
   dplyr::select(year, month, day, dplyr::everything())
 
 
