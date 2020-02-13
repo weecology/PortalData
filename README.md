@@ -10,4 +10,6 @@ Official Repo of the Portal Project Data
 
 Detailed descriptions of individual data components are located in README.md files in the individual data folders.
 
-If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods.
+Also see our living data paper for a full description, metadata, citation, authors: [The Portal Project: a long-term study of a Chihuahuan desert ecosystem](https://doi.org/10.1101/332783)
+
+If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods. Also on **[CRAN](https://cran.r-project.org/web/packages/portalr/index.html)**.
