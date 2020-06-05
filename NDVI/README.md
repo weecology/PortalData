@@ -10,6 +10,7 @@ The current data sources include:
 
 Further details on the efforts to create an ndvi time series at the site can be found at https://github.com/weecology/NDVIning.
 
+### Other files
 
 An older version of the ndvi time series (NDVI_monthly.csv) is retained for compatibility. It was obtained from the GIMMS NDVI3g dataset, which is a compilation of AVHRR weather sattelite data (Pinzon & Tucker 2014). The original data has a spatial resolution of 8km and a twice monthly temporal resolution, with availability from 1981-2013. It is averaged to monthly NDVI values. 
 
