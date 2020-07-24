@@ -1,3 +1,5 @@
+# Adapted for automated updating from get_landsat_data.R
+
 `%>%` <- magrittr::`%>%`
 library(raster)
 
@@ -26,7 +28,7 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
   #transform to NAD83(NSRS2007)/California Albers
   center_transform <- sf::st_as_sf(center) %>% sf::st_transform(3488) 
   portal_area_transform <- as(sf::st_buffer(center_transform, 1000), 'Spatial')
-  portal_area <- sp::spTransform(portal_area_transform,CRS("+proj=utm +zone=12 
+  portal_area <- sp::spTransform(portal_area_transform, sp::CRS("+proj=utm +zone=12 
                      +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 "))
   return(portal_area)
   
@@ -98,8 +100,8 @@ mask_landsat <- function(record_id, scene, pixelqa) {
   # landsat8: from https://landsat.usgs.gov/sites/default/files/documents/lasrc_product_guide.pdf page 21
   clearvalues = c(322, 386, 834, 898, 1346)
   
-  pixelqa[!(pixelqa %in% clearvalues)]=NA
-  #s <- raster::mask(scene,pixelqa)
+  pixelqa[!(pixelqa %in% clearvalues)] <- NA
+  s <- raster::mask(scene,pixelqa)
   raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
 }
 
@@ -144,6 +146,7 @@ summarize_ndvi_snapshot <- function(records) {
 #' 
 
 writendvitable <- function() {
+  
 ndvi <- read.csv("../NDVI/ndvi.csv")
 mindate <- as.character(max(as.Date(ndvi$date))+1)
 maxdate <- as.character(Sys.Date())
@@ -155,7 +158,8 @@ extract_and_mask_raster(records[i,],targetpath) }
  
 
 new_data <- as.data.frame(do.call(rbind, apply(records,1,summarize_ndvi_snapshot)))
-write.csv(new_data,file='../NDVI/ndvi.csv',row.names=FALSE, append=TRUE)
+write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE, 
+            append=TRUE, na="")
 
 }
 
