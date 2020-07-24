@@ -15,3 +15,6 @@ source("DataCleaningScripts/new_moon_numbers.r"); writenewmoons()
 
 message("Updating Plant census table")
 source("DataCleaningScripts/update_portal_plant_censuses.R"); writecensustable()
+
+message("Updating NDVI")
+source("DataCleaningScripts/update_ndvi.R"); writendvitable()
