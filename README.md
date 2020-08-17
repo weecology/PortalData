@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/weecology/PortalData.svg?branch=master)](https://travis-ci.org/weecology/PortalData)
 [![License](http://i.creativecommons.org/p/zero/1.0/88x31.png)](https://raw.githubusercontent.com/weecology/PortalData/master/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1215988.svg)](https://doi.org/10.5281/zenodo.1215988)
+[![NSF-1929730](https://img.shields.io/badge/NSF-1929730-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1929730)
 
 Official Repo of the Portal Project Data
 
