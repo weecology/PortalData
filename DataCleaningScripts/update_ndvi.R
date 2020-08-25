@@ -101,7 +101,7 @@ mask_landsat <- function(record_id, scene, pixelqa) {
   clearvalues = c(322, 386, 834, 898, 1346)
   
   pixelqa[!(pixelqa %in% clearvalues)] <- NA
-  s <- raster::mask(scene,pixelqa)
+  s <- raster::mask(x=scene, mask=pixelqa)
   raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
 }
 
