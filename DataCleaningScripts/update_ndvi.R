@@ -76,10 +76,10 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   portal_area <- create_portal_area()
   
   # read in raster files; crop to portal_box; delete full-size raster files  
-  r <- raster::raster(paste0(targetpath,"/", record_id, "_pixel_qa.tif"))
+  r <- raster::raster(paste0(targetpath,"/", record_id, "_sr_ndvi.tif"))
   scene <- raster::crop(r,portal_area)
   
-  m <- raster::raster(paste0(targetpath,"/", record_id, "_sr_ndvi.tif"))
+  m <- raster::raster(paste0(targetpath,"/", record_id, "_pixel_qa.tif"))
   pixelqa <- raster::crop(m,portal_area)
   
   # mask ndvi data; write masked raster to file
@@ -162,4 +162,3 @@ write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.na
             append=TRUE, na="")
 
 }
-
