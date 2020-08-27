@@ -52,7 +52,8 @@ records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
                                        products = "LANDSAT_8_C1")
 records <- records[records$level == "sr_ndvi",]
 records <- getSpatialData::check_availability(records)
-records <- getSpatialData::get_data(records)
+tryCatch(records <- getSpatialData::get_data(records), 
+         error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
 
 # Submit order for any new records not downloaded
 records <- getSpatialData::order_data(records)
@@ -83,28 +84,16 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   pixelqa <- raster::crop(m,portal_area)
   
   # mask ndvi data; write masked raster to file
-  s <- mask_landsat(record_id, scene, pixelqa)
-  return(s)
-}
-
-#' @description function to mask landsat scene
-#' 
-#' @param record_id new record to be used
-#' @param scene raster of scene to be masked
-#' @param pixelqa raster of pixel QA info
-#' 
-
-mask_landsat <- function(record_id, scene, pixelqa) {
-  
-  # which landsat satellite data is from determins what the "clear" values of pixel_qa are
-  # landsat8: from https://landsat.usgs.gov/sites/default/files/documents/lasrc_product_guide.pdf page 21
+  # which landsat satellite data is from determines what the "clear" values of pixel_qa are
+  # landsat8: from  https://www.usgs.gov/media/files/landsat-8-collection-1-land-surface-reflectance-code-product-guide
   clearvalues = c(322, 386, 834, 898, 1346)
   
   pixelqa[!(pixelqa %in% clearvalues)] <- NA
   s <- raster::mask(x=scene, mask=pixelqa)
   raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
+  
+  return(s)
 }
-
 
 #' @title summarize_ndvi_snapshot  
 #' @description summarize data for list of landsat scenes, save in csv
@@ -134,8 +123,10 @@ summarize_ndvi_snapshot <- function(records) {
   va = var(values(r),na.rm=T)
   pix = length(values(r))
   
-  d = data.frame(date = date, sensor = sensor, source = source,
-                 pixel_count = pix, ndvi = mn)
+  d = data.frame(date = as.Date(date), sensor = sensor, source = source,
+                 pixel_count = pix, ndvi = ifelse(!is.finite(mn),NA,mn), cloud_cover = pct, 
+                 var = ifelse(!is.finite(va),NA,va), min = ifelse(!is.finite(mi),NA,mi),
+                 max = ifelse(!is.finite(ma),NA,ma))
   return(d)
 }
 
@@ -147,18 +138,19 @@ summarize_ndvi_snapshot <- function(records) {
 
 writendvitable <- function() {
   
-ndvi <- read.csv("../NDVI/ndvi.csv")
+ndvi <- read.csv("./NDVI/ndvi.csv")
 mindate <- as.character(max(as.Date(ndvi$date))+1)
 maxdate <- as.character(Sys.Date())
 targetpath <- tempdir()
 records <- new_records(mindate, maxdate, targetpath)
 
+if(any(records$download_available)){
 for(i in 1:dim(records)[1]) {
 extract_and_mask_raster(records[i,],targetpath) }
  
+new_data <- as.data.frame(do.call(rbind, apply(records,1,summarize_ndvi_snapshot))) 
 
-new_data <- as.data.frame(do.call(rbind, apply(records,1,summarize_ndvi_snapshot)))
 write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE, 
             append=TRUE, na="")
-
+}
 }

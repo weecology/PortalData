@@ -4,6 +4,22 @@ sudo: false
 warnings_are_errors: false
 git:
   depth: false
+  
+addons:
+  apt:
+    packages:
+      - libudunits2-dev
+      - libgdal-dev
+      - gdal-bin 
+      - libproj-dev 
+      - proj-data 
+      - proj-bin 
+      - libgeos-dev
+      - libv8-dev 
+      - libprotobuf-dev 
+      - protobuf-compiler 
+      - libjq-dev
+
 install:
   - Rscript install-packages.R
   
@@ -12,10 +28,4 @@ script:
   - Rscript testthat.R
   - Rscript archive.R
 
-notifications:
-  slack: weecology:CwWehNkftf60m2nc1LN7QMqx
-  
-after_success:
-slack:
-      on_success: change
-      on_failure: always
+

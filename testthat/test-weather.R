@@ -19,6 +19,8 @@ overlap_cols <- colnames(overlap)
 portal4sw <- read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T)
 sansimon <- read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T)
 
+ndvi <- read.csv(file = "../NDVI/ndvi.csv",header=T)
+
 test_that("required column names in new weather df", {
   
   expect_identical(weather_cols, 
@@ -89,4 +91,12 @@ test_that("no duplicated rows", {
   expect_false(any(duplicated(weather)))
   expect_false(any(duplicated(overlap)))
   expect_false(any(duplicated(storms)))
+})
+
+test_that("NDVI data adding correctly", {
+  
+  expect_true(all(ndvi$ndvi <= .7, na.rm = TRUE))
+  expect_true(all(ndvi$cloud_cover <= 100, na.rm = TRUE))
+  expect_true(all(ndvi$min <= ndvi$ndvi, na.rm = TRUE))
+  expect_true(all(ndvi$ndvi <= ndvi$max, na.rm = TRUE))
 })

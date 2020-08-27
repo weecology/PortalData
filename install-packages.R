@@ -5,5 +5,7 @@ if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pac
 
 # Install analysis packages using pacman
 
-pacman::p_load(stringr, Hmisc, dplyr, getSpatialData, git2r, openxlsx, lubridate, lunar, sp, sf,
-               sqldf, raster, RCurl, EML, testthat, htmltab, zoo, tidyr, semver, yaml)
+pacman::p_load(stringr, Hmisc, dplyr, git2r, openxlsx, lubridate, lunar,
+               sp, sqldf, raster, RCurl, EML, testthat, htmltab, zoo, tidyr, semver, yaml)
+
+pacman::p_load_gh("16EAGLE/getSpatialData")
