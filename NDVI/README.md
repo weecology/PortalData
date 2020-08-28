@@ -1,8 +1,14 @@
 # Portal NDVI
 
-The data file (ndvi.csv) is composed of remotely sensed raw values of NDVI for the area around the Portal Project site, centered on the coordinates 31.937769, -109.08029. 
+The data file (ndvi.csv) is composed of remotely sensed raw values of NDVI for an area 1000 m in radius around the Portal Project site, centered on the coordinates 31.937769, -109.08029. 
 
-The current data sources include:
+<img src="figures/portal_area.png" width="400px">
+
+The current data source is Landsat 8. The Portal area is covered by 2 tiles from the Landsat8 paths:
+
+<img src="figures/tiles.png" width="400px">
+
+Other sources in the dataset include:
 
 * Landsat (a series of satellites)
 * GIMMS (an ensemble product from various AVHRR instruments on NOAA satellites)
