@@ -35,3 +35,4 @@ after_success:
 slack:
       on_success: change
       on_failure: always
+      
