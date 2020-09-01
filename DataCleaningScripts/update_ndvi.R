@@ -68,7 +68,7 @@ return(records)
 #' @param records new records to be used
 #' @param targetpath path where the cropped and masked rasters are to be stored
 #'
-extract_and_mask_raster <- function(records, targetpath = tempdir()) {
+extract_and_mask_raster <- function(records, targetpath) {
   tarfile <- as.character(unlist(records["dataset_file"]))[1]
   record_id <- as.character(unlist(records["record_id"]))[1]
   # extract ndvi and pixel_qa rasters
@@ -146,7 +146,7 @@ records <- new_records(mindate, maxdate, targetpath)
 
 if(any(records$download_available)){
 for(i in 1:dim(records)[1]) {
-extract_and_mask_raster(records[i,],targetpath) }
+extract_and_mask_raster(records[i,], targetpath) }
  
 new_data <- as.data.frame(do.call(rbind, apply(records,1,summarize_ndvi_snapshot))) 
 
