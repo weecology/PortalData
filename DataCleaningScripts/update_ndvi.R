@@ -99,10 +99,11 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
 #' @description summarize data for list of landsat scenes, save in csv
 #' 
 #' @param records new records to be used
+#' @param targetpath path where the cropped and masked rasters are stored
 #' 
 #' @return data frame of one row: contains summary statistics for single raster image
 #' 
-summarize_ndvi_snapshot <- function(records) {
+summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
   # this function takes a raster of ndvi data and summarizess
   
   source <- "AWS"
