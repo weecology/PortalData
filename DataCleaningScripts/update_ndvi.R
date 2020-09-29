@@ -52,6 +52,7 @@ records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
                                        products = "LANDSAT_8_C1")
 records <- records[records$level == "sr_ndvi",]
 records <- getSpatialData::check_availability(records)
+
 records_new <- records %>%
   dplyr::filter(download_available==TRUE)
 tryCatch(records_new <- getSpatialData::get_data(records_new), 
