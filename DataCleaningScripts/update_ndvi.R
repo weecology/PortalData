@@ -52,13 +52,16 @@ records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
                                        products = "LANDSAT_8_C1")
 records <- records[records$level == "sr_ndvi",]
 records <- getSpatialData::check_availability(records)
-tryCatch(records <- getSpatialData::get_data(records), 
+
+records_new <- records %>%
+  dplyr::filter(download_available==TRUE)
+tryCatch(records_new <- getSpatialData::get_data(records_new), 
          error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
 
 # Submit order for any new records not downloaded
 records <- getSpatialData::order_data(records)
 
-return(records)
+return(records_new)
 }
 
 #' @title extract and mask raster
