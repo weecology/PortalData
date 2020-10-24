@@ -126,10 +126,11 @@ update_moon_dates <- function() {
       dplyr::filter(phase=="New") %>%
       dplyr::mutate(group = cumsum(c(1, diff.Date(newmoondate)) > 5)) %>%
       dplyr::group_by(group) %>%
-      dplyr::summarise(newmoondate = median(newmoondate)) %>%
+      dplyr::summarise(newmoondate = median(newmoondate), .groups = "drop") %>%
       dplyr::filter(!(as.character(newmoondate) %in% 
                         as.character(moon_dates$newmoondate[!is.na(moon_dates$period)]))) %>% 
-      dplyr::mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:dplyr::n())
+      dplyr::mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:dplyr::n()) %>%
+      dplyr::select(-group)
     moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates)
   }
   return(moon_dates)
