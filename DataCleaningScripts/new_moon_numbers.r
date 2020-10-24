@@ -48,12 +48,12 @@ closest_newmoon = function(target_date,newmoondates) {
 
 update_moon_dates <- function() {
   # load existing moon_dates.csv file
-  moon_dates=read.csv("Rodents/moon_dates.csv",stringsAsFactors = FALSE)
-  moon_dates$newmoondate = lubridate::as_date(moon_dates$newmoondate)
-  moon_dates$censusdate = lubridate::as_date(moon_dates$censusdate)
+  moon_dates <- read.csv("Rodents/moon_dates.csv",stringsAsFactors = FALSE)
+  moon_dates$newmoondate <- lubridate::as_date(moon_dates$newmoondate)
+  moon_dates$censusdate <- lubridate::as_date(moon_dates$censusdate)
   # load rodent trapping data
-  trappingdat=read.csv("Rodents/Portal_rodent_trapping.csv")  
-  trappingdat$censusdate = lubridate::as_date(paste(trappingdat$year,trappingdat$month,
+  trappingdat <- read.csv("Rodents/Portal_rodent_trapping.csv")  
+  trappingdat$censusdate <- lubridate::as_date(paste(trappingdat$year,trappingdat$month,
                                                     trappingdat$day,sep='-'))
   
   
@@ -117,8 +117,8 @@ update_moon_dates <- function() {
     }
     
   } else {
-    #Set up dataframe for new moon dates to be added
-    first <- max(moon_dates$newmoondate) + 20
+    #Add new moon dates with no data, but only after they occur
+    first <- max(moon_dates$newmoondate) + 5
     dates <- lubridate::as_date(first:Sys.Date())
     
     #pull new moon dates from lunar package
@@ -128,10 +128,12 @@ update_moon_dates <- function() {
       dplyr::group_by(group) %>%
       dplyr::summarise(newmoondate = median(newmoondate), .groups = "drop") %>%
       dplyr::filter(!(as.character(newmoondate) %in% 
-                        as.character(moon_dates$newmoondate[!is.na(moon_dates$period)]))) %>% 
-      dplyr::mutate(newmoonnumber=max(moon_dates$newmoonnumber)+1:dplyr::n()) %>%
+                        as.character(moon_dates$newmoondate[!is.na(moon_dates$period)]))) %>%
       dplyr::select(-group)
-    moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates)
+    if(dim(newmoondates)[1]>0){
+    newmoondates <- newmoondates %>% 
+      dplyr::mutate(newmoonnumber = max(moon_dates$newmoonnumber)+1:dplyr::n()) %>%
+    moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates) }
   }
   return(moon_dates)
 }
