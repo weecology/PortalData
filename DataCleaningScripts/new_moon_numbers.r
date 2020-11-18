@@ -132,7 +132,7 @@ update_moon_dates <- function() {
       dplyr::select(-group)
     if(dim(newmoondates)[1]>0){
     newmoondates <- newmoondates %>% 
-      dplyr::mutate(newmoonnumber = max(moon_dates$newmoonnumber)+1:dplyr::n()) %>%
+      dplyr::mutate(newmoonnumber = max(moon_dates$newmoonnumber)+1:dplyr::n())
     moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates) }
   }
   return(moon_dates)
