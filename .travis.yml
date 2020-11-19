@@ -34,6 +34,6 @@ notifications:
 after_success:
 slack:
   if: branch = master
-      on_success: change
-      on_failure: change
+  on_success: change
+  on_failure: change
       
