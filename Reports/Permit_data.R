@@ -40,12 +40,14 @@ create_permit_frame = function(new_df) {
                         x = new_df$x,
                         dates = new_df$dates,
                         county = rep('Cochise',length(new_df$sex)),
-                        waterbody = rep('',length(new_df$sex)),
+                      #  waterbody = rep('',length(new_df$sex)),
                         easting = rep(-109.0830584,length(new_df$sex)),
                         northing = rep(31.93907884,length(new_df$sex)),
                         UTMZone = rep('',length(new_df$sex)),
-                        datum = rep('DD',length(new_df$sex)),
-                        location_uncertainty = rep('', length(new_df$sex)),
+                        datum =rep("", length(new_df$sex)),
+                       
+                      coordinate_type = rep("DD", length(new_df$sex)), 
+                      location_uncertainty = rep('', length(new_df$sex)),
                         lifestage = new_df$lifestage,
                         sex = new_df$sex,
                         disposition = new_df$disposition,
@@ -60,7 +62,7 @@ create_permit_frame = function(new_df) {
 # ============================================================================
 
 datafile = "Rodents/Portal_rodent.csv"
-year = 2019
+year = 2020
 #read in raw data
 rawdata = read.csv(datafile,head=T,sep=',',na.strings=' ',as.is=T)
 
@@ -70,12 +72,11 @@ periods <- dplyr::select(thisyear, period)
 periods <-  dplyr::distinct(periods)
 
 ra_initials <- data.frame(
-  inits = c("EKB", "RMD"),
-  names = c(            "Bledsoe, Ellen",
-            "Diaz, Renata")
+  inits = c("RMD"),
+  names = c("Diaz, Renata")
 )
 
-periods$inits <- c("RMD", "RMD", "EKB", "RMD", "EKB", "EKB", "EKB", "EKB", "RMD", "EKB", "RMD", "RMD")
+periods$inits <- c("RMD", "RMD")
 
 periods <- dplyr::left_join(periods, ra_initials, by = "inits")
 
