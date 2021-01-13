@@ -42,3 +42,10 @@ shutil.copyfile('weather-data.html', '/var/www/html/weather-data.html')
 r_storms = requests.get(storms_url, allow_redirects=True)
 open('storms-data.html', 'wb').write(r_storms.content)
 shutil.copyfile('storms-data.html', '/var/www/html/storms-data.html')
+
+# Code temporarily added to try to recover 3 months of missing weather data
+
+weather_recover_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=2000'
+r_weather_recover = requests.get(weather_recover_url, allow_redirects=True)
+open('weather-data-recover.html', 'wb').write(r_weather_recover.content)
+shutil.copyfile('weather-data-recover.html', '/var/www/html/weather-data-recover.html')
