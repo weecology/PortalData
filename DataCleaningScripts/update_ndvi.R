@@ -22,7 +22,7 @@ library(raster)
 #' @example create_portal_area(centroid = c(-109.08029, 31.937769), radius = 1125)
 #' 
 create_portal_area <- function(centroid = c(-109.08029, 31.937769), 
-                             radius = 1000) {
+                               radius = 1000) {
   
   center <- sf::st_sfc(sf::st_point(centroid),crs="WGS84")
   #transform to NAD83(NSRS2007)/California Albers
@@ -44,24 +44,27 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
 
 new_records <- function(mindate, maxdate, targetpath = tempdir()) {
 
-getSpatialData::set_archive(targetpath)
-getSpatialData::set_aoi(create_portal_area())
-getSpatialData::login_USGS(username = "weecology", password = Sys.getenv("USGS_PASSWORD"))
+  getSpatialData::set_archive(targetpath)
+  getSpatialData::set_aoi(create_portal_area())
+  getSpatialData::login_USGS(username = "weecology", password = Sys.getenv("USGS_PASSWORD"))
 
-records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
-                                       products = "LANDSAT_8_C1")
-records <- records[records$level == "sr_ndvi",]
-records <- getSpatialData::check_availability(records)
-
-records_new <- records %>%
-  dplyr::filter(download_available==TRUE)
-tryCatch(records_new <- getSpatialData::get_data(records_new), 
-         error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-
-# Submit order for any new records not downloaded
-records <- getSpatialData::order_data(records)
-
-return(records_new)
+  records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
+                                         products = "LANDSAT_8_C1")
+  records <- records[records$level == "sr_ndvi",]
+  records_new <- list()
+  # Check if no new records are fetched
+  if (!dim(records)[1] == 0) {
+    records <- getSpatialData::check_availability(records)
+    records_new <- records %>%
+      dplyr::filter(download_available==TRUE)
+    tryCatch(records_new <- getSpatialData::get_data(records_new),
+             error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+  }
+  if(any(records$download_available)){
+    # Submit order for any new records not downloaded
+    records <- getSpatialData::order_data(records)
+  }
+  return(records_new)
 }
 
 #' @title extract and mask raster
@@ -141,20 +144,19 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
 #' 
 
 writendvitable <- function() {
+  ndvi <- read.csv("./NDVI/ndvi.csv")
+  mindate <- as.character(max(as.Date(ndvi$date)) + 1)
+  maxdate <- as.character(Sys.Date())
+  targetpath <- tempdir()
+  records <- new_records(mindate, maxdate, targetpath)
   
-ndvi <- read.csv("./NDVI/ndvi.csv")
-mindate <- as.character(max(as.Date(ndvi$date))+1)
-maxdate <- as.character(Sys.Date())
-targetpath <- tempdir()
-records <- new_records(mindate, maxdate, targetpath)
+  if(any(records$download_available)){
+    for(i in 1:dim(records)[1]) {
+      extract_and_mask_raster(records[i,],targetpath) }
 
-if(any(records$download_available)){
-for(i in 1:dim(records)[1]) {
-extract_and_mask_raster(records[i,],targetpath) }
- 
-new_data <- as.data.frame(do.call(rbind, apply(records,1,summarize_ndvi_snapshot))) 
+    new_data <- as.data.frame(do.call(rbind, apply(records, 1, summarize_ndvi_snapshot)))
 
-write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE, 
-            append=TRUE, na="")
-}
+    write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
+                append=TRUE, na="")
+  }
 }
