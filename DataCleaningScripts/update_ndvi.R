@@ -150,7 +150,7 @@ writendvitable <- function() {
   targetpath <- tempdir()
   records <- new_records(mindate, maxdate, targetpath)
   
-  if(any(records$download_available)){
+  if(any(records$dataset_file)){
     for(i in 1:dim(records)[1]) {
       extract_and_mask_raster(records[i,],targetpath) }
 
