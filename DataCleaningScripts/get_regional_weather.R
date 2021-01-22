@@ -100,7 +100,7 @@ get_regional_weather <- function() {
     all_rodeo$timestamp <- lubridate::ymd(all_rodeo$timestamp) 
     new_rodeo <- dplyr::setdiff(rodeo,all_rodeo)
 
-return(list(new_4sw, new_sansimon, new_rustys, new_rodeo))
+return(list(new_4sw=new_4sw, new_sansimon=new_sansimon, new_rustys=new_rustys, new_rodeo=new_rodeo))
 
 }
 
@@ -115,16 +115,16 @@ append_regional_weather <- function() {
   data <- get_regional_weather()
   
   # append new data
-  write.table(data[1], file = "Weather/Portal4sw_regional_weather.csv",
+  write.table(data$new_4sw, file = "Weather/Portal4sw_regional_weather.csv",
               row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
-  write.table(data[2], file = "Weather/Sansimon_regional_weather.csv",
+  write.table(data$new_sansimon, file = "Weather/Sansimon_regional_weather.csv",
               row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
-  write.table(data[3], file = "Weather/Rustys_regional_weather.csv",
+  write.table(data$new_rustys, file = "Weather/Rustys_regional_weather.csv",
               row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
-  write.table(data[4], file = "Weather/Rodeo_regional_weather.csv",
+  write.table(data$new_rodeo, file = "Weather/Rodeo_regional_weather.csv",
               row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
 }

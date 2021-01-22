@@ -18,6 +18,8 @@ overlap_cols <- colnames(overlap)
 
 portal4sw <- read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T)
 sansimon <- read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T)
+rustys <- read.csv(file = "../Weather/Rustys_regional_weather.csv",header=T)
+rodeo <- read.csv(file = "../Weather/Rodeo_regional_weather.csv",header=T)
 
 ndvi <- read.csv(file = "../NDVI/ndvi.csv",header=T)
 
@@ -91,6 +93,17 @@ test_that("no duplicated rows", {
   expect_false(any(duplicated(weather)))
   expect_false(any(duplicated(overlap)))
   expect_false(any(duplicated(storms)))
+})
+
+test_that("regional data adding correctly", {
+  expect_true(is.data.frame(portal4sw))
+  expect_true(is.data.frame(sansimon))
+  expect_true(is.data.frame(rustys))
+  expect_true(is.data.frame(rodeo))
+  expect_true(all(portal4sw$hour %in% seq(from=100,to=2400,by=100)))
+  expect_true(all(sansimon$hour %in% seq(from=100,to=2400,by=100)))
+  expect_true(all(rustys$hour %in% seq(from=100,to=2400,by=100)))
+  expect_true(all(rodeo$hour %in% seq(from=100,to=2400,by=100)))
 })
 
 test_that("NDVI data adding correctly", {
