@@ -10,6 +10,8 @@
 
 get_regional_weather <- function() {
   
+  options(dplyr.summarise.inform = FALSE)  
+  
 # Portal 4sw station
   portal4sw <- read.csv(
     'https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/USC00026716.csv') %>%
