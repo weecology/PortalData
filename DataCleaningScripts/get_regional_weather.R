@@ -54,6 +54,7 @@ get_regional_weather <- function() {
   rustys <- dplyr::bind_cols(rustys[,1:14], rustys$metric) %>%
     dplyr::rename_all(.funs = tolower) %>%
     dplyr::select(-epoch,-obstimeutc) %>%
+    dplyr::slice(1:(dplyr::n()-2)) %>%
     dplyr::rename(timestamp = obstimelocal, latitude = lat, longitude = lon) %>%
     dplyr::mutate_all(as.character) %>% 
     dplyr::mutate_at(tail(names(.), 32), as.numeric) %>%
@@ -62,9 +63,7 @@ get_regional_weather <- function() {
                   month = lubridate::month(timestamp), 
                   year = lubridate::year(timestamp),
                   hour = lubridate::hour(timestamp)) %>%
-    dplyr::select(year, month, day, hour, dplyr::everything()) %>%
-    dplyr::group_by(year,month,day,hour,stationid,tz,timestamp) %>%
-    dplyr::summarise_all(mean, na.rm=TRUE)
+    dplyr::select(year, month, day, hour, dplyr::everything())
   
     #Fix hour and day so midnight=2400
     rustys$hour[rustys$hour==0] = 24 ; rustys$hour = 100*rustys$hour
@@ -72,7 +71,7 @@ get_regional_weather <- function() {
     rustys$month[rustys$hour==2400] = rustys$month[which(rustys$hour==2400)-1]
     rustys$year[rustys$hour==2400] = rustys$year[which(rustys$hour==2400)-1]
   all_rustys <- read.csv(file = "Weather/Rustys_regional_weather.csv",header=T, stringsAsFactors=FALSE)
-    all_rustys$timestamp <- lubridate::ymd(all_rustys$timestamp) 
+    all_rustys$timestamp <- lubridate::ymd_hms(all_rustys$timestamp) 
     new_rustys <- dplyr::setdiff(rustys,all_rustys)
 
 # Rodeo airport station
@@ -81,6 +80,7 @@ get_regional_weather <- function() {
   rodeo <- dplyr::bind_cols(rodeo[,1:14], rodeo$metric) %>%
     dplyr::rename_all(.funs = tolower) %>%
     dplyr::select(-epoch,-obstimeutc) %>%
+    dplyr::slice(1:(dplyr::n()-2)) %>%
     dplyr::rename(timestamp = obstimelocal, latitude = lat, longitude = lon) %>%
     dplyr::mutate_all(as.character) %>% 
     dplyr::mutate_at(tail(names(.), 32), as.numeric) %>%
@@ -89,9 +89,7 @@ get_regional_weather <- function() {
                   month = lubridate::month(timestamp), 
                   year = lubridate::year(timestamp),
                   hour = lubridate::hour(timestamp)) %>%
-    dplyr::select(year, month, day, hour, timestamp, dplyr::everything()) %>%
-    dplyr::group_by(year,month,day,hour,stationid,tz,timestamp) %>%
-    dplyr::summarise_all(mean, na.rm=TRUE)
+    dplyr::select(year, month, day, hour, timestamp, dplyr::everything())
   
     #Fix hour and day so midnight=2400
     rodeo$hour[rodeo$hour==0] = 24 ; rodeo$hour = 100*rodeo$hour
@@ -99,7 +97,7 @@ get_regional_weather <- function() {
     rodeo$month[rodeo$hour==2400] = rodeo$month[which(rodeo$hour==2400)-1]
     rodeo$year[rodeo$hour==2400] = rodeo$year[which(rodeo$hour==2400)-1]
   all_rodeo <- read.csv(file = "Weather/Rodeo_regional_weather.csv",header=T, stringsAsFactors=FALSE)
-    all_rodeo$timestamp <- lubridate::ymd(all_rodeo$timestamp) 
+    all_rodeo$timestamp <- lubridate::ymd_hms(all_rodeo$timestamp) 
     new_rodeo <- dplyr::setdiff(rodeo,all_rodeo)
 
 return(list(new_4sw=new_4sw, new_sansimon=new_sansimon, new_rustys=new_rustys, new_rodeo=new_rodeo))
