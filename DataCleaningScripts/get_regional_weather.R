@@ -63,7 +63,7 @@ get_regional_weather <- function() {
                   month = lubridate::month(timestamp), 
                   year = lubridate::year(timestamp),
                   hour = lubridate::hour(timestamp)) %>%
-    dplyr::select(year, month, day, hour, dplyr::everything())
+    dplyr::select(year, month, day, hour, timestamp, dplyr::everything())
   
     #Fix hour and day so midnight=2400
     rustys$hour[rustys$hour==0] = 24 ; rustys$hour = 100*rustys$hour
