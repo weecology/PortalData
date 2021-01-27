@@ -27,7 +27,7 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
   center <- sf::st_sfc(sf::st_point(centroid),crs="WGS84")
   #transform to NAD83(NSRS2007)/California Albers
   center_transform <- sf::st_as_sf(center) %>% sf::st_transform(3488) 
-  portal_area_transform <- as(sf::st_buffer(center_transform, 1000), 'Spatial')
+  portal_area_transform <- suppressWarnings(as(sf::st_buffer(center_transform, 1000, ), 'Spatial'))
   portal_area <- sp::spTransform(portal_area_transform, sp::CRS("+proj=utm +zone=12 
                      +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 "))
   return(portal_area)
@@ -50,19 +50,19 @@ new_records <- function(mindate, maxdate, targetpath = tempdir()) {
 
   records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
                                          products = "LANDSAT_8_C1")
-  records <- records[records$level == "sr_ndvi",]
-  records_new <- list()
   # Check if no new records are fetched
   if (!dim(records)[1] == 0) {
-    records <- getSpatialData::check_availability(records)
-    records_new <- records %>%
-      dplyr::filter(download_available==TRUE)
-    tryCatch(records_new <- getSpatialData::get_data(records_new),
-             error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-  }
-  if(any(records$download_available)){
-    # Submit order for any new records not downloaded
-    records <- getSpatialData::order_data(records)
+    records <- records[records$level == "sr_ndvi",]
+    records_new <- list()
+      records <- getSpatialData::check_availability(records)
+      records_new <- records %>%
+        dplyr::filter(download_available==TRUE)
+      tryCatch(records_new <- getSpatialData::get_data(records_new),
+               error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+    }
+    if(any(records$download_available==FALSE)){
+      # Submit order for any new records not downloaded
+      records <- getSpatialData::order_data(records)
   }
   return(records_new)
 }

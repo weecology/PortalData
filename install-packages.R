@@ -9,3 +9,4 @@ pacman::p_load(stringr, Hmisc, dplyr, git2r, openxlsx, lubridate, lunar,
                sp, sqldf, raster, RCurl, EML, testthat, htmltab, zoo, tidyr, semver, yaml)
 
 pacman::p_load_gh("16EAGLE/getSpatialData")
+pacman::p_load_gh("crubba/htmltab")
