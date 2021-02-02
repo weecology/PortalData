@@ -50,20 +50,22 @@ new_records <- function(mindate, maxdate, targetpath = tempdir()) {
 
   records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
                                          products = "LANDSAT_8_C1")
-  # Check if no new records are fetched
-  if (!dim(records)[1] == 0) {
+  records_new <- list()
+  # Do lots of checking getSpatialData::get_records output before moving on
+  if(!is.null(records)) {
+    if(dim(records)[1] > 0) {
     records <- records[records$level == "sr_ndvi",]
-    records_new <- list()
       records <- getSpatialData::check_availability(records)
       records_new <- records %>%
         dplyr::filter(download_available==TRUE)
       tryCatch(records_new <- getSpatialData::get_data(records_new),
                error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-    }
+    }}
     if(any(records$download_available==FALSE)){
       # Submit order for any new records not downloaded
       records <- getSpatialData::order_data(records)
   }
+  
   return(records_new)
 }
 
@@ -150,6 +152,7 @@ writendvitable <- function() {
   targetpath <- tempdir()
   records <- new_records(mindate, maxdate, targetpath)
 
+  if(exists("records")){
   if("dataset_file" %in% colnames(records)){
     for(i in 1:dim(records)[1]) {
       extract_and_mask_raster(records[i,],targetpath) }
@@ -158,5 +161,5 @@ writendvitable <- function() {
 
     write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
                 append=TRUE, na="")
-  }
+  }}
 }
