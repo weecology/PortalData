@@ -40,7 +40,7 @@ if (Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") # is this a build triggered by Cr
   } else {
     stop(paste("Encountered an unexpected git status during the Cron update."))
   }
-} else { # this is triggered by an update to Master or by a PR on a branch
+} else { # this is triggered by an update to Main or by a PR on a branch
   # parse the most recent commit for version instructions 
   last_commit <- git2r::commits(repo)[[1]]
   if (grepl("Merge", last_commit['summary'], ignore.case = TRUE))
@@ -71,26 +71,26 @@ writeLines(as.character(new_ver), "version.txt")
 # Create a new release to trigger Zenodo archiving
 
 # If the version has been incremented (i.e. there are changes to be committed), 
-#  this is the master branch of the repo, and 
+#  this is the main branch of the repo, and 
 #  this is not a pull request, then:
-#  1. add a new commit with the update data to master branch
+#  1. add a new commit with the update data to main branch
 #  2. push the changes
 #  3. create a new tag
 #  4. push the tag
 #  5. trigger a release.
 if (new_ver > current_ver && 
-    Sys.getenv("TRAVIS_BRANCH") == 'master' && 
+    Sys.getenv("TRAVIS_BRANCH") == 'main' && 
     Sys.getenv("TRAVIS_PULL_REQUEST") == 'false')
 {
   # write out the new version and add the commit
   github_token <- Sys.getenv("GITHUB_TOKEN")
-  git2r::checkout(repo, branch = "master")
+  git2r::checkout(repo, branch = "main")
   git2r::add(repo, "*")
   git2r::commit(repo, message = commit_message)
   
   git2r::push(repo,
               name = "deploy",
-              refspec = "refs/heads/master",
+              refspec = "refs/heads/main",
               credentials = cred)
   git2r::tag(repo, as.character(new_ver), paste("v", new_ver, sep=""))
   git2r::push(repo,
