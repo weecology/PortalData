@@ -31,7 +31,7 @@ script:
 notifications:
   slack:
     rooms: weecology:CwWehNkftf60m2nc1LN7QMqx
-    if: branch = master
+    if: branch = main
     on_pull_requests: false
     on_success: never
     on_failure: always

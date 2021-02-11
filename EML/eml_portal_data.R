@@ -10,22 +10,22 @@ library(RCurl)
 # Ants
 
 # read files 
-ant_bait = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Ants/Portal_ant_bait.csv")
+ant_bait = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Ants/Portal_ant_bait.csv")
 Encoding(ant_bait) = "latin1"
 ant_bait = iconv(ant_bait, "latin1", "UTF-8", sub="")
 
-ant_colony = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Ants/Portal_ant_colony.csv")
+ant_colony = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Ants/Portal_ant_colony.csv")
 Encoding(ant_colony) = "latin1"
 ant_colony = iconv(ant_colony, "latin1", "UTF-8", sub="")
 
-ant_dataflags = read.csv("https://raw.githubusercontent.com/weecology/PortalData/master/Ants/Portal_ant_dataflags.csv")
+ant_dataflags = read.csv("https://raw.githubusercontent.com/weecology/PortalData/main/Ants/Portal_ant_dataflags.csv")
 ant_dataflags = as.data.frame(sapply(ant_dataflags, function(x){
   x = as.character(x)
   Encoding(x) = "latin1"
   iconv(x, "latin1", "UTF-8", sub="")
 }))
 
-ant_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/master/Ants/Portal_ant_species.csv")
+ant_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/main/Ants/Portal_ant_species.csv")
 ant_species = as.data.frame(sapply(ant_species, function(x){
   x = as.character(x)
   Encoding(x) = "latin1"
@@ -104,30 +104,30 @@ dataTable_colony = new("dataTable",
                        coverage = coverage_ant)
 
 # plant
-plant_1981_2015 = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_1981_2015.csv")
+plant_1981_2015 = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_1981_2015.csv")
 Encoding(plant_1981_2015) = "latin1"
 plant_1981_2015 = iconv(plant_1981_2015, "latin1", "UTF-8", sub="")
 
-plant_2015_present = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_2015_present.csv")
+plant_2015_present = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_2015_present.csv")
 Encoding(plant_2015_present) = "latin1"
 plant_2015_present = iconv(plant_2015_present, "latin1", "UTF-8", sub="")
 
-plant_census_dates = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_census_dates.csv")
+plant_census_dates = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_census_dates.csv")
 Encoding(plant_census_dates) = "latin1"
 plant_census_dates = iconv(plant_census_dates, "latin1", "UTF-8", sub="")
 
-plant_censuses = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_censuses.csv")
+plant_censuses = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_censuses.csv")
 Encoding(plant_censuses) = "latin1"
 plant_censuses = iconv(plant_censuses, "latin1", "UTF-8", sub="")
 
-plant_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_species.csv")
+plant_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_species.csv")
 plant_species = as.data.frame(sapply(plant_species, function(x){
   x = as.character(x)
   Encoding(x) = "latin1"
   iconv(x, "latin1", "UTF-8", sub="")
 }))
 
-plant_transects_2015_present = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Plants/Portal_plant_transects_2015_present.csv")
+plant_transects_2015_present = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Plants/Portal_plant_transects_2015_present.csv")
 Encoding(plant_transects_2015_present) = "latin1"
 plant_transects_2015_present = iconv(plant_transects_2015_present, "latin1", "UTF-8", sub="")
 
@@ -321,25 +321,25 @@ dataTable_plant_transects_2015_present = new("dataTable",
                                              coverage = coverage_plant)
 
 #Rodent
-rodent = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent.csv")
+rodent = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Rodents/Portal_rodent.csv")
 Encoding(rodent) = "latin1"
 rodent = iconv(rodent, "latin1", "UTF-8", sub="")
 
-rodent_datanotes = read.csv("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_datanotes.csv")
+rodent_datanotes = read.csv("https://raw.githubusercontent.com/weecology/PortalData/main/Rodents/Portal_rodent_datanotes.csv")
 rodent_datanotes = as.data.frame(sapply(rodent_datanotes, function(x){
   x = as.character(x)
   Encoding(x) = "latin1"
   iconv(x, "latin1", "UTF-8", sub="")
 }))
 
-rodent_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_species.csv")
+rodent_species = read.csv("https://raw.githubusercontent.com/weecology/PortalData/main/Rodents/Portal_rodent_species.csv")
 rodent_species = as.data.frame(sapply(rodent_species, function(x){
   x = as.character(x)
   Encoding(x) = "latin1"
   iconv(x, "latin1", "UTF-8", sub="")
 }))
 
-rodent_trapping = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Rodents/Portal_rodent_trapping.csv")
+rodent_trapping = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Rodents/Portal_rodent_trapping.csv")
 Encoding(rodent_trapping) = "latin1"
 rodent_trapping = iconv(rodent_trapping, "latin1", "UTF-8", sub="")
 
@@ -433,11 +433,11 @@ dataTable_rodent_trapping = new("dataTable",
                                 coverage = coverage_rodent)
 
 #weather
-weather = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Weather/Portal_weather.csv")
+weather = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Weather/Portal_weather.csv")
 Encoding(weather) = "latin1"
 weather = iconv(weather, "latin1", "UTF-8", sub="")
 
-weather_19801989 = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/Weather/Portal_weather_19801989.csv")
+weather_19801989 = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/Weather/Portal_weather_19801989.csv")
 Encoding(weather_19801989) = "latin1"
 weather_19801989 = iconv(weather_19801989, "latin1", "UTF-8", sub="")
 
@@ -501,7 +501,7 @@ coverage =
                west = -109.079844, east = -109.079844, 
                north = 31.938969, south = 31.938969)
 
-method = getURL("https://raw.githubusercontent.com/weecology/PortalData/master/SiteandMethods/README.md")
+method = getURL("https://raw.githubusercontent.com/weecology/PortalData/main/SiteandMethods/README.md")
 Encoding(method) = "latin1"
 method = iconv(method, "latin1", "UTF-8", sub="")
 method = gsub("[.*]","",method)
