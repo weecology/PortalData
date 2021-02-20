@@ -36,11 +36,16 @@ jobs:
         run: Rscript install-packages.R
         
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install libgdal-dev gdal-bin libproj-dev proj-data proj-bin libgeos-dev libv8-dev libprotobuf-dev protobuf-compiler libjq-dev
 
       - name: Update data
         run: Rscript update-data.R
