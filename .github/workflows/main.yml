@@ -43,11 +43,17 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install system dependencies
         run: |
           sudo apt-get install libgit2-dev libicu-dev libudunits2-dev libgdal-dev gdal-bin libproj-dev proj-data proj-bin libgeos-dev libv8-dev libprotobuf-dev protobuf-compiler libjq-dev
+          sudo add-apt-repository ppa:xapienz/curl34
+          sudo apt-get update
 
       - name: Install packages
         run: Rscript install-packages.R
