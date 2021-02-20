@@ -13,10 +13,8 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-      
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
     if: contains(toJson(github.event.commits), '[skip ci]') == false
     
@@ -25,10 +23,10 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
           
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -57,6 +55,9 @@ jobs:
         
       - name: Update data
         run: Rscript update-data.R
+        env:
+          WU_API_KEY: ${{ secrets.WU_API_KEY }}
+          USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
         
       - name: Test
         run: Rscript testthat.R
