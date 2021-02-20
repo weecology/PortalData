@@ -17,6 +17,7 @@ on:
 env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -52,15 +53,12 @@ jobs:
         run: Rscript archive.R
         
   slackNotification:
-  if: failure()
-    name: Slack Notification
+    if: failure()
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      with:
-        channel: portal-logistics
+      - name: Slack Notification
+      - uses: actions/checkout@v2
+      - uses: rtCamp/action-slack-notify@v2
+        with:
+          channel: portal-logistics
     
