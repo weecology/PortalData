@@ -14,15 +14,15 @@ git2r::config(repo,
               user.name = config$deploy_username)
 
 # set up the new commit
-travis_build <- Sys.getenv("TRAVIS_BUILD_NUMBER")
-commit_message <- paste("Update data and trigger archive: Travis Build",
-                        travis_build,
+github_build <- Sys.getenv("GITHUB_RUN_NUMBER")
+commit_message <- paste("Update data and trigger release: GitHub Build",
+                        github_build,
                         "[skip ci]")
 
 # handle changes to the version number
 current_ver <- semver::parse_version(readLines("version.txt"))
 
-if (Sys.getenv("TRAVIS_EVENT_TYPE") == "cron") # is this a build triggered by Cron
+if (Sys.getenv("GITHUB_EVENT_NAME") == "cron") # is this a build triggered by Cron
 {
   commit_message <- paste(commit_message, "[cron]")
   
@@ -79,8 +79,8 @@ writeLines(as.character(new_ver), "version.txt")
 #  4. push the tag
 #  5. trigger a release.
 if (new_ver > current_ver && 
-    Sys.getenv("TRAVIS_BRANCH") == 'main' && 
-    Sys.getenv("TRAVIS_PULL_REQUEST") == 'false')
+    Sys.getenv("GITHUB_EVENT_PATH") == 'main' && 
+    Sys.getenv("GITHUB_EVENT_NAME") %in% c("cron", "push"))
 {
   # write out the new version and add the commit
   github_token <- Sys.getenv("GITHUB_TOKEN")
