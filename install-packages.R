@@ -1,7 +1,7 @@
 # Install pacman if it isn't already installed
 
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
-install.packages("Rcurl")
+install.packages("RCurl")
 install.packages("curl")
 # Install analysis packages using pacman
 
