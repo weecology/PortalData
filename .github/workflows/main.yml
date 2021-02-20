@@ -56,9 +56,9 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     steps:
-      - name: Slack Notification
       - uses: actions/checkout@v2
-      - uses: rtCamp/action-slack-notify@v2
+      - name: Slack Notification
+      - uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: portal-logistics
     
