@@ -57,6 +57,10 @@ jobs:
           sudo apt-get update
 
       - name: Install packages
-        run: Rscript install-packages.R
-        
+        run: Rscript install-packages.R        
       
+      - name: Update data
+        run: Rscript update-data.R
+        env:
+          WU_API_KEY: ${{ secrets.WU_API_KEY }}
+          USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
