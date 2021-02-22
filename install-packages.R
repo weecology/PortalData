@@ -6,6 +6,7 @@ install.packages("RCurl", type="source", repos="https://cran.rstudio.com")
 install.packages("curl", type="source", repos="https://cran.rstudio.com")
 install.packages("stringi", type="source", repos="https://cran.rstudio.com")
 install.packages("sf", type="source", repos="https://cran.rstudio.com")
+install.packages("rgdal", type="source", repos="https://cran.rstudio.com")
 install.packages("Hmisc", type="source", repos="https://cran.rstudio.com")
 # Install analysis packages using pacman
 
