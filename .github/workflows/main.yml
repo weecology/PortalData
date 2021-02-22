@@ -42,9 +42,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
@@ -52,6 +52,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev
+          sudo add-apt-repository ppa:xapienz/curl34
           echo "deb http://mirrors.kernel.org/ubuntu/ xenial main" | sudo tee -a /etc/apt/sources.list && sudo apt-get update && sudo apt install -y --allow-unauthenticated libpng12-0
           sudo apt-get update
 
