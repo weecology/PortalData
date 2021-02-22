@@ -2,6 +2,10 @@
 
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
 
+install.packages("RCurl", type="source", repos="https://cran.rstudio.com")
+install.packages("curl", type="source", repos="https://cran.rstudio.com")
+install.packages("stringi", type="source", repos="https://cran.rstudio.com")
+
 install.packages("sf", type="source", repos="https://cran.rstudio.com")
 install.packages("rgdal", type="source", repos="https://cran.rstudio.com")
 install.packages("lwgeom", type="source", repos="https://cran.rstudio.com")
