@@ -1,0 +1,66 @@
+# Install packages, update data, test, and archive 
+
+name: CI
+
+on:
+
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: "0 11 * * 1,4"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: contains(toJson(github.event.commits), '[skip ci]') == false
+    
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      matrix:
+        config:
+          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+      - uses: r-lib/actions/setup-r@master
+        
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev
+          sudo add-apt-repository ppa:xapienz/curl34
+          echo "deb http://mirrors.kernel.org/ubuntu/ xenial main" | sudo tee -a /etc/apt/sources.list && sudo apt-get update && sudo apt install -y --allow-unauthenticated libpng12-0
+          sudo apt-get update
+
+      - name: Install packages
+        run: Rscript install-packages.R        
+      
+      - name: Update data
+        env:
+          WU_API_KEY: ${{ secrets.WU_API_KEY }}
+          USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
+        run: Rscript update-data.R
