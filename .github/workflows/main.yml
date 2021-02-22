@@ -58,23 +58,4 @@ jobs:
       - name: Install packages
         run: Rscript install-packages.R
         
-      - name: Update data
-        run: Rscript update-data.R
-        env:
-          WU_API_KEY: ${{ secrets.WU_API_KEY }}
-          USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
-        
-      - name: Test
-        run: Rscript testthat.R
-        
-      - name: Archive
-        run: Rscript archive.R
-        
-      - name: Slack Notify Build
-        if: failure()
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
-        with:
-          channel:  portal-logistics
-    
+      
