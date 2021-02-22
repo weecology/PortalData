@@ -2,10 +2,6 @@
 
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
 
-install.packages("sf", type="source", repos="https://cran.rstudio.com")
-install.packages("rgdal", type="source", repos="https://cran.rstudio.com")
-install.packages("lwgeom", type="source", repos="https://cran.rstudio.com")
-
 # Install analysis packages using pacman
 
 pacman::p_load(units, sf, rgdal, lwgeom, shiny, stringi, stringr, Hmisc, dplyr, git2r, openxlsx, lubridate, lunar, jsonlite, 
