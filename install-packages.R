@@ -2,6 +2,7 @@
 
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
 
+install.packages("sf", type="source", repos="https://cran.rstudio.com")
 install.packages("lwgeom", type="source", repos="https://cran.rstudio.com")
 # Install analysis packages using pacman
 
