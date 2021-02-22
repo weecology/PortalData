@@ -51,9 +51,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  
-          sudo apt-get install libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libpng-dev
-          sudo add-apt-repository ppa:xapienz/curl34
+          sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev
           echo "deb http://mirrors.kernel.org/ubuntu/ xenial main" | sudo tee -a /etc/apt/sources.list && sudo apt-get update && sudo apt install -y --allow-unauthenticated libpng12-0
           sudo apt-get update
 
