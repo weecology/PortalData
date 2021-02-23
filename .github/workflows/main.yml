@@ -71,7 +71,7 @@ jobs:
         
       - name: Bump Version
         env: 
-          LOG: $(git log)
+          LOG: github.event.head_commit.message
           CRON: "${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}"
         run: |
           echo ${{ env.LOG }}
