@@ -76,4 +76,5 @@ jobs:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
           message: "Update data and trigger archive: GitHub Build $GITHUB_RUN_NUMBER [skip ci] [cron]"
-          tag: version=version.txt | echo "$version"
+          tag: echo -e "v$(cat version.txt)"
+          
