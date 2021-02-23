@@ -35,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-            fetch-depth: 0
+            fetch-depth: 3
       - uses: r-lib/actions/setup-r@master
         
       - name: Cache R packages
@@ -68,6 +68,14 @@ jobs:
           
       - name: Test
         run: Rscript testthat.R
+        
+      - name: Bump Version
+        env: 
+          LOG: $(git log)
+          CRON: "${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}"
+        run: |
+          echo ${{ env.LOG }}
+          echo ${{ env.CRON }}
         
       - name: Tag push
         if: ${{ github.event_name != 'pull_request' }}
