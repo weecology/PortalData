@@ -73,10 +73,10 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         env: 
           VERSION: "v$(cat version.txt)"
-          JOB_TAGS: fromJSON('["[skip ci]", "[skip ci] [cron]"]')[${GITHUB_EVENT_TYPE} == 'schedule']
+          JOB_TAGS: "${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}"
         run: |
-          "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
-          ${{ env.VERSION }}
+          echo -e "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
+          echo ${{ env.VERSION }}
         
       - name: Tag cron jobs
         if: ${{ github.event_name == 'schedule' }}
