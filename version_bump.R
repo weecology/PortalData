@@ -32,7 +32,7 @@ new_ver <- semver::increment_version(current_ver, "minor", 1L)
                "with version increment information.\nOptions include",
                "[major], [minor], [patch], and [no version bump].\n",
                "The last commit in this set of changes is:\n",
-               last_commit['summary']))
+               commit))
   }
 }
 
