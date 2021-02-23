@@ -72,7 +72,7 @@ jobs:
         
       - name: Bump Version
         env: 
-          LOG: "${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 1 HEAD)' }}"
+          LOG: "${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}"
           CRON: "${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}"
         run: |
           echo ${{ env.LOG }}
