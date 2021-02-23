@@ -73,7 +73,7 @@ jobs:
       - name: Tag push
         if: ${{ github.event_name == 'push' }}
         run: |
-          echo -e "Update data and trigger archive: GitHub Build ${{ GITHUB_RUN_NUMBER }} [skip ci] [cron]"
+          echo -e "Update data and trigger archive: GitHub Build ${{ env.GITHUB_RUN_NUMBER}} [skip ci] [cron]"
           echo ${{ env.OLD_VERSION }}
         
       - name: Tag cron jobs
@@ -82,6 +82,6 @@ jobs:
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build ${{ GITHUB_RUN_NUMBER }} [skip ci] [cron]"
+          message: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} [skip ci] [cron]"
           tag: echo -e "v$(cat version.txt)"
           
