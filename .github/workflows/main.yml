@@ -87,7 +87,7 @@ jobs:
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
-          if "$(git status --porcelain)" | grep -q version.txt ; then 
+          if echo "$(git status --porcelain)" | grep -q version.txt ; then 
             echo "Version changed"
             echo "::set-output name=new_ver::TRUE"
           else 
