@@ -78,12 +78,12 @@ jobs:
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
         run: |
-          if [ -z "$(git status --porcelain)" ]; then DIFF="FALSE"; else DIFF="TRUE"; fi
-          echo ::set-output name=DIFF::${DIFF}
+          if [ -n "$(git status --porcelain)" ]; then DIFF="FALSE"; else DIFF="TRUE"; fi
+          echo ::set-output name=diff::${DIFF}
           echo 'DIFF=DIFF' >> $GITHUB_ENV
           echo -e ${{ env.DIFF }}
-          echo -e ${{ steps.version.outputs.DIFF }}
-          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.version.outputs.DIFF }})"
+          echo -e ${{ steps.version.outputs.diff }}
+          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.version.outputs.diff }})"
         
       - name: Tag new version for release
         if: ${{ github.event_name != 'pull_request' }}
