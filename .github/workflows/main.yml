@@ -87,7 +87,7 @@ jobs:
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
-          echo "git diff --name-only HEAD^ HEAD"
+          echo git diff --name-only HEAD^ HEAD
         
       - name: Tag new version for release
         if: ${{ github.event_name != 'pull_request' }}
