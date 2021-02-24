@@ -73,13 +73,13 @@ jobs:
         
       - name: Bump Version
         env: 
-          LOG: "${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}"
-          CRON: "${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}"
+          LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}"
+          CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
-          VERSION: "${{ 'v$(cat version.txt)' }}"
+          VERSION: ${{ 'v$(cat version.txt)' }}
         run: |
-          echo 'DIFF=$(echo if [[ -z "$(git status --porcelain)" ]])' >> $GITHUB_ENV
-          echo -e "${{ env.DIFF }}"
+          echo 'DIFF=$(echo test -z "$(git status --porcelain)")' >> $GITHUB_ENV
+          echo -e ${{ env.DIFF }}
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ env.DIFF }})"
         
       - name: Tag new version for release
