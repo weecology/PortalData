@@ -18,6 +18,9 @@ jobs:
   build:
     if: contains(toJson(github.event.commits), '[skip ci]') == false
     
+    outputs:
+      diff: ${{ steps.version.outputs.diff }}
+    
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -78,7 +81,7 @@ jobs:
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
         run: |
-          if [ -z "$(git status --porcelain)" ]; then 
+          if [[ -z "$(git status --porcelain)" ]] ; then 
             echo "Git status is empty"
             echo "::set-output name=diff::FALSE"
           else 
