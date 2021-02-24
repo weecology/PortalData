@@ -102,7 +102,7 @@ jobs:
         
       - name: Trying tags
         env: 
-          VERSION: ${{ "v$(cat version.txt)" }}
+          VERSION: ${{ `v$(cat version.txt)` }}
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
           MESSAGE: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
         run: |
