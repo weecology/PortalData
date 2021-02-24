@@ -85,11 +85,11 @@ jobs:
           fi
       
       - name: Bump version
-        if: github.event_name != 'pull_request'
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
+          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
           if echo "$(git status --porcelain)" | grep -q version.txt ; then 
@@ -99,27 +99,27 @@ jobs:
             echo "No version bump"
             echo "::set-output name=new_ver::FALSE"
           fi
-          echo "::set-output name=tag::${{ 'v$(cat version.txt)' }}"
         
       - name: Trying tags
+        id: tagging
         env: 
           VERSION: ${{ 'v$(cat version.txt)' }}
-          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
           MESSAGE: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
         run: |
-          echo ${{ steps.version.outputs.tag }}
           echo ${{ env.VERSION }}
+          echo "::set-output name=tag::${{ env.VERSION }}"
+          
+      - name: Check version
+        run: echo ${{ steps.tagging.outputs.tag }}
       
       - name: Tag new version for release
        # if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
-          VERSION: ${{ 'v$(cat version.txt)' }}
-          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
           MESSAGE: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
         uses: EndBug/add-and-commit@v7
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
           message: ${{ env.MESSAGE }}
-          tag: echo ${{ env.VERSION }}
+          tag: ${{ steps.version.outputs.tag }}
           
