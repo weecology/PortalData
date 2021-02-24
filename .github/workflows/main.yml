@@ -118,6 +118,6 @@ jobs:
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build ${{ GITHUB_RUN_NUMBER }} ${{ env.JOB_TAGS }}"
+          message: "Update data and trigger archive: GitHub Build $GITHUB_RUN_NUMBER ${{ env.JOB_TAGS }}"
           tag: echo ${{ env.VERSION }}
           
