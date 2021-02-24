@@ -77,9 +77,12 @@ jobs:
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
           VERSION: ${{ 'v$(cat version.txt)' }}
         run: |
-          echo 'DIFF=$(echo test -z "$(git status --porcelain)")' >> $GITHUB_ENV
+          echo "${{ env.VERSION }}"
+          if [-z "$(git status --porcelain)"]; then DIFF='FALSE' ; else DIFF='TRUE' ; fi
+          echo ::set-output name=DIFF::${DIFF}
+          echo 'DIFF=DIFF' >> $GITHUB_ENV
           echo -e ${{ env.DIFF }}
-          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ env.DIFF }})"
+          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.vars.outputs.DIFF }})"
         
       - name: Tag new version for release
         if: ${{ github.event_name != 'pull_request' }}
