@@ -40,10 +40,3 @@ new_ver <- semver::increment_version(current_ver, "minor", 1L)
 }
 
 writeLines(as.character(new_ver), "version.txt") 
-  
-if (new_ver > current_ver) {
-  return("TRUE") 
-  } else { 
-   return("FALSE")
-  }
-}
