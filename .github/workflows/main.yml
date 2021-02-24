@@ -93,13 +93,9 @@ jobs:
             echo "No version bump"
             echo "::set-output name=new_ver::FALSE"
           fi
-          
-      - name: Check something
-        if: github.event_name == 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        run: echo "It works"
         
       - name: Tag new version for release
-        if: ${{ github.event_name != 'pull_request' }}
+        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
           VERSION: "${{ 'v$(cat version.txt)' }}"
           JOB_TAGS: "${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}"
