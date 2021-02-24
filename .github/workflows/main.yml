@@ -99,14 +99,15 @@ jobs:
             echo "No version bump"
             echo "::set-output name=new_ver::FALSE"
           fi
+          echo "::set-output name=version::$('v$(cat version.txt)')"
         
       - name: Trying tags
         env: 
-          VERSION: ${{ 'cat version.txt' }}
+          VERSION: ${{ 'v$(cat version.txt)' }}
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
-          MESSAGE: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
+          MESSAGE: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
         run: |
-          echo ${{ env.VERSION }}
+          echo ${{ steps.version.outputs.version }}
           echo ${{ env.MESSAGE }}
       
       - name: Tag new version for release
