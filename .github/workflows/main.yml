@@ -99,7 +99,7 @@ jobs:
             echo "No version bump"
             echo "::set-output name=new_ver::FALSE"
           fi
-          echo "::set-output name=version::$('v$(cat version.txt)')"
+          echo "::set-output name=tag::${{ 'v$(cat version.txt)' }}"
         
       - name: Trying tags
         env: 
@@ -107,18 +107,19 @@ jobs:
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
           MESSAGE: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
         run: |
-          echo ${{ steps.version.outputs.version }}
-          echo ${{ env.MESSAGE }}
+          echo ${{ steps.version.outputs.tag }}
+          echo ${{ env.VERSION }}
       
       - name: Tag new version for release
        # if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
           VERSION: ${{ 'v$(cat version.txt)' }}
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
+          MESSAGE: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
         uses: EndBug/add-and-commit@v7
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build $GITHUB_RUN_NUMBER ${{ env.JOB_TAGS }}"
+          message: ${{ env.MESSAGE }}
           tag: echo ${{ env.VERSION }}
           
