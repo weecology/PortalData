@@ -31,7 +31,6 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_CONTEXT: ${{ toJson(github) }}
       
     steps:
       - uses: actions/checkout@v2
@@ -73,7 +72,7 @@ jobs:
         
       - name: Bump Version
         env: 
-          LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}"
+          LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
           VERSION: ${{ 'v$(cat version.txt)' }}
