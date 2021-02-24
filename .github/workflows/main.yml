@@ -87,10 +87,10 @@ jobs:
           else 
             echo "::set-output name=diff::TRUE"
           fi
-          echo 'DIFF=${{ steps.version.outputs.diff }}' >> $GITHUB_ENV
+          echo "DIFF=${{ steps.version.outputs.differ }}" >> $GITHUB_ENV
           echo -e ${{ env.DIFF }}
           echo -e ${{ steps.version.outputs.diff }}
-          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.version.outputs.diff }})"
+        # R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.version.outputs.diff }})"
       
       - name: check diff
         run: echo ${{ steps.version.outputs.diff }}
