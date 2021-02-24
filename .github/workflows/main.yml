@@ -95,14 +95,14 @@ jobs:
           fi
         
       - name: Tag new version for release
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
+       # if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
-          VERSION: "${{ 'v$(cat version.txt)' }}"
-          JOB_TAGS: "${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}"
+          VERSION: ${{ 'v$(cat version.txt)' }}
+          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
         uses: EndBug/add-and-commit@v7
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
+          message: "Update data and trigger archive: GitHub Build $GITHUB_RUN_NUMBER ${{ env.JOB_TAGS }}"
           tag: ${{ env.VERSION }}
           
