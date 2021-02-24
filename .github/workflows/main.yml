@@ -77,10 +77,8 @@ jobs:
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
-          VERSION: ${{ 'v$(cat version.txt)' }}
         run: |
-          echo ${{ env.VERSION }}
-          if [ -z "$(git status --porcelain)" ] then DIFF='FALSE' ; else DIFF='TRUE' ; fi
+          if [ -z "$(git status --porcelain)" ]; then DIFF="FALSE"; else DIFF="TRUE"; fi
           echo ::set-output name=DIFF::${DIFF}
           echo 'DIFF=DIFF' >> $GITHUB_ENV
           echo -e ${{ env.DIFF }}
@@ -97,5 +95,5 @@ jobs:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
           message: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
-          tag: "${{ env.VERSION }}"
+          tag: ${{ env.VERSION }}
           
