@@ -79,17 +79,13 @@ jobs:
           else 
             echo "::set-output name=diff::TRUE"
           fi
-          echo "DIFF=${{ steps.check_files.outputs.differ }}" >> $GITHUB_ENV
-          echo -e ${{ env.DIFF }}
-          echo -e ${{ steps.check_files.outputs.diff }}
       
       - name: Bump version
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
-        run: echo ${{ steps.check_files.outputs.diff }}
-      # R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
+        run: R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
         
       - name: Tag new version for release
         if: ${{ github.event_name != 'pull_request' }}
