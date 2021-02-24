@@ -120,5 +120,5 @@ jobs:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
           message: ${{ env.MESSAGE }}
-          tag: ${{ steps.version.outputs.tag }}
+          tag: ${{ steps.tagging.outputs.tag }}
           
