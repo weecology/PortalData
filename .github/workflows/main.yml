@@ -39,6 +39,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         
       - name: Cache R packages
+        if: github.event_name != 'pull_request'
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -50,6 +51,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install system dependencies
+        if: github.event_name != 'pull_request'
         run: |
           sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev
           sudo add-apt-repository ppa:xapienz/curl34
@@ -57,9 +59,11 @@ jobs:
           sudo apt-get update
 
       - name: Install packages
+        if: github.event_name != 'pull_request'
         run: Rscript install-packages.R        
         
       - name: Update data
+        if: github.event_name != 'pull_request'
         run: |
           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
@@ -67,6 +71,7 @@ jobs:
           Rscript update-data.R
           
       - name: Test
+        if: github.event_name != 'pull_request'
         run: Rscript testthat.R
         
       - name: Check for new files
@@ -80,6 +85,7 @@ jobs:
           fi
       
       - name: Bump version
+        if: github.event_name != 'pull_request'
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
@@ -94,6 +100,15 @@ jobs:
             echo "::set-output name=new_ver::FALSE"
           fi
         
+      - name: Trying tags
+        env: 
+          VERSION: ${{ 'v$(cat version.txt)' }}
+          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
+          MESSAGE: "Update data and trigger archive: GitHub Build ${GITHUB_RUN_NUMBER} ${{ env.JOB_TAGS }}"
+        run: |
+          echo env.VERSION
+          echo env.MESSAGE
+      
       - name: Tag new version for release
        # if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
