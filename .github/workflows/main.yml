@@ -75,7 +75,7 @@ jobs:
         env: 
           LOG: "${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}"
           CRON: "${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}"
-          DIFF: "${{ [ -z '$(git status --porcelain)' ] }}"
+          DIFF: "${{ if [ -z '$(git status --porcelain)' ] }}"
           VERSION: "${{ 'v$(cat version.txt)' }}"
         run: |
           echo -e "${{ env.DIFF }}"
