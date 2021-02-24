@@ -71,13 +71,14 @@ jobs:
         run: Rscript testthat.R
         
       - name: Bump Version
+        shell: bash
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
           # DIFF: ${{ if [[ -z "$(git status --porcelain)" ]] }}
           VERSION: ${{ 'v$(cat version.txt)' }}
         run: |
-          echo "${{ env.VERSION }}"
+          echo ${{ env.VERSION }}
           if [-z "$(git status --porcelain)"]; then DIFF='FALSE' ; else DIFF='TRUE' ; fi
           echo ::set-output name=DIFF::${DIFF}
           echo 'DIFF=DIFF' >> $GITHUB_ENV
