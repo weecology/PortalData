@@ -39,7 +39,6 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         
       - name: Cache R packages
-        if: github.event_name != 'pull_request'
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
