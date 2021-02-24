@@ -1,16 +1,19 @@
 #' Bump version based on version instructions in commit
 #' or automatically for cron jobs
+#' @param commit latest commit
+#' @param cron is it a cron job (logical)
+#' @param changes are there any changed files (logical)
+#' 
 
-
-bump_version <- function(commit, cron) {
+bump_version <- function(commit, cron, changes) {
 
 current_ver <- semver::parse_version(readLines("version.txt"))
 
 if (cron==TRUE) {
-  
-# Cron job, increment minor version
+  if (changes==TRUE) { # for cron jobs, only bump if update_data.R resulted in changed files
+# Cron job with new data, increment minor version
 new_ver <- semver::increment_version(current_ver, "minor", 1L)
-
+    }
 } else { # this is triggered by an update to Main or by a PR on a branch
   # parse the most recent commit for version instructions 
   
@@ -37,4 +40,10 @@ new_ver <- semver::increment_version(current_ver, "minor", 1L)
 }
 
 writeLines(as.character(new_ver), "version.txt") 
+  
+if (new_ver > current_ver) {
+  return("TRUE") 
+  } else { 
+   return("FALSE")
+  }
 }
