@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# regex to validate in commit msg
+commit_regex='(no version bump|patch|minor|major)'
+error_msg="Aborting commit. Your commit message is missing versioning instructions. 
+Please add [no version bump], [patch], [minor], or [major] to your commit message"
+
+if ! grep -iqE "$commit_regex" "$1"; then
+    echo "$error_msg" >&2
+    exit 1
+fi
