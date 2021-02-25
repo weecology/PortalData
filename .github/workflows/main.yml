@@ -103,6 +103,8 @@ jobs:
         run: |
           value=`cat version.txt`
           echo "$value"
+          value="v${value}"
+          echo "$value"
           echo "::set-output name=tag::$value"
           
       - name: Check version
