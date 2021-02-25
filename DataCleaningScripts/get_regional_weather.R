@@ -72,7 +72,7 @@ get_regional_weather <- function() {
     rustys$year[rustys$hour==2400] = rustys$year[which(rustys$hour==2400)-1]
   all_rustys <- read.csv(file = "Weather/Rustys_regional_weather.csv",header=T, stringsAsFactors=FALSE)
     all_rustys$timestamp <- lubridate::ymd_hms(all_rustys$timestamp) 
-    new_rustys <- dplyr::setdiff(rustys,all_rustys)
+    new_rustys <- dplyr::anti_join(rustys, all_rustys, by = c("year","month","day","hour","timestamp"))
 
 # Rodeo airport station
   rodeo <- jsonlite::fromJSON(
@@ -98,7 +98,7 @@ get_regional_weather <- function() {
     rodeo$year[rodeo$hour==2400] = rodeo$year[which(rodeo$hour==2400)-1]
   all_rodeo <- read.csv(file = "Weather/Rodeo_regional_weather.csv",header=T, stringsAsFactors=FALSE)
     all_rodeo$timestamp <- lubridate::ymd_hms(all_rodeo$timestamp) 
-    new_rodeo <- dplyr::setdiff(rodeo,all_rodeo)
+    new_rodeo <- dplyr::anti_join(rodeo, all_rodeo, by = c("year","month","day","hour","timestamp"))
 
 return(list(new_4sw=new_4sw, new_sansimon=new_sansimon, new_rustys=new_rustys, new_rodeo=new_rodeo))
 
