@@ -44,7 +44,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles(path) }}
+          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles(${{ env.R_LIBS_USER }}) }}
           restore-keys: |
             ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
             ${{ runner.os }}-
