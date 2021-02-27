@@ -46,6 +46,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: |
             ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install system dependencies
         run: |
