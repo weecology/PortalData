@@ -37,6 +37,7 @@ jobs:
         with:
             fetch-depth: 3
       - uses: r-lib/actions/setup-r@v1
+        id: install-r
         with:
           r-version: ${{ matrix.config.r }}
         
@@ -44,7 +45,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles(${{ env.R_LIBS_USER }}) }}
+          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
           restore-keys: |
             ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
             ${{ runner.os }}-
