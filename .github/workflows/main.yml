@@ -122,6 +122,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tagging.outputs.tag }}
+          tag_name: ${{ steps.tagging.outputs.release }}
           release_name: ${{ steps.tagging.outputs.release }}
-          
