@@ -118,6 +118,8 @@ jobs:
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: create_release
         uses: zendesk/action-create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
