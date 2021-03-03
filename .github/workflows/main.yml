@@ -100,9 +100,9 @@ jobs:
         id: tagging
         run: |
           value=`cat version.txt`
-          echo "::set-output name=release::$value"
-          value="v${value}"
           echo "::set-output name=tag::$value"
+          value="v${value}"
+          echo "::set-output name=release::$value"
       
       - name: Tag new version for release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
@@ -122,5 +122,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tagging.outputs.release }}
-          release_name: ${{ steps.tagging.outputs.release }}
+          tag_name: ${{ steps.tagging.outputs.tag }}
+          release_name: ${{ steps.tagging.outputs.tag }}
+          body: ${{ steps.tagging.outputs.release }}
