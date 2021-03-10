@@ -3,6 +3,8 @@
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
 
 #install.packages(c("RCurl","curl","sf","rgdal","lwgeom"), type="source", repos="https://cran.rstudio.com")
+remove.packages("stringi")
+remove.packages("stringr")
 
 # Install analysis packages using pacman
 
