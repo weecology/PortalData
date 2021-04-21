@@ -26,6 +26,7 @@ be integrated at the next daily run.
 import requests
 import os
 import shutil
+from datetime import date
 
 if os.path.exists('weather-data.html'):
     os.remove('weather-data.html')
@@ -45,7 +46,10 @@ shutil.copyfile('storms-data.html', '/var/www/html/storms-data.html')
 
 # Code temporarily added to try to recover 3 months of missing weather data
 
-weather_recover_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=2000'
+weather_recover_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=4500'
 r_weather_recover = requests.get(weather_recover_url, allow_redirects=True)
 open('weather-data-recover.html', 'wb').write(r_weather_recover.content)
 shutil.copyfile('weather-data-recover.html', '/var/www/html/weather-data-recover.html')
+
+current_date = date.today().strftime("%Y-%m-%d")
+shutil.copyfile("weather-data-recover.html', 'weather-data-recover-' + current_date + '.html')
