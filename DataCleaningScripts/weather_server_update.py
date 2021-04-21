@@ -52,4 +52,4 @@ open('weather-data-recover.html', 'wb').write(r_weather_recover.content)
 shutil.copyfile('weather-data-recover.html', '/var/www/html/weather-data-recover.html')
 
 current_date = date.today().strftime("%Y-%m-%d")
-shutil.copyfile("weather-data-recover.html', 'weather-data-recover-' + current_date + '.html')
+shutil.copyfile('weather-data-recover.html', 'weather-data-recover-' + current_date + '.html')
