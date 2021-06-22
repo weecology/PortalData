@@ -12,7 +12,7 @@
 # Open raw .dat file of new data
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met491"
+metfile = "Met496"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))

@@ -105,11 +105,14 @@ storms <- read.csv("Weather/Portal_storms.csv")
 # New overlap table
 overlap <- read.csv("Weather/Portal_weather_overlap.csv") 
 overlap$timestamp <- lubridate::ymd_hms(overlap$timestamp)
-last_overlap <- max(overlap$timestamp)
+last_overlap <- min(rawdata$timestamp)
 
-newoverlap <- newdata %>% 
-  dplyr::filter(timestamp > last_overlap) %>%
+newoverlapdata <- newdata %>% 
+  dplyr::filter(timestamp >= last_overlap) %>%
   dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
+
+newoverlap <- suppressMessages(coalesce_join(overlap, newoverlapdata, 
+                                          by = c("year", "month", "day", "hour", "timestamp")))
 
 return(list(newdata,stormsnew,newoverlap))
 
@@ -137,7 +140,7 @@ write.table(data[2], file = "Weather/Portal_storms.csv",
 
 # also append new data to overlap file
 write.table(data[3], file = "Weather/Portal_weather_overlap.csv",
-            row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
+            row.names = FALSE, col.names = TRUE, na = "", sep = ",")
 
 }
 
