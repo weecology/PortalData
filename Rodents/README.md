@@ -5,7 +5,7 @@ All plots are trapped approximately monthly (1977 - present). Sampling is ongoin
 #### Rodent adundance data
 [Portal_rodent](Portal_rodent.csv) contains the rodent trapping data. Each individual of a target species is PIT tagged and data on species, location caught (plot and stake), sex, reproductive condition, weight, and hindfoot length are recorded.
 In almost all cases, you will want to remove negative period codes before using this data. Negative period codes indicate data collected outside of the normal census protocols, and should absolutely not be used as regular trapping data.
-The `id` column can be used to track individuals over time. It is unique to individual, across the entire time series. The `pit_tag` column indicates which of these unique ids are based on PIT tags, which are more reliaable than other tagging methods.
+The `id` column can be used to track individuals over time. It is unique to individual, across the entire time series. The `pit_tag` column indicates which of these unique ids are based on PIT tags, which are more reliable than other tagging methods.
 
 #### Data Notes 
 [Portal_rodent_datanotes](Portal_rodent_datanotes.csv) lists the data flags used in the `Note2` column of [Portal_rodent](Portal_rodent.csv).
