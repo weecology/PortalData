@@ -8,7 +8,7 @@ library(dplyr)
 
 source('DataCleaningScripts/general_data_cleaning_functions.R')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
-
+source('DataCleaningScripts/clean_pit_tags.R')
 
 ##############################################################################
 # New file to be checked
@@ -352,6 +352,17 @@ if (length(tags) > 0) {
   print('No more edits to make')
 }
 
+# Add unique tag ID column
+
+ws_tags <- clean_tags(ws, clean = TRUE, quiet = FALSE) 
+
+if(is.na(ws_tags$id[which(!is.na(ws_tags$species))])) { 
+  print("Duplicate individuals in tag data, recheck tags") }
+if(dim(ws_tags)!=dim(ws)) { 
+  print("Records dropped in tag data, recheck tags") }
+
+ws <- dplyr::left_join(ws, ws_tags)
+
 ##############################################################################
 # 4. Append new data
 ##############################################################################
@@ -365,7 +376,7 @@ newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + l
 # resave updated data file
 correcteddat = rbind(olddat, newdat)
 
-write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
+write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29,30,31))
 
 ##############################################################################
 # 5. Update trapping records and new moon records
