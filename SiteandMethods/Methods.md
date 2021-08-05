@@ -178,6 +178,10 @@ In these off-plot trapping sessions, stake numbers are assigned to the outside p
 |`08`|SW corner|
 |`50`|middle of W fence|
 
+#### Tag data
+
+Tags in the `tag` and `left_tag` column are not necessarily unique to individuals. The `id` column was  created to identify unique individuals, based on the tag data, can be used to track individuals over time. It is unique to individual, across the entire time series. The `pit_tag` column indicates which of these unique ids are based on PIT tags, which are more reliable than other tagging methods. 
+
 ## [Weather Monitoring Data](../Weather)
 
 The data set includes continuous weather monitoring near Portal, Arizona. From 1980-1989, daily minimum and maximum air temperature values were recorded at the site. Manually collected precipitation data is also available. Unlike the temperature data, the precipitation data for these years are not daily and should only be used after summarizing over months or years. In 1989, the site switched to an automated weather station which recorded hourly rainfall amounts and air temperatures. In 2002, this weather station was updated. In 2016, the station was updated again and new sensors were added to collect additional data. These data are continuously updated.
