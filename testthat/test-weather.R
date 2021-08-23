@@ -62,7 +62,7 @@ test_that("battery status ok", {
   
   expect_true(all(weather$battv > 8.8, na.rm=TRUE))
   expect_true(all(overlap$battv > 8.8, na.rm=TRUE))
-  expect_true(all(storms$battv > 9))
+  expect_true(all(storms$battv > 8.8))
 })
 
 test_that("Precipitation ok", {
@@ -78,7 +78,7 @@ test_that("Precipitation ok", {
 test_that("Precipitation in multiples of 0.254", {
   
   expect_true(sum(1000*storms$precipitation)%%254 == 0)
-  expect_true(sum(1000*overlap$precipitation[overlap$precipitation<9],na.rm=TRUE)%%254 == 0)
+  expect_true(sum(1000*overlap$precipitation[overlap$precipitation<7],na.rm=TRUE)%%254 == 0)
 })
 
 test_that("no hours missing", {
