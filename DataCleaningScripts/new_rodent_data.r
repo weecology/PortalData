@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '495'
+newperiod = '496'
 filepath = '~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
 
 newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
@@ -211,7 +211,7 @@ if (length(tags) > 0) {
       print(thisone[,c('period', 'plot', 'species', 'tag')])
       print('Edit a record?')
       edit = readline()
-      if (edit == "Y") {
+      while (edit == "Y") {
         print("Row number?")
         row.id = as.integer(readline())
         print('New species code?')
@@ -219,12 +219,16 @@ if (length(tags) > 0) {
         
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'species'] <- sp.code
+          olddat[row.id, 'id'] <- paste0(olddat[row.id, 'tag'], "_", sp.code, "_1")
           print(olddat[row.id, ])
         }
         if (row.id %in% row.names(ws)) {
           ws[row.id, 'species'] <- sp.code
           print(ws[row.id, ])
         }
+        
+        print("Edit again?")
+        edit = readline()
       }
       
       if (edit != 'Y') {
@@ -241,7 +245,7 @@ if (length(tags) > 0) {
       print(thisone[,c('period', 'plot', 'species', 'sex', 'reprod', 'age', 'testes', 'vagina', 'pregnant', 'nipples', 'lactation','tag')])
       print('Edit a record?')
       edit = readline()
-      if (edit == "Y") {
+      while (edit == "Y") {
         print("Row number?")
         row.id = as.integer(readline())
         print('New sex?')
@@ -255,6 +259,10 @@ if (length(tags) > 0) {
           ws[row.id, 'sex'] <- new.sex
           print(ws[row.id, ])
         }
+        
+        
+        print("Edit again?")
+        edit = readline()
       }
       
       if (edit != 'Y') {
@@ -268,7 +276,7 @@ if (length(tags) > 0) {
     
     # print updated version of records
     print('Updated records:')
-    print(olddat[which(olddat$tag == tags[i]), 2:29])
+    print(olddat[which(olddat$tag == tags[i]), 2:ncol(olddat)])
     print(ws[ which(ws$tag == tags[i]), ])
     readline(prompt="Press [enter] to continue")
     
@@ -352,23 +360,41 @@ if (length(tags) > 0) {
   print('No more edits to make')
 }
 
+# Format dates correctly
+
+ws <- ws %>%
+  mutate(month = as.character(month),
+         day = as.character(day),
+         year = as.character(year)) %>%
+  group_by_all() %>%
+  mutate(month = ifelse(nchar(month) == 2, month, paste0(0, month)),
+         day = ifelse(nchar(day) == 2, day, paste0(0, day)),
+         year = ifelse(nchar(year) == 4, year, paste0(20, year))) %>%
+  ungroup()
+
+# Add recordID
+
+ws <- ws %>%
+  mutate(recordID = max(olddat$recordID) + dplyr::row_number())
+
 # Add unique tag ID column
 
 ws_tags <- clean_tags(ws, clean = TRUE, quiet = FALSE) 
 
-if(is.na(ws_tags$id[which(!is.na(ws_tags$species))])) { 
+if(any(is.na(ws_tags$id[which(!is.na(ws_tags$species))]))) { 
   print("Duplicate individuals in tag data, recheck tags") }
-if(dim(ws_tags)!=dim(ws)) { 
+if(nrow(ws_tags)!=nrow(ws)) { 
   print("Records dropped in tag data, recheck tags") }
 
-ws <- dplyr::left_join(ws, ws_tags)
+newdat <- dplyr::left_join(ws, ws_tags)
 
 ##############################################################################
 # 4. Append new data
 ##############################################################################
 
-# make column of record IDs for new data
-newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws)
+# Now skip this because we added recordID earlier 
+## make column of record IDs for new data
+#newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws)
 
 # append to existing data file
 #write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
