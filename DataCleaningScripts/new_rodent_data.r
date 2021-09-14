@@ -14,11 +14,11 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '495'
-filepath = '~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/'
+newperiod = '496'
+filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
-newfile = paste(filepath, 'newdat', newperiod, '.xlsx', sep = '')
-scannerfile = paste(filepath, 'tag scans/tags', newperiod, '.txt', sep = '')
+newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
+scannerfile = paste(filepath, '\\tag scans\\tags', newperiod, '.txt', sep = '')
 
 ##############################################################################
 # 1. Compare double-entered data -- will return 'Worksheets identical' if versions match
@@ -354,14 +354,15 @@ if (length(tags) > 0) {
 
 # Add unique tag ID column
 
-ws_tags <- clean_tags(ws, clean = TRUE, quiet = FALSE) 
+#ws_tags <- clean_tags(ws, clean = TRUE, quiet = FALSE) 
 
-if(is.na(ws_tags$id[which(!is.na(ws_tags$species))])) { 
-  print("Duplicate individuals in tag data, recheck tags") }
-if(dim(ws_tags)!=dim(ws)) { 
-  print("Records dropped in tag data, recheck tags") }
+#if(is.na(ws_tags$id[which(!is.na(ws_tags$species))])) { 
+#  print("Duplicate individuals in tag data, recheck tags") }
+#if(dim(ws_tags)!=dim(ws)) { 
+#  print("Records dropped in tag data, recheck tags") }
 
-ws <- dplyr::left_join(ws, ws_tags)
+#ws <- dplyr::left_join(ws, ws_tags)
+ws<-dplyr::mutate(ws, pit_tag=NA, id=NA)
 
 ##############################################################################
 # 4. Append new data
