@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '497'
+newperiod = '498'
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
 newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
