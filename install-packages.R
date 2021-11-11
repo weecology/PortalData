@@ -2,8 +2,8 @@
 
 if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
 
-remove.packages("stringi")
-remove.packages("stringr")
+#remove.packages("stringi")
+#remove.packages("stringr")
 install.packages(c("stringi","stringr","RCurl","curl","Hmisc", "EML", "sf","rgdal","lwgeom", "git2r"), type="source", repos="https://cran.rstudio.com")
 
 # Install analysis packages using pacman
