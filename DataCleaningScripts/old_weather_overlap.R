@@ -12,7 +12,7 @@
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met498"
+metfile = "Met499"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
@@ -72,7 +72,7 @@ if (any(weathdat$battv < 11,na.rm=T)) {print('Battery error')} else {print('Batt
 # check that start of new data lines up with end of existing data
 exst_dat = read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
 exst_dat$timestamp = lubridate::ymd_hms(exst_dat$timestamp)
-first = head(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5][-(1:894)],n=1)
+first = head(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5][-(1:5680)],n=1)
 last = tail(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5],n=1)
 
 if (lubridate::ymd_hms(first) %in% lubridate::ymd_hms(weathdat$timestamp)) {

@@ -1,10 +1,10 @@
 # Get longer stretches of Wunderground data
 
-for(i in as.Date(as.Date("2021-05-16"):Sys.Date(), origin = "1970-01-01")) {
+for(i in as.Date(as.Date("2021-11-22"):Sys.Date(), origin = "1970-01-01")) {
 
 i = gsub("-","",as.Date(i, origin = "1970-01-01"))
 rustys <- jsonlite::fromJSON(
-  paste('https://api.weather.com/v2/pws/history/hourly?stationId=KNMRODEO1&format=json&units=m&date=',i,'&apiKey=983049626dd5491eb049626dd5d91e69', sep=""))$observations
+  paste('https://api.weather.com/v2/pws/history/hourly?stationId=KNMRODEO5&format=json&units=m&date=',i,'&apiKey=983049626dd5491eb049626dd5d91e69', sep=""))$observations
 rustys <- dplyr::bind_cols(rustys[,1:14], rustys$metric) %>%
   dplyr::rename_all(.funs = tolower) %>%
   dplyr::rename(timestamp = obstimelocal, latitude = lat, longitude = lon) %>%
