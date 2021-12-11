@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '499'
+newperiod = '500'
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
 newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
@@ -41,7 +41,7 @@ rodent_data_quality_checks(ws, scannerfile)
 
 # Load current state of database - older data
 olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
-
+ 
 # check for unusual weight/hfl measurements by species
 
 speciesnorms = read.csv('Rodents/Portal_rodent_species.csv', header = T, stringsAsFactors = F, na.strings = "")
@@ -376,6 +376,7 @@ newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + l
 
 # resave updated data file
 correcteddat = rbind(olddat, newdat)
+
 
 write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29,30,31))
 
