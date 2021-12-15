@@ -123,9 +123,11 @@ append_regional_weather <- function() {
               row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
   
   # write.table(data$new_rustys, file = "Weather/Rustys_regional_weather.csv",
-  #             row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
+  #             row.names = FALSE, col.names = FALSE, na = "", append = TRUE, 
+  #             sep = ",", quote=c(5:7))
   
   write.table(data$new_rodeo, file = "Weather/Rodeo_regional_weather.csv",
-              row.names = FALSE, col.names = FALSE, na = "", append = TRUE, sep = ",")
+              row.names = FALSE, col.names = FALSE, na = "", append = TRUE, 
+              sep = ",", quote=c(5:7))
   
 }

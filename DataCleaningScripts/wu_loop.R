@@ -1,6 +1,6 @@
 # Get longer stretches of Wunderground data
 
-for(i in as.Date(as.Date("2021-11-22"):Sys.Date(), origin = "1970-01-01")) {
+for(i in as.Date(as.Date("2021-11-23"):Sys.Date(), origin = "1970-01-01")) {
 
 i = gsub("-","",as.Date(i, origin = "1970-01-01"))
 rustys <- jsonlite::fromJSON(
@@ -42,4 +42,4 @@ rodeo_all = rodeo_all %>%
                 "pressuretrend", "preciprate", "preciptotal")
 
 write.table(rodeo_all, file = "Weather/Rodeo_regional_weather.csv",
-            row.names = FALSE, col.names = TRUE, na = "", sep = ",")
+            row.names = FALSE, col.names = TRUE, na = "", sep = ",", quote=c(5:7))
