@@ -23,7 +23,7 @@ test_that("Check that tag numbers match between the sheets and scanner", {
 })
 
 test_that("Check for conflict between M/F and reproductive characteristics", {
-  expect_equal(male_female_check(testdat),146)
+  expect_equal(male_female_check(testdat),145)
 })
 
 test_that("Check for duplicate plot/stake pairs", {
