@@ -12,10 +12,11 @@
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile = "Met499"
+metfile = "Met503"
 
 rawdata = read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
+rawdata <- rawdata[-1,] # current file has NA row at top
 
 # Convert Julian day to month and day
 rawdata$date = as.Date(paste(rawdata$year,rawdata$jday),format='%Y %j')
