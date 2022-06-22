@@ -27,8 +27,8 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 ######################
 
 season <-  'Summer'
-year <-  '2019'
-filepath <-  '~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/'
+year <-  '2021'
+filepath <-  'D:\\Dropbox\\Portal\\PORTAL_primary_data\\Plant\\Quadrats\\Dataraw\\Newdata\\'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 
@@ -36,7 +36,7 @@ newfile <-  paste(filepath, season, year, '.xlsx', sep='')
 # 2. Compare double-entered data #
 ##################################
 
-splist = read.csv('./Plants/Portal_plant_species.csv',as.is=T)
+splist = read.csv('.\\Plants\\Portal_plant_species.csv',as.is=T)
 
 unmatched = compare_worksheets(newfile)
 
@@ -52,7 +52,7 @@ ws1[unmatched[i, 'row'] -1 , ]
 ws2[unmatched[i, 'row'] - 1, ]
 
 # Save matching datasheet
-savepath = paste0('~/Dropbox/Portal/PORTAL_primary_data/Plant/Quadrats/Dataraw/Newdata/', season, year, '_matched.csv')
+savepath = paste0('D:\\Dropbox\\Portal\\PORTAL_primary_data\\Plant\\Quadrats\\Dataraw\\Newdata\\', season, year, '_matched.csv')
 write.csv(ws1, savepath, row.names = FALSE)
 
 ######################
