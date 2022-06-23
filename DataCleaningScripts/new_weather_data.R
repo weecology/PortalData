@@ -36,7 +36,12 @@ new_met_data <- function() {
 #   `colnames<-`(header_storms) %>%
 #   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
 
-today <- lubridate::ymd_hms(gsub(":\\d+:\\d+",":00:00",Sys.time()))
+  timenow <- Sys.time()
+  
+  attr(timenow,"tzone") <- "UTC"
+  
+  today <- lubridate::ymd_hms(gsub(":\\d+:\\d+",":00:00",timenow))
+  
   # Pull raw data (latest week of records, plus some overlap for saftey) & rename columns
   message("Pulling raw weather data")
 
