@@ -20,18 +20,18 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
   
 # To read from .dat file
-# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/507_CR1000_MET.dat",
+# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/508_CR1000_MET.dat",
 #                    skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/507_CR1000_MET.dat",
+# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/508_CR1000_MET.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header) %>%
 #   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV)
 # 
-# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/507_CR1000_storms.dat",
+# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/508_CR1000_storms.dat",
 #                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/507_CR1000_storms.dat",
+# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/508_CR1000_storms.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header_storms) %>%
 #   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
