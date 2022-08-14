@@ -21,9 +21,11 @@ from datetime import datetime
 
 from landsatxplore.api import API
 
-path = "landsat-data"
-maxthreads = 5  # Threads count for downloads
-sema = threading.Semaphore(value=maxthreads)
+FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
+
+PATH = os.path.join(FILE_LOCATION, "landsat-data")
+# maxthreads = 5  # Threads count for downloads
+# sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date time
 threads = []
 
@@ -31,6 +33,7 @@ threads = []
 def get_credentials(path="usgs-pass.json"):
     usgs_username = ""
     usgs_password = ""
+    path = "../../usgs-pass.json" # test only
     if os.path.exists(path):
         with open(path, 'r') as file:
             json_data = json.load(file)
@@ -46,18 +49,19 @@ def get_credentials(path="usgs-pass.json"):
     return usgs_username, usgs_password
 
 
-def get_last_date(path="/NDVI/ndvi.csv"):
+def get_last_date(ndvi_file="ndvi.csv"):
     """Get last recorded date from NDVI/ndvi.csv"""
+    path_ndvi = os.path.join(FILE_LOCATION, ndvi_file)
     rec = None
-    with open(path, "r") as records:
+    with open(path_ndvi, "r") as records:
         rec = records.readlines()
     return rec[-1].split(",")[0]
 
 
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
-    start_date = get_last_date()
-    # start_date = "2022-07-30"
+    # start_date = get_last_date()
+    start_date = "2022-07-30"
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
     return start_date, end_date
@@ -91,7 +95,10 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
     print(len(scenes),  ": scenes found.")
     entity_ids = []
 
-    with open("scenes.csv", mode='w') as rd:
+    scene_file = "scenes.csv"
+    scene_path = os.path.join(FILE_LOCATION, scene_file)
+
+    with open(scene_path, mode='w') as rd:
         headers = list(scenes[0].keys())
         writer = csv.DictWriter(rd, fieldnames=headers)
         writer.writeheader()
@@ -103,6 +110,18 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
     return entity_ids
 
 
+def scene_file_downloaded(scenes, data_path):
+    """Check if the scenes have all the files"""
+    un_finised_scenes = []
+    expected_files = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
+    for scene in scenes:
+        for ext in expected_files:
+            file_path = os.path.join(data_path, scene + ext)
+            if not os.path.isfile(file_path):
+                un_finised_scenes.append(scene + ext)
+    return un_finised_scenes
+
+
 def update_scene_file(filepath):
     """Create Scenes.txt file
 
@@ -110,7 +129,7 @@ def update_scene_file(filepath):
     LC09_L1TP_034038_20220614_20220616_02_T1
     LC08_L1TP_035038_20220613_20220617_02_T1
     """
-    start_date, end_date = get_dates()
+    start_date, end_date = get_date_range()
 
     start_date = start_date.replace("-", "")
     end_date = end_date.replace("-", "")
@@ -190,28 +209,21 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
     return output['data']
 
 
-def downloadFile(url):
-    sema.acquire()
+def downloadFile(url, dir_path=PATH, scence=""):
     try:
         response = requests.get(url, stream=True)
         disposition = response.headers['content-disposition']
         filename = re.findall("filename=(.+)", disposition)[0].strip("\"")
         print(f"Downloading {filename} ...\n")
-        if path != "" and path[-1] != "/":
-            filename = "/" + filename
-        open(path + filename, 'wb').write(response.content)
+        path = os.path.join(dir_path, scence, filename)
+        open(path, 'wb').write(response.content)
         print(f"Downloaded {filename}\n")
-        sema.release()
     except Exception as e:
         print(f"Failed to download from {url}. Will try to re-download.")
-        sema.release()
-        runDownload(threads, url)
-
-
-def runDownload(threads, url):
-    thread = threading.Thread(target=downloadFile, args=(url,))
-    threads.append(thread)
-    thread.start()
+        print("Exiting downloadFile")
+        exit()
+        # return False
+    return True
 
 
 if __name__ == '__main__':
@@ -223,8 +235,8 @@ if __name__ == '__main__':
     idField = "displayId"
     serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
 
-    if not os.path.exists(path):
-        os.mkdir(path)
+    if not os.path.exists(PATH):
+        os.mkdir(PATH)
 
     # get Portal scenes
     entityIds = get_scenes()
@@ -302,9 +314,12 @@ if __name__ == '__main__':
     results = sendRequest(serviceUrl + "download-request", payLoad, apiKey)
     print(f"Done sending download request\n")
 
+    # DOwns = set(results['availableDownloads'])
+
     for result in results['availableDownloads']:
         print(f"Get download url: {result['url']}\n")
-        runDownload(threads, result['url'])
+        # runDownload(threads, result['url'])
+        downloadFile(result['url'])
 
     preparingDownloadCount = len(results['preparingDownloads'])
     preparingDownloadIds = []
@@ -313,6 +328,7 @@ if __name__ == '__main__':
             preparingDownloadIds.append(result['downloadId'])
 
         payload = {"label": label}
+
         # Retrieve download urls
         print("Retrieving download urls...\n")
         results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
@@ -321,25 +337,28 @@ if __name__ == '__main__':
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    runDownload(threads, result['url'])
+                    # runDownload(threads, result['url'])
+                    downloadFile(result['url'])
 
             for result in results['requested']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    runDownload(threads, result['url'])
+                    # runDownload(threads, result['url'])
+                    downloadFile(result['url'])
 
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
-            time.sleep(30)
+            time.sleep(5)
             results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
             if results != False:
                 for result in results['available']:
                     if result['downloadId'] in preparingDownloadIds:
                         preparingDownloadIds.remove(result['downloadId'])
                         print(f"Get download url: {result['url']}\n")
-                        runDownload(threads, result['url'])
+                        # runDownload(threads, result['url'])
+                        downloadFile(result['url'])
 
     print("\nGot download urls for all downloads\n")
     # Logout
@@ -358,4 +377,10 @@ if __name__ == '__main__':
 
     executionTime = round((time.time() - startTime), 2)
     print(f'Total time: {executionTime} seconds')
+
+    un_downloaded = scene_file_downloaded(scenes=entityIds, data_path=PATH)
+    if not un_downloaded:
+        print("All files downloaded")
+    else:
+        print("Un downloaded scenes :", un_downloaded)
 
