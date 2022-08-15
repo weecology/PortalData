@@ -229,7 +229,7 @@ def downloadFile(url, dir_path=PATH, scence=""):
 if __name__ == '__main__':
 
     username, password = get_credentials()
-    filetype = None
+    filetype = 'band'
     entityIds = []
     datasetName = "landsat_ot_c2_l1"
     idField = "displayId"
