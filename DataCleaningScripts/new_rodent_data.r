@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '507'
+newperiod = '508'
 
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
@@ -250,10 +250,22 @@ if (length(tags) > 0) {
         
         if (row.id %in% row.names(thisone.old)) {
           olddat[row.id, 'sex'] <- new.sex
+          olddat[row.id, 'reprod'] <- "Z"
+          olddat[row.id, 'testes'] <- NA
+          olddat[row.id, 'vagina'] <- NA
+          olddat[row.id, 'pregnant'] <- NA
+          olddat[row.id, 'lactation'] <- NA
+          olddat[row.id, 'nipples'] <- NA
           print(olddat[row.id, ])
         }
         if (row.id %in% row.names(ws)) {
           ws[row.id, 'sex'] <- new.sex
+          ws[row.id, 'reprod'] <- "Z"
+          ws[row.id, 'testes'] <- NA
+          ws[row.id, 'vagina'] <- NA
+          ws[row.id, 'pregnant'] <- NA
+          ws[row.id, 'lactation'] <- NA
+          ws[row.id, 'nipples'] <- NA
           print(ws[row.id, ])
         }
       }
