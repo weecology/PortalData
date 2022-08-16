@@ -61,7 +61,8 @@ def get_last_date(ndvi_file="ndvi.csv"):
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     # start_date = get_last_date()
-    start_date = "2022-07-30"
+    start_date = "2020-01-01"
+    start_date = "2022-08-08"
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
     return start_date, end_date
@@ -90,6 +91,7 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
         start_date=start_date,
         bbox=bbox,
         end_date=end_date,
+        max_results=1000,
         # max_cloud_cover=10
     )
     print(len(scenes),  ": scenes found.")
@@ -110,12 +112,18 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
     return entity_ids
 
 
-def scene_file_downloaded(scenes, data_path):
+def scene_file_downloaded(scenes, data_path, filetype):
     """Check if the scenes have all the files"""
     un_finised_scenes = []
-    expected_files = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
+    all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
+
+    if filetype == 'band':
+        ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
+        all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
+    else:
+        all_extensions = all_extensions
     for scene in scenes:
-        for ext in expected_files:
+        for ext in all_extensions:
             file_path = os.path.join(data_path, scene + ext)
             if not os.path.isfile(file_path):
                 un_finised_scenes.append(scene + ext)
@@ -314,11 +322,8 @@ if __name__ == '__main__':
     results = sendRequest(serviceUrl + "download-request", payLoad, apiKey)
     print(f"Done sending download request\n")
 
-    # DOwns = set(results['availableDownloads'])
-
     for result in results['availableDownloads']:
         print(f"Get download url: {result['url']}\n")
-        # runDownload(threads, result['url'])
         downloadFile(result['url'])
 
     preparingDownloadCount = len(results['preparingDownloads'])
@@ -328,23 +333,20 @@ if __name__ == '__main__':
             preparingDownloadIds.append(result['downloadId'])
 
         payload = {"label": label}
-
         # Retrieve download urls
         print("Retrieving download urls...\n")
         results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
-        if results != False:
+        if results:
             for result in results['available']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    # runDownload(threads, result['url'])
                     downloadFile(result['url'])
 
             for result in results['requested']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    # runDownload(threads, result['url'])
                     downloadFile(result['url'])
 
         # Don't get all download urls, retrieve again after 30 seconds
@@ -352,15 +354,15 @@ if __name__ == '__main__':
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
             time.sleep(5)
             results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
-            if results != False:
+            if results:
                 for result in results['available']:
                     if result['downloadId'] in preparingDownloadIds:
                         preparingDownloadIds.remove(result['downloadId'])
                         print(f"Get download url: {result['url']}\n")
-                        # runDownload(threads, result['url'])
                         downloadFile(result['url'])
 
     print("\nGot download urls for all downloads\n")
+
     # Logout
     endpoint = "logout"
     if sendRequest(serviceUrl + endpoint, None, apiKey) == None:
@@ -370,15 +372,12 @@ if __name__ == '__main__':
 
     print("Downloading files... Please do not close the program\n")
 
-    for thread in threads:
-        thread.join()
-
     print("Complete Downloading")
 
     executionTime = round((time.time() - startTime), 2)
     print(f'Total time: {executionTime} seconds')
 
-    un_downloaded = scene_file_downloaded(scenes=entityIds, data_path=PATH)
+    un_downloaded = scene_file_downloaded(scenes=entityIds, data_path=PATH, filetype=filetype)
     if not un_downloaded:
         print("All files downloaded")
     else:
