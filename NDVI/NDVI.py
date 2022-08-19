@@ -62,9 +62,9 @@ def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     # start_date = get_last_date()
     start_date = "2020-01-01"
-    start_date = "2022-08-08"
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
+    end_date = "2020-01-31"
     return start_date, end_date
 
 
@@ -292,8 +292,9 @@ if __name__ == '__main__':
             if product["secondaryDownloads"] is not None and len(product["secondaryDownloads"]) > 0:
                 for secondaryDownload in product["secondaryDownloads"]:
                     if secondaryDownload["bulkAvailable"]:
-                        downloads.append(
-                            {"entityId": secondaryDownload["entityId"], "productId": secondaryDownload["id"]})
+                        payload = {'username': username, 'password': password}
+                        apiKey = sendRequest(serviceUrl + "login", payload)
+                        downloads.append({"entityId": secondaryDownload["entityId"], "productId": secondaryDownload["id"]})
     else:
         # select all available files
         for product in products:
@@ -341,12 +342,16 @@ if __name__ == '__main__':
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
+                    payload = {'username': username, 'password': password}
+                    apiKey = sendRequest(serviceUrl + "login", payload)
                     downloadFile(result['url'])
 
             for result in results['requested']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
+                    payload = {'username': username, 'password': password}
+                    apiKey = sendRequest(serviceUrl + "login", payload)
                     downloadFile(result['url'])
 
         # Don't get all download urls, retrieve again after 30 seconds
@@ -359,6 +364,8 @@ if __name__ == '__main__':
                     if result['downloadId'] in preparingDownloadIds:
                         preparingDownloadIds.remove(result['downloadId'])
                         print(f"Get download url: {result['url']}\n")
+                        payload = {'username': username, 'password': password}
+                        apiKey = sendRequest(serviceUrl + "login", payload)
                         downloadFile(result['url'])
 
     print("\nGot download urls for all downloads\n")
