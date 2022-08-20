@@ -34,6 +34,8 @@ def get_credentials(path="usgs-pass.json"):
     usgs_username = ""
     usgs_password = ""
     path = "../../usgs-pass.json" # test only
+    # path = "/Users/henrysenyondo/Downloads/usgs-pass.json"
+
     if os.path.exists(path):
         with open(path, 'r') as file:
             json_data = json.load(file)
@@ -235,8 +237,8 @@ def downloadFile(url, dir_path=PATH, scence=""):
     sema.release()
 
 
-def runDownload(threads, url, dir_path=None):
-    thread = threading.Thread(target=downloadFile, args=(url, dir_path))
+def runDownload(threads, url, dir_path=PATH, scence=""):
+    thread = threading.Thread(target=downloadFile, args=(url, dir_path, scence))
     threads.append(thread)
     thread.start()
 
@@ -345,8 +347,6 @@ if __name__ == '__main__':
         print("Retrieving download urls...\n")
         results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
         if results:
-            payload = {'username': username, 'password': password}
-            apiKey = sendRequest(serviceUrl + "login", payload)
             for result in results['available']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
@@ -359,8 +359,7 @@ if __name__ == '__main__':
                     print(f"Get download url: {result['url']}\n")
                     runDownload(threads, result['url'])
 
-        payload = {'username': username, 'password': password}
-        apiKey = sendRequest(serviceUrl + "login", payload)
+
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
@@ -374,7 +373,6 @@ if __name__ == '__main__':
                         runDownload(threads, result['url'])
 
     print("\nGot download urls for all downloads\n")
-
     # Logout
     endpoint = "logout"
     if sendRequest(serviceUrl + endpoint, None, apiKey) == None:
@@ -383,7 +381,6 @@ if __name__ == '__main__':
         print("Logout Failed\n")
 
     print("Downloading files... Please do not close the program\n")
-
 
     for thread in threads:
         thread.join()
