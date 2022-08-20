@@ -24,8 +24,8 @@ from landsatxplore.api import API
 FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
 
 PATH = os.path.join(FILE_LOCATION, "landsat-data")
-# maxthreads = 5  # Threads count for downloads
-# sema = threading.Semaphore(value=maxthreads)
+maxthreads = 5  # Threads count for downloads
+sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date time
 threads = []
 
@@ -62,9 +62,10 @@ def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     # start_date = get_last_date()
     start_date = "2020-01-01"
+    start_date = "2020-04-01"
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
-    end_date = "2020-01-31"
+    end_date = "2020-04-30"
     return start_date, end_date
 
 
@@ -218,6 +219,7 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
 
 
 def downloadFile(url, dir_path=PATH, scence=""):
+    sema.acquire()
     try:
         response = requests.get(url, stream=True)
         disposition = response.headers['content-disposition']
@@ -228,10 +230,15 @@ def downloadFile(url, dir_path=PATH, scence=""):
         print(f"Downloaded {filename}\n")
     except Exception as e:
         print(f"Failed to download from {url}. Will try to re-download.")
-        print("Exiting downloadFile")
-        exit()
-        # return False
-    return True
+        sema.release()
+        runDownload(threads, url)
+    sema.release()
+
+
+def runDownload(threads, url, dir_path=None):
+    thread = threading.Thread(target=downloadFile, args=(url, dir_path))
+    threads.append(thread)
+    thread.start()
 
 
 if __name__ == '__main__':
@@ -325,7 +332,7 @@ if __name__ == '__main__':
 
     for result in results['availableDownloads']:
         print(f"Get download url: {result['url']}\n")
-        downloadFile(result['url'])
+        runDownload(threads, result['url'])
 
     preparingDownloadCount = len(results['preparingDownloads'])
     preparingDownloadIds = []
@@ -338,22 +345,22 @@ if __name__ == '__main__':
         print("Retrieving download urls...\n")
         results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
         if results:
+            payload = {'username': username, 'password': password}
+            apiKey = sendRequest(serviceUrl + "login", payload)
             for result in results['available']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    payload = {'username': username, 'password': password}
-                    apiKey = sendRequest(serviceUrl + "login", payload)
-                    downloadFile(result['url'])
+                    runDownload(threads, result['url'])
 
             for result in results['requested']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     print(f"Get download url: {result['url']}\n")
-                    payload = {'username': username, 'password': password}
-                    apiKey = sendRequest(serviceUrl + "login", payload)
-                    downloadFile(result['url'])
+                    runDownload(threads, result['url'])
 
+        payload = {'username': username, 'password': password}
+        apiKey = sendRequest(serviceUrl + "login", payload)
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
@@ -364,9 +371,7 @@ if __name__ == '__main__':
                     if result['downloadId'] in preparingDownloadIds:
                         preparingDownloadIds.remove(result['downloadId'])
                         print(f"Get download url: {result['url']}\n")
-                        payload = {'username': username, 'password': password}
-                        apiKey = sendRequest(serviceUrl + "login", payload)
-                        downloadFile(result['url'])
+                        runDownload(threads, result['url'])
 
     print("\nGot download urls for all downloads\n")
 
@@ -378,6 +383,10 @@ if __name__ == '__main__':
         print("Logout Failed\n")
 
     print("Downloading files... Please do not close the program\n")
+
+
+    for thread in threads:
+        thread.join()
 
     print("Complete Downloading")
 

@@ -61,10 +61,10 @@ def get_last_date(ndvi_file="ndvi.csv"):
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     # start_date = get_last_date()
-    start_date = "2020-01-01"
-    start_date = "2022-08-08"
+    start_date = "2020-04-01"
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
+    end_date = "2020-04-30"
     return start_date, end_date
 
 
