@@ -34,7 +34,7 @@ def get_credentials(path="usgs-pass.json"):
     usgs_username = ""
     usgs_password = ""
     path = "../../usgs-pass.json" # test only
-    # path = "/Users/henrysenyondo/Downloads/usgs-pass.json"
+    path = "/Users/henrysenyondo/Downloads/usgs-pass.json"
 
     if os.path.exists(path):
         with open(path, 'r') as file:
@@ -347,6 +347,8 @@ if __name__ == '__main__':
         print("Retrieving download urls...\n")
         results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
         if results:
+            payload = {'username': username, 'password': password}
+            apiKey = sendRequest(serviceUrl + "login", payload)
             for result in results['available']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
@@ -363,7 +365,9 @@ if __name__ == '__main__':
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
-            time.sleep(5)
+            time.sleep(100)
+            payload = {'username': username, 'password': password}
+            apiKey = sendRequest(serviceUrl + "login", payload)
             results = sendRequest(serviceUrl + "download-retrieve", payload, apiKey, False)
             if results:
                 for result in results['available']:
