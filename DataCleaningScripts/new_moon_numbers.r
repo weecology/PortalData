@@ -131,9 +131,11 @@ update_moon_dates <- function() {
                         as.character(moon_dates$newmoondate[!is.na(moon_dates$period)]))) %>%
       dplyr::select(-group)
     if(dim(newmoondates)[1]>0){
+      if(!dplyr::between(max(newmoondates$newmoondate), max(moon_dates$newmoondate)-7, 
+                  max(moon_dates$newmoondate)+7)){
     newmoondates <- newmoondates %>% 
       dplyr::mutate(newmoonnumber = max(moon_dates$newmoonnumber)+1:dplyr::n())
-    moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates) }
+    moon_dates <- moon_dates %>% dplyr::bind_rows(newmoondates) }}
   }
   return(moon_dates)
 }
