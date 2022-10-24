@@ -21,6 +21,8 @@ from datetime import datetime
 
 from landsatxplore.api import API
 
+from NDVI import get_last_date, get_date_range, scene_file_downloaded
+
 FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
 
 PATH = os.path.join(FILE_LOCATION, "landsat-data")
@@ -49,29 +51,10 @@ def get_credentials(path="usgs-pass.json"):
     return usgs_username, usgs_password
 
 
-def get_last_date(ndvi_file="ndvi.csv"):
-    """Get last recorded date from NDVI/ndvi.csv"""
-    path_ndvi = os.path.join(FILE_LOCATION, ndvi_file)
-    rec = None
-    with open(path_ndvi, "r") as records:
-        rec = records.readlines()
-    return rec[-1].split(",")[0]
-
-
-def get_date_range():
-    """Returns start and end date YY-MM-DD Formatted"""
-    # start_date = get_last_date()
-    start_date = "2022-03-01"
-    now = datetime.now()
-    end_date = now.strftime("%Y-%m-%d")
-    end_date = "2022-03-31"
-    return start_date, end_date
-
-
-def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
+def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
     """Return scenes based in the last recorded NDVI
 
-    datase name landsat_ot_c2_l1
+    datase name landsat_ot_c2_l2
     start_date is older
     end_date newer
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
@@ -94,6 +77,7 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
         max_results=1000,
         # max_cloud_cover=10
     )
+    print()
     print(len(scenes),  ": scenes found.")
     entity_ids = []
 
@@ -110,28 +94,10 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
 
     api.logout()
     print(entity_ids)
+    print ()
+    print()
     return entity_ids
 
-
-def scene_file_downloaded(scenes, data_path, filetype):
-    """Check if the scenes have all the files"""
-    un_finised_scenes = []
-    zero_bites = []
-    all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
-
-    if filetype == 'band':
-        ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
-        all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
-    else:
-        all_extensions = all_extensions
-    for scene in scenes:
-        for ext in all_extensions:
-            file_path = os.path.join(data_path, scene + ext)
-            if os.path.isfile(file_path) and  os.stat(file_path).st_size == 0:
-                zero_bites.append(scene, file_path)
-            if not os.path.isfile(file_path):
-                un_finised_scenes.append(scene + ext)
-    return un_finised_scenes, zero_bites
 
 
 def update_scene_file(filepath):
@@ -243,7 +209,7 @@ if __name__ == '__main__':
     username, password = get_credentials()
     filetype = 'band'
     entityIds = []
-    datasetName = "landsat_ot_c2_l1"
+    datasetName = "landsat_ot_c2_l2"
     idField = "displayId"
     serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
 
@@ -257,4 +223,8 @@ if __name__ == '__main__':
         print("All files downloaded")
     else:
         print("Un downloaded scenes :", un_downloaded)
-    print(zero_bites)
+    if zero_bites:
+        print()
+        print("Empty scene files downloaded")
+        print(zero_bites)
+        

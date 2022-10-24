@@ -49,9 +49,9 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   
   # read in raster files; crop to portal_box; delete full-size raster files
   # In Landsat 8-9, NDVI = (Band 5 – Band 4) / (Band 5 + Band 4).
-  B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_B4.TIF")) %>%
+  B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
     raster::crop(portal_area)
-  B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_B5.TIF")) %>%
+  B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
     raster::crop(portal_area)
   
   sr_ndvi <- (B5 - B4)/(B5 + B4)
@@ -87,6 +87,7 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
   date <- as.Date(records["acquisition_date"])
   
   r <- extract_and_mask_raster(records, targetpath)
+  
   # cloud cover
   pct <- sum(is.na(values(r)))/length(values(r))*100
   
@@ -112,9 +113,12 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
 #'
 
 writendvitable <- function() {
-  ndvi <- read.csv("./NDVI/ndvi.csv")
+  ndvi <- read.csv("./NDVI/ndvi.csv") %>% dplyr::mutate(date = as.Date(date))
   targetpath <- "./NDVI/landsat-data"
   records <- read.csv("./NDVI/scenes.csv")
+  filenames <- sub("T1.*","T1",list.files("./NDVI/landsat-data"))
+         filenames <- unique(sub("T2.*","T2",filenames))
+  
   
   if("display_id" %in% colnames(records)){
     
@@ -126,4 +130,3 @@ writendvitable <- function() {
                 append=TRUE, na="")
   }
 }
-

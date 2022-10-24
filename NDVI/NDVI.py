@@ -21,6 +21,7 @@ from datetime import datetime
 
 from landsatxplore.api import API
 
+
 FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
 
 PATH = os.path.join(FILE_LOCATION, "landsat-data")
@@ -63,18 +64,17 @@ def get_last_date(ndvi_file="ndvi.csv"):
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     # start_date = get_last_date()
-    start_date = "2020-01-01"
-    start_date = "2022-03-01"
+    start_date = "2020-01-01" 
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
-    end_date = "2022-03-31"
+    end_date = "2022-09-30"
     return start_date, end_date
 
 
-def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
+def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
     """Return scenes based in the last recorded NDVI
 
-    datase name landsat_ot_c2_l1
+    datase name landsat_ot_c2_l2
     start_date is older
     end_date newer
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
@@ -119,19 +119,24 @@ def get_scenes(dataset="landsat_ot_c2_l1", latitude=31.9279, longitude=-109.0929
 def scene_file_downloaded(scenes, data_path, filetype):
     """Check if the scenes have all the files"""
     un_finised_scenes = []
-    all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
+    zero_bites = []
+    # all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
+    all_extensions = ["_ANG.txt", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_SR_B1.TIF", "_SR_B2.TIF", "_SR_B3.TIF", "_SR_B4.TIF", "_SR_B5.TIF", "_SR_B6.TIF", "_SR_B7.TIF", "_SR_QA_AEROSOL.TIF", "_ST_ATRAN.TIF", "_ST_B10.TIF", "_ST_CDIST.TIF", "_ST_DRAD.TIF", "_ST_EMIS.TIF", "_ST_EMSD.TIF", "_ST_QA.TIF", "_ST_TRAD.TIF", "_ST_URAD.TIF"]
 
     if filetype == 'band':
-        ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
-        all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
+        # ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
+        # all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
+        all_extensions = all_extensions
     else:
         all_extensions = all_extensions
     for scene in scenes:
         for ext in all_extensions:
             file_path = os.path.join(data_path, scene + ext)
+            if os.path.isfile(file_path) and  os.stat(file_path).st_size == 0:
+                zero_bites.append(scene, file_path)
             if not os.path.isfile(file_path):
                 un_finised_scenes.append(scene + ext)
-    return un_finised_scenes
+    return un_finised_scenes, zero_bites
 
 
 def update_scene_file(filepath):
@@ -245,11 +250,14 @@ def runDownload(threads, url, dir_path=PATH, scence=""):
 
 
 if __name__ == '__main__':
-
+    
+    print("This code has be blocked from running. Uncomment line 254 and 255")
+    exit()
+    
     username, password = get_credentials()
     filetype = 'band'
     entityIds = []
-    datasetName = "landsat_ot_c2_l1"
+    datasetName = "landsat_ot_c2_l2"
     idField = "displayId"
     serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
 
@@ -391,9 +399,12 @@ if __name__ == '__main__':
     executionTime = round((time.time() - startTime), 2)
     print(f'Total time: {executionTime} seconds')
 
-    un_downloaded = scene_file_downloaded(scenes=entityIds, data_path=PATH, filetype=filetype)
+    un_downloaded, zero_bites = scene_file_downloaded(scenes=entityIds, data_path=PATH, filetype=filetype)
     if not un_downloaded:
         print("All files downloaded")
     else:
         print("Un downloaded scenes :", un_downloaded)
-
+    if zero_bites:
+        print()
+        print("Empty scene files downloaded")
+        print(zero_bites)
