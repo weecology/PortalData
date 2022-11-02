@@ -4,13 +4,15 @@ The data file (ndvi.csv) is composed of remotely sensed raw values of NDVI for a
 
 <img src="figures/portal_area.png" width="400px">
 
-The current data source is Landsat 8. The Portal area is covered by 2 tiles from the Landsat8 paths:
+The current data sources are Landsat 8 and 9. e.g. The Portal area is covered by 2 tiles from the Landsat8 paths:
 
 <img src="figures/tiles.png" width="400px">
 
+The current source is the USGS/EROS api. NDVI is calculated as (B5 - B4)/(B5 + B4). Thus, the USGS source indicates a distinct time series from the AWS source, in which sr_ndvi was provided pre-calculated.
+
 Other sources in the dataset include:
 
-* Landsat (a series of satellites)
+* Landsat (sensors 5-9, from a variety of sources)
 * GIMMS (an ensemble product from various AVHRR instruments on NOAA satellites)
 * MODIS (one instrument aboard the Terra & Aqua satellites)
 
