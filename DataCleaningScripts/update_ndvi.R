@@ -1,5 +1,6 @@
 # Adapted for automated updating from get_landsat_data.R
 # Rewritten for new USGS/EROS api
+# https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products
 
 `%>%` <- magrittr::`%>%`
 library(raster)
@@ -47,12 +48,12 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   # create portal box object for cropping
   portal_area <- create_portal_area()
   
-  # read in raster files; crop to portal_box; delete full-size raster files
+  # read in raster files; crop to portal_box; apply scaling factor and offset; delete full-size raster files
   # In Landsat 8-9, NDVI = (Band 5 – Band 4) / (Band 5 + Band 4).
   B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
-    raster::crop(portal_area)
+    raster::crop(portal_area) * 0.0000275 + -0.2
   B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
-    raster::crop(portal_area)
+    raster::crop(portal_area) * 0.0000275 + -0.2
   
   sr_ndvi <- (B5 - B4)/(B5 + B4)
   
