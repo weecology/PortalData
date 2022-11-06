@@ -63,21 +63,20 @@ def get_last_date(ndvi_file="ndvi.csv"):
 
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
-    # start_date = get_last_date()
-    start_date = "2020-01-01" 
+    start_date = get_last_date()
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
-    end_date = "2022-09-30"
     return start_date, end_date
 
 
-def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
+def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None, scene_file=None):
     """Return scenes based in the last recorded NDVI
 
     datase name landsat_ot_c2_l2
     start_date is older
     end_date newer
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
+    Scene_file store the metadata.
     """
     usgs_username, usgs_password = get_credentials()
     if None in (start_date, end_date):
@@ -99,9 +98,10 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     )
     print(len(scenes),  ": scenes found.")
     entity_ids = []
-
-    scene_file = "scenes.csv"
-    scene_path = os.path.join(FILE_LOCATION, scene_file)
+    if not scene_file:
+        scene_file = "scenes.csv"
+        scene_path = os.path.join(FILE_LOCATION, scene_file)
+    scene_path = os.path.normpath(scene_path)
 
     with open(scene_path, mode='w') as rd:
         headers = list(scenes[0].keys())
@@ -116,13 +116,23 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     return entity_ids
 
 
-def scene_file_downloaded(scenes, data_path, filetype):
-    """Check if the scenes have all the files"""
+def scene_file_downloaded(scenes, data_path, filetype, dataset="landsat_ot_c2_l2"):
+    """Check if the scenes have all the corresponding files downloaded
+
+    Scense id
+    Data_path
+    Filetype provided, band, zip
+    Dataset name, landsat_etm_c2_l2, landsat_ot_c2_l1, landsat_ot_c2_l2
+    """
     un_finised_scenes = []
     zero_bites = []
-    # all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
-    all_extensions = ["_ANG.txt", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_SR_B1.TIF", "_SR_B2.TIF", "_SR_B3.TIF", "_SR_B4.TIF", "_SR_B5.TIF", "_SR_B6.TIF", "_SR_B7.TIF", "_SR_QA_AEROSOL.TIF", "_ST_ATRAN.TIF", "_ST_B10.TIF", "_ST_CDIST.TIF", "_ST_DRAD.TIF", "_ST_EMIS.TIF", "_ST_EMSD.TIF", "_ST_QA.TIF", "_ST_TRAD.TIF", "_ST_URAD.TIF"]
 
+    exts = {
+    "landsat_ot_c2_l1": [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"],
+    "landsat_ot_c2_l2": ["_ANG.txt", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_SR_B1.TIF", "_SR_B2.TIF", "_SR_B3.TIF", "_SR_B4.TIF", "_SR_B5.TIF", "_SR_B6.TIF", "_SR_B7.TIF", "_SR_QA_AEROSOL.TIF", "_ST_ATRAN.TIF", "_ST_B10.TIF", "_ST_CDIST.TIF", "_ST_DRAD.TIF", "_ST_EMIS.TIF", "_ST_EMSD.TIF", "_ST_QA.TIF", "_ST_TRAD.TIF", "_ST_URAD.TIF"]
+    }
+
+    all_extensions = exts[dataset.lower()]
     if filetype == 'band':
         # ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
         # all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
@@ -137,38 +147,6 @@ def scene_file_downloaded(scenes, data_path, filetype):
             if not os.path.isfile(file_path):
                 un_finised_scenes.append(scene + ext)
     return un_finised_scenes, zero_bites
-
-
-def update_scene_file(filepath):
-    """Create Scenes.txt file
-
-    landsat_ot_c2_l1|displayId
-    LC09_L1TP_034038_20220614_20220616_02_T1
-    LC08_L1TP_035038_20220613_20220617_02_T1
-    """
-    start_date, end_date = get_date_range()
-
-    start_date = start_date.replace("-", "")
-    end_date = end_date.replace("-", "")
-
-    datas = None
-    lens_datas = 0
-    with open(filepath, "r") as fr:
-        datas = fr.readlines()
-        lens_datas = len(datas)
-
-    with open(filepath, "w") as fw:
-        for count, lines in enumerate(datas):
-            lines = lines.strip()
-            if not lines:
-                continue
-            if count == 0:
-                fw.write(lines + "\n")
-            else:
-                if count == lens_datas - 1:
-                    fw.write(lines[:17] + start_date + "_" + end_date + lines[34:])
-                else:
-                    fw.write(lines[:17] + start_date + "_" + end_date + lines[34:] + "\n")
 
 
 # Send http request
