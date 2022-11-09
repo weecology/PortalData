@@ -21,10 +21,7 @@ from datetime import datetime
 
 from landsatxplore.api import API
 
-
-FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
-
-PATH = os.path.join(FILE_LOCATION, "landsat-data")
+PATH = "NDVI/landsat-data"
 maxthreads = 5  # Threads count for downloads
 sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date time
@@ -52,11 +49,10 @@ def get_credentials(path="usgs-pass.json"):
     return usgs_username, usgs_password
 
 
-def get_last_date(ndvi_file="ndvi.csv"):
+def get_last_date(ndvi_file="NDVI/ndvi.csv"):
     """Get last recorded date from NDVI/ndvi.csv"""
-    path_ndvi = os.path.join(FILE_LOCATION, ndvi_file)
     rec = None
-    with open(path_ndvi, "r") as records:
+    with open(ndvi_file, "r") as records:
         rec = records.readlines()
     return rec[-1].split(",")[0]
 
@@ -99,9 +95,8 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     print(len(scenes),  ": scenes found.")
     entity_ids = []
     if not scene_file:
-        scene_file = "scenes.csv"
-        scene_path = os.path.join(FILE_LOCATION, scene_file)
-    scene_path = os.path.normpath(scene_path)
+        scene_file = "NDVI/scenes.csv"
+    scene_path = os.path.normpath(scene_file)
 
     with open(scene_path, mode='w') as rd:
         headers = list(scenes[0].keys())
