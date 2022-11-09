@@ -28,11 +28,9 @@ label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date 
 threads = []
 
 
-def get_credentials(path="usgs-pass.json"):
+def get_credentials():
     usgs_username = ""
     usgs_password = ""
-    path = "../../usgs-pass.json" # test only
-    # path = "/Users/henrysenyondo/Downloads/usgs-pass.json"
 
     if os.path.exists(path):
         with open(path, 'r') as file:
@@ -40,8 +38,8 @@ def get_credentials(path="usgs-pass.json"):
             usgs_username = json_data['username']
             usgs_password = json_data['password']
     else:
-        usgs_username = os.getenv("LANDSATXPLORE_USERNAME")
-        usgs_password = os.getenv("LANDSATXPLORE_PASSWORD")
+        usgs_username = "weecology"
+        usgs_password = os.environ["USGS_PASSWORD"]
     if not usgs_username and not usgs_password:
         print("No Credentials found.\n"
               "Export LANDSATXPLORE_USERNAME and LANDSATXPLORE_PASSWORD")

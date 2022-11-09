@@ -17,6 +17,5 @@ message("Updating Plant census table")
 source("DataCleaningScripts/update_portal_plant_censuses.R"); writecensustable()
 
 message("Updating NDVI")
-system("python --version")
-system("python3 --version")
+#system("python DataCleaningScripts/NDVI.py")
 #source("DataCleaningScripts/update_ndvi.R"); writendvitable()
