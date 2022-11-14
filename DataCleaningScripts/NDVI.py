@@ -34,7 +34,7 @@ label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date 
 threads = []
 
 
-def get_credentials():
+def get_credentials(path="usgs-pass.json"):
     usgs_username = ""
     usgs_password = ""
 
