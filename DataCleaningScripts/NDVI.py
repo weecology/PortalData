@@ -13,6 +13,7 @@ import re
 import threading
 import os
 import numpy as np
+import pandas as pd
 import csv
 import json
 import os
@@ -21,7 +22,12 @@ from datetime import datetime
 
 from landsatxplore.api import API
 
-PATH = "NDVI/landsat-data"
+NDVI_DIR = os.path.normpath(os.path.abspath(__file__ + "/../../NDVI"))
+PATH = os.path.join(NDVI_DIR, "landsat-data")
+NDVI_SCENES = os.path.join(NDVI_DIR, "scenes.csv")
+NDVI_CSV = os.path.join(NDVI_DIR, "ndvi.csv")
+UNDONE_SCENES = os.path.join(NDVI_DIR, "undone-scenes.csv")
+
 maxthreads = 5  # Threads count for downloads
 sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date time
@@ -47,12 +53,10 @@ def get_credentials():
     return usgs_username, usgs_password
 
 
-def get_last_date(ndvi_file="NDVI/ndvi.csv"):
+def get_last_date(ndvi_file=NDVI_CSV):
     """Get last recorded date from NDVI/ndvi.csv"""
-    rec = None
-    with open(ndvi_file, "r") as records:
-        rec = records.readlines()
-    return rec[-1].split(",")[0]
+    ndvi_df = pd.read_csv(ndvi_file)
+    return ndvi_df['date'].iat[-1]
 
 
 def get_date_range():
@@ -93,7 +97,7 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     print(len(scenes),  ": scenes found.")
     entity_ids = []
     if not scene_file:
-        scene_file = "NDVI/scenes.csv"
+        scene_file = NDVI_SCENES
     scene_path = os.path.normpath(scene_file)
 
     with open(scene_path, mode='w') as rd:
@@ -222,9 +226,6 @@ def runDownload(threads, url, dir_path=PATH, scence=""):
 
 if __name__ == '__main__':
     
-    print("This code has be blocked from running. Uncomment line 254 and 255")
-    exit()
-    
     username, password = get_credentials()
     filetype = 'band'
     entityIds = []
@@ -237,6 +238,12 @@ if __name__ == '__main__':
 
     # get Portal scenes
     entityIds = get_scenes()
+
+    # Add previously failed or un downloaded scenes
+    old_undownloaded = pd.read_csv(UNDONE_SCENES)
+    failed_entities = list(old_undownloaded['entity_id'])
+
+    entityIds += failed_entities
 
     print("\nRunning Scripts...\n")
     startTime = time.time()
@@ -339,7 +346,6 @@ if __name__ == '__main__':
                     print(f"Get download url: {result['url']}\n")
                     runDownload(threads, result['url'])
 
-
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
@@ -379,3 +385,12 @@ if __name__ == '__main__':
         print()
         print("Empty scene files downloaded")
         print(zero_bites)
+
+    # Save to un downloaded scenes.
+
+    # dictionary of un downloaded entity ids or scenes
+    undone_ids = {'entity_id': un_downloaded + zero_bites}
+
+    df = pd.DataFrame(undone_ids)
+    df.to_csv(UNDONE_SCENES, index=False)
+

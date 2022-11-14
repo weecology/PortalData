@@ -36,3 +36,6 @@ vignettes/*.pdf
 #Custom view
 .DS_Store
 .Rproj.user
+
+# Python Session files
+*pycache*
