@@ -19,3 +19,4 @@
 message("Updating NDVI")
 system("python DataCleaningScripts/NDVI.py")
 source("DataCleaningScripts/update_ndvi.R"); writendvitable()
+system("rm -r ./NDVI/landsat-data ./NDVI/scenes.csv")

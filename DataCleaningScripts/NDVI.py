@@ -19,6 +19,7 @@ import json
 import os
 import threading
 from datetime import datetime
+from datetime import timedelta, date
 
 from landsatxplore.api import API
 
@@ -62,6 +63,8 @@ def get_last_date(ndvi_file=NDVI_CSV):
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     start_date = get_last_date()
+    start_date = datetime.strptime(start_date, "%Y-%m-%d") + timedelta(days=1)
+    start_date = start_date.strftime("%Y-%m-%d")
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
     return start_date, end_date

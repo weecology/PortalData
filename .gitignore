@@ -39,3 +39,6 @@ vignettes/*.pdf
 
 # Python Session files
 *pycache*
+
+# Processing files
+NDVI/scenes.csv
