@@ -57,6 +57,7 @@ jobs:
           sudo add-apt-repository ppa:xapienz/curl34
           sudo add-apt-repository ppa:linuxuprising/libpng12 && sudo apt-get update && sudo apt install libpng12-0
           sudo apt-get update
+          pip install numpy pandas
 
       - name: Install packages
         run: Rscript install-packages.R        
