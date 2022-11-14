@@ -244,9 +244,8 @@ if __name__ == '__main__':
 
     # Add previously failed or un downloaded scenes
     old_undownloaded = pd.read_csv(UNDONE_SCENES)
-    failed_entities = list(old_undownloaded['entity_id'])
-
-    entityIds += failed_entities
+    failed_entities = list(old_undownloaded['display_id'])
+    entityIds = list(set(entityIds + failed_entities))
 
     print("\nRunning Scripts...\n")
     startTime = time.time()
@@ -390,10 +389,16 @@ if __name__ == '__main__':
         print(zero_bites)
 
     # Save to un downloaded scenes.
+    unique_ids = list(set(un_downloaded + zero_bites))
 
     # dictionary of un downloaded entity ids or scenes
-    undone_ids = {'entity_id': un_downloaded + zero_bites}
+    undone_ids = {'display_id': unique_ids}
 
     df = pd.DataFrame(undone_ids)
     df.to_csv(UNDONE_SCENES, index=False)
+
+    # remove failed downloads from scenes.csv
+    new_scenefile = pd.read_csv(NDVI_SCENES)
+    a = new_scenefile[ ~new_scenefile[ "display_id" ].isin(list(unique_ids["display_id"]))]
+    a.to_csv(NDVI_SCENES, index=False)
 

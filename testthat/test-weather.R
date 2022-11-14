@@ -93,6 +93,7 @@ test_that("no duplicated rows", {
   expect_false(any(duplicated(weather)))
   expect_false(any(duplicated(overlap)))
   expect_false(any(duplicated(storms)))
+  expect_false(any(duplicated(ndvi)))
 })
 
 test_that("regional data adding correctly", {
