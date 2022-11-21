@@ -6,7 +6,9 @@
 
 #### Site Description:
 
-[Figure 1](Portal_Figure1.tif) is a visualization of the entire site. The entire study area is approximately 20 ha and within this area there are 24 experimental plots. Each plot is 0.25 ha (50m x 50m) and fenced with hardware cloth topped with aluminum flashing. Access to these plots by rodents is regulated by gates cut into fencing.
+[Figure 1](../SiteandMethods/figures/Portal_Figure1.tif) is a visualization of the entire site. The entire study area is approximately 20 ha and within this area there are 24 experimental plots. Each plot is 0.25 ha (50m x 50m) and fenced with hardware cloth topped with aluminum flashing. Access to these plots by rodents is regulated by gates cut into fencing.
+
+<img src="../SiteandMethods/figures/Portal_Figure1.png" width="400px">
 
 In [Portal_UTMCoords](Portal_UTMCoords.csv) we have provided GPS coordinates for the rodent stakes, plant quadrats, plot corners, and the weather station.
 
