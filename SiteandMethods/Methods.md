@@ -198,7 +198,7 @@ Tags in the `tag` and `left_tag` column are not necessarily unique to individual
 
 The data set includes continuous weather monitoring near Portal, Arizona. From 1980-1989, daily minimum and maximum air temperature values were recorded at the site. Manually collected precipitation data is also available. Unlike the temperature data, the precipitation data for these years are not daily and should only be used after summarizing over months or years. In 1989, the site switched to an automated weather station which recorded hourly rainfall amounts and air temperatures. In 2002, this weather station was updated. In 2016, the station was updated again and new sensors were added to collect additional data. These data are continuously updated.
 
-Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Figure 1](../SiteandMethods/Portal_Figure1.tif) for location and the [Coordinates file](../SiteandMethods/Portal_UTMCoords.csv) for coordinates).
+Due to the small spatial-scale of the plot and the spatial scale of the typical precipitation event, there is only one weather station for the site. This station has been located in the same general vicinity of the 20 ha site since 1980 (see [Figure 1](../SiteandMethods/figures/Portal_Figure1.tif) for location and the [Coordinates file](../SiteandMethods/Portal_UTMCoords.csv) for coordinates).
 
 ### Data Collection: 
 
