@@ -106,10 +106,12 @@ Quadrat dimensions are 0.5 m x 0.5 m. Quadrats are placed at locations permanent
 #### [Transect Shrub Data](../Plants/Portal_plant_transects_2015_present.csv)
 
 Transect data were initially collected in a point-intercept-transect (PIT) method. In each plot, four transects of 25 m each were made.  Each transect was placed diagonally from a corner of the plot to the center (approximately; transects did not reach either to a corner or the center in fact). They are numbered on the data sheets as follows: A (NW corner), B (NE corner), C (SE corner), D (SW corner). The plant species (or lack of plants) was recorded every 1 decimeter (10 cm) along the 25 m, for a total of 250 data points per transect. (See figure below). A “matched pair” transect was made directly outside each plot, placed so that one end was near the corner of its within-plot mate. Exact position of the transect varied with topography. They are numbered as follows: E (NW corner), F (NE corner), G (SE corner), and H (SW corner). This data collection ended in 2009.
-<img src="figures/transects_old.png" width="400px">
+
+<img src="figures/transects_old.png" width="200px">
 
 Transect data on shrub cover and abundance resumed in 2015, using a line-intercept-transect (LIT) method. These data are collected yearly, during the summer plant census. Transects are run diagonally across the plots, from the corner nearest stake 11 (NW corner), and the corner nearest stake 71 (SW corner). (See figure below). Species, width intersecting the transect (as "start" and "stop"), and greatest height are recorded. Only species with woody or persistent growth are counted in this census. **Annual and herbaceaous perennial species are not included in these data.** In the first year of collection, 2015, only one location on the transect was recorded for each individual (start and stop values are the same, and are actually the midpoint at which the shrub intersected the transect).
-<img src="figures/transects_new.png" width="400px">
+
+<img src="figures/transects_new.png" width="200px">
 
 #### [Data notes](../Plants/Portal_plant_datanotes.txt)
 Several datanotes are used to indicate specific problems in data collection. In most cases, the data are still appropriate for use.
