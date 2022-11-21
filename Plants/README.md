@@ -3,7 +3,7 @@
 Plant data were collected nearly continuously from 1978-present. Sampling is ongoing and data will be added over time.  
 
 #### Censuses
-Quadrat data is collected in the winter and summer each year. However, due to gaps in funding and personnel, not all censuses have been conducted. Information on each census can be found in [Portal_plant_censuse_dates](Portal_plant_censuse_dates.csv).
+Quadrat data is collected in the winter and summer each year. However, due to gaps in funding and personnel, not all censuses have been conducted. Information on each census can be found in [Portal_plant_census_dates](Portal_plant_census_dates.csv).
 
 An indicator of whether or not an individual quadrat was censused in each season can be found in [Portal_plant_censuses](Portal_plant_censuses.csv). This can be used to differentiate between real zeros and missing data in the abundance data.
 
