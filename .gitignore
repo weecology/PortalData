@@ -42,3 +42,4 @@ vignettes/*.pdf
 
 # Processing files
 NDVI/scenes.csv
+NDVI/landsat-data/*

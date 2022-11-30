@@ -398,7 +398,7 @@ if __name__ == '__main__':
     df.to_csv(UNDONE_SCENES, index=False)
 
     # remove failed downloads from scenes.csv
-    new_scenefile = pd.read_csv(NDVI_SCENES)
-    a = new_scenefile[ ~new_scenefile[ "display_id" ].isin(list(unique_ids["display_id"]))]
-    a.to_csv(NDVI_SCENES, index=False)
+    # new_scenefile = pd.read_csv(NDVI_SCENES)
+    # a = new_scenefile[ ~new_scenefile[ "display_id" ].isin(list(unique_ids["display_id"]))]
+    # a.to_csv(NDVI_SCENES, index=False)
 
