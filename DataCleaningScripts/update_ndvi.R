@@ -114,14 +114,11 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
 #'
 
 writendvitable <- function() {
-  ndvi <- read.csv("./NDVI/ndvi.csv") %>% dplyr::mutate(date = as.Date(date))
+  
+  if(file.exists("./NDVI/scenes.csv")) {
   targetpath <- "./NDVI/landsat-data"
-  records <- read.csv("./NDVI/scenes.csv")
-  filenames <- sub("T1.*","T1",list.files("./NDVI/landsat-data"))
-         filenames <- unique(sub("T2.*","T2",filenames))
-  
-  
-  if("display_id" %in% colnames(records)){
+  undone <- read.csv("./NDVI/undone-scenes.csv")
+  records <- read.csv("./NDVI/scenes.csv") %>% dplyr::filter(!display_id %in% undone$display_id)
     
     new_data <- as.data.frame(do.call(rbind, 
                                       apply(records, 1, summarize_ndvi_snapshot, targetpath))) %>%

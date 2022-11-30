@@ -13,18 +13,22 @@ import re
 import threading
 import os
 import numpy as np
+import pandas as pd
 import csv
 import json
 import os
 import threading
 from datetime import datetime
+from datetime import timedelta, date
 
 from landsatxplore.api import API
 
+NDVI_DIR = os.path.normpath(os.path.abspath(__file__ + "/../../NDVI"))
+PATH = os.path.join(NDVI_DIR, "landsat-data")
+NDVI_SCENES = os.path.join(NDVI_DIR, "scenes.csv")
+NDVI_CSV = os.path.join(NDVI_DIR, "ndvi.csv")
+UNDONE_SCENES = os.path.join(NDVI_DIR, "undone-scenes.csv")
 
-FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
-
-PATH = os.path.join(FILE_LOCATION, "landsat-data")
 maxthreads = 5  # Threads count for downloads
 sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date time
@@ -34,8 +38,6 @@ threads = []
 def get_credentials(path="usgs-pass.json"):
     usgs_username = ""
     usgs_password = ""
-    path = "../../usgs-pass.json" # test only
-    # path = "/Users/henrysenyondo/Downloads/usgs-pass.json"
 
     if os.path.exists(path):
         with open(path, 'r') as file:
@@ -43,8 +45,8 @@ def get_credentials(path="usgs-pass.json"):
             usgs_username = json_data['username']
             usgs_password = json_data['password']
     else:
-        usgs_username = os.getenv("LANDSATXPLORE_USERNAME")
-        usgs_password = os.getenv("LANDSATXPLORE_PASSWORD")
+        usgs_username = "weecology"
+        usgs_password = os.environ["USGS_PASSWORD"]
     if not usgs_username and not usgs_password:
         print("No Credentials found.\n"
               "Export LANDSATXPLORE_USERNAME and LANDSATXPLORE_PASSWORD")
@@ -52,32 +54,30 @@ def get_credentials(path="usgs-pass.json"):
     return usgs_username, usgs_password
 
 
-def get_last_date(ndvi_file="ndvi.csv"):
+def get_last_date(ndvi_file=NDVI_CSV):
     """Get last recorded date from NDVI/ndvi.csv"""
-    path_ndvi = os.path.join(FILE_LOCATION, ndvi_file)
-    rec = None
-    with open(path_ndvi, "r") as records:
-        rec = records.readlines()
-    return rec[-1].split(",")[0]
+    ndvi_df = pd.read_csv(ndvi_file)
+    return ndvi_df['date'].iat[-1]
 
 
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
-    # start_date = get_last_date()
-    start_date = "2020-01-01" 
+    start_date = get_last_date()
+    start_date = datetime.strptime(start_date, "%Y-%m-%d") + timedelta(days=1)
+    start_date = start_date.strftime("%Y-%m-%d")
     now = datetime.now()
     end_date = now.strftime("%Y-%m-%d")
-    end_date = "2022-09-30"
     return start_date, end_date
 
 
-def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None):
+def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None, scene_file=None):
     """Return scenes based in the last recorded NDVI
 
     datase name landsat_ot_c2_l2
     start_date is older
     end_date newer
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
+    Scene_file store the metadata.
     """
     usgs_username, usgs_password = get_credentials()
     if None in (start_date, end_date):
@@ -99,9 +99,9 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     )
     print(len(scenes),  ": scenes found.")
     entity_ids = []
-
-    scene_file = "scenes.csv"
-    scene_path = os.path.join(FILE_LOCATION, scene_file)
+    if not scene_file:
+        scene_file = NDVI_SCENES
+    scene_path = os.path.normpath(scene_file)
 
     with open(scene_path, mode='w') as rd:
         headers = list(scenes[0].keys())
@@ -116,13 +116,23 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     return entity_ids
 
 
-def scene_file_downloaded(scenes, data_path, filetype):
-    """Check if the scenes have all the files"""
+def scene_file_downloaded(scenes, data_path, filetype, dataset="landsat_ot_c2_l2"):
+    """Check if the scenes have all the corresponding files downloaded
+
+    Scense id
+    Data_path
+    Filetype provided, band, zip
+    Dataset name, landsat_etm_c2_l2, landsat_ot_c2_l1, landsat_ot_c2_l2
+    """
     un_finised_scenes = []
     zero_bites = []
-    # all_extensions = [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"]
-    all_extensions = ["_ANG.txt", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_SR_B1.TIF", "_SR_B2.TIF", "_SR_B3.TIF", "_SR_B4.TIF", "_SR_B5.TIF", "_SR_B6.TIF", "_SR_B7.TIF", "_SR_QA_AEROSOL.TIF", "_ST_ATRAN.TIF", "_ST_B10.TIF", "_ST_CDIST.TIF", "_ST_DRAD.TIF", "_ST_EMIS.TIF", "_ST_EMSD.TIF", "_ST_QA.TIF", "_ST_TRAD.TIF", "_ST_URAD.TIF"]
 
+    exts = {
+    "landsat_ot_c2_l1": [".jpg", ".tar", "_ANG.txt", "_B1.TIF", "_B10.TIF", "_B11.TIF", "_B2.TIF", "_B3.TIF", "_B4.TIF", "_B5.TIF", "_B6.TIF", "_B7.TIF", "_B8.TIF", "_B9.TIF", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_QB.jpg", "_qb.tif", "_refl.tif", "_SAA.TIF", "_SZA.TIF", "_TIR.jpg", "_tir.tif", "_VAA.TIF", "_VZA.TIF"],
+    "landsat_ot_c2_l2": ["_ANG.txt", "_MTL.txt", "_MTL.xml", "_QA_PIXEL.TIF", "_QA_RADSAT.TIF", "_SR_B1.TIF", "_SR_B2.TIF", "_SR_B3.TIF", "_SR_B4.TIF", "_SR_B5.TIF", "_SR_B6.TIF", "_SR_B7.TIF", "_SR_QA_AEROSOL.TIF", "_ST_ATRAN.TIF", "_ST_B10.TIF", "_ST_CDIST.TIF", "_ST_DRAD.TIF", "_ST_EMIS.TIF", "_ST_EMSD.TIF", "_ST_QA.TIF", "_ST_TRAD.TIF", "_ST_URAD.TIF"]
+    }
+
+    all_extensions = exts[dataset.lower()]
     if filetype == 'band':
         # ext_remove = [".jpg", ".tar", "_QB.jpg", "_TIR.jpg", "_qb.tif", "_refl.tif", "_tir.tif"]
         # all_extensions = [ext for ext in all_extensions if ext not in ext_remove]
@@ -137,38 +147,6 @@ def scene_file_downloaded(scenes, data_path, filetype):
             if not os.path.isfile(file_path):
                 un_finised_scenes.append(scene + ext)
     return un_finised_scenes, zero_bites
-
-
-def update_scene_file(filepath):
-    """Create Scenes.txt file
-
-    landsat_ot_c2_l1|displayId
-    LC09_L1TP_034038_20220614_20220616_02_T1
-    LC08_L1TP_035038_20220613_20220617_02_T1
-    """
-    start_date, end_date = get_date_range()
-
-    start_date = start_date.replace("-", "")
-    end_date = end_date.replace("-", "")
-
-    datas = None
-    lens_datas = 0
-    with open(filepath, "r") as fr:
-        datas = fr.readlines()
-        lens_datas = len(datas)
-
-    with open(filepath, "w") as fw:
-        for count, lines in enumerate(datas):
-            lines = lines.strip()
-            if not lines:
-                continue
-            if count == 0:
-                fw.write(lines + "\n")
-            else:
-                if count == lens_datas - 1:
-                    fw.write(lines[:17] + start_date + "_" + end_date + lines[34:])
-                else:
-                    fw.write(lines[:17] + start_date + "_" + end_date + lines[34:] + "\n")
 
 
 # Send http request
@@ -251,9 +229,6 @@ def runDownload(threads, url, dir_path=PATH, scence=""):
 
 if __name__ == '__main__':
     
-    print("This code has be blocked from running. Uncomment line 254 and 255")
-    exit()
-    
     username, password = get_credentials()
     filetype = 'band'
     entityIds = []
@@ -266,6 +241,11 @@ if __name__ == '__main__':
 
     # get Portal scenes
     entityIds = get_scenes()
+
+    # Add previously failed or un downloaded scenes
+    old_undownloaded = pd.read_csv(UNDONE_SCENES)
+    failed_entities = list(old_undownloaded['display_id'])
+    entityIds = list(set(entityIds + failed_entities))
 
     print("\nRunning Scripts...\n")
     startTime = time.time()
@@ -368,7 +348,6 @@ if __name__ == '__main__':
                     print(f"Get download url: {result['url']}\n")
                     runDownload(threads, result['url'])
 
-
         # Don't get all download urls, retrieve again after 30 seconds
         while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
@@ -408,3 +387,18 @@ if __name__ == '__main__':
         print()
         print("Empty scene files downloaded")
         print(zero_bites)
+
+    # Save to un downloaded scenes.
+    unique_ids = list(set(un_downloaded + zero_bites))
+
+    # dictionary of un downloaded entity ids or scenes
+    undone_ids = {'display_id': unique_ids}
+
+    df = pd.DataFrame(undone_ids)
+    df.to_csv(UNDONE_SCENES, index=False)
+
+    # remove failed downloads from scenes.csv
+    # new_scenefile = pd.read_csv(NDVI_SCENES)
+    # a = new_scenefile[ ~new_scenefile[ "display_id" ].isin(list(unique_ids["display_id"]))]
+    # a.to_csv(NDVI_SCENES, index=False)
+
