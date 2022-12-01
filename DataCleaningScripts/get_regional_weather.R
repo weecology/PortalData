@@ -30,7 +30,7 @@ get_regional_weather <- function() {
     dplyr::select(year, month, day, dplyr::everything())
   all_4sw <- read.csv(file = "Weather/Portal4sw_regional_weather.csv",header=T, stringsAsFactors=FALSE)
     all_4sw$date <- lubridate::ymd(all_4sw$date)
-    new_4sw <- dplyr::setdiff(portal4sw,all_4sw)
+    new_4sw <- dplyr::setdiff(portal4sw,all_4sw) %>% dplyr::filter(year>2010)
 
 # San Simon station
   sansimon <- read.csv(
