@@ -116,6 +116,7 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
 writendvitable <- function() {
   
   if(file.exists("./NDVI/scenes.csv")) {
+    if(file.size("./NDVI/scenes.csv") != 0L) {
   targetpath <- "./NDVI/landsat-data"
   undone <- read.csv("./NDVI/undone-scenes.csv")
   records <- read.csv("./NDVI/scenes.csv") %>% dplyr::filter(!display_id %in% undone$display_id)
@@ -126,5 +127,5 @@ writendvitable <- function() {
     
     write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
                 append=TRUE, na="")
-  }
+  }}
 }
