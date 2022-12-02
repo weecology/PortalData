@@ -77,9 +77,9 @@ jobs:
         run: |
           if [[ -z "$(git status --porcelain)" ]] ; then 
             echo "Git status is empty"
-            echo "::set-output name=diff::FALSE"
+            echo "{diff}={FALSE}" >> $GITHUB_OUTPUT
           else 
-            echo "::set-output name=diff::TRUE"
+            echo "{diff}={TRUE}" >> $GITHUB_OUTPUT
           fi
       
       - name: Bump version
@@ -91,10 +91,10 @@ jobs:
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
           if echo "$(git status --porcelain)" | grep -q version.txt ; then 
             echo "Version changed"
-            echo "::set-output name=new_ver::TRUE"
+            echo "{new_ver}={TRUE}" >> $GITHUB_OUTPUT
           else 
             echo "No version bump"
-            echo "::set-output name=new_ver::FALSE"
+            echo "{new_ver}={FALSE}" >> $GITHUB_OUTPUT
           fi
         
       - name: Setup Tag
@@ -102,15 +102,15 @@ jobs:
         id: tagging
         run: |
           value=`cat version.txt`
-          echo "::set-output name=tag::$value"
+          echo "{tag}={$value}" >> $GITHUB_OUTPUT
           value="v${value}"
-          echo "::set-output name=release::$value"
+          echo "{release}={$value}" >> $GITHUB_OUTPUT
       
       - name: Tag new version for release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v8
         with:
           author_name: Weecology Deploy Bot
           author_email: weecologydeploy@weecology.org
@@ -120,7 +120,7 @@ jobs:
       - name: Create Release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: create_release
-        uses: zendesk/action-create-release@v1
+        uses: zendesk/action-create-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
