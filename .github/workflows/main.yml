@@ -52,7 +52,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get -y update && apt-get install -y \
+          sudo apt-get -y update && sudo apt-get install -y \
             libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler \
             libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev
           #  sudo add-apt-repository ppa:xapienz/curl34
