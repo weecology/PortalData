@@ -55,8 +55,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libpng12-0
           #  sudo add-apt-repository ppa:xapienz/curl34
-          sudo wget http://se.archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb
-          sudo dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
           sudo apt-get update
           pip install -U pandas numpy landsatxplore
 
