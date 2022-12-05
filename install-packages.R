@@ -10,5 +10,3 @@ if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pac
 
 pacman::p_load(units, sf, rgdal, lwgeom, shiny, stringi, stringr, Hmisc, dplyr, git2r, openxlsx, lubridate, htmltab, 
                lunar, jsonlite, devtools, sp, sqldf, raster, RCurl, EML, testthat, zoo, tidyr, semver, yaml)
-
-pacman::p_load_gh("16EAGLE/getSpatialData")
