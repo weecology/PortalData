@@ -1,4 +1,6 @@
 # Adapted for automated updating from get_landsat_data.R
+# Rewritten for new USGS/EROS api
+# https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products
 
 `%>%` <- magrittr::`%>%`
 library(raster)
@@ -23,7 +25,7 @@ library(raster)
 #'
 create_portal_area <- function(centroid = c(-109.08029, 31.937769),
                                radius = 1000) {
-
+  
   center <- sf::st_sfc(sf::st_point(centroid),crs="WGS84")
   #transform to NAD83(NSRS2007)/California Albers
   center_transform <- sf::st_as_sf(center) %>% sf::st_transform(3488)
@@ -31,42 +33,7 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
   portal_area <- sp::spTransform(portal_area_transform, sp::CRS("+proj=utm +zone=12
                      +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 "))
   return(portal_area)
-
-}
-
-
-#' Fetch new ndvi and put in new data order via getSpatialData
-#'
-#' @param mindate minimum date to collect
-#' @param maxdate maximum date to collect
-#' @param targetpath path for data downloads
-#'
-
-new_records <- function(mindate, maxdate, targetpath = tempdir()) {
-
-  getSpatialData::set_archive(targetpath)
-  getSpatialData::set_aoi(create_portal_area())
-  getSpatialData::login_USGS(username = "weecology", password = Sys.getenv("USGS_PASSWORD"))
-
-  records <- getSpatialData::get_records(time_range = c(mindate, maxdate),
-                                         products = "LANDSAT_8_C1")
-  records_new <- list()
-  # Do lots of checking getSpatialData::get_records output before moving on
-  if(!is.null(records)) {
-    if(dim(records)[1] > 0) {
-    records <- records[records$level == "sr_ndvi",]
-      records <- getSpatialData::check_availability(records)
-      records_new <- records %>%
-        dplyr::filter(download_available==TRUE)
-      tryCatch(records_new <- getSpatialData::get_data(records_new),
-               error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-    }}
-    if(any(records$download_available==FALSE)){
-      # Submit order for any new records not downloaded
-      records <- getSpatialData::order_data(records)
-  }
   
-  return(records_new)
 }
 
 #' @title extract and mask raster
@@ -77,65 +44,66 @@ new_records <- function(mindate, maxdate, targetpath = tempdir()) {
 #' @param targetpath path where the cropped and masked rasters are to be stored
 #'
 extract_and_mask_raster <- function(records, targetpath = tempdir()) {
-  tarfile <- as.character(unlist(records["dataset_file"]))[1]
-  record_id <- as.character(unlist(records["record_id"]))[1]
-  # extract ndvi and pixel_qa rasters
-  untar(tarfile, exdir = targetpath)
+  
   # create portal box object for cropping
   portal_area <- create_portal_area()
-
-  # read in raster files; crop to portal_box; delete full-size raster files
-  r <- raster::raster(paste0(targetpath,"/", record_id, "_sr_ndvi.tif"))
-  scene <- raster::crop(r,portal_area)
-
-  m <- raster::raster(paste0(targetpath,"/", record_id, "_pixel_qa.tif"))
-  pixelqa <- raster::crop(m,portal_area)
-
-  # mask ndvi data; write masked raster to file
-  # which landsat satellite data is from determines what the "clear" values of pixel_qa are
-  # landsat8: from  https://www.usgs.gov/media/files/landsat-8-collection-1-land-surface-reflectance-code-product-guide
-  clearvalues = c(322, 386, 834, 898, 1346)
-
+  
+  # read in raster files; crop to portal_box; apply scaling factor and offset; delete full-size raster files
+  # In Landsat 8-9, NDVI = (Band 5 – Band 4) / (Band 5 + Band 4).
+  B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
+    raster::crop(portal_area) * 0.0000275 + -0.2
+  B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
+    raster::crop(portal_area) * 0.0000275 + -0.2
+  
+  sr_ndvi <- (B5 - B4)/(B5 + B4)
+  
+  pixelqa <- raster::raster(paste0(targetpath,"/", records["display_id"], "_QA_PIXEL.TIF")) %>%
+    raster::crop(portal_area)
+  
+  # mask ndvi data
+  # "clear" values of pixel_qa are derived from the CFMask algorithm version 3.3.1
+  # https://www.usgs.gov/media/files/landsat-8-9-collection-2-level-2-science-product-guide
+  clearvalues = c(21824, 21826, 22080, 23888, 30048, 54596, 54852)
+  
   pixelqa[!(pixelqa %in% clearvalues)] <- NA
-  s <- raster::mask(x=scene, mask=pixelqa)
-  raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
-
-  return(s)
+  ndvi_masked <- raster::mask(x=sr_ndvi, mask=pixelqa)
+  # raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
+  
+  return(ndvi_masked)
 }
 
 #' @title summarize_ndvi_snapshot
 #' @description summarize data for list of landsat scenes, save in csv
 #'
 #' @param records new records to be used
-#' @param targetpath path where the cropped and masked rasters are stored
+#' @param targetpath path where the cropped and masked rasters are to be stored
 #'
 #' @return data frame of one row: contains summary statistics for single raster image
 #'
 summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
-  # this function takes a raster of ndvi data and summarizess
-
-  source <- "AWS"
-  sensor <- "Landsat8"
-  date <- as.Date(records$date_acquisition)
-
-  r = raster(paste0(targetpath,"/",records$record_id,'_ndvi_masked.tif'))
-  # apply correction factor
-  r = r/10000
+  # this function takes a raster of ndvi data and summarizes
+  print(records["display_id"])
+  source <- "USGS"
+  sensor <- paste0("Landsat", records["satellite"])
+  date <- as.Date(records["acquisition_date"])
+  
+  r <- extract_and_mask_raster(records, targetpath)
+  
   # cloud cover
-  pct = sum(is.na(values(r)))/length(values(r))*100
-
-  stdev = sd(values(r),na.rm=T)
-  mn = mean(values(r),na.rm=T)
-  md = median(values(r),na.rm=T)
-  mi = min(values(r),na.rm=T)
-  ma = max(values(r),na.rm=T)
-  va = var(values(r),na.rm=T)
-  pix = length(values(r))
-
-  d = data.frame(date = as.Date(date), sensor = sensor, source = source,
-                 pixel_count = pix, ndvi = ifelse(!is.finite(mn),NA,mn), cloud_cover = pct,
-                 var = ifelse(!is.finite(va),NA,va), min = ifelse(!is.finite(mi),NA,mi),
-                 max = ifelse(!is.finite(ma),NA,ma))
+  pct <- sum(is.na(values(r)))/length(values(r))*100
+  
+  stdev <- sd(values(r),na.rm=T)
+  mn <- mean(values(r),na.rm=T)
+  md <- median(values(r),na.rm=T)
+  mi <- min(values(r),na.rm=T)
+  ma <- max(values(r),na.rm=T)
+  va <- var(values(r),na.rm=T)
+  pix <- length(values(r))
+  
+  d <- data.frame(date = as.Date(date), sensor = sensor, source = source,
+                  pixel_count = pix, ndvi = ifelse(!is.finite(mn),NA,mn), cloud_cover = pct,
+                  var = ifelse(!is.finite(va),NA,va), min = ifelse(!is.finite(mi),NA,mi),
+                  max = ifelse(!is.finite(ma),NA,ma))
   return(d)
 }
 
@@ -146,19 +114,17 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
 #'
 
 writendvitable <- function() {
-  ndvi <- read.csv("./NDVI/ndvi.csv")
-  mindate <- as.character(max(as.Date(ndvi$date)) + 1)
-  maxdate <- as.character(Sys.Date())
-  targetpath <- tempdir()
-  records <- new_records(mindate, maxdate, targetpath)
-
-  if(exists("records")){
-  if("dataset_file" %in% colnames(records)){
-    for(i in 1:dim(records)[1]) {
-      extract_and_mask_raster(records[i,],targetpath) }
-
-    new_data <- as.data.frame(do.call(rbind, apply(records, 1, summarize_ndvi_snapshot)))
-
+  
+  if(file.exists("./NDVI/scenes.csv")) {
+    if(file.size("./NDVI/scenes.csv") != 0L) {
+  targetpath <- "./NDVI/landsat-data"
+  undone <- read.csv("./NDVI/undone-scenes.csv")
+  records <- read.csv("./NDVI/scenes.csv") %>% dplyr::filter(!display_id %in% undone$display_id)
+    
+    new_data <- as.data.frame(do.call(rbind, 
+                                      apply(records, 1, summarize_ndvi_snapshot, targetpath))) %>%
+      dplyr::arrange(date,sensor)
+    
     write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
                 append=TRUE, na="")
   }}

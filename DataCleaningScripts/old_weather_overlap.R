@@ -48,14 +48,14 @@ if (any(!(weathdat$hour %in% seq(from=100,to=2400,by=100)))) {
   weathdat <- filter(weathdat,hour %in% seq(100,2400,100))
 } else {print('Hour ok')}
 
-# check for errors in air temp (i.e. temp > 100C or < -30)
-if (any(weathdat$airtemp > 100)) {
+# check for errors in air temp (i.e. temp > 50C or < -20)
+if (any(weathdat$airtemp > 50)) {
   print('Air temp error')
-  weathdat <- filter(weathdat,airtemp < 100)
+  weathdat <- filter(weathdat,airtemp < 50)
 }
-if (any(weathdat$airtemp < -30)) {
+if (any(weathdat$airtemp < -20)) {
     print('Air temp error')
-    weathdat <- filter(weathdat,airtemp > -30)
+    weathdat <- filter(weathdat,airtemp > -20)
 } else {print('Air temp ok')}
 
 # check for errors in rel humidity (either > 100 or < 0)
