@@ -4,7 +4,7 @@ if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pac
 
 remove.packages("stringi")
 remove.packages("stringr")
-install.packages(c("stringi","stringr","RCurl","curl","Hmisc", "EML", "sf","rgdal","lwgeom", "git2r"), type="source", repos="https://cran.rstudio.com")
+install.packages(c("Rcpp","stringi","stringr","RCurl","curl","Hmisc", "EML", "sf","rgdal","lwgeom", "git2r"), type="source", repos="https://cran.rstudio.com")
 install.packages('terra', repos='https://rspatial.r-universe.dev')
 
 # Install analysis packages using pacman
