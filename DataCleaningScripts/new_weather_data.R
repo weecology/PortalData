@@ -20,18 +20,18 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
   
 # To read from .dat file
-# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/514_CR1000_MET.dat",
+# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/515_CR1000_MET.dat",
 #                    skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/514_CR1000_MET.dat",
+# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/515_CR1000_MET.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header) %>%
 #   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV)
 # 
-# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/514_CR1000_storms.dat",
+# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/515_CR1000_storms.dat",
 #                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/514_CR1000_storms.dat",
+# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/515_CR1000_storms.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header_storms) %>%
 #   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
@@ -105,10 +105,10 @@ storms <- read.csv("Weather/Portal_storms.csv")
 # New overlap table
 overlap <- read.csv("Weather/Portal_weather_overlap.csv") 
 overlap$timestamp <- lubridate::ymd_hms(overlap$timestamp)
-last_overlap <- min(rawdata$timestamp)
+last_overlap <- max(overlap$timestamp)
 
 newoverlapdata <- newdata %>% 
-  dplyr::filter(timestamp >= last_overlap) %>%
+  dplyr::filter(timestamp > last_overlap) %>%
   dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
 
 newoverlap <- suppressMessages(coalesce_join(overlap, newoverlapdata, 
