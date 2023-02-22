@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         config:
-          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"}
           
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -36,6 +36,15 @@ jobs:
       - uses: actions/checkout@v3
         with:
             fetch-depth: 3
+            
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: |
+            wget ca-certificates gnupg libgit2-dev libicu-dev gdal-bin proj-data proj-bin \
+            libprotobuf-dev protobuf-compiler libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
+            libfontconfig1-dev libjq-dev libmysqlclient-dev libpng-dev python3-dbus python3-gi python3-apt
+          version: 1.0
+          
       - uses: r-lib/actions/setup-r@v2
         id: install-r
         with:
@@ -50,14 +59,30 @@ jobs:
             ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
             ${{ runner.os }}-
 
-      - name: Install system dependencies
+      - name: Install r2u
         run: |
-          sudo apt-get -y update && sudo apt-get install -y \
-            libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler \
-            libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libmysqlclient-dev libpng-dev
+          # sudo apt-get update -qq && sudo apt-get install --yes --no-install-recommends wget ca-certificates gnupg
+          wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc \
+          | sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
+          echo "deb [arch=amd64] https://dirk.eddelbuettel.com/cranapt jammy main" | sudo tee -a /etc/apt/sources.list.d/cranapt.list
+          sudo apt-get update
+          echo "Package: *" | sudo tee /etc/apt/preferences.d/99cranapt
+          echo "Pin: release o=CRAN-Apt Project" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          echo "Pin: release l=CRAN-Apt Packages" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          echo "Pin-Priority: 700" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          # sudo apt-get install --yes --no-install-recommends python3-{dbus,gi,apt}
+          sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")'
+          RHOME=$(R RHOME)
+          echo "suppressMessages(bspm::enable())" | sudo tee -a ${RHOME}/etc/Rprofile.site
+          echo "options(bspm.version.check=FALSE)" | sudo tee -a ${RHOME}/etc/Rprofile.site
+
+          
+          # sudo apt-get -y update && sudo apt-get install -y \
+          #  libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler \
+          #  libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libmysqlclient-dev libpng-dev
           #  sudo add-apt-repository ppa:xapienz/curl34
           # sudo add-apt-repository ppa:linuxuprising/libpng12 && sudo apt-get update && sudo apt install libpng12-0
-          sudo apt-get update
+          # sudo apt-get update
           pip install -U pandas numpy landsatxplore
 
       - name: Install packages

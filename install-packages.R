@@ -1,11 +1,8 @@
-# Install pacman if it isn't already installed
+install.packages(c("devtools", "dplyr", "EML", "git2r", "htmltab", "jsonlite", "lubridate", "lunar", "openxlsx", "raster", 
+                   "semver", "shiny", "sp", "sqldf", "terra", "testthat", "tidyr", "units", "yaml", "zoo"))
 
-if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
-
-remove.packages("stringi")
-remove.packages("stringr")
-install.packages(c("Rcpp","stringi","stringr","RCurl","curl","Hmisc", "EML", "sf","rgdal","lwgeom", "git2r"), type="source", repos="https://cran.rstudio.com")
-install.packages('terra', repos='https://rspatial.r-universe.dev')
+# install.packages(c("Rcpp","stringi","stringr","RCurl","curl","Hmisc", "EML", "sf","rgdal","lwgeom", "git2r"), type="source", repos="https://cran.rstudio.com")
+# install.packages('terra', repos='https://rspatial.r-universe.dev')
 
 # Install analysis packages using pacman
 
@@ -13,5 +10,5 @@ install.packages('terra', repos='https://rspatial.r-universe.dev')
 #                lunar, jsonlite, devtools, sp, sqldf, raster, RCurl, EML, testthat, zoo, tidyr, semver, yaml)
                
 
-pacman::p_load(units, shiny, dplyr, openxlsx, lubridate, htmltab, 
-               lunar, jsonlite, devtools, sp, sqldf, raster, testthat, zoo, tidyr, semver, yaml)
+# pacman::p_load(units, shiny, dplyr, openxlsx, lubridate, htmltab, 
+#                lunar, jsonlite, devtools, sp, sqldf, raster, testthat, zoo, tidyr, semver, yaml)
