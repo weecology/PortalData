@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '514'
+newperiod = '515'
 
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
@@ -44,7 +44,6 @@ rodent_data_quality_checks(ws, scannerfile)
 olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
  
 # check for unusual weight/hfl measurements by species
-
 speciesnorms = read.csv('Rodents/Portal_rodent_species.csv', header = T, stringsAsFactors = F, na.strings = "")
 
 speciesnorms = filter(speciesnorms, censustarget == 1) %>%
