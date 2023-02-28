@@ -3,7 +3,6 @@
 # https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products
 
 `%>%` <- magrittr::`%>%`
-library(raster)
 
 #' @title create_portal_area
 #'
@@ -50,15 +49,15 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   
   # read in raster files; crop to portal_box; apply scaling factor and offset; delete full-size raster files
   # In Landsat 8-9, NDVI = (Band 5 – Band 4) / (Band 5 + Band 4).
-  B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
-    raster::crop(portal_area) * 0.0000275 + -0.2
-  B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
-    raster::crop(portal_area) * 0.0000275 + -0.2
+  B4 <- terra::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
+    terra::crop(portal_area) * 0.0000275 + -0.2
+  B5 <- terra::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
+    terra::crop(portal_area) * 0.0000275 + -0.2
   
   sr_ndvi <- (B5 - B4)/(B5 + B4)
   
-  pixelqa <- raster::raster(paste0(targetpath,"/", records["display_id"], "_QA_PIXEL.TIF")) %>%
-    raster::crop(portal_area)
+  pixelqa <- terra::raster(paste0(targetpath,"/", records["display_id"], "_QA_PIXEL.TIF")) %>%
+    terra::crop(portal_area)
   
   # mask ndvi data
   # "clear" values of pixel_qa are derived from the CFMask algorithm version 3.3.1
@@ -66,8 +65,7 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   clearvalues = c(21824, 21826, 22080, 23888, 30048, 54596, 54852)
   
   pixelqa[!(pixelqa %in% clearvalues)] <- NA
-  ndvi_masked <- raster::mask(x=sr_ndvi, mask=pixelqa)
-  # raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
+  ndvi_masked <- terra::mask(x=sr_ndvi, mask=pixelqa)
   
   return(ndvi_masked)
 }
