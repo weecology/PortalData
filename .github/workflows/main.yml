@@ -96,10 +96,10 @@ jobs:
 
       - name: Update data 2
         run: |
-          # R -e "readRenviron($HOME/.Renviron)"
-          # Rscript update-data.R 
-      # - name: Test
-      #   run: Rscript testthat.R
+          R -e "readRenviron($HOME/.Renviron)"
+          Rscript update-data.R 
+      - name: Test
+        run: Rscript testthat.R
         
       # - name: Check for new files
       #   id: check_files
