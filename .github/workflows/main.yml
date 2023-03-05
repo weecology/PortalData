@@ -67,11 +67,11 @@ jobs:
       - name: Install r2u
         run: |
           curl -O https://raw.githubusercontent.com/eddelbuettel/r2u/master/inst/scripts/add_cranapt_jammy.sh
-          bash ./add_cranapt_jammy.sh
+          sudo bash ./add_cranapt_jammy.sh
           pip install -U pandas numpy landsatxplore
 
       - name: Install packages
-        run: Rscript install-packages.R        
+        run: sudo Rscript install-packages.R
         
       - name: Update data
         run: |
