@@ -60,21 +60,31 @@ jobs:
 
       - name: Install r2u
         run: |
-         wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc | sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
-         echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/cranapt.list
-         wget -q -O- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc  | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-         echo "deb [arch=amd64] https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" | sudo tee -a /etc/apt/sources.list.d/cran_r.list
-         echo "Package: *" | sudo tee -a /etc/apt/preferences.d/99cranapt
-         echo "Pin: release o=CRAN-Apt Project" | sudo tee -a /etc/apt/preferences.d/99cranapt
-         echo "Pin: release l=CRAN-Apt Packages" | sudo tee -a /etc/apt/preferences.d/99cranapt
-         echo "Pin-Priority: 700" | sudo tee -a /etc/apt/preferences.d/99cranapt
-          
+          sudo apt update -qq && apt install --yes --no-install-recommends wget ca-certificates gnupg
+          wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc | sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
+         
+          echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu jammy main" | sudo tee -a /etc/apt/sources.list.d/cranapt.list
+          sudo apt update
+
+          wget -q -O- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc  | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+          echo "deb [arch=amd64] https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/" | sudo tee -a /etc/apt/sources.list.d/cran_r.list
+
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 67C2D66C4B1D4339 51716619E084DAB9
+          sudo apt update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt install --yes --no-install-recommends r-base-core
+
+          echo "Package: *" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          echo "Pin: release o=CRAN-Apt Project" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          echo "Pin: release l=CRAN-Apt Packages" | sudo tee -a /etc/apt/preferences.d/99cranapt
+          echo "Pin-Priority: 700" | sudo tee -a /etc/apt/preferences.d/99cranapt
+
           # install bspm
-          sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")'
-          RHOME=$(R RHOME)
+          sudo apt install --yes --no-install-recommends python3-{dbus,gi,apt}
+          sudo Rscript -e 'install.packages("bspm")'
+          sudo RHOME=$(R RHOME)
           echo "suppressMessages(bspm::enable())" | sudo tee -a ${RHOME}/etc/Rprofile.site
           echo "options(bspm.version.check=FALSE)" | sudo tee -a ${RHOME}/etc/Rprofile.site
-          
+
           # installs needed for landsat
           pip install -U pandas numpy landsatxplore
 
