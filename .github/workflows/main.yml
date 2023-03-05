@@ -78,6 +78,7 @@ jobs:
           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
           R -e ".libPaths()"
+          Sudo R -e ".libPaths()"
 
       - name: Update data 2
         run: |
