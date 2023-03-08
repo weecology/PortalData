@@ -20,13 +20,14 @@ env:
   R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
   # RSPM: ${{ matrix.config.rspm }}
   GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+  WU_API_KEY: ${{ secrets.WU_API_KEY }}
+  USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
 
 jobs:
   ci:
     strategy:
       matrix:
         include:
-
           - {os: ubuntu-latest}
 
     runs-on: ${{ matrix.os }}
@@ -62,9 +63,9 @@ jobs:
 
       - name: Update data
         run: |
-          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
-          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
-          # R -e 'readRenviron("~/.Renviron")'
+          # echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
+          # echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+          # # R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
       - name: Test
