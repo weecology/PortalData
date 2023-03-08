@@ -63,9 +63,6 @@ jobs:
 
       - name: Update data
         run: |
-          # echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
-          # echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
-          # # R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
       - name: Test
