@@ -1,0 +1,219 @@
+'CR1000
+'Created by Short Cut (4.4)
+'March 2023
+
+'This is the current version running on the CR1000. 
+'Start from this version to make modifications. (Remove the .txt suffix and edit in CR basic.)
+
+'include the file that contains wunderground instruction
+Include "CPU:wunderground.dld"
+
+'declare the array needed for passing info into the instruction
+'and the result code we can monitor for success / fail
+Dim WxData(26)
+Public Result
+
+'Declare Variables and Units
+Dim HITF
+Dim WCTF
+Dim WCWSMPH
+Dim ModSecsWin As Long
+Public BattV
+Public PTemp_C
+Public WS_ms
+Public WindDir
+Public Rain_mm
+Public SlrkW
+Public SlrMJ
+Public BP_mmHg
+Public HI_C
+Public SunHrs
+Public PotSlrW
+Public RTime(9)
+Public SolPos(5)
+Public WC_C
+Public Soil_C
+Public TRHData(2)
+Public SW12State As Boolean
+Public DP
+
+Alias RTime(1)=Year
+Alias RTime(2)=Month
+Alias RTime(3)=DayOfMonth
+Alias RTime(4)=HourOfDay
+Alias RTime(5)=Minutes
+Alias RTime(6)=Seconds
+Alias RTime(7)=Microseconds
+Alias RTime(8)=DayOfWeek
+Alias RTime(9)=DayOfYear
+Alias SolPos(1)=SolarAzimuth
+Alias SolPos(2)=SunElevation
+Alias SolPos(3)=HourAngle
+Alias SolPos(4)=Declination
+Alias SolPos(5)=AirMass
+Alias TRHData(1)=AirTC
+Alias TRHData(2)=RH
+
+Units BattV=Volts
+Units PTemp_C=Deg C
+Units WS_ms=meters/second
+Units WindDir=degrees
+Units Rain_mm=mm
+Units SlrkW=kW/m^2
+Units SlrMJ=MJ/m^2
+Units BP_mmHg=mmHg
+Units HI_C=Deg C
+Units SunHrs=hours
+Units PotSlrW=W/m^2
+Units WC_C=Deg C
+Units Soil_C=Deg C
+Units Year=years
+Units Month=months
+Units DayOfMonth=days
+Units HourOfDay=hours
+Units Minutes=Minutes
+Units Seconds=Seconds
+Units Microseconds=Microseconds
+Units DayOfWeek=days
+Units DayOfYear=days
+Units SolarAzimuth=degrees
+Units SunElevation=degrees
+Units HourAngle=radians
+Units Declination=radians
+Units AirMass=unitless
+Units AirTC=Deg C
+Units RH=%
+
+'Define Data Tables
+DataTable(Hourly,True,-1)
+  DataInterval(0,60,Min,10)
+  Average(1,BattV,FP2,False)
+  Average(1,PTemp_C,FP2,False)
+  Average(1,AirTC,FP2,False)
+  Sample(1,RH,FP2)
+  Totalize(1,Rain_mm,FP2,False)
+  Sample(1,BP_mmHg,FP2)
+  Sample(1,SlrkW,FP2)
+  Totalize(1,SlrMJ,IEEE4,False)
+  ETsz(AirTC,RH,WS_ms,SlrMJ,109.0826,31.938406,1321,3,0,FP2,False)
+  FieldNames("ETos,Rso")
+  Average(1,WS_ms,FP2,False)
+  Sample(1,WindDir,FP2)
+  WindVector(1,WS_ms,WindDir,FP2,False,1,0,0)
+  FieldNames("WS_ms_S_WVT,WindDir_D1_WVT,WindDir_SD1_WVT")
+  Average(1,HI_C,FP2,False)
+  Totalize(1,SunHrs,FP2,False)
+  Average(1,PotSlrW,FP2,False)
+  Average(1,WC_C,FP2,False)
+  Average(1,Soil_C,FP2,False)
+EndTable
+
+DataTable(Storms,True,-1)
+  DataInterval(0,300,Sec,10)
+  DataEvent(0,BattV=0,True,1)
+  Minimum(1,BattV,FP2,False,False)
+  Totalize(1,Rain_mm,FP2,False)
+EndTable
+
+AngleDegrees
+
+'Main Program
+BeginProg
+  'Main Scan
+  Scan(1,Min,1,0)
+    'Default CR1000 Datalogger Battery Voltage measurement 'BattV'
+    Battery(BattV)
+    'Default CR1000 Datalogger Wiring Panel Temperature measurement 'PTemp_C'
+    PanelTemp(PTemp_C,_60Hz)
+    '05103 Wind Speed & Direction Sensor measurements 'WS_ms' and 'WindDir'
+    PulseCount(WS_ms,1,1,1,1,0.098,0)
+    BrHalf(WindDir,1,mV2500,1,1,1,2500,True,20000,_60Hz,355,0)
+    If WindDir>=355 OR WindDir<0 Then WindDir=0
+    'TE525/TE525WS Rain Gauge measurement 'Rain_mm'
+    PulseCount(Rain_mm,1,2,2,0,0.254,0)
+    'CS300 Pyranometer measurements 'SlrMJ' and 'SlrkW'
+    VoltSe(SlrkW,1,mV250,2,1,0,_60Hz,1,0)
+    If SlrkW<0 Then SlrkW=0
+    'Calculate total flux
+    'The multiplier to calculate total flux was calculated by Short Cut
+    'and based on a program execution rate (scan rate) of 1 Minutes.
+    'If you change the program execution rate outside of Short Cut with the CRBasic Editor
+    'you will need to recalculate this multiplier. See the sensor manual for more details.
+    SlrMJ=SlrkW*0.0003
+    'Calculate flux density
+    SlrkW=SlrkW*0.005
+    'CS100 Barometric Pressure Sensor measurement 'BP_mmHg'
+    If TimeIntoInterval(59,60,Min) Then PortSet(1,1)
+    If TimeIntoInterval(0,60,Min) Then
+      VoltSe(BP_mmHg,1,mV2500,3,1,0,_60Hz,0.2,748.9556)
+      BP_mmHg=BP_mmHg*0.75006
+      PortSet(1,0)
+    EndIf
+    'Heat Index calculation 'HI_C'
+    HITF=1.8*AirTC+32
+    HI_C=-42.379+2.04901523*HITF+10.14333127*RH-0.22475541*HITF*RH-6.83783*10^-3*HITF^2-5.481717*10^-2*RH^2+1.22874*10^-3*HITF^2*RH+8.5282*10^-4*HITF*RH^2-1.99*10^-6*HITF^2*RH^2
+    If HITF<80 OR RH<40 OR HI_C<HITF OR HI_C=NAN Then HI_C=HITF
+    HI_C=(5/9)*(HI_C-32)
+    'Calculate Sunshine Hours
+    'Get current time
+    RealTime(RTime(1))
+    'Calculate solar position
+    SolarPosition(SolPos(),RTime(),-7*3600,31.938403,-109.082536,1321,-1,AirTC)
+    'Calculate potential radiation for time & position (multiply sine of solar elevation angle by solar constant 1373)
+    PotSlrW=SIN(SunElevation*3.141593/180)*1373
+    'If the measured value (W/m^2) is greater than 0.4 * the potential solar radiation (W/m^2)
+    'and the sine of the sun elevation angle (degrees) is great than 0.1 (elevation angle of 6 degrees)
+    'than it has been sunny for the current scan.
+    If SlrkW*1000>0.4*PotSlrW AND SIN(SunElevation*3.141593/180)>0.1 Then
+      'Calculate sun hours for scan time in seconds
+      SunHrs=1/3600*60
+    Else
+      'Set sun hours for scan time in seconds to 0
+      SunHrs=0
+    EndIf
+    'Wind Chill calculation 'WC_C'
+    WCTF=1.8*AirTC+32
+    WCWSMPH=WS_ms*2.236936
+    WC_C=35.74+0.6215*WCTF-35.75*WCWSMPH^0.16+0.4275*WCTF*WCWSMPH^0.16
+    If WC_C>WCTF OR WC_C=NAN Then WC_C=WCTF
+    If WCTF>50 OR WCWSMPH<3 Then WC_C=WCTF
+    WC_C=(5/9)*(WC_C-32)
+    '109 Temperature Probe measurement 'Soil_C'
+    Therm109(Soil_C,1,6,2,0,_60Hz,1,0)
+    'CS215 Temperature & Relative Humidity Sensor measurements 'AirTC' and 'RH'
+    SDI12Recorder(TRHData(),7,"0","M!",1,0,-1)
+
+    'DewPoint calculation
+    DewPoint ( DP, AirTC, RH )
+
+    'SW12 Timed Control
+    'Get seconds since 1990 and do a modulo divide by 86400 seconds (24 hours)
+    ModSecsWin=Public.TimeStamp(1,1) MOD 86400
+    'Turn ON SW12 between 1200 hours and 1530 hours
+    If (ModSecsWin>=43200 AND ModSecsWin<54000) Then
+      SW12State=True
+    Else
+      SW12State=False
+    EndIf
+    'Always turn OFF SW12 if battery drops below 9 volts
+    If BattV<9 Then SW12State=False
+    'Set SW12 to the state of 'SW12State' variable
+    SW12(SW12State)
+    'Call Data Tables and Store Data
+    CallTable Hourly
+    CallTable Storms
+    'post data to weather undergeround
+    If TimeIntoInterval(0,10,Min) Then
+      WxData() = NAN 'initalize all to NAN
+      WxData(1) = WindDir
+      WxData(2) = WS_ms*2.237
+      WxData(9) = RH
+      WxData(10) = DP * 9/5 + 32
+      WxData(11) = AirTC * 9/5 + 32
+      WxData(16) = Rain_mm/25.4
+      WxData(18) = BP_mmHg/25.4
+      WxData(26) = PotSlrW
+      Call wundergroundPWS(Result,"KAZSANSI14","v9evwm4k",WxData,0)
+    EndIf
+  NextScan
+EndProg
