@@ -35,6 +35,7 @@ Below are column descriptions for [Portal_weather](Portal_weather.csv). The data
 | SunHrs_Tot	| hours		| Tot	| Sunshine Hours 	|
 | PotSlrW_Avg	| W/m^2		| Avg	| Potential Solar Radiation |
 | WC_C_Avg	| Deg C		| Avg	| Wind Chill		|
+| soiltemp	| Deg C		| Avg	| Soil Temperature	|
 
 #### Manual data collection
 
