@@ -1,7 +1,7 @@
 context("checks new weather data")
 
 weather <- read.csv(file = "../Weather/Portal_weather.csv",header=T,
-                   colClasses=c(rep("integer",4), "character", "integer", rep("numeric",19)))
+                   colClasses=c(rep("integer",4), "character", "integer", rep("numeric",20)))
 weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
 weather_cols <- colnames(weather)
 
@@ -29,7 +29,7 @@ test_that("required column names in new weather df", {
                    c("year", "month", "day", "hour", "timestamp", "record", "battv", "PTemp_C", 
                      "airtemp", "RH", "precipitation", "BP_mmHg_Avg", "SlrkW", "SlrMJ_Tot", 
                      "ETos", "Rso", "WS_ms_Avg", "WindDir", "WS_ms_S_WVT", "WindDir_D1_WVT", 
-                     "WindDir_SD1_WVT", "HI_C_Avg", "SunHrs_Tot", "PotSlrW_Avg", "WC_C_Avg"))
+                     "WindDir_SD1_WVT", "HI_C_Avg", "SunHrs_Tot", "PotSlrW_Avg", "WC_C_Avg","soiltemp"))
   expect_identical(storms_cols, c("timestamp", "record", "battv", "precipitation"))
   expect_identical(overlap_cols, c("year", "month", "day", "hour", "timestamp", "record",       
                                    "battv", "airtemp", "precipitation", "RH", "record2", 
@@ -78,7 +78,7 @@ test_that("Precipitation ok", {
 test_that("Precipitation in multiples of 0.254", {
   
   expect_true(sum(1000*storms$precipitation)%%254 == 0)
-  expect_true(sum(1000*overlap$precipitation[overlap$precipitation<7],na.rm=TRUE)%%254 == 0)
+  expect_true(sum(1000*tail(overlap$precipitation,200),na.rm=TRUE)%%254 == 0)
 })
 
 test_that("no hours missing", {

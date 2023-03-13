@@ -4,7 +4,7 @@
 Download the new weather data from the logger and post on the web
 
 Due to issues with how the data logger dynamically generates its data tables the
-data cannot be downloaded directly by Travis CI. This script runs on a separate
+data cannot be downloaded directly by the CI. This script runs on a separate
 web server once a day to obtain the most recent weather data and then posts a
 static version to the web for the continuous integration infrastructure to work
 with.
@@ -33,7 +33,7 @@ if os.path.exists('weather-data.html'):
 if os.path.exists('storms-data.html'):
     os.remove('storms-data.html')
 
-weather_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=200'
+weather_url = 'http://166.153.133.121/?command=TableDisplay&table=Hourly&records=400'
 storms_url = 'http://166.153.133.121/?command=TableDisplay&table=Storms&records=1650'
 
 r_weather = requests.get(weather_url, allow_redirects=True)
@@ -46,7 +46,7 @@ shutil.copyfile('storms-data.html', '/var/www/html/storms-data.html')
 
 # Code temporarily added to try to recover 3 months of missing weather data
 
-weather_recover_url = 'http://166.153.133.121/?command=TableDisplay&table=MET&records=4500'
+weather_recover_url = 'http://166.153.133.121/?command=TableDisplay&table=Hourly&records=4500'
 r_weather_recover = requests.get(weather_recover_url, allow_redirects=True)
 open('weather-data-recover.html', 'wb').write(r_weather_recover.content)
 shutil.copyfile('weather-data-recover.html', '/var/www/html/weather-data-recover.html')
