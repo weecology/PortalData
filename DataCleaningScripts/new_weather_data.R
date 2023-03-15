@@ -73,8 +73,8 @@ rawdata$month[rawdata$hour==2400] = rawdata$month[which(rawdata$hour==2400)-1]
 rawdata$year[rawdata$hour==2400] = rawdata$year[which(rawdata$hour==2400)-1]
 
 #Fix column classes
-rawdata$record = as.integer(rawdata$record)
-rawdata[,7:25] = lapply(rawdata[,7:25],as.numeric)
+rawdata[,c(1:4,6)] <- lapply(rawdata[,c(1:4,6)],as.integer)
+rawdata[,7:26] <- lapply(rawdata[,7:26],as.numeric)
 
 class(stormsnew$record)="numeric"
 class(stormsnew$battv)="numeric"
@@ -83,6 +83,8 @@ class(stormsnew$precipitation)="numeric"
 # New weather table
 weather <- read.csv("Weather/Portal_weather.csv") 
 weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
+weather[,c(1:4,6)] <- lapply(weather[,c(1:4,6)],as.integer)
+weather[,7:25] <- lapply(weather[,7:25],as.numeric)
 last_date <- max(weather$timestamp)
 weather <- weather %>%
   dplyr::add_row(timestamp = lubridate::ymd_hms(seq.POSIXt(last_date+3600, today, by = "1 hour")),
