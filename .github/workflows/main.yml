@@ -60,9 +60,12 @@ jobs:
 
       # - name: Install packages
       #   run: Rscript install-packages.R        
-
       - name: Update data
         run: |
+          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
+          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+          chmod 0755 ~/.Renviron
+          R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
       - name: Test
