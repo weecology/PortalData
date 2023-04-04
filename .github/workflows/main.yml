@@ -31,6 +31,8 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      WU_API_KEY: ${{ secrets.WU_API_KEY }} 
+      USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }} 
       
     steps:
       - uses: actions/checkout@v3
@@ -65,13 +67,13 @@ jobs:
       #       ${{ runner.os }}-
       - name: Update data
         run: |
-          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
-          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+          # echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
+          # echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
           R -e ".libPaths()"
           Sudo R -e ".libPaths()"
       - name: Update data 2
         run: |
-          R -e "readRenviron('$HOME/.Renviron')"
+          # R -e "readRenviron('$HOME/.Renviron')"
           Rscript update-data.R 
 
       - name: Install r2u

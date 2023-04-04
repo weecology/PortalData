@@ -1,5 +1,5 @@
-message("Updating regional weather data")
-source("DataCleaningScripts/get_regional_weather.R"); append_regional_weather()
+# message("Updating regional weather data")
+# source("DataCleaningScripts/get_regional_weather.R"); append_regional_weather()
 
 message("Updating weather station data")
 source("DataCleaningScripts/new_weather_data.R"); append_weather()
