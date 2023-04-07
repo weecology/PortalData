@@ -1,0 +1,103 @@
+Package: PortalData
+Title: Create Useful Summaries of the Portal Data
+Version: 4.6.0
+Authors@R: 
+    c(person(given = c("Glenda", "M."),
+             family = "Yenni",
+             role = c("aut", "cre"),
+             email = "glenda@weecology.org",
+             comment = c(ORCID = "0000-0001-6969-1848")),
+      person(given = "Hao",
+             family = "Ye",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-8630-1458")),
+      person(given = c("Erica", "M."),
+             family = "Christensen",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-5635-2502")),
+      person(given = c("Juniper", "L."),
+             family = "Simonis",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-9798-0460")),
+      person(given = c("Ellen", "K."),
+             family = "Bledsoe",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-3629-7235")),
+      person(given = c("Renata", "M."),
+             family = "Diaz",
+             role = "aut",
+             comment = c(ORCID = "0000-0003-0803-4734")),
+      person(given = c("Shawn", "D."),
+             family = "Taylor",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-6178-6903")),
+      person(given = c("Ethan", "P,"),
+             family = "White",
+             role = "aut",
+             comment = c(ORCID = "0000-0001-6728-7745")),
+      person(given = c("S.K.", "Morgan"),
+             family = "Ernest",
+             role = "aut",
+             comment = c(ORCID = "0000-0002-6026-8530")),
+      person("Weecology",
+             role = "cph"))
+Description: Download and generate summaries for the rodent,
+    plant, ant, and weather data from the Portal Project. Portal is a
+    long-term (and ongoing) experimental monitoring site in the Chihuahua
+    desert. The raw data files can be found at
+    <https://github.com/weecology/portaldata>.
+License: MIT + file LICENSE
+URL: https://github.com/weecology/PortalData,
+    https://github.com/weecology/PortalData
+BugReports: https://github.com/weecology/PortalData/issues
+Depends: 
+    R (>= 3.2.3)
+Imports:
+    clipr,
+    clisymbols,
+    crayon,
+    devtools,
+    dplyr,
+    dplyr,
+    EML,
+    forecast,
+    gh (>= 1.1.0),
+    git2r,
+    htmltab,
+    httr,
+    jsonlite,
+    lubridate,
+    lubridate,
+    lunar,
+    lunar,
+    magrittr,
+    openxlsx,
+    rlang,
+    semver,
+    shiny,
+    sp,
+    sqldf,
+    stringi,
+    stringr,
+    terra,
+    testthat,
+    tidyr,
+    tidyr,
+    tidyselect (>= 1.0.0),
+    units,
+    yaml,
+    zoo
+Suggests:
+    covr,
+    cowplot,
+    ggplot2,
+    httptest,
+    knitr,
+    pkgdown,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
