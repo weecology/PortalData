@@ -69,7 +69,7 @@ jobs:
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
-          COMMIT_MSG: "$(git --no-pager log --no-merges --format=%B -n 1)"
+          COMMIT_MSG: "$(git --no-pager log --no-merges --format=%B -n 1 HEAD)"
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.COMMIT_MSG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
