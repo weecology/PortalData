@@ -64,15 +64,11 @@ jobs:
         id: check_logs
         run: |
           git --no-pager log --no-merges --format=%B -n 1 HEAD
-      - name: Logging
-        run: |
-          echo ${{toJSON(github.event)}}
+
       - name: Logging2
         run: |
-          echo ${{ github.event.commits[0].message }}
-      - name: Logging3
-        run: |
-          echo ${{ github.event.head_commit.message }}
+          echo 1 
+          #${{ github.event.commits[0].message }} ${{ github.event.head_commit.message }}
       - name: Bump version
         id: version
         env: 
