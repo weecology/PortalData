@@ -60,10 +60,10 @@ jobs:
           else 
             echo "diff=TRUE" >> $GITHUB_OUTPUT
           fi
-      # - name: Check 4 logss
-      #   id: check_logs
-      #   run: |
-      #     git --no-pager log --no-merges --format=%B -n 1 HEAD^2
+      - name: Check 4 logss
+        id: check_logs
+        run: |
+          git --no-pager log --no-merges --format=%B -n 1 HEAD
       #     # git --no-pager log --no-merges --format=%B -n 3 --skip 1
       - name: Bump version
         id: version
