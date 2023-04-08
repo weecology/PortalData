@@ -73,6 +73,7 @@ jobs:
           COMMIT_MSG: "$(git log --no-merges --format=%B --skip=1 --max-count=1)"
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
+          echo '${{ env.COMMIT_MSG }}'
           R -e "source('version_bump.R'); bump_version('${{ env.COMMIT_MSG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
           if echo "$(git status --porcelain)" | grep -q version.txt ; then 
             echo "Version changed"
