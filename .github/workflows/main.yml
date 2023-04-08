@@ -66,19 +66,19 @@ jobs:
           git --no-pager log --no-merges --format=%B -n 1 HEAD
       - name: Logging
         run: |
-          echo "${{toJSON(github.event)}}"
+          echo ${{toJSON(github.event)}}
       - name: Logging2
         run: |
-          echo "${{ github.event.commits[0].message }}"
-          echo "${{ github.event.head_commit.message }}" 
+          echo ${{ github.event.commits[0].message }}
       - name: Logging3
         run: |
-          echo "${{ github.event.head_commit.message }}" 
+          echo ${{ github.event.head_commit.message }}
       - name: Bump version
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
-          COMMIT_MSG: "${{ github.event.commits[0].message }}"
+          COMMIT_MSG: ${{ github.event.commit.message }}
+          LOGT: ${{ github.event.workflow_run.head_commit.message }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.COMMIT_MSG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
