@@ -36,94 +36,15 @@ jobs:
       - uses: actions/checkout@v3
         with:
             fetch-depth: 3
-      - uses: r-lib/actions/setup-r@v2
-        id: install-r
-        with:
-          r-version: ${{ matrix.config.r }}
-        
-      - name: Cache R packages
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
-          restore-keys: |
-            ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
-            ${{ runner.os }}-
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get -y update && sudo apt-get install -y \
-            libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler \
-            libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libmysqlclient-dev libpng-dev
-          #  sudo add-apt-repository ppa:xapienz/curl34
-          # sudo add-apt-repository ppa:linuxuprising/libpng12 && sudo apt-get update && sudo apt install libpng12-0
-          sudo apt-get update
-          pip install -U pandas numpy landsatxplore
-
-      - name: Install packages
-        run: Rscript install-packages.R        
-        
-      - name: Update data
-        run: |
-          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
-          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
-          R -e 'readRenviron("~/.Renviron")'
-          Rscript update-data.R
-          
-      - name: Test
-        run: Rscript testthat.R
-        
-      - name: Check for new files
-        id: check_files
-        run: |
-          if [[ -z "$(git status --porcelain)" ]] ; then 
-            echo "Git status is empty"
-            echo "diff=FALSE" >> $GITHUB_OUTPUT
-          else 
-            echo "diff=TRUE" >> $GITHUB_OUTPUT
-          fi
-      
       - name: Bump version
         id: version
         env: 
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
-          R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
-          if echo "$(git status --porcelain)" | grep -q version.txt ; then 
-            echo "Version changed"
-            echo "new_ver=TRUE" >> $GITHUB_OUTPUT
-          else 
-            echo "No version bump"
-            echo "new_ver=FALSE" >> $GITHUB_OUTPUT
-          fi
-        
-      - name: Setup Tag
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        id: tagging
-        run: |
-          value=`cat version.txt`
-          echo "tag=$value" >> $GITHUB_OUTPUT
-          value="v${value}"
-          echo "release=$value" >> $GITHUB_OUTPUT
-      
-      - name: Tag new version for release
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        env: 
-          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: Weecology Deploy Bot
-          author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
-          tag: ${{ steps.tagging.outputs.tag }}
-          
-      - name: Create Release
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        id: create_release
-        uses: zendesk/action-create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           echo '${{ env.LOG }}'
+ 
         with:
           tag_name: ${{ steps.tagging.outputs.tag }}
           release_name: ${{ steps.tagging.outputs.tag }}
