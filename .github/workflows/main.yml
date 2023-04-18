@@ -52,8 +52,18 @@ jobs:
         run: |
           pip install -U pandas numpy landsatxplore
 
-      - name: Test
+      - name: Update data
+        run: |
+          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
+          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+          R -e 'readRenviron("~/.Renviron")'
+          Rscript update-data.R
+
+      - name: Test R CMD check
         run: ./run.sh run_tests
+
+      - name: Tests
+        run: Rscript testthat.R
 
       - name: Check for new files
         id: check_files

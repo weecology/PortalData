@@ -53,7 +53,7 @@ Description: Download and generate summaries for the rodent, plant, ant,
     and weather data from the Portal Project. Portal is a long-term (and
     ongoing) experimental monitoring site in the Chihuahua desert. The raw
     data files can be found at <https://github.com/weecology/portaldata>.
-License: CC0 1.0 Universal
+License: CC0
 URL: https://github.com/weecology/PortalData,
     https://github.com/weecology/PortalData
 BugReports: https://github.com/weecology/PortalData/issues
@@ -66,7 +66,6 @@ Imports:
     desc,
     devtools,
     dplyr,
-    dplyr,
     EML,
     forecast,
     gh (>= 1.1.0),
@@ -75,13 +74,14 @@ Imports:
     httr,
     jsonlite,
     lubridate,
-    lubridate,
-    lunar,
     lunar,
     magrittr,
     openxlsx,
+    raster,
+    rgdal,
     rlang,
     semver,
+    sf,
     shiny,
     sp,
     sqldf,
@@ -89,7 +89,6 @@ Imports:
     stringr,
     terra,
     testthat,
-    tidyr,
     tidyr,
     tidyselect (>= 1.0.0),
     units,
@@ -102,8 +101,7 @@ Suggests:
     httptest,
     knitr,
     pkgdown,
-    rmarkdown,
-    testthat
+    rmarkdown
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
