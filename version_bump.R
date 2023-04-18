@@ -1,3 +1,4 @@
+library(desc)
 #' Bump version based on version instructions in commit
 #' or automatically for cron jobs
 #' @param commit latest commit
@@ -7,7 +8,6 @@
 
 bump_version <- function(commit, cron, changes) {
   current_ver <- semver::parse_version(readLines("version.txt"))
-  
   if (cron == TRUE) {
     if (changes == TRUE) {
       # for cron jobs, only bump if update_data.R resulted in changed files
@@ -45,5 +45,5 @@ bump_version <- function(commit, cron, changes) {
   }
   
   writeLines(as.character(new_ver), "version.txt")
-  
+  desc_set_version(new_ver, file = ".", normalize = FALSE)
 }

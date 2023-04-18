@@ -1,0 +1,111 @@
+Package: PortalData
+Title: The Portal Project: a long-term study of a Chihuahuan desert
+    ecosystem
+Version: 4.6.0
+Authors@R: c(
+    person(c("S.K.", "Morgan"), "Ernest", role = "aut",
+           comment = c(ORCID = "0000-0002-6026-8530")),
+    person(c("Glenda", "M."), "Yenni", role = c("aut", "cre"), email = "glenda@weecology.org",
+           comment = c(ORCID = "0000-0001-6969-1848")),
+    person("Ginger", "Allington", role = "aut",
+           comment = c(ORCID = "0000-0003-0446-0576")),
+    person(c("Ellen", "K."), "Bledsoe", role = "aut",
+           comment = c(ORCID = "0000-0002-3629-7235")),
+    person(c("Erica", "M."), "Christensen", role = "aut",
+           comment = c(ORCID = "0000-0002-5635-2502")),
+    person(c("Renata", "M."), "Diaz", role = "aut",
+           comment = c(ORCID = "0000-0003-0803-4734")),
+    person("Keith", "Geluso", role = "aut"),
+    person(c("Jacob", "R"), "Goheen", role = "aut",
+           comment = c(ORCID = "0000-0001-6609-0692")),
+    person("Qinfeng", "Guo", role = "aut",
+           comment = c(ORCID = "0000-0002-4375-4916")),
+    person("Edward", "Heske", role = "aut"),
+    person("Douglas", "Kelt", role = "aut"),
+    person(c("Joan", "M"), "Meiners", role = "aut",
+           comment = c(ORCID = "0000-0001-9369-9313")),
+    person("Jim", "Munger", role = "aut"),
+    person("Carla", "Restrepo", role = "aut",
+           comment = c(ORCID = "0000-0002-1656-7816")),
+    person(c("Douglas", "A"), "Samson", role = "aut"),
+    person(c("Michele", "R"), "Schutzenhofer", role = "aut"),
+    person("Marian", "Skupski", role = "aut"),
+    person(c("Sarah", "R"), "Supp", role = "aut",
+           comment = c(ORCID = "0000-0002-0072-029X")),
+    person(c("Katherine", "M"), "Thibault", role = "aut",
+           comment = c(ORCID = "0000-0003-3477-6424")),
+    person(c("Shawn", "D."), "Taylor", role = "aut",
+           comment = c(ORCID = "0000-0002-6178-6903")),
+    person(c("Ethan", "P,"), "White", role = "aut",
+           comment = c(ORCID = "0000-0001-6728-7745")),
+    person("Hao", "Ye", role = "aut",
+           comment = c(ORCID = "0000-0002-8630-1458")),
+    person(c("Diane", "W"), "Davidson", role = "aut"),
+    person(c("James", "H"), "Brown", role = "aut",
+           comment = c(ORCID = "0000-0002-5034-7585")),
+    person(c("Thomas", "J"), "Valone", role = "aut",
+           comment = c(ORCID = "0000-0002-7657-3126")),
+    person(c("Juniper", "L."), "Simonis", role = "aut",
+           comment = c(ORCID = "0000-0001-9798-0460")),
+    person("Weecology", role = "cph")
+  )
+Description: Download and generate summaries for the rodent, plant, ant,
+    and weather data from the Portal Project. Portal is a long-term (and
+    ongoing) experimental monitoring site in the Chihuahua desert. The raw
+    data files can be found at <https://github.com/weecology/portaldata>.
+License: CC0 1.0 Universal
+URL: https://github.com/weecology/PortalData,
+    https://github.com/weecology/PortalData
+BugReports: https://github.com/weecology/PortalData/issues
+Depends: 
+    R (>= 3.2.3)
+Imports:
+    clipr,
+    clisymbols,
+    crayon,
+    desc,
+    devtools,
+    dplyr,
+    dplyr,
+    EML,
+    forecast,
+    gh (>= 1.1.0),
+    git2r,
+    htmltab,
+    httr,
+    jsonlite,
+    lubridate,
+    lubridate,
+    lunar,
+    lunar,
+    magrittr,
+    openxlsx,
+    rlang,
+    semver,
+    shiny,
+    sp,
+    sqldf,
+    stringi,
+    stringr,
+    terra,
+    testthat,
+    tidyr,
+    tidyr,
+    tidyselect (>= 1.0.0),
+    units,
+    yaml,
+    zoo
+Suggests:
+    covr,
+    cowplot,
+    ggplot2,
+    httptest,
+    knitr,
+    pkgdown,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
