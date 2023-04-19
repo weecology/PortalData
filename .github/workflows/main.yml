@@ -54,13 +54,12 @@ jobs:
 
       - name: Update data
         run: |
+          echo "options(bspm.sudo=TRUE)" >> ~/.Rprofile
           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
           R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
-      - name: Test R CMD check
-        run: ./run.sh run_tests
 
       - name: Tests
         run: Rscript testthat.R

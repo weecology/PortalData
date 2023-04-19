@@ -5,7 +5,7 @@ Version: 4.6.0
 Authors@R: c(
     person(c("S.K.", "Morgan"), "Ernest", role = "aut",
            comment = c(ORCID = "0000-0002-6026-8530")),
-    person(c("Glenda", "M."), "Yenni", role = c("aut", "cre"), email = "glenda@weecology.org",
+    person(c("Glenda", "M."), "Yenni", , "glenda@weecology.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6969-1848")),
     person("Ginger", "Allington", role = "aut",
            comment = c(ORCID = "0000-0003-0446-0576")),
@@ -49,10 +49,15 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-9798-0460")),
     person("Weecology", role = "cph")
   )
-Description: Download and generate summaries for the rodent, plant, ant,
-    and weather data from the Portal Project. Portal is a long-term (and
-    ongoing) experimental monitoring site in the Chihuahua desert. The raw
-    data files can be found at <https://github.com/weecology/portaldata>.
+Description: This is a data paper for the Portal Project, a long-term
+    ecological study of rodents, plants, and ants located in southeastern
+    Arizona, U.S.A. This paper contains an overview of methods and
+    information about the structure of the data files and the relational
+    structure among the files. This is a living data paper and will be
+    updated with new information as major changes or additions are made to
+    the data. All data - along with more detailed data collection
+    protocols and site information - is archived at:
+    https://doi.org/10.5281/zenodo.1215988..
 License: CC0
 URL: https://github.com/weecology/PortalData,
     https://github.com/weecology/PortalData
