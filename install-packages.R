@@ -13,5 +13,5 @@ install.packages('terra', repos='https://rspatial.r-universe.dev')
 #                lunar, jsonlite, devtools, sp, sqldf, raster, RCurl, EML, testthat, zoo, tidyr, semver, yaml)
                
 
-pacman::p_load(units, shiny, dplyr, openxlsx, lubridate, htmltab, 
-               lunar, jsonlite, devtools, sp, sqldf, raster, testthat, zoo, tidyr, semver, yaml)
+pacman::p_load(units, shiny, dplyr, openxlsx, lubridate,  
+               lunar, jsonlite, devtools, sp, sqldf, raster, rvest, testthat, zoo, tidyr, semver, yaml)

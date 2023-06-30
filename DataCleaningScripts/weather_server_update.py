@@ -33,7 +33,7 @@ if os.path.exists('weather-data.html'):
 if os.path.exists('storms-data.html'):
     os.remove('storms-data.html')
 
-weather_url = 'http://166.153.133.121/?command=TableDisplay&table=Hourly&records=400'
+weather_url = 'http://166.153.133.121/?command=TableDisplay&table=Hourly&records=2160'
 storms_url = 'http://166.153.133.121/?command=TableDisplay&table=Storms&records=1650'
 
 r_weather = requests.get(weather_url, allow_redirects=True)

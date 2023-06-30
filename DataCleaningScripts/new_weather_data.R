@@ -20,19 +20,19 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
   
 # To read from .dat file
-# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/517_CR1000_remote_MET.dat",
+# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/519_CR1000_MET.dat",
 #                    skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/517_CR1000_remote_MET.dat",
+# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/519_CR1000_MET.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header) %>%
 #   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,
-#                  battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg)
+#                 battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg)
 # 
-# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_remote_storms.dat",
+# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/518_CR1000_storms.dat",
 #                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_remote_storms.dat",
+# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/518_CR1000_storms.dat",
 #                    skip = 4, header = FALSE,sep=",") %>%
 #   `colnames<-`(header_storms) %>%
 #   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
@@ -41,8 +41,10 @@ today <- lubridate::ymd_hms(gsub(":\\d+:\\d+",":00:00",Sys.time()))
   # Pull raw data (latest week of records, plus some overlap for safety) & rename columns
   message("Pulling raw weather data")
 
-rawdata <- suppressMessages(htmltab::htmltab(doc='http://157.230.136.69/weather-data.html', sep = "", 
-                                             which = 1)) %>%
+rawdata <- rvest::read_html('http://157.230.136.69/weather-data.html') %>%
+           rvest::html_table()
+
+rawdata <- rawdata[[1]] %>%
   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,
                 battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg)
 
@@ -51,18 +53,18 @@ rawdata <- suppressMessages(htmltab::htmltab(doc='http://157.230.136.69/weather-
 # Pull raw storms data (latest 2500 records) & rename columns
 message("Pulling raw storms data")
 
-stormsnew <- suppressMessages(htmltab::htmltab(doc="http://157.230.136.69/storms-data.html", sep = "", 
-                                               which = 1)) %>%
-  dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
+stormsnew <- rvest::read_html("http://157.230.136.69/storms-data.html") %>%
+             rvest::html_table()
+stormsnew <- stormsnew[[1]] %>% 
+    dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
 
   message("Raw storms data loaded")
 
 # Convert Timestamp
-rawdata$timestamp = lubridate::ymd_hms(rawdata$timestamp)
 stormsnew$timestamp = lubridate::ymd_hms(stormsnew$timestamp)
 
 #Get Year, Month, Day, Hour
-rawdata=cbind(year = lubridate::year(rawdata$timestamp),
+rawdata <- cbind(year = lubridate::year(rawdata$timestamp),
               month = lubridate::month(rawdata$timestamp),
               day = lubridate::day(rawdata$timestamp),
               hour = lubridate::hour(rawdata$timestamp),rawdata)
@@ -83,12 +85,11 @@ class(stormsnew$precipitation)="numeric"
 
 # New weather table
 weather <- read.csv("Weather/Portal_weather.csv") 
-weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
 weather[,c(1:4,6)] <- lapply(weather[,c(1:4,6)],as.integer)
 weather[,7:25] <- lapply(weather[,7:25],as.numeric)
-last_date <- max(weather$timestamp)
+last_date <- lubridate::ymd_hms(max(weather$timestamp))
 weather <- weather %>%
-  dplyr::add_row(timestamp = lubridate::ymd_hms(seq.POSIXt(last_date+3600, today, by = "1 hour")),
+  dplyr::add_row(timestamp = format(seq.POSIXt(last_date+3600, today, by = "1 hour"), "%Y-%m-%d %H:%M:%S"),
          year = lubridate::year(timestamp), month = lubridate::month(timestamp),
          day = lubridate::day(timestamp), hour = 100*lubridate::hour(timestamp))
 weather$day[weather$hour==0] = weather$day[which(weather$hour==0)-1]
@@ -97,7 +98,8 @@ weather$year[weather$hour==0] = weather$year[which(weather$hour==0)-1]
 weather$hour[weather$hour==0] = 2400
 
 newdata <- suppressMessages(coalesce_join(weather, rawdata, 
-                                          by = c("year", "month", "day", "hour", "timestamp")))
+                                          by = c("year", "month", "day", "hour", "timestamp"))) %>%
+           dplyr::mutate(timestamp = lubridate::ymd_hms(timestamp))
 
 # New storms table
 storms <- read.csv("Weather/Portal_storms.csv")
@@ -107,15 +109,15 @@ storms <- read.csv("Weather/Portal_storms.csv")
   stormsnew <- stormsnew[stormsnew$timestamp>tail(storms$timestamp,n=1),]
 
 # New overlap table
-overlap <- read.csv("Weather/Portal_weather_overlap.csv") %>%
-  dplyr::mutate(timestamp = lubridate::ymd_hms(timestamp))
+overlap <- read.csv("Weather/Portal_weather_overlap.csv")
                 
 newoverlapdata <- newdata %>%
   dplyr::filter(timestamp >= min(overlap$timestamp)) %>%
   dplyr::select(year,month,day,hour,timestamp,record,battv,airtemp,precipitation,RH)
 
 newoverlap <- suppressMessages(coalesce_join(overlap, newoverlapdata, 
-                                          by = c("year", "month", "day", "hour", "timestamp")))
+                                          by = c("year", "month", "day", "hour", "timestamp"))) %>%
+              dplyr::mutate(timestamp = lubridate::ymd_hms(timestamp))
 
 return(list(newdata,stormsnew,newoverlap))
 
