@@ -3,7 +3,7 @@
 # weather overlap file.
 # Met445.dat can be used for testing - it has a lot of problems
 
-`%>%` <- magrittr::`%>%`
+source("DataCleaningScripts/new_weather_data.r")
 
 # ==============================================================================
 # Load file
@@ -77,19 +77,6 @@ exst_dat$timestamp <- lubridate::ymd_hms(exst_dat$timestamp)
 first <- head(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5][-(1:5680)],n=1)
 last <- tail(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5],n=1)
 
-if (lubridate::ymd_hms(first) %in% lubridate::ymd_hms(weathdat$timestamp)) {
-  print('dates match, trimming data to match')
-  
-  weathdat <- subset(weathdat,lubridate::ymd_hms(timestamp) >= lubridate::ymd_hms(first)) %>% 
-             subset(lubridate::ymd_hms(timestamp) <= lubridate::ymd_hms(last))
-  
-} else {print('dates do not match')
-  print('Looking for data after')
-  print(first)
-  }
-
-#Add RECORD column
-weathdat$record2 <- max(exst_dat$record2,na.rm=TRUE)+1:dim(weathdat)[1]
 
 # plot data to look for outliers/weirdness
 plot(weathdat$airtemp,type='l')
@@ -101,17 +88,22 @@ plot(weathdat$RH,type='l')
 # ==============================================================================
 
 # get new data columns in correct order
-newdata <- dplyr::select(weathdat,c(year,month,day,hour,timestamp,record2,battv2=battv,
-                                   airtemp2=airtemp,precipitation2=precipitation,RH2=RH))
+newdata <- weathdat %>% dplyr::mutate(battv2=battv, airtemp2=airtemp, precipitation2=precipitation, 
+                                      RH2=RH, record = NA, battv=NA, airtemp=NA, precipitation=NA, 
+                                      RH=NA, record2 = NA) %>%
+                        dplyr::select(c(year, month, day, hour, timestamp, record, battv,
+                                        airtemp, precipitation, RH, record2, battv2,
+                                        airtemp2, precipitation2, RH2))
 
-overlap <- exst_dat %>% 
-          dplyr::full_join(newdata,by = c("year", "month", "day", "hour", "timestamp")) %>% 
-          dplyr::mutate(record2 = dplyr::coalesce(record2.x, record2.y),
-                 battv2 = dplyr::coalesce(battv2.x, battv2.y),
-                 airtemp2 = dplyr::coalesce(airtemp2.x, airtemp2.y),
-                 precipitation2 = dplyr::coalesce(precipitation2.x, precipitation2.y),
-                 RH2 = dplyr::coalesce(RH2.x, RH2.y)) %>% 
-          dplyr::select(colnames(exst_dat))
+
+overlap <- suppressMessages(coalesce_join(exst_dat, newdata, 
+                                          by = c("year", "month", "day", "hour", "timestamp")))
+
+# add record numbers
+overlap$record2[-c(1:which.max(overlap$record2))] <- 
+  seq(from = max(overlap$record2, na.rm=TRUE) + 1 , by = 1, 
+      length.out = length(overlap$record2[-c(1:which.max(overlap$record2))]))
+
 
 if(any(dim(overlap) != dim(exst_dat))) {
   print("Overlap table dimensions have changed, error in merge, 
