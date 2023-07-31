@@ -63,15 +63,15 @@ jobs:
       - name: Install packages
         run: Rscript install-packages.R        
         
-      - name: Update data
-        run: |
-          echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
-          echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
-          R -e 'readRenviron("~/.Renviron")'
-          Rscript update-data.R
+#       - name: Update data
+#         run: |
+#           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
+#           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+#           R -e 'readRenviron("~/.Renviron")'
+#           Rscript update-data.R
           
-      - name: Test
-        run: Rscript testthat.R
+#       - name: Test
+#         run: Rscript testthat.R
         
       - name: Check for new files
         id: check_files
@@ -98,33 +98,33 @@ jobs:
             echo "new_ver=FALSE" >> $GITHUB_OUTPUT
           fi
         
-      - name: Setup Tag
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        id: tagging
-        run: |
-          value=`cat version.txt`
-          echo "tag=$value" >> $GITHUB_OUTPUT
-          value="v${value}"
-          echo "release=$value" >> $GITHUB_OUTPUT
+#       - name: Setup Tag
+#         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
+#         id: tagging
+#         run: |
+#           value=`cat version.txt`
+#           echo "tag=$value" >> $GITHUB_OUTPUT
+#           value="v${value}"
+#           echo "release=$value" >> $GITHUB_OUTPUT
       
-      - name: Tag new version for release
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        env: 
-          JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: Weecology Deploy Bot
-          author_email: weecologydeploy@weecology.org
-          message: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
-          tag: ${{ steps.tagging.outputs.tag }}
+#       - name: Tag new version for release
+#         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
+#         env: 
+#           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
+#         uses: EndBug/add-and-commit@v9
+#         with:
+#           author_name: Weecology Deploy Bot
+#           author_email: weecologydeploy@weecology.org
+#           message: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
+#           tag: ${{ steps.tagging.outputs.tag }}
           
-      - name: Create Release
-        if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        id: create_release
-        uses: zendesk/action-create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.tagging.outputs.tag }}
-          release_name: ${{ steps.tagging.outputs.tag }}
-          body: ${{ steps.tagging.outputs.release }}
+#       - name: Create Release
+#         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
+#         id: create_release
+#         uses: zendesk/action-create-release@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           tag_name: ${{ steps.tagging.outputs.tag }}
+#           release_name: ${{ steps.tagging.outputs.tag }}
+#           body: ${{ steps.tagging.outputs.release }}
