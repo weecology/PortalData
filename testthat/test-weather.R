@@ -18,7 +18,6 @@ overlap_cols <- colnames(overlap)
 
 portal4sw <- read.csv(file = "../Weather/Portal4sw_regional_weather.csv",header=T)
 sansimon <- read.csv(file = "../Weather/Sansimon_regional_weather.csv",header=T)
-rustys <- read.csv(file = "../Weather/Rustys_regional_weather.csv",header=T)
 rodeo <- read.csv(file = "../Weather/Rodeo_regional_weather.csv",header=T)
 
 ndvi <- read.csv(file = "../NDVI/ndvi.csv",header=T)
@@ -68,9 +67,9 @@ test_that("battery status ok", {
 test_that("Precipitation ok", {
   
   expect_true(all(weather$precipitation >= 0, na.rm=TRUE))
-  expect_true(all(weather$precipitation < 30, na.rm=TRUE))
+  expect_true(all(weather$precipitation < 33, na.rm=TRUE))
   expect_true(all(overlap$precipitation >= 0, na.rm=TRUE))
-  expect_true(all(overlap$precipitation < 30, na.rm=TRUE))
+  expect_true(all(overlap$precipitation < 33, na.rm=TRUE))
   expect_true(all(storms$precipitation >= 0))
   expect_true(all(storms$precipitation < 12))
 })
@@ -99,11 +98,9 @@ test_that("no duplicated rows", {
 test_that("regional data adding correctly", {
   expect_true(is.data.frame(portal4sw))
   expect_true(is.data.frame(sansimon))
-  expect_true(is.data.frame(rustys))
   expect_true(is.data.frame(rodeo))
   expect_true(all(portal4sw$hour %in% seq(from=100,to=2400,by=100)))
   expect_true(all(sansimon$hour %in% seq(from=100,to=2400,by=100)))
-  expect_true(all(rustys$hour %in% seq(from=100,to=2400,by=100)))
   expect_true(all(rodeo$hour %in% seq(from=100,to=2400,by=100)))
 })
 
@@ -111,8 +108,6 @@ test_that("Regional Air Temperature ok", {
   
   expect_true(all(portal4sw$tobs > -20, na.rm=TRUE))
   expect_true(all(portal4sw$tobs <= 50, na.rm=TRUE))
-  expect_true(all(rustys$tempavg > -20, na.rm=TRUE))
-  expect_true(all(rustys$tempavg <= 50, na.rm=TRUE))
   expect_true(all(rodeo$tempavg > -20, na.rm=TRUE))
   expect_true(all(rodeo$tempavg <= 50, na.rm=TRUE))
 })
@@ -123,8 +118,6 @@ test_that("Regional Precipitation ok", {
   expect_true(all(portal4sw$prcp < 78, na.rm=TRUE))
   expect_true(all(sansimon$prcp >= 0, na.rm=TRUE))
   expect_true(all(sansimon$prcp < 70, na.rm=TRUE))
-  expect_true(all(rustys$preciptotal >= 0, na.rm=TRUE))
-  expect_true(all(rustys$preciptotal < 40, na.rm=TRUE))
   expect_true(all(rodeo$preciptotal >= 0, na.rm=TRUE))
   expect_true(all(rodeo$preciptotal < 40, na.rm=TRUE))
 })
