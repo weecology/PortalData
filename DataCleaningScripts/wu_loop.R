@@ -1,12 +1,15 @@
 # Get longer stretches of Wunderground data
-
-for(i in as.Date(as.Date("2021-11-23"):Sys.Date(), origin = "1970-01-01")) {
+stationids <- c("KAZSANSI26","KNMRODEO11","KAZPORTA10","KNMRODEO8","KNMANIMA10","KNMANIMA15")
+stationid <- "KNMRODEO8"
+  
+for(i in as.Date(as.Date("2023-01-01"):Sys.Date(), origin = "1970-01-01")) {
 
 i = gsub("-","",as.Date(i, origin = "1970-01-01"))
 rustys <- jsonlite::fromJSON(
-  paste('https://api.weather.com/v2/pws/history/hourly?stationId=KNMRODEO5&format=json&units=m&date=',i,'&apiKey=983049626dd5491eb049626dd5d91e69', sep=""))$observations
+  paste('https://api.weather.com/v2/pws/history/hourly?stationId=',stationid,'&format=json&units=m&date=',i,'&apiKey=',Sys.getenv("WU_API_KEY"), sep=""))$observations
 rustys <- dplyr::bind_cols(rustys[,1:14], rustys$metric) %>%
   dplyr::rename_all(.funs = tolower) %>%
+  dplyr::select(-epoch,-obstimeutc) %>%
   dplyr::rename(timestamp = obstimelocal, latitude = lat, longitude = lon) %>%
   dplyr::mutate_all(as.character) %>% 
   dplyr::mutate_at(tail(names(.), 32), as.numeric) %>%
@@ -27,11 +30,7 @@ rustys_all = dplyr::bind_rows(rustys_all,rustys)
 }
 
 rodeo_all = rustys_all
-rodeo_all = rodeo_all %>% 
-  dplyr::select(-epoch,-obstimeutc) %>%
-  dplyr::group_by(year,month,day,hour,stationid,tz,timestamp) %>%
-  dplyr::summarise_all(mean, na.rm=TRUE) %>%
-  dplyr::mutate_all( ~ dplyr::case_when(!is.nan(.x) ~ .x)) %>%
+rodeo_all = rodeo_all %>%
   dplyr::select("year","month","day","hour","timestamp","stationid","tz","latitude",
                 "longitude","solarradiationhigh","uvhigh","winddiravg", "humidityhigh",
                 "humiditylow","humidityavg","qcstatus", "temphigh", "templow", "tempavg",
@@ -42,4 +41,4 @@ rodeo_all = rodeo_all %>%
                 "pressuretrend", "preciprate", "preciptotal")
 
 write.table(rodeo_all, file = "Weather/Rodeo_regional_weather.csv",
-            row.names = FALSE, col.names = TRUE, na = "", sep = ",", quote=c(5:7))
+            row.names = FALSE, col.names = FALSE, append=TRUE, na = "", sep = ",", quote=c(5:7))
