@@ -50,7 +50,7 @@ Please refer to [Methods.md](../SiteandMethods/Methods.md) for a complete descri
 We use regional weather to fill in gaps in our weather station history, and to compare conditions at the site to conditions in the region and historically.
 
 ### Wunderground Stations
-For recent weather gaps, we use 2 stations available from the [Wunderground Personal Weather Station Network](https://www.wunderground.com/pws/overview), which are very close to the site (KNMRODEO1 and KNMRODEO5).
+For recent weather gaps, we use several stations available from the [Wunderground Personal Weather Station Network](https://www.wunderground.com/pws/overview), which are very close to the site.
 
 ### NOAA GHCN-DAILY Stations
 Historical gaps are filled with 2 stations that have been running much longer, though in less comparable areas (USC00026716 and US1AZCH0005). https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/doc/GHCND_documentation.pdf
