@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '520'
+newperiod = '521'
 
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
@@ -36,7 +36,7 @@ ws = read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
 
 rodent_data_quality_checks(ws, scannerfile)
 
-##############################################################################
+ ##############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
 
