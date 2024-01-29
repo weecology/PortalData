@@ -128,3 +128,5 @@ jobs:
           tag_name: ${{ steps.tagging.outputs.tag }}
           release_name: ${{ steps.tagging.outputs.tag }}
           body: ${{ steps.tagging.outputs.release }}
+runs:
+  using: 'node20'
