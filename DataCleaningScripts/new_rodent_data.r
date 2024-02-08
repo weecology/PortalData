@@ -58,7 +58,6 @@ speciesnorms$wgt.max = NA
 speciesnorms$hfl.min = NA
 speciesnorms$hfl.max = NA
 
-
 for (i in 1:nrow(speciesnorms)) {
   
   this.sp = filter(olddat, species == speciesnorms$species[i])
