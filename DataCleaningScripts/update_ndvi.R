@@ -30,7 +30,7 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
   #transform to NAD83(NSRS2007)/California Albers
   center_transform <- sf::st_as_sf(center) %>% sf::st_transform(3488)
   portal_area_transform <- suppressWarnings(as(sf::st_buffer(center_transform, 1000, ), 'Spatial'))
-  portal_area <- sf::st_transform(portal_area_transform, sf::st_crs("+proj=utm +zone=12
+  portal_area <- sp::spTransform(portal_area_transform, sp::CRS("+proj=utm +zone=12
                      +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 "))
   return(portal_area)
   
