@@ -3,7 +3,7 @@
 # https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products
 
 `%>%` <- magrittr::`%>%`
-library(raster)
+library(terra)
 
 #' @title create_portal_area
 #'
@@ -30,7 +30,7 @@ create_portal_area <- function(centroid = c(-109.08029, 31.937769),
   #transform to NAD83(NSRS2007)/California Albers
   center_transform <- sf::st_as_sf(center) %>% sf::st_transform(3488)
   portal_area_transform <- suppressWarnings(as(sf::st_buffer(center_transform, 1000, ), 'Spatial'))
-  portal_area <- sp::spTransform(portal_area_transform, sp::CRS("+proj=utm +zone=12
+  portal_area <- sf::st_transform(portal_area_transform, sf::st_crs("+proj=utm +zone=12
                      +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 "))
   return(portal_area)
   
@@ -50,15 +50,15 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   
   # read in raster files; crop to portal_box; apply scaling factor and offset; delete full-size raster files
   # In Landsat 8-9, NDVI = (Band 5 – Band 4) / (Band 5 + Band 4).
-  B4 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
-    raster::crop(portal_area) * 0.0000275 + -0.2
-  B5 <- raster::raster(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
-    raster::crop(portal_area) * 0.0000275 + -0.2
+  B4 <- terra::rast(paste0(targetpath,"/", records["display_id"], "_SR_B4.TIF")) %>%
+    terra::crop(portal_area) * 0.0000275 + -0.2
+  B5 <- terra::rast(paste0(targetpath,"/", records["display_id"], "_SR_B5.TIF")) %>%
+    terra::crop(portal_area) * 0.0000275 + -0.2
   
   sr_ndvi <- (B5 - B4)/(B5 + B4)
   
-  pixelqa <- raster::raster(paste0(targetpath,"/", records["display_id"], "_QA_PIXEL.TIF")) %>%
-    raster::crop(portal_area)
+  pixelqa <- terra::rast(paste0(targetpath,"/", records["display_id"], "_QA_PIXEL.TIF")) %>%
+    terra::crop(portal_area)
   
   # mask ndvi data
   # "clear" values of pixel_qa are derived from the CFMask algorithm version 3.3.1
@@ -66,8 +66,7 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   clearvalues = c(21824, 21826, 22080, 23888, 30048, 54596, 54852)
   
   pixelqa[!(pixelqa %in% clearvalues)] <- NA
-  ndvi_masked <- raster::mask(x=sr_ndvi, mask=pixelqa)
-  # raster::writeRaster(s,paste0(targetpath,"/", record_id,'_ndvi_masked.tif'), overwrite=TRUE)
+  ndvi_masked <- terra::mask(x=sr_ndvi, mask=pixelqa)
   
   return(ndvi_masked)
 }
