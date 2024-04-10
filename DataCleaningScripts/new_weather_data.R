@@ -44,7 +44,8 @@ today <- lubridate::ymd_hms(gsub(":\\d+:\\d+",":00:00",Sys.time()))
 rawdata <- suppressMessages(htmltab::htmltab(doc='http://157.230.136.69/weather-data.html', sep = "", 
                                              which = 1)) %>%
   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TimeStamp,record=Record,
-                battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg)
+                battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg) %>%
+  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
 
   message("Raw weather data loaded")
 
@@ -53,13 +54,10 @@ message("Pulling raw storms data")
 
 stormsnew <- suppressMessages(htmltab::htmltab(doc="http://157.230.136.69/storms-data.html", sep = "", 
                                                which = 1)) %>%
-  dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot)
+  dplyr::rename(timestamp = TimeStamp, record = Record, battv = BattV_Min, precipitation = Rain_mm_Tot) %>%
+  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
 
   message("Raw storms data loaded")
-
-# Convert Timestamp
-rawdata$timestamp = lubridate::ymd_hms(rawdata$timestamp)
-stormsnew$timestamp = lubridate::ymd_hms(stormsnew$timestamp)
 
 #Get Year, Month, Day, Hour
 rawdata=cbind(year = lubridate::year(rawdata$timestamp),
@@ -88,7 +86,7 @@ weather[,c(1:4,6)] <- lapply(weather[,c(1:4,6)],as.integer)
 weather[,7:25] <- lapply(weather[,7:25],as.numeric)
 last_date <- max(weather$timestamp)
 weather <- weather %>%
-  dplyr::add_row(timestamp = lubridate::ymd_hms(seq.POSIXt(last_date+3600, today, by = "1 hour")),
+  dplyr::add_row(timestamp = lubridate::ymd_hms(format(seq.POSIXt(last_date+3600, today, by = "1 hour"), format = "%Y-%m-%d %T %Z")),
          year = lubridate::year(timestamp), month = lubridate::month(timestamp),
          day = lubridate::day(timestamp), hour = 100*lubridate::hour(timestamp))
 weather$day[weather$hour==0] = weather$day[which(weather$hour==0)-1]
@@ -100,15 +98,15 @@ newdata <- suppressMessages(coalesce_join(weather, rawdata,
                                           by = c("year", "month", "day", "hour", "timestamp")))
 
 # New storms table
-storms <- read.csv("Weather/Portal_storms.csv")
-  storms$timestamp <- lubridate::ymd_hms(storms$timestamp)
+storms <- read.csv("Weather/Portal_storms.csv") %>%
+          dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
   # Keep only new data
   
   stormsnew <- stormsnew[stormsnew$timestamp>tail(storms$timestamp,n=1),]
 
 # New overlap table
 overlap <- read.csv("Weather/Portal_weather_overlap.csv") %>%
-  dplyr::mutate(timestamp = lubridate::ymd_hms(timestamp))
+  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
                 
 newoverlapdata <- newdata %>%
   dplyr::filter(timestamp >= min(overlap$timestamp)) %>%
@@ -116,6 +114,10 @@ newoverlapdata <- newdata %>%
 
 newoverlap <- suppressMessages(coalesce_join(overlap, newoverlapdata, 
                                           by = c("year", "month", "day", "hour", "timestamp")))
+
+newdata$timestamp <- as.character(format(newdata$timestamp))
+stormsnew$timestamp <- as.character(format(stormsnew$timestamp))
+newoverlap$timestamp <- as.character(format(newoverlap$timestamp))
 
 return(list(newdata,stormsnew,newoverlap))
 
