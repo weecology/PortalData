@@ -12,11 +12,11 @@ source("DataCleaningScripts/new_weather_data.r")
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile <- "Met517"
+metfile <- "Met526"
 
 rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
-rawdata <- rawdata[-1,] # current file has NA row at top
+if(is.na(rawdata$code[1]) | rawdata$jday[1]==0) { rawdata <- rawdata[-1,] } #if first row blank
 
 # Convert Julian day to month and day
 rawdata$date <- as.Date(paste(rawdata$year,rawdata$jday),format='%Y %j')
@@ -71,13 +71,6 @@ if (any(weathdat$RH < 0)) {
 # check battery status (should be ~12.5)
 if (any(weathdat$battv < 11,na.rm=T)) {print('Battery error')} else {print('Battery ok')}
 
-# check that start of new data lines up with end of existing data
-exst_dat <- read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
-exst_dat$timestamp <- lubridate::ymd_hms(exst_dat$timestamp)
-first <- head(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5][-(1:5680)],n=1)
-last <- tail(exst_dat$timestamp[rowSums(is.na(exst_dat[,11:15]))==5],n=1)
-
-
 # plot data to look for outliers/weirdness
 plot(weathdat$airtemp,type='l')
 plot(weathdat$precipitation)
@@ -87,22 +80,31 @@ plot(weathdat$RH,type='l')
 # Append new data to file
 # ==============================================================================
 
-# get new data columns in correct order
-newdata <- weathdat %>% dplyr::mutate(battv2=battv, airtemp2=airtemp, precipitation2=precipitation, 
+# organize new data to match overlap table format
+exst_dat <- read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
+exst_dat$timestamp <- lubridate::ymd_hms(exst_dat$timestamp)
+newdata <- weathdat %>%
+           dplyr::left_join(exst_dat[,c(1:5,11)], by = dplyr::join_by(year, hour, month, day, timestamp))
+# add record numbers
+if(all(is.na(newdata$record2))) {
+  newdata$record2 <- 
+    seq(from = max(exst_dat$record2, na.rm=TRUE) + 1 , by = 1, 
+        length.out = length(newdata$record2))   
+} else { 
+  newdata$record2[(which.max(newdata$record2)+1):length(newdata$record2)] <- 
+    seq(from = max(newdata$record2, na.rm=TRUE) + 1 , by = 1, 
+        length.out = length(newdata$record2[-c(1:which.max(newdata$record2))]))
+  }
+
+newdata <- newdata %>% dplyr::mutate(battv2=battv, airtemp2=airtemp, precipitation2=precipitation, 
                                       RH2=RH, record = NA, battv=NA, airtemp=NA, precipitation=NA, 
-                                      RH=NA, record2 = NA) %>%
+                                      RH=NA) %>%
                         dplyr::select(c(year, month, day, hour, timestamp, record, battv,
                                         airtemp, precipitation, RH, record2, battv2,
-                                        airtemp2, precipitation2, RH2))
-
+                                        airtemp2, precipitation2, RH2)) 
 
 overlap <- suppressMessages(coalesce_join(exst_dat, newdata, 
                                           by = c("year", "month", "day", "hour", "timestamp")))
-
-# add record numbers
-overlap$record2[-c(1:which.max(overlap$record2))] <- 
-  seq(from = max(overlap$record2, na.rm=TRUE) + 1 , by = 1, 
-      length.out = length(overlap$record2[-c(1:which.max(overlap$record2))]))
 
 
 if(any(dim(overlap) != dim(exst_dat))) {
@@ -111,5 +113,6 @@ if(any(dim(overlap) != dim(exst_dat))) {
 }
 
 # write new data
+overlap$timestamp <- as.character(format(overlap$timestamp))
 write.table(overlap, file = "~/PortalData/Weather/Portal_weather_overlap.csv", 
-            row.names = F, col.names = T, na = "", sep = ",")
+            row.names = FALSE, col.names = TRUE, na = "", sep = ",")

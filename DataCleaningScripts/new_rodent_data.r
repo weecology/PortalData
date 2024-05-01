@@ -10,11 +10,12 @@ source('DataCleaningScripts/general_data_cleaning_functions.R')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 source('DataCleaningScripts/clean_pit_tags.R')
 
+
 ##############################################################################
 # New file to be checked
 ##############################################################################
 
-newperiod = '523'
+newperiod = '528'
 
 filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
@@ -56,7 +57,6 @@ speciesnorms$wgt.min = NA
 speciesnorms$wgt.max = NA
 speciesnorms$hfl.min = NA
 speciesnorms$hfl.max = NA
-
 
 for (i in 1:nrow(speciesnorms)) {
   
