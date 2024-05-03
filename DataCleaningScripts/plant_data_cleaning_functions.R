@@ -142,7 +142,7 @@ transect_data_quality_checks = function(df,splist) {
     print(startstop)}
   
   # check for valid height value
-  checkheight = df[which(!(df$height %in% 0:400)),]
+  checkheight = df[which(!(df$height %in% 0:500)),]
   if (dim(checkheight)[1]>0) {print('check height:')
     print(checkheight)}
 
