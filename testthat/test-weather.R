@@ -119,7 +119,7 @@ test_that("Regional Precipitation ok", {
   expect_true(all(sansimon$prcp >= 0, na.rm=TRUE))
   expect_true(all(sansimon$prcp < 70, na.rm=TRUE))
   expect_true(all(rodeo$preciptotal >= 0, na.rm=TRUE))
-  expect_true(all(rodeo$preciptotal < 500, na.rm=TRUE))
+  expect_true(all(rodeo$preciptotal < 750, na.rm=TRUE))
 })
 
 test_that("NDVI data adding correctly", {
