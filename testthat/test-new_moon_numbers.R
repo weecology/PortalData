@@ -2,6 +2,12 @@ context("checks that new moon numbers are being added correctly")
 
 moon_dates <- read.csv("../Rodents/moon_dates.csv",header=T,
                        colClasses=c("integer", "Date", "integer", "Date"))
+trappingdat <- read.csv("../Rodents/Portal_rodent_trapping.csv") 
+rodentdat <- read.csv("../Rodents/Portal_rodent.csv")
+newperiod <- max(rodentdat$period)
+newdat <- rodentdat[rodentdat$period==newperiod,]
+newtrapping <- trappingdat[trappingdat$period==newperiod,]
+newcensus <- as.Date(paste(newtrapping[1,]$year, newtrapping[1,]$month, newtrapping[1,]$day),"%Y %m %d")
 
 test_that("no moondates are skipped or duplicated", {
   
@@ -14,8 +20,14 @@ test_that("no moondates are skipped or duplicated", {
 
 
 test_that("no periods skipped or duplicated", {
-
+  
   expect_true(all(diff(moon_dates$period)==1,na.rm=T))
   expect_false(any(duplicated(moon_dates$period, incomparables = NA)))
   expect_false(any(duplicated(moon_dates$censusdate, incomparables = NA)))
+})
+
+test_that("latest census period has newmoon number assigned", {
+  
+  expect_identical(max(moon_dates$period, na.rm=T), newperiod)
+  expect_identical(tail(moon_dates$censusdate, 1), newcensus)
 })
