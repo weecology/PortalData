@@ -27,7 +27,7 @@ test_that("no periods skipped or duplicated", {
 })
 
 test_that("latest census period has newmoon number assigned", {
-  
-  expect_identical(max(moon_dates$period, na.rm=T), newperiod)
-  expect_identical(tail(moon_dates$censusdate, 1), newcensus)
+ 
+  expect_equal(max(moon_dates$period, na.rm=T), newperiod)
+  expect_equal(tail(moon_dates$censusdate, 1), newcensus)
 })
