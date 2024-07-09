@@ -14,9 +14,9 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '530'
+newperiod = '531'
 
-filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
+filepath = "C:\\Users\\Asus PC\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
 newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, '\\tag scans\\tags', newperiod, '.txt', sep = '')
