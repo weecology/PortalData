@@ -18,61 +18,34 @@ jobs:
   build:
     if: contains(toJson(github.event.commits), '[skip ci]') == false
     
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ubuntu-latest
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-
-    strategy:
-      matrix:
-        config:
-          - {os: ubuntu-latest, r: '4.2.2', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
-          
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      
+
     steps:
       - uses: actions/checkout@v4
-        with:
-            fetch-depth: 3
-      - uses: r-lib/actions/setup-r@v2
-        id: install-r
-        with:
-          r-version: ${{ matrix.config.r }}
-        
-      - name: Cache R packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
-          restore-keys: |
-            ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
-            ${{ runner.os }}-
+      - name: Setup R (Ubuntu)
+        uses: eddelbuettel/github-actions/r2u-setup@master
 
       - name: Install system dependencies
         run: |
-          sudo apt-get -y update && sudo apt-get install -y \
-            libgit2-dev libicu-dev gdal-bin proj-data proj-bin libv8-dev libprotobuf-dev protobuf-compiler \
-            libudunits2-dev libgdal-dev libgeos-dev libproj-dev libfontconfig1-dev libjq-dev libmysqlclient-dev libpng-dev
-          #  sudo add-apt-repository ppa:xapienz/curl34
-          # sudo add-apt-repository ppa:linuxuprising/libpng12 && sudo apt-get update && sudo apt install libpng12-0
-          sudo apt-get update
           pip install -U pandas numpy landsatxplore
 
       - name: Install packages
-        run: Rscript install-packages.R        
-        
+        run: Rscript install-packages.R
+
       - name: Update data
         run: |
           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
           R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
-          
+
       - name: Test
         run: Rscript testthat.R
-        
+
       - name: Check for new files
         id: check_files
         run: |
@@ -82,7 +55,7 @@ jobs:
           else 
             echo "diff=TRUE" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Bump version
         id: version
         env: 
@@ -97,7 +70,7 @@ jobs:
             echo "No version bump"
             echo "new_ver=FALSE" >> $GITHUB_OUTPUT
           fi
-        
+
       - name: Setup Tag
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: tagging
@@ -106,7 +79,7 @@ jobs:
           echo "tag=$value" >> $GITHUB_OUTPUT
           value="v${value}"
           echo "release=$value" >> $GITHUB_OUTPUT
-      
+
       - name: Tag new version for release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         env: 
@@ -117,7 +90,7 @@ jobs:
           author_email: weecologydeploy@weecology.org
           message: "Update data and trigger archive: GitHub Build ${{ github.run_number }} ${{ env.JOB_TAGS }}"
           tag: ${{ steps.tagging.outputs.tag }}
-          
+
       - name: Create Release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: create_release
