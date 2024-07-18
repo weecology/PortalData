@@ -3,11 +3,6 @@ context("checks that new moon numbers are being added correctly")
 moon_dates <- read.csv("../Rodents/moon_dates.csv",header=T,
                        colClasses=c("integer", "Date", "integer", "Date"))
 trappingdat <- read.csv("../Rodents/Portal_rodent_trapping.csv") 
-rodentdat <- read.csv("../Rodents/Portal_rodent.csv")
-newperiod <- max(rodentdat$period)
-newdat <- rodentdat[rodentdat$period==newperiod,]
-newtrapping <- trappingdat[trappingdat$period==newperiod,]
-newcensus <- as.Date(paste(newtrapping[1,]$year, newtrapping[1,]$month, newtrapping[1,]$day),"%Y %m %d")
 
 test_that("no moondates are skipped or duplicated", {
   
@@ -18,7 +13,6 @@ test_that("no moondates are skipped or duplicated", {
   expect_false(any(duplicated(moon_dates$newmoondate, incomparables = NA)))
 })
 
-
 test_that("no periods skipped or duplicated", {
   
   expect_true(all(diff(moon_dates$period)==1,na.rm=T))
@@ -26,13 +20,7 @@ test_that("no periods skipped or duplicated", {
   expect_false(any(duplicated(moon_dates$censusdate, incomparables = NA)))
 })
 
-test_that("latest census period has newmoon number assigned", {
-  print(waldo::compare(tail(moon_dates$censusdate, 1), newcensus))
-  print(tail(moon_dates$censusdate, 1))
-  print(newcensus)
+test_that("all periods have newmoonnumbers assigned", {
   
-  expect_equal(max(moon_dates$period, na.rm=T), newperiod)
-  #expect_equal(tail(moon_dates$censusdate, 1), newcensus)
-  expect_true(tail(moon_dates$censusdate, 1)==newcensus)
-  
+  expect_true(all(unique(trappingdat$period)==moon_dates$period[!is.na(moon_dates$period)]))
   })
