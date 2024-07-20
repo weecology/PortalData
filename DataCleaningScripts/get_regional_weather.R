@@ -9,6 +9,8 @@ regional_wunder <- function(stationid) {
 
   tryCatch(
     {
+    api_key <- Sys.getenv("WU_API_KEY")
+    print(nchar(api_key))
     rodeo <- jsonlite::fromJSON(
       paste('https://api.weather.com/v2/pws/observations/hourly/7day?stationId=',stationid,'&format=json&units=m&apiKey=',Sys.getenv("WU_API_KEY"), sep=""))$observations
     rodeo <- dplyr::bind_cols(rodeo[,1:14], rodeo$metric) %>%
