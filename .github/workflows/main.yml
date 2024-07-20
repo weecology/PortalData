@@ -3,7 +3,6 @@
 name: CI
 
 on:
-
   push:
     branches: [ main ]
   pull_request:
@@ -40,7 +39,9 @@ jobs:
         env:
           WU_API_KEY: ${{ secrets.WU_API_KEY }}
           USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
-        run: Rscript update-data.R
+        run: |
+          printenv
+          Rscript update-data.R
 
       - name: Test
         run: Rscript testthat.R
