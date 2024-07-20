@@ -23,8 +23,6 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      WU_API_KEY: ${{ secrets.WU_API_KEY }}
-      USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +37,9 @@ jobs:
         run: Rscript install-packages.R
 
       - name: Update data
+        env:
+          WU_API_KEY: ${{ secrets.WU_API_KEY }}
+          USGS_PASSWORD: ${{ secrets.USGS_PASSWORD }}
         run: Rscript update-data.R
 
       - name: Test
