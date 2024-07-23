@@ -1,3 +1,9 @@
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(lubridate)
+
+# Explicitly assign magrittr pipe operator
 `%>%` <- magrittr::`%>%`
 
 #' Compiles all regional weather data with the data from
@@ -6,43 +12,56 @@
 #' @example regional_wunder(stationid)
 
 regional_wunder <- function(stationid) {
+  tryCatch({
+    # Construct the URL
+    url <- paste('https://api.weather.com/v2/pws/observations/hourly/7day?stationId=', stationid, '&format=json&units=m&apiKey=', Sys.getenv("WU_API_KEY"), sep="")
 
-  tryCatch(
-    {
-    rodeo <- jsonlite::fromJSON(
-      paste('https://api.weather.com/v2/pws/observations/hourly/7day?stationId=',stationid,'&format=json&units=m&apiKey=',Sys.getenv("WU_API_KEY"), sep=""))$observations
+    # Make the GET request
+    response <- httr::GET(url)
+
+    # Check for status 204 No Content
+    if (httr::status_code(response) == 204) {
+      message(paste('No content available for station', stationid))
+      return(NULL)
+    }
+
+    # Parse the JSON content
+    rodeo <- jsonlite::fromJSON(httr::content(response, as = "text"))$observations
+
+    # Process the data
     rodeo <- dplyr::bind_cols(rodeo[,1:14], rodeo$metric) %>%
       dplyr::rename_all(.funs = tolower) %>%
-      dplyr::select(-epoch,-obstimeutc) %>%
-      dplyr::slice(1:(dplyr::n()-2)) %>%
+      dplyr::select(-epoch, -obstimeutc) %>%
+      dplyr::slice(1:(dplyr::n() - 2)) %>%
       dplyr::rename(timestamp = obstimelocal, latitude = lat, longitude = lon) %>%
-      dplyr::mutate_all(as.character) %>% 
+      dplyr::mutate_all(as.character) %>%
       dplyr::mutate_at(tail(names(.), 32), as.numeric) %>%
-      dplyr::mutate(timestamp = round(lubridate::ymd_hms(timestamp), units="hours")) %>%
-      dplyr::mutate(day = lubridate::day(timestamp), 
-                    month = lubridate::month(timestamp), 
+      dplyr::mutate(timestamp = round(lubridate::ymd_hms(timestamp), units = "hours")) %>%
+      dplyr::mutate(day = lubridate::day(timestamp),
+                    month = lubridate::month(timestamp),
                     year = lubridate::year(timestamp),
                     hour = lubridate::hour(timestamp)) %>%
       dplyr::select(year, month, day, hour, timestamp, dplyr::everything())
-    #Fix hour and day so midnight=2400
-    rodeo$hour[rodeo$hour==0] = 24 ; rodeo$hour = 100*rodeo$hour
-    rodeo$day[rodeo$hour==2400] = rodeo$day[which(rodeo$hour==2400)-1]
-    rodeo$month[rodeo$hour==2400] = rodeo$month[which(rodeo$hour==2400)-1]
-    rodeo$year[rodeo$hour==2400] = rodeo$year[which(rodeo$hour==2400)-1]
 
-  return(rodeo)
-    },
-  error=function(e) {
+    # Fix hour and day so midnight = 2400
+    rodeo$hour[rodeo$hour == 0] <- 24
+    rodeo$hour <- 100 * rodeo$hour
+    rodeo$day[rodeo$hour == 2400] <- rodeo$day[which(rodeo$hour == 2400) - 1]
+    rodeo$month[rodeo$hour == 2400] <- rodeo$month[which(rodeo$hour == 2400) - 1]
+    rodeo$year[rodeo$hour == 2400] <- rodeo$year[which(rodeo$hour == 2400) - 1]
+
+    return(rodeo)
+  },
+  error = function(e) {
     message(paste('error in', stationid))
     print(e)
     return(NULL)
   },
-  warning=function(w) {
+  warning = function(w) {
     message(paste('warning in', stationid))
     print(w)
     return(NULL)
-  }
-  )
+  })
 }
 
 #' Reports regional weather data with the data from Wunderground (www.wunderground.com) and 
@@ -101,7 +120,7 @@ get_regional_weather <- function() {
     new_rodeo <- dplyr::anti_join(rodeo, all_rodeo, by = c("year","month","day","hour","timestamp","stationid"))
 
 return(list(new_4sw=new_4sw, new_sansimon=new_sansimon, new_rodeo=new_rodeo))
-    
+
 }
 
 #' Appends new regional weather data
