@@ -1,4 +1,34 @@
-# Install pacman if it isn't already installed
+# Install required packages
 
-install.packages(c("curl", "devtools", "dplyr", "EML", "git2r", "Hmisc", "httr", "htmltab", "jsonlite", "lubridate", "lunar", "lwgeom", "openxlsx", "raster", "Rcpp", "RCurl", "remotes", "rgdal", "semver", "sf", "shiny", "sp", "sqldf", "stringi", "stringr", "terra", "testthat", "tidyr", "units", "yaml", "zoo"))
+install.packages(c("curl", 
+                   "devtools", 
+                   "dplyr", 
+                   "EML", 
+                   "git2r", 
+                   "Hmisc", 
+                   "httr", 
+                   "htmltab", 
+                   "jsonlite", 
+                   "lubridate", 
+                   "lunar", 
+                   "lwgeom", 
+                   "openxlsx", 
+                   "raster", 
+                   "Rcpp", 
+                   "RCurl", 
+                   "remotes", 
+                   "rgdal", 
+                   "semver", 
+                   "sf", 
+                   "shiny", 
+                   "sp", 
+                   "sqldf", 
+                   "stringi", 
+                   "stringr", 
+                   "terra", 
+                   "testthat", 
+                   "tidyr", 
+                   "units", 
+                   "yaml", 
+                   "zoo"))
 remotes::install_github("htmltab/htmltab")
