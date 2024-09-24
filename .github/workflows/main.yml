@@ -101,10 +101,9 @@ jobs:
       - name: Create Release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: create_release
-        uses: zendesk/action-create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ steps.tagging.outputs.tag }}
-          release_name: ${{ steps.tagging.outputs.tag }}
+          name: ${{ steps.tagging.outputs.tag }}
           body: ${{ steps.tagging.outputs.release }}
