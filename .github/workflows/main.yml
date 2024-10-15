@@ -38,7 +38,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          pipx install pandas numpy landsatxplore
+          pipx install --include-deps pandas numpy landsatxplore
 
       - name: Install packages
         run: Rscript install-packages.R
