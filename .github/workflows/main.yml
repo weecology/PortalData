@@ -38,7 +38,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          apt install python3-pandas python3-numpy python3-landsatxplore
+          pipx install -U pandas numpy landsatxplore
 
       - name: Install packages
         run: Rscript install-packages.R
