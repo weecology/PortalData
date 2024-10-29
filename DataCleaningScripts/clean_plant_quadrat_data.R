@@ -27,7 +27,7 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 ######################
 
 season <-  'Winter'
-year <-  '2023'
+year <-  '2024'
 filepath <-  'D:\\Dropbox\\Portal\\PORTAL_primary_data\\Plant\\Quadrats\\Dataraw\\Newdata\\'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')

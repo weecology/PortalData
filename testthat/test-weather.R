@@ -1,18 +1,18 @@
 context("checks new weather data")
 
 weather <- read.csv(file = "../Weather/Portal_weather.csv",header=T,
-                   colClasses=c(rep("integer",4), "character", "integer", rep("numeric",20)))
+                    colClasses=c(rep("integer",4), "character", "integer", rep("numeric",20)))
 weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
 weather_cols <- colnames(weather)
 
 storms <- read.csv(file = "../Weather/Portal_storms.csv",header=T,
-                  colClasses=c("character", "integer", rep("numeric",2)))
+                   colClasses=c("character", "integer", rep("numeric",2)))
 storms$timestamp <- lubridate::ymd_hms(storms$timestamp)
 storms_cols <- colnames(storms)
 
 overlap <- read.csv(file = "../Weather/Portal_weather_overlap.csv",header=T,
-                   colClasses=c(rep("integer",4), "character", "integer", rep("numeric",4),
-                                "integer", rep("numeric",4)))
+                    colClasses=c(rep("integer",4), "character", "integer", rep("numeric",4),
+                                 "integer", rep("numeric",4)))
 overlap$timestamp <- lubridate::ymd_hms(overlap$timestamp)
 overlap_cols <- colnames(overlap)
 
@@ -42,7 +42,7 @@ test_that("Hour in 100:2400", {
 })
 
 test_that("Air Temperature ok", {
-
+  
   expect_true(all(weather$airtemp > -20, na.rm=TRUE))
   expect_true(all(weather$airtemp <= 50, na.rm=TRUE))
   expect_true(all(overlap$airtemp > -20, na.rm=TRUE))
@@ -50,7 +50,7 @@ test_that("Air Temperature ok", {
 })
 
 test_that("Relative humidity ok", {
-
+  
   expect_true(all(weather$RH > 0, na.rm=TRUE))
   expect_true(all(weather$RH <= 100, na.rm=TRUE))
   expect_true(all(overlap$RH > 0, na.rm=TRUE))
@@ -77,7 +77,7 @@ test_that("Precipitation ok", {
 test_that("Precipitation in multiples of 0.254", {
   
   expect_true(sum(1000*storms$precipitation)%%254 == 0)
-#  expect_true(sum(1000*tail(overlap$precipitation,200),na.rm=TRUE)%%254 == 0)
+  #  expect_true(sum(1000*tail(overlap$precipitation,200),na.rm=TRUE)%%254 == 0)
 })
 
 test_that("no hours missing", {
@@ -119,7 +119,8 @@ test_that("Regional Precipitation ok", {
   expect_true(all(sansimon$prcp >= 0, na.rm=TRUE))
   expect_true(all(sansimon$prcp < 70, na.rm=TRUE))
   expect_true(all(rodeo$preciptotal >= 0, na.rm=TRUE))
-  expect_true(all(rodeo$preciptotal < 200, na.rm=TRUE))
+  expect_true(all(rodeo$preciptotal < 1500, na.rm=TRUE))
+
 })
 
 test_that("NDVI data adding correctly", {

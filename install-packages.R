@@ -1,35 +1,33 @@
-remove.packages("stringi")
-remove.packages("stringr")
-install.packages(c("curl",
+# Install required packages
+
+install.packages(c("curl", 
+                   "devtools", 
+                   "dplyr", 
                    "EML", 
-                   "git2r",
+                   "git2r", 
                    "Hmisc", 
+                   "httr", 
+                   "htmltab", 
+                   "jsonlite", 
+                   "lubridate", 
+                   "lunar", 
                    "lwgeom", 
-                   "Rcpp",
-                   "RCurl",
-                   "remotes",
-                   "rgdal",
-                   "stringi",
-                   "stringr",
-                   "sf"), type="source", repos="https://cran.rstudio.com")
-install.packages('terra', repos='https://rspatial.r-universe.dev')
+                   "openxlsx",  
+                   "Rcpp", 
+                   "RCurl", 
+                   "remotes", 
+                   "rgdal", 
+                   "semver", 
+                   "sf", 
+                   "shiny", 
+                   "sp", 
+                   "sqldf", 
+                   "stringi", 
+                   "stringr", 
+                   "terra", 
+                   "testthat", 
+                   "tidyr", 
+                   "units", 
+                   "yaml", 
+                   "zoo"))
 remotes::install_github("htmltab/htmltab")
-
-# Install analysis packages using pacman
-if ("pacman" %in% rownames(installed.packages()) == FALSE) install.packages("pacman")
-
-pacman::p_load(devtools,
-               dplyr, 
-               jsonlite,
-               lubridate, 
-               lunar, 
-               openxlsx, 
-               semver,
-               shiny, 
-               sp, 
-               sqldf, 
-               testthat, 
-               tidyr, 
-               units,
-               yaml,
-               zoo)

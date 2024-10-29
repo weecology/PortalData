@@ -104,12 +104,13 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     scene_path = os.path.normpath(scene_file)
 
     with open(scene_path, mode='w') as rd:
-        headers = list(scenes[0].keys())
-        writer = csv.DictWriter(rd, fieldnames=headers)
-        writer.writeheader()
-        for scene in scenes:
-            writer.writerow(scene)
-            entity_ids.append(scene['display_id'].strip())
+        if scenes:
+            headers = list(scenes[0].keys())
+            writer = csv.DictWriter(rd, fieldnames=headers)
+            writer.writeheader()
+            for scene in scenes:
+                writer.writerow(scene)
+                entity_ids.append(scene['display_id'].strip())
 
     api.logout()
     print(entity_ids)

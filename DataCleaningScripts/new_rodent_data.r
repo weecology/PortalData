@@ -10,14 +10,13 @@ source('DataCleaningScripts/general_data_cleaning_functions.R')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')
 source('DataCleaningScripts/clean_pit_tags.R')
 
-
 ##############################################################################
 # New file to be checked
 ##############################################################################
 
-newperiod = '527'
+newperiod = '532'
 
-filepath = "D:\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
+filepath = "C:\\Users\\lindseybell\\Dropbox\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
 newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, '\\tag scans\\tags', newperiod, '.txt', sep = '')
@@ -37,7 +36,7 @@ ws = read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
 
 rodent_data_quality_checks(ws, scannerfile)
 
- ##############################################################################
+###############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
 
