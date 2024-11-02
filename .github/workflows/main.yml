@@ -36,9 +36,11 @@ jobs:
       - name: Setup R (Ubuntu)
         uses: eddelbuettel/github-actions/r2u-setup@master
 
-      - name: Install system dependencies
+
+      - name: Install Python and packages
         run: |
-          pipx install --include-deps pandas numpy landsatxplore
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy landsatxplore
 
       - name: Install packages
         run: Rscript install-packages.R
