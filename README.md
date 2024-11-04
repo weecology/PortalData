@@ -1,7 +1,7 @@
 # PortalData
 
 <!-- badges: start -->
-[![Build Status](https://github.com/weecology/PortalData/workflows/CI/badge.svg)](https://github.com/weecology/PortalData/actions)
+[![Build Status](https://github.com/weecology/PortalData/actions/workflows/main.yml/badge.svg)](https://github.com/weecology/PortalData/actions/workflows/main.yml))
 [![License](http://i.creativecommons.org/p/zero/1.0/88x31.png)](https://raw.githubusercontent.com/weecology/PortalData/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1215988.svg)](https://doi.org/10.5281/zenodo.1215988)
 [![NSF-1929730](https://img.shields.io/badge/NSF-1929730-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1929730)
