@@ -3,7 +3,7 @@
 # https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products
 
 `%>%` <- magrittr::`%>%`
-library(terra)
+library(terra, warn.conflicts=FALSE, quietly = TRUE)
 
 #' @title create_portal_area
 #'
@@ -84,7 +84,7 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
   print(records["display_id"])
   source <- "USGS"
   sensor <- paste0("Landsat", records["satellite"])
-  date <- as.Date(records["acquisition_date"])
+  date <- lubridate::ymd_hms(format(records["acquisition_date"], format = "%Y-%m-%d %T %Z"))
   
   r <- extract_and_mask_raster(records, targetpath)
   
@@ -96,7 +96,7 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
   md <- median(values(r),na.rm=T)
   mi <- min(values(r),na.rm=T)
   ma <- max(values(r),na.rm=T)
-  va <- var(values(r),na.rm=T)
+  va <- var(values(r),na.rm=T)[1,1]
   pix <- length(values(r))
   
   d <- data.frame(date = as.Date(date), sensor = sensor, source = source,
