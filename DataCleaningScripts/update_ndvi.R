@@ -119,10 +119,13 @@ writendvitable <- function() {
   targetpath <- "./NDVI/landsat-data"
   undone <- read.csv("./NDVI/undone-scenes.csv")
   records <- read.csv("./NDVI/scenes.csv") %>% dplyr::filter(!display_id %in% undone$display_id)
+
+  print(records)
+  print(summarize_ndvi_snapshot(records[1,], targetpath))
     
     new_data <- as.data.frame(do.call(rbind, 
                                       apply(records, 1, summarize_ndvi_snapshot, targetpath))) %>%
-      dplyr::arrange(date,sensor)
+      dplyr::arrange(date,sensor) 
     
     write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
                 append=TRUE, na="")
