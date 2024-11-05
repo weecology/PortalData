@@ -17,6 +17,12 @@ message("Updating Plant census table")
 source("DataCleaningScripts/update_portal_plant_censuses.R"); writecensustable()
 
 message("Updating NDVI")
-system("python3 DataCleaningScripts/NDVI.py")
+output <- system2("python3", "DataCleaningScripts/NDVI.py", stderr = TRUE, stdout = TRUE)
+# Check if the Python script returns an error
+if (!is.null(attr(output, "status")) && attr(output, "status") != 0) {
+stop("Error in NDVI.py:\n", paste(output, collapse = "\n"))
+}
+message("NDVI update completed successfully.")
+
 source("DataCleaningScripts/update_ndvi.R"); writendvitable()
 system("rm -r ./NDVI/landsat-data ./NDVI/scenes.csv")
