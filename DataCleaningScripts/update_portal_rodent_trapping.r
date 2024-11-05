@@ -1,8 +1,8 @@
 # This creates the Portal_rodent_trapping.csv file in the Rodents folder
 # Record of which plots were or were not trapped in each census and exact dates
 
-library(dplyr)
-library(zoo)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
+library(zoo, warn.conflicts=FALSE, quietly = TRUE)
 
 #' Appends new trapping dates to Portal_rodent_trapping
 #'
