@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
 
 currentdir = getwd()
 

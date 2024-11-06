@@ -1,5 +1,5 @@
-library(zoo)
-library(dplyr)
+library(zoo, warn.conflicts=FALSE, quietly = TRUE)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
 
 #' Appends new dates to Portal_plots
 #'

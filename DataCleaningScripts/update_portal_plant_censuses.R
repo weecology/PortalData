@@ -5,7 +5,7 @@
 # you must manually change it's value to zero
 # If a season gets skipped entirely, it should also be manually added
 
-library(dplyr)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
 
 #' Appends new census dates to Portal_plant_censuses
 #'
