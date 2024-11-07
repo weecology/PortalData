@@ -1,10 +1,10 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
 
-library(openxlsx)
-library(sqldf)
-library(RCurl)
-library(dplyr)
+library(openxlsx, warn.conflicts=FALSE, quietly = TRUE)
+library(sqldf, warn.conflicts=FALSE, quietly = TRUE)
+library(RCurl, warn.conflicts=FALSE, quietly = TRUE)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
 
 source('DataCleaningScripts/general_data_cleaning_functions.R')
 source('DataCleaningScripts/rodent_data_cleaning_functions.R')

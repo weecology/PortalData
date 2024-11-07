@@ -1,6 +1,3 @@
-
-
-
 #
 # determines if a tag is a PIT tag by its structure
 #  requires species input for comparison, returns a logical vector

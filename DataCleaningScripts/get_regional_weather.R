@@ -1,7 +1,7 @@
-library(httr)
-library(jsonlite)
-library(dplyr)
-library(lubridate)
+library(httr, warn.conflicts=FALSE, quietly = TRUE)
+library(jsonlite, warn.conflicts=FALSE, quietly = TRUE)
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
+library(lubridate, warn.conflicts=FALSE, quietly = TRUE)
 
 # Explicitly assign magrittr pipe operator
 `%>%` <- magrittr::`%>%`
