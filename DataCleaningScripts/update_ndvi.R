@@ -4,6 +4,8 @@
 
 `%>%` <- magrittr::`%>%`
 library(terra, warn.conflicts=FALSE, quietly = TRUE)
+library(dplyr)
+library(stringr)
 
 #' @title create_portal_area
 #'
@@ -117,14 +119,18 @@ writendvitable <- function() {
   if(file.exists("./NDVI/scenes.csv")) {
     if(file.size("./NDVI/scenes.csv") != 0L) {
   targetpath <- "./NDVI/landsat-data"
-  undone <- read.csv("./NDVI/undone-scenes.csv")
-  records <- read.csv("./NDVI/scenes.csv") %>% dplyr::filter(!display_id %in% undone$display_id)
-    
-    new_data <- as.data.frame(do.call(rbind, 
-                                      apply(records, 1, summarize_ndvi_snapshot, targetpath))) %>%
-      dplyr::arrange(date,sensor)
-    
-    write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
+  # Read the files
+  undone <- read.csv("./NDVI/undone-scenes.csv", stringsAsFactors = FALSE)
+  scenes <- read.csv("./NDVI/scenes.csv", stringsAsFactors = FALSE)
+
+  # Filter scenes where display_id is not a substring of any undone$display_id
+  records <- scenes %>%
+    filter(!sapply(display_id, function(id) any(str_detect(undone$display_id, fixed(id)))))
+
+  new_data <- as.data.frame(do.call(rbind, apply(records, 1, summarize_ndvi_snapshot, targetpath))) %>%
+    dplyr::arrange(date,sensor)
+
+  write.table(new_data, file='./NDVI/ndvi.csv', sep = ",", row.names=FALSE, col.names=FALSE,
                 append=TRUE, na="")
   }}
 }
