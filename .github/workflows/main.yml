@@ -1,9 +1,8 @@
-# Install packages, update data, test, and archive 
+# Install packages, update data, test, and archive
 
 name: CI
 
 on:
-
   push:
     branches: [ main ]
   pull_request:
@@ -17,7 +16,7 @@ on:
 jobs:
   build:
     if: contains(toJson(github.event.commits), '[skip ci]') == false
-    
+
     runs-on: ubuntu-latest
 
     env:
@@ -29,20 +28,26 @@ jobs:
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         run: |
           echo Tests require pull requests be submitted from branches in the main repository
-          exit 1 
+          exit 1
+
       - uses: actions/checkout@v4
         with:
-            fetch-depth: 3
+          fetch-depth: 3
+
       - name: Setup R (Ubuntu)
         uses: eddelbuettel/github-actions/r2u-setup@master
 
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install Python and packages
         run: |
           python -m pip install --upgrade pip
           python -m pip install pandas numpy landsatxplore
 
-      - name: Install packages
+      - name: Install R packages
         run: Rscript install-packages.R
 
       - name: Update data
@@ -52,13 +57,13 @@ jobs:
           R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
-      - name: Test
+      - name: Run Tests
         run: Rscript testthat.R
 
       - name: Check for new files
         id: check_files
         run: |
-          if [[ -z "$(git status --porcelain)" ]] ; then 
+          if [[ -z "$(git status --porcelain)" ]]; then 
             echo "Git status is empty"
             echo "diff=FALSE" >> $GITHUB_OUTPUT
           else 
@@ -67,12 +72,12 @@ jobs:
 
       - name: Bump version
         id: version
-        env: 
+        env:
           LOG: ${{ github.event_name == 'pull_request' && '$(git log --no-merges --format=%B -n 1 HEAD^2)' || '$(git log --no-merges --format=%B -n 1 HEAD)' }}
           CRON: ${{ github.event_name == 'schedule' && 'TRUE' || 'FALSE' }}
         run: |
           R -e "source('version_bump.R'); bump_version('${{ env.LOG }}', ${{ env.CRON }}, ${{ steps.check_files.outputs.diff }})"
-          if echo "$(git status --porcelain)" | grep -q version.txt ; then 
+          if echo "$(git status --porcelain)" | grep -q version.txt; then 
             echo "Version changed"
             echo "new_ver=TRUE" >> $GITHUB_OUTPUT
           else 
@@ -84,14 +89,14 @@ jobs:
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
         id: tagging
         run: |
-          value=`cat version.txt`
+          value=$(cat version.txt)
           echo "tag=$value" >> $GITHUB_OUTPUT
           value="v${value}"
           echo "release=$value" >> $GITHUB_OUTPUT
 
       - name: Tag new version for release
         if: github.event_name != 'pull_request' && steps.version.outputs.new_ver == 'TRUE'
-        env: 
+        env:
           JOB_TAGS: ${{ github.event_name == 'schedule' && '[skip ci] [cron]' || '[skip ci]' }}
         uses: EndBug/add-and-commit@v9
         with:
