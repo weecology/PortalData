@@ -62,7 +62,7 @@ create_permit_frame = function(new_df) {
 # ============================================================================
 
 datafile = "Rodents/Portal_rodent.csv"
-year = 2023
+year = 2024
 #read in raw data
 rawdata = read.csv(datafile,head=T,sep=',',na.strings=' ',as.is=T)
 
@@ -72,11 +72,11 @@ periods <- dplyr::select(thisyear, period)
 periods <-  dplyr::distinct(periods)
 
 ra_initials <- data.frame(
-  inits = c("GMY","PKTD"),
-  names = c("Yenni, Glenda","Dumandan, Patricia")
+  inits = c("GMY","PKTD", "RVP"),
+  names = c("Yenni, Glenda","Dumandan, Patricia","Padgett, Raven")
 )
 
-periods$inits <- c("PKTD","PKTD", "PKTD","PKTD","PKTD", "PKTD", "PKTD", "PKTD", "PKTD", "PKTD", "PKTD")
+periods$inits <- c("PKTD","PKTD", "PKTD","PKTD","PKTD", "PKTD", "PKTD", "GMY", "GMY", "RVP", "RVP")
 
 periods <- dplyr::left_join(periods, ra_initials, by = "inits")
 
