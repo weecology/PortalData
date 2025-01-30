@@ -36,22 +36,29 @@ threads = []
 
 
 def get_credentials(path="usgs-pass.json"):
+    """Get USGS credentials from json file or environment variables"""
     usgs_username = ""
-    usgs_password = ""
+    usgs_password = None  # Make password optional
+    api_token = None
 
     if os.path.exists(path):
         with open(path, 'r') as file:
             json_data = json.load(file)
-            usgs_username = json_data['username']
-            usgs_password = json_data['password']
+            usgs_username = json_data.get('username')
+            usgs_password = json_data.get('password')  # Optional
+            api_token = json_data.get('api_token')
     else:
         usgs_username = "weecology"
-        usgs_password = os.environ["USGS_PASSWORD"]
-    if not usgs_username and not usgs_password:
-        print("No Credentials found.\n"
-              "Export LANDSATXPLORE_USERNAME and LANDSATXPLORE_PASSWORD")
+        usgs_password = os.environ.get("USGS_PASSWORD")  # Optional
+        api_token = os.environ.get("USGS_API_TOKEN")
+    
+    # Require username and at least one auth method
+    if not usgs_username or (not api_token and not usgs_password):
+        print("No valid credentials found.\n"
+              "Need username and either API token or password.\n"
+              "Export USGS_USERNAME and either USGS_API_TOKEN or USGS_PASSWORD")
         return None
-    return usgs_username, usgs_password
+    return usgs_username, usgs_password, api_token
 
 
 def get_last_date(ndvi_file=NDVI_CSV):
@@ -79,9 +86,14 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
     Scene_file store the metadata.
     """
-    usgs_username, usgs_password = get_credentials()
+    usgs_username, usgs_password, api_token = get_credentials()
     if None in (start_date, end_date):
         start_date, end_date = get_date_range()
+
+    # Require password for landsatxplore API
+    if not usgs_password:
+        print("Password required for scene search using landsatxplore API")
+        return []
 
     # Initialize a new API instance and get an access key
     api = API(usgs_username, usgs_password)
@@ -152,57 +164,34 @@ def scene_file_downloaded(scenes, data_path, filetype, dataset="landsat_ot_c2_l2
 
 # Send http request
 def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
+    """Send HTTP request to USGS API"""
     json_data = json.dumps(data)
-
-    if apiKey == None:
-        response = requests.post(url, json_data)
-    else:
-        headers = {'X-Auth-Token': apiKey}
-        response = requests.post(url, json_data, headers=headers)
-
+    
+    headers = {
+        'Content-Type': 'application/json',
+    }
+    
+    if apiKey:
+        headers['X-Auth-Token'] = apiKey
+    
     try:
-        httpStatusCode = response.status_code
-        if response == None:
-            print("No output from service")
+        response = requests.post(url, data=json_data, headers=headers)
+        response.raise_for_status()  # Raise exception for bad status codes
+        
+        output = response.json()
+        if output.get('errorCode'):
+            print(f"Error {output['errorCode']} - {output['errorMessage']}")
             if exitIfNoResponse:
                 sys.exit()
-            else:
-                return False
-        output = json.loads(response.text)
-        if output['errorCode'] != None:
-            print(output['errorCode'], "- ", output['errorMessage'])
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
-        if httpStatusCode == 404:
-            print("404 Not Found")
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
-        elif httpStatusCode == 401:
-            print("401 Unauthorized")
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
-        elif httpStatusCode == 400:
-            print("Error Code", httpStatusCode)
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
-    except Exception as e:
-        response.close()
-        print(e)
+            return False
+            
+        return output.get('data')
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
         if exitIfNoResponse:
             sys.exit()
-        else:
-            return False
-    response.close()
-
-    return output['data']
+        return False
 
 
 def downloadFile(url, dir_path=PATH, scence=""):
@@ -230,7 +219,7 @@ def runDownload(threads, url, dir_path=PATH, scence=""):
 
 if __name__ == '__main__':
     
-    username, password = get_credentials()
+    username, password, api_token = get_credentials()
     filetype = 'band'
     entityIds = []
     datasetName = "landsat_ot_c2_l2"
@@ -251,9 +240,12 @@ if __name__ == '__main__':
     print("\nRunning Scripts...\n")
     startTime = time.time()
 
-    # Login
-    payload = {'username': username, 'password': password}
-    apiKey = sendRequest(serviceUrl + "login", payload)
+    # Login - use API token if available, otherwise use username/password
+    if api_token:
+        apiKey = api_token
+    else:
+        payload = {'username': username, 'password': password}
+        apiKey = sendRequest(serviceUrl + "login", payload)
 
     # Add scenes to a list
     listId = f"temp_{datasetName}_list"  # customized list id
