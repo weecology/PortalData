@@ -35,23 +35,27 @@ label = datetime.now().strftime("%Y%m%d_%H%M%S")  # Customized label using date 
 threads = []
 
 
-def get_credentials(path="usgs-pass.json"):
-    usgs_username = ""
-    usgs_password = ""
+def get_credentials(path="~/.usgs-pass.json"):
+    """Retrieve USGS credentials from a JSON file or environment variables."""
+    path = os.path.expanduser(path)
+    usgs_username = "weecology"
+    api_token = None
 
-    if os.path.exists(path):
-        with open(path, 'r') as file:
-            json_data = json.load(file)
-            usgs_username = json_data['username']
-            usgs_password = json_data['password']
+    if os.path.exists(path) and os.path.isfile(path):
+        try:
+            with open(path, 'r') as file:
+                json_data = json.load(file)
+                usgs_username = json_data.get('USGS_USERNAME', usgs_username)
+                api_token = json_data.get('USGS_API_TOKEN')
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"Error reading credentials file: {e}")
     else:
-        usgs_username = "weecology"
-        usgs_password = os.environ["USGS_PASSWORD"]
-    if not usgs_username and not usgs_password:
-        print("No Credentials found.\n"
-              "Export LANDSATXPLORE_USERNAME and LANDSATXPLORE_PASSWORD")
+        api_token = os.environ.get("USGS_API_TOKEN")
+
+    if not api_token:
+        print("API token is required. Set USGS_API_TOKEN in environment or credentials file")
         return None
-    return usgs_username, usgs_password
+    return usgs_username, api_token
 
 
 def get_last_date(ndvi_file=NDVI_CSV):
@@ -70,34 +74,43 @@ def get_date_range():
     return start_date, end_date
 
 
-def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929, start_date=None, end_date=None, bbox=None, scene_file=None):
+def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929,
+               start_date=None, end_date=None, bbox=None, scene_file=None):
     """Return scenes based in the last recorded NDVI
 
-    datase name landsat_ot_c2_l2
+    dataset name landsat_ot_c2_l2
     start_date is older
     end_date newer
     bbox (xmin, ymin, xmax, ymax) tuple of the bounding box.
     Scene_file store the metadata.
     """
-    usgs_username, usgs_password = get_credentials()
+    username, api_token = get_credentials()  # Updated to use new get_credentials
     if None in (start_date, end_date):
         start_date, end_date = get_date_range()
 
-    # Initialize a new API instance and get an access key
-    api = API(usgs_username, usgs_password)
+    # Initialize a new API instance using token authentication
+    serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
+    payload = {"username": username, "token": api_token}
+    apiKey = sendRequest(serviceUrl + "login-token", payload)
 
-    # Search for Landsat TM scenes
-    scenes = api.search(
-        dataset=dataset,
-        latitude=latitude,
-        longitude=longitude,
-        start_date=start_date,
-        bbox=bbox,
-        end_date=end_date,
-        max_results=1000,
-        # max_cloud_cover=10
-    )
-    print(len(scenes),  ": scenes found.")
+    # Search for scenes using the M2M API
+    payload = {
+        "datasetName": dataset,
+        "spatialFilter": {
+            "filterType": "mbr",
+            "lowerLeft": {"latitude": latitude - 0.1, "longitude": longitude - 0.1},
+            "upperRight": {"latitude": latitude + 0.1, "longitude": longitude + 0.1}
+        },
+        "temporalFilter": {
+            "startDate": start_date,
+            "endDate": end_date
+        },
+        "maxResults": 1000
+    }
+
+    scenes = sendRequest(serviceUrl + "scene-search", payload, apiKey)
+    print(f"{len(scenes)} scenes found.")
+
     entity_ids = []
     if not scene_file:
         scene_file = NDVI_SCENES
@@ -105,14 +118,20 @@ def get_scenes(dataset="landsat_ot_c2_l2", latitude=31.9279, longitude=-109.0929
 
     with open(scene_path, mode='w') as rd:
         if scenes:
-            headers = list(scenes[0].keys())
+            headers = ["displayId", "entityId", "acquisitionDate", "cloudCover"]
             writer = csv.DictWriter(rd, fieldnames=headers)
             writer.writeheader()
             for scene in scenes:
-                writer.writerow(scene)
-                entity_ids.append(scene['display_id'].strip())
+                writer.writerow({
+                    "displayId": scene.get("displayId", ""),
+                    "entityId": scene.get("entityId", ""),
+                    "acquisitionDate": scene.get("acquisitionDate", ""),
+                    "cloudCover": scene.get("cloudCover", "")
+                })
+                entity_ids.append(scene.get("displayId", "").strip())
 
-    api.logout()
+    # Logout
+    sendRequest(serviceUrl + "logout", None, apiKey)
     print(entity_ids)
     return entity_ids
 
@@ -150,58 +169,45 @@ def scene_file_downloaded(scenes, data_path, filetype, dataset="landsat_ot_c2_l2
     return un_finised_scenes, zero_bites
 
 
-# Send http request
-def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
+def sendRequest(url, data, apiKey=None):
+    """Send HTTP request to USGS API"""
+    pos = url.rfind('/') + 1
+    endpoint = url[pos:]
     json_data = json.dumps(data)
-
-    if apiKey == None:
+    
+    if apiKey is None:
         response = requests.post(url, json_data)
     else:
         headers = {'X-Auth-Token': apiKey}
         response = requests.post(url, json_data, headers=headers)
-
+    
     try:
         httpStatusCode = response.status_code
-        if response == None:
+        if response is None:
             print("No output from service")
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
+            sys.exit()
         output = json.loads(response.text)
-        if output['errorCode'] != None:
-            print(output['errorCode'], "- ", output['errorMessage'])
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
+        if output['errorCode'] is not None:
+            print("Failed Request ID", output['requestId'])
+            print(output['errorCode'], "-", output['errorMessage'])
+            sys.exit()
         if httpStatusCode == 404:
             print("404 Not Found")
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
+            sys.exit()
         elif httpStatusCode == 401:
             print("401 Unauthorized")
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
+            sys.exit()
         elif httpStatusCode == 400:
             print("Error Code", httpStatusCode)
-            if exitIfNoResponse:
-                sys.exit()
-            else:
-                return False
+            sys.exit()
     except Exception as e:
         response.close()
-        print(e)
-        if exitIfNoResponse:
-            sys.exit()
-        else:
-            return False
+        pos = serviceUrl.find('api')
+        print(f"Failed to parse request {endpoint} response. Re-check the input {json_data}. The input examples can be found at {url[:pos]}api/docs/reference/#{endpoint}\n")
+        sys.exit()
     response.close()
-
+    print(f"Finished request {endpoint} with request ID {output['requestId']}\n")
+    
     return output['data']
 
 
@@ -229,8 +235,10 @@ def runDownload(threads, url, dir_path=PATH, scence=""):
 
 
 if __name__ == '__main__':
-    
-    username, password = get_credentials()
+    username, api_token = get_credentials()
+    if not username or not api_token:
+        sys.exit(1)
+
     filetype = 'band'
     entityIds = []
     datasetName = "landsat_ot_c2_l2"
@@ -243,17 +251,22 @@ if __name__ == '__main__':
     # get Portal scenes
     entityIds = get_scenes()
 
-    # Add previously failed or un downloaded scenes
-    old_undownloaded = pd.read_csv(UNDONE_SCENES)
-    failed_entities = list(old_undownloaded['display_id'])
-    entityIds = list(set(entityIds + failed_entities))
+    # Add previously failed or un downloaded scenes (using new API format)
+    if os.path.exists(UNDONE_SCENES):
+        try:
+            old_undownloaded = pd.read_csv(UNDONE_SCENES)
+            failed_entities = list(old_undownloaded['display_id'])
+            entityIds = list(set(entityIds + failed_entities))
+        except Exception as e:
+            print(f"Error reading undone scenes: {e}")
 
     print("\nRunning Scripts...\n")
     startTime = time.time()
 
-    # Login
-    payload = {'username': username, 'password': password}
-    apiKey = sendRequest(serviceUrl + "login", payload)
+    # Login using token
+    payload = {"username": username, "token": api_token}
+    apiKey = sendRequest(serviceUrl + "login-token", payload)
+    print("API Key: " + apiKey + "\n")
 
     # Add scenes to a list
     listId = f"temp_{datasetName}_list"  # customized list id
