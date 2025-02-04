@@ -54,6 +54,7 @@ jobs:
         run: |
           echo WU_API_KEY = ${{ secrets.WU_API_KEY }} >> $HOME/.Renviron
           echo USGS_PASSWORD = ${{ secrets.USGS_PASSWORD }} >> $HOME/.Renviron
+          echo USGS_API_TOKEN = ${{ secrets.USGS_API_TOKEN }} >> $HOME/.Renviron
           R -e 'readRenviron("~/.Renviron")'
           Rscript update-data.R
 
