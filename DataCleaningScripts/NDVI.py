@@ -51,18 +51,18 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
     Returns:
     - dict: The parsed JSON response containing the data, or False if there was an error.
     """
-    
+
     # Convert payload to json string
     json_data = json.dumps(data)
-    
+
     if apiKey == None:
         response = requests.post(url, json_data)
     else:
-        headers = {'X-Auth-Token': apiKey}              
-        response = requests.post(url, json_data, headers = headers)  
-    
+        headers = {'X-Auth-Token': apiKey}
+        response = requests.post(url, json_data, headers = headers)
+
     try:
-      httpStatusCode = response.status_code 
+      httpStatusCode = response.status_code
       if response == None:
           print("No output from service")
           if exitIfNoResponse: sys.exit()
@@ -76,7 +76,7 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
           print("404 Not Found")
           if exitIfNoResponse: sys.exit()
           else: return False
-      elif httpStatusCode == 401: 
+      elif httpStatusCode == 401:
           print("401 Unauthorized")
           if exitIfNoResponse: sys.exit()
           else: return False
@@ -84,13 +84,12 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
           print("Error Code", httpStatusCode)
           if exitIfNoResponse: sys.exit()
           else: return False
-    except Exception as e: 
+    except Exception as e:
           response.close()
           print(e)
           if exitIfNoResponse: sys.exit()
           else: return False
     response.close()
-    
     return output['data']
 
 
@@ -101,7 +100,7 @@ def downloadFile(url, out_dir):
         disposition = response.headers['content-disposition']
         filename = re.findall("filename=(.+)", disposition)[0].strip("\"")
         print(f"    Downloading: {filename} -- {url}...")
-        
+
         open(os.path.join(out_dir, filename), 'wb').write(response.content)
         sema.release()
     except Exception as e:
@@ -126,22 +125,22 @@ def previous_undownloaded(entityIds):
 def extract_first_field(metadata, field_name):
     """
     Extract the first occurrence of a specific field from metadata.
-    
+
     Parameters:
     - metadata (list): List of metadata dictionaries
     - field_name (str): Name of the field to extract
-    
+
     Returns:
     - The value of the first occurrence of the field, or None if not found
     """
     if not metadata or not isinstance(metadata, list):
         return None
-    
+
     value = None
     for item in metadata:
         if isinstance(item, dict) and item.get('fieldName') == field_name:
             value = item.get('value')
-            
+
             # Standardize date format for "Date Acquired"
             if field_name == "Date Acquired" and value:
                 try:
@@ -150,9 +149,7 @@ def extract_first_field(metadata, field_name):
                     value = parsed_date.strftime("%Y-%m-%d")
                 except:
                     pass  # Keep original format if parsing fails
-            
             return value
-    
     return None
 
 
@@ -180,14 +177,14 @@ def get_last_date(ndvi_file=NDVI_CSV):
 def get_date_range():
     """Returns start and end date YY-MM-DD Formatted"""
     debug_mode = os.environ.get('DEBUGMODE', '').lower() in ('true', '1', 't')
-    
+
     # Get the start date as a datetime object
     start_date_str = get_last_date()
     start_date_dt = datetime.strptime(start_date_str, "%Y-%m-%d") + timedelta(days=1)
-    
+
     # Get the current date
     now = datetime.now()
-    
+
     if debug_mode:
         # Calculate end date (either start + 16 days or today, whichever is earlier)
         end_date_dt = min(start_date_dt + timedelta(days=16), now)
@@ -195,7 +192,7 @@ def get_date_range():
     else:
         # In normal mode, end date is today
         end_date_dt = now
-    
+
     # Format both dates as strings before returning
     return start_date_dt.strftime("%Y-%m-%d"), end_date_dt.strftime("%Y-%m-%d")
 
@@ -277,17 +274,17 @@ def get_download_options(listId, datasetName, bandGroup):
     Parameters:
     - listId (str): The identifier for the list of items to download.
     - datasetName (str): The name of the dataset from which to obtain download options.
-    - bandGroup (bool): A flag indicating whether to include secondary file groups. 
+    - bandGroup (bool): A flag indicating whether to include secondary file groups.
                         If True, secondary file groups will be included in the payload.
 
     Returns:
     - dict: A dictionary containing the available products for download.
     """
-    
+
     # Prepare the payload for the download options request
     download_opt_payload = {
-        "listId": listId,              
-        "datasetName": datasetName      
+        "listId": listId,
+        "datasetName": datasetName
     }
 
     # If bandGroup is specified, include the secondary file groups in the payload
@@ -296,7 +293,7 @@ def get_download_options(listId, datasetName, bandGroup):
 
     # Print the payload for debugging purposes
     print(f"download_opt_payload: {download_opt_payload}")
-    
+
     # Send request to the download options endpoint and retrieve list of available products
     products = sendRequest(serviceUrl + "download-options", download_opt_payload, apiKey)
     return products
@@ -307,25 +304,24 @@ def run_download_request(download_req_payload):
     Sends a download request to the specified service and handles the response.
 
     Parameters:
-    - download_req_payload (dict): The payload containing parameters needed to execute the download request. example: 
+    - download_req_payload (dict): The payload containing parameters needed to execute the download request. example:
                                     {
                                     "downloads": [{'entityId': 'L2SR_LC08_L2SP_068018_20200310_20200822_02_T1_SR_B2_TIF',
                                                        'productId': '5f85f041a2ea6695'},
                                                       {'entityId': 'L2ST_LC08_L2SP_068018_20200310_20200822_02_T1_ST_B10_TIF',
                                                        'productId': '5f85f041a2ea6695'}],
                                     "label": '20250108_174449'
-                                    } 
-                                    where downloads is a list of entityIds and productIds for each Item being downloaded and a "label" is 
-                                    a user define string 
-    
+                                    }
+                                    where downloads is a list of entityIds and productIds for each Item being downloaded and a "label" is
+                                    a user define string
+
     Returns:
     - dict: A dictionary of available URLs
-    
+
     Exits the program if no records are returned from the download request.
     """
 
     print(f"Sending a download request...")
-    
     # Send the download request using the provided payload and store the results
     download_request_results = sendRequest(serviceUrl + "download-request", download_req_payload, apiKey)
 
@@ -338,20 +334,20 @@ def run_download_request(download_req_payload):
 
 
 def run_download_retrieve(download_request_results, out_dir):
-    
+
     # Attempt the download URLs
-    for result in download_request_results['availableDownloads']:  
+    for result in download_request_results['availableDownloads']:
         # print(f"Get download url: {result['url']}\n" )
         runDownload(threads, result['url'], out_dir)
-    
+
     # Get items labeled as being prepared for Download
     preparingDownloadCount = len(download_request_results['preparingDownloads'])
     preparingDownloadIds = []
     if preparingDownloadCount > 0:
-        for result in download_request_results['preparingDownloads']:  
+        for result in download_request_results['preparingDownloads']:
             preparingDownloadIds.append(result['downloadId'])
 
-        download_ret_payload = {"label" : label}                
+        download_ret_payload = {"label" : label}
         # Retrieve download URLs
         print("Retrieving download urls...\n")
         download_retrieve_results = sendRequest(serviceUrl + "download-retrieve", download_ret_payload, apiKey, False)
@@ -363,19 +359,19 @@ def run_download_retrieve(download_request_results, out_dir):
                     runDownload(threads, result['url'], out_dir)
                     print(f"       {result['url']}\n" )
 
-            for result in download_retrieve_results['requested']:   
+            for result in download_retrieve_results['requested']:
                 if result['downloadId'] in preparingDownloadIds:
                     preparingDownloadIds.remove(result['downloadId'])
                     runDownload(threads, result['url'], out_dir)
                     print(f"       {result['url']}\n" )
 
         # Didn't get all download URLs, retrieve again after 30 seconds
-        while len(preparingDownloadIds) > 0: 
+        while len(preparingDownloadIds) > 0:
             print(f"{len(preparingDownloadIds)} downloads are not available yet. Waiting for 30s to retrieve again\n")
             time.sleep(30)
             download_retrieve_results = sendRequest(serviceUrl + "download-retrieve", download_ret_payload, apiKey, False)
             if download_retrieve_results != False:
-                for result in download_retrieve_results['available']:                            
+                for result in download_retrieve_results['available']:
                     if result['downloadId'] in preparingDownloadIds:
                         preparingDownloadIds.remove(result['downloadId'])
                         print(f"    Get download url: {result['url']}\n" )
@@ -383,7 +379,7 @@ def run_download_retrieve(download_request_results, out_dir):
 
     print(f"\nDownloading {len(download_request_results['availableDownloads'])} files... Please do not close the program\n")
     for thread in threads:
-        thread.join()        
+        thread.join()
 
 
 if __name__ == '__main__':
@@ -417,29 +413,28 @@ if __name__ == '__main__':
             'acquisitionFilter' : temporalFilter,
             'cloudCoverFilter' : cloudCoverFilter
         }
-    }
 
     scenes = sendRequest(serviceUrl + "scene-search", search_payload, apiKey)
     print(len(scenes['results']))
     scence_pd = pd.json_normalize(scenes['results'])
-    
+
     # Extract 'Date Acquired' and 'Satellite' from metadata
     scence_pd['date_acquired'] = scence_pd['metadata'].apply(
         lambda x: extract_first_field(x, 'Date Acquired'))
     scence_pd['satellite'] = scence_pd['metadata'].apply(
         lambda x: extract_first_field(x, 'Satellite'))
-    
+
     # Drop the metadata column to not include it in the CSV
     if 'metadata' in scence_pd.columns:
         scence_pd = scence_pd.drop('metadata', axis=1)
-    
+
     scence_pd.to_csv(NDVI_SCENES, index=False)
 
     idField = 'entityId'
     entityIds = []
     for result in scenes['results']:
             entityIds.append(result[idField])
-        
+
     entityIds = previous_undownloaded(entityIds)
     listId = f"temp_{datasetName}_list" # customized list id
     scn_list_add_payload = {
@@ -450,13 +445,13 @@ if __name__ == '__main__':
     }
     scn_list_add_payload
 
-    count = sendRequest(serviceUrl + "scene-list-add", scn_list_add_payload, apiKey) 
-    
-    sendRequest(serviceUrl + "scene-list-get", {'listId' : scn_list_add_payload['listId']}, apiKey) 
+    count = sendRequest(serviceUrl + "scene-list-add", scn_list_add_payload, apiKey)
+
+    sendRequest(serviceUrl + "scene-list-get", {'listId' : scn_list_add_payload['listId']}, apiKey)
 
     products = get_download_options(listId, datasetName, False)
     downloads = []
-    for product in products:  
+    for product in products:
         if product["secondaryDownloads"] is not None and len(product["secondaryDownloads"]) > 0:
             for secondaryDownload in product["secondaryDownloads"]:
                 for bandName in bandNames:
@@ -469,19 +464,16 @@ if __name__ == '__main__':
         }
     download_request_results = run_download_request(download_req_payload)
     run_download_retrieve(download_request_results, out_dir)
- 
 
     remove_scnlst_payload = {
         "listId": listId
     }
     sendRequest(serviceUrl + "scene-list-remove", remove_scnlst_payload, apiKey)
-    endpoint = "logout"  
-    if sendRequest(serviceUrl + endpoint, None, apiKey) == None:        
+    endpoint = "logout"
+    if sendRequest(serviceUrl + endpoint, None, apiKey) == None:
         print("\nLogged Out\n")
     else:
         print("\nLogout Failed\n")
-
-  
 
     # Save un downloaded scenes.
     un_finised_scenes, zero_bites = scene_file_downloaded(scence_pd, out_dir)

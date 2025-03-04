@@ -180,11 +180,11 @@ calculate_ndvi_stats <- function(raster) {
 
   # Extract values
   vals <- values(raster)
-  
+
   # Check if we have any non-NA values
   if (all(is.na(vals)) || length(vals[!is.na(vals)]) == 0) {
     return(list(
-      ndvi = NA, 
+      ndvi = NA,
       cloud_cover = 100,
       var = NA,
       min = NA,
