@@ -22,7 +22,6 @@ warnings.filterwarnings("ignore")
 
 
 serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
-
 bandNames = {"_SR_B4.TIF", "_SR_B5.TIF", "_QA_PIXEL.TIF"}
 maxthreads = 5 # Threads count for downloads
 sema = threading.Semaphore(value=maxthreads)
@@ -144,10 +143,10 @@ def extract_first_field(metadata, field_name):
             if field_name == "Date Acquired" and value:
                 try:
                     # Try to parse and reformat the date consistently
-                    parsed_date = datetime.strptime(value, "%Y-%m-%d")  # or whatever format it's in
+                    parsed_date = datetime.strptime(value, "%Y-%m-%d")
                     value = parsed_date.strftime("%Y-%m-%d")
                 except:
-                    pass  # Keep original format if parsing fails
+                    pass
             return value
     return None
 
@@ -163,14 +162,6 @@ def get_last_date(ndvi_file=NDVI_CSV):
     print(ndvi_file)
     ndvi_df = pd.read_csv(ndvi_file)
     return ndvi_df['date'].iat[-1]
-
-
-# def scene_to_csv(products, scene_file=NDVI_SCENES):
-#     # Convert the JSON-normalized products to a DataFrame
-#     products_df = pd.json_normalize(products)
-#     # Save to CSV file
-#     products_df.to_csv(NDVI_SCENES, index=False)
-#     print(f"CSV file saved with {len(products_df)} rows")
 
 
 def get_date_range():
@@ -383,8 +374,6 @@ def run_download_retrieve(download_request_results, out_dir):
 
 if __name__ == '__main__':
 
-    serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
-    bandNames = {"_SR_B4.TIF", "_SR_B5.TIF", "_QA_PIXEL.TIF"}
     maxthreads = 5 # Threads count for downloads
     sema = threading.Semaphore(value=maxthreads)
     label = datetime.now().strftime("%Y%m%d_%H%M%S") # Customized label using date time

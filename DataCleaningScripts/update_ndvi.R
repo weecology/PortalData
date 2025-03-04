@@ -11,10 +11,6 @@ suppressPackageStartupMessages({
   library(lubridate)
 })
 
-#==============================================================================
-# Configuration
-#==============================================================================
-
 # Define constants
 PORTAL_CENTER <- c(-109.08029, 31.937769)
 PORTAL_RADIUS <- 1000 # in meters
@@ -31,9 +27,6 @@ CLEAR_PIXEL_VALUES <- c(21824, 21826, 22080, 23888, 30048, 54596, 54852)
 SCALE_FACTOR <- 0.0000275
 SCALE_OFFSET <- -0.2
 
-#==============================================================================
-# Spatial processing functions
-#==============================================================================
 
 #' Create a circular spatial polygon for the Portal study area
 #'
@@ -129,10 +122,7 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
   })
 }
 
-#==============================================================================
 # Date handling functions
-#==============================================================================
-
 #' Parse date string with multiple format attempts
 #'
 #' @param date_str Date string to parse
@@ -157,10 +147,7 @@ parse_date <- function(date_str) {
   return(Sys.Date())
 }
 
-#==============================================================================
 # NDVI processing functions
-#==============================================================================
-
 #' Calculate summary statistics for NDVI raster
 #'
 #' @param raster NDVI raster
@@ -250,10 +237,7 @@ summarize_ndvi_snapshot <- function(records, targetpath = tempdir()) {
   return(d)
 }
 
-#==============================================================================
 # Main functions
-#==============================================================================
-
 #' Check if a file exists and is not empty
 #'
 #' @param file_path Path to the file
@@ -296,13 +280,25 @@ writendvitable <- function() {
   # Read input data
   undone <- read_csv_safe(UNDONE_SCENES_CSV, data.frame(displayId = character(0)))
   scenes <- read_csv_safe(SCENES_CSV)
+  
+  # Check if scenes dataframe is empty
+  if (nrow(scenes) == 0) {
+    message("No scenes found in CSV file. No NDVI data to process.")
+    return(invisible(FALSE))
+  }
+  
+  # Check if displayId column exists
+  if (!"displayId" %in% colnames(scenes)) {
+    message("Error: 'displayId' column not found in scenes.csv. Cannot proceed.")
+    return(invisible(FALSE))
+  }
 
   # Filter scenes - exclude those in undone list
   records <- scenes %>%
     filter(!sapply(displayId, function(id) {
       any(str_detect(undone$displayId, fixed(id)))
     }))
-
+  
   # Skip if no records to process
   if (nrow(records) == 0) {
     message("No new scenes to process.")
