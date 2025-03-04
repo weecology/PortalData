@@ -13,7 +13,6 @@ import re
 import threading
 import os
 import pandas as pd
-import geopandas as gpd
 
 from datetime import datetime
 from datetime import timedelta, date
@@ -413,20 +412,32 @@ if __name__ == '__main__':
             'acquisitionFilter' : temporalFilter,
             'cloudCoverFilter' : cloudCoverFilter
         }
-
+    }
     scenes = sendRequest(serviceUrl + "scene-search", search_payload, apiKey)
     print(len(scenes['results']))
     scence_pd = pd.json_normalize(scenes['results'])
 
-    # Extract 'Date Acquired' and 'Satellite' from metadata
-    scence_pd['date_acquired'] = scence_pd['metadata'].apply(
-        lambda x: extract_first_field(x, 'Date Acquired'))
-    scence_pd['satellite'] = scence_pd['metadata'].apply(
-        lambda x: extract_first_field(x, 'Satellite'))
-
-    # Drop the metadata column to not include it in the CSV
+    # Check if 'metadata' column exists before trying to extract from it
     if 'metadata' in scence_pd.columns:
+        # Extract 'Date Acquired' and 'Satellite' from metadata
+        scence_pd['date_acquired'] = scence_pd['metadata'].apply(
+            lambda x: extract_first_field(x, 'Date Acquired'))
+        scence_pd['satellite'] = scence_pd['metadata'].apply(
+            lambda x: extract_first_field(x, 'Satellite'))
+
+        # Drop the metadata column to not include it in the CSV
         scence_pd = scence_pd.drop('metadata', axis=1)
+    else:
+        print("Warning: 'metadata' column not found in API response")
+        # Add placeholder columns with default values
+        scence_pd['date_acquired'] = None
+        scence_pd['satellite'] = None
+
+        # Try to find date and satellite info from other columns if available
+        if 'acquisitionDate' in scence_pd.columns:
+            scence_pd['date_acquired'] = scence_pd['acquisitionDate']
+        if 'satelliteName' in scence_pd.columns:
+            scence_pd['satellite'] = scence_pd['satelliteName']
 
     scence_pd.to_csv(NDVI_SCENES, index=False)
 
