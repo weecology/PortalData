@@ -14,7 +14,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '536'
+newperiod = '537'
 
 filepath = "C:\\Users\\lindseybell\\UFL Dropbox\\Lindsey Bell\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
 
