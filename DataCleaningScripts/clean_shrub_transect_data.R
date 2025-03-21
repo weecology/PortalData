@@ -26,8 +26,8 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 season <-  'Summer'
-year <-  '2023'
-filepath <-  'D:\\Dropbox\\Portal\\PORTAL_primary_data\\Plant\\TRANSECTS\\ShrubTransects(2015-present)\\RawData\\'
+year <-  '2024'
+filepath <-  'C:\\Users\\lindseybell\\UFL Dropbox\\Lindsey Bell\\Portal\\PORTAL_primary_data\\Plant\\TRANSECTS\\Data_Raw\\RawData\\'
 
 excel_file <-  paste(filepath, "ShrubTransect_", season, year, '.xlsx', sep='')
 
