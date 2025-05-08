@@ -26,8 +26,8 @@ source('DataCleaningScripts/plant_data_cleaning_functions.R')
 # 1. Load Excel file #
 ######################
 
-season <-  'Summer'
-year <-  '2024'
+season <-  'Winter'
+year <-  '2025'
 filepath <-  'C:\\Users\\lindseybell\\UFL Dropbox\\Lindsey Bell\\Portal\\PORTAL_primary_data\\Plant\\Quadrats\\Dataraw\\Newdata\\'
 
 newfile <-  paste(filepath, season, year, '.xlsx', sep='')
@@ -125,3 +125,4 @@ data_append <- data_clean[, c("year", "season", "plot", "quadrat", "species", "a
 # append to existing data file
 write.table(data_append, file = "Plants/Portal_plant_quadrats.csv",
             row.names = F, col.names = F, na = "", append = TRUE, sep = ",")
+
