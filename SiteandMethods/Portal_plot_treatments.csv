@@ -1,25 +1,25 @@
-plot,1977-1985,1985-1987,1988-2004,2005-2009,2010-2015,2015-present
-1,Mixed-size seeds added in pulse,All annuals removed,Dipodomys spectabilis removed,Unmanipulated control,,All rodents removed
-2,Small seeds added,Summer annuals removed,Unmanipulated control,,,Kangaroo rats removed
-3,Kangaroo rats removed,,"Kangaroo rats removed, All ants removed",,Kangaroo rats removed,
-4,All ants removed,,,,Unmanipulated control,
-5,Dipodomys spectabilis removed,,All rodents removed,,,Unmanipulated control
-6,Large seeds added,Winter annuals removed,Kangaroo rats removed,,,Unmanipulated control
-7,All rodents removed,,,,,Unmanipulated control
-8,Pogonomyrmex rugosus removed,,All ants removed,,Unmanipulated control,Kangaroo rats removed
-9,Mixed-size seeds added,Bi-seasonal annuals removed,Dipodomys spectabilis removed,Unmanipulated control,,All rodents removed
-10,"All rodents removed, All ants removed",,,,All rodents removed,
-11,Unmanipulated control,,,,,
-12,Pogonomyrmex rugosus removed,,All ants removed,,Unmanipulated control,All rodents removed
-13,Large seeds added,Winter annuals removed,"Kangaroo rats removed, All ants removed",,Kangaroo rats removed,Unmanipulated control
-14,Unmanipulated control,,,,,
-15,"Kangaroo rats removed, Pogonomyrmex rugosus removed",,Kangaroo rats removed,,,
-16,All rodents removed,,,,,
-17,All ants removed,,,,Unmanipulated control,
-18,Mixed-sized seeds added in pulse,All annuals removed,Kangaroo rats removed,,,Unmanipulated control
-19,Kangaroo rats removed,,"Kangaroo rats removed, All ants removed",,Kangaroo rats removed,
-20,Mixed-sized seeds added,Bi-seasonal annuals removed,"Kangaroo rats removed, All ants removed",,Kangaroo rats removed,
-21,"Kangaroo rats removed, Pogonomyrmex rugosus removed",,Kangaroo rats removed,,,
-22,Small seeds added,Summer annuals removed,Unmanipulated control,,,Kangaroo rats removed
-23,"All rodents removed, All ants removed",,,,All rodents removed,
-24,Dipodomys spectabilis removed,,All rodents removed,,,Unmanipulated control
+plot,term,Jul1977_Sep1977,Oct1977_Jul1979,Aug1979_Jan1980,Feb1980_Jul1985,Aug1985_Dec1987,Jan1988_Dec2004,Jan2005_Jul2009,Aug2009_Mar2015,Apr2015_present
+1,shortterm,setup,Mixed-size seeds added in pulse,Mixed-size seeds added in pulse,Mixed-size seeds added in pulse,All annuals removed,Dipodomys spectabilis removed,Unmanipulated control,Unmanipulated control,All rodents removed
+2,shortterm,setup,Small seeds added,Small seeds added,Small seeds added,Summer annuals removed,Unmanipulated control,Unmanipulated control,Unmanipulated control,Kangaroo rats removed
+3,longterm,setup,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,"Kangaroo rats removed, All ants removed","Kangaroo rats removed, All ants removed",Kangaroo rats removed,Kangaroo rats removed
+4,longterm,setup,All ants removed,All ants removed,All ants removed,All ants removed,All ants removed,All ants removed,Unmanipulated control,Unmanipulated control
+5,shortterm,setup,Dipodomys spectabilis removed,Dipodomys spectabilis removed,Dipodomys spectabilis removed,Dipodomys spectabilis removed,All rodents removed,All rodents removed,All rodents removed,Unmanipulated control
+6,shortterm,setup,Large seeds added,Large seeds added,Large seeds added,Winter annuals removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Unmanipulated control
+7,shortterm,setup,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,Unmanipulated control
+8,shortterm,setup,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,All ants removed,All ants removed,Unmanipulated control,Kangaroo rats removed
+9,shortterm,setup,Mixed-size seeds added,Mixed-size seeds added,Mixed-size seeds added,Bi-seasonal annuals removed,Dipodomys spectabilis removed,Unmanipulated control,Unmanipulated control,All rodents removed
+10,longterm,setup,"All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed",All rodents removed,All rodents removed
+11,longterm,setup,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control
+12,shortterm,setup,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,Pogonomyrmex rugosus removed,All ants removed,All ants removed,Unmanipulated control,All rodents removed
+13,shortterm,setup,Large seeds added,Large seeds added,Large seeds added,Winter annuals removed,"Kangaroo rats removed, All ants removed","Kangaroo rats removed, All ants removed",Kangaroo rats removed,Unmanipulated control
+14,longterm,setup,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control,Unmanipulated control
+15,longterm,setup,"Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed",Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed
+16,longterm,setup,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed,All rodents removed
+17,longterm,setup,All ants removed,All ants removed,All ants removed,All ants removed,All ants removed,All ants removed,Unmanipulated control,Unmanipulated control
+18,shortterm,setup,Mixed-sized seeds added in pulse,Mixed-sized seeds added in pulse,Mixed-sized seeds added in pulse,All annuals removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Unmanipulated control
+19,longterm,setup,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,"Kangaroo rats removed, All ants removed","Kangaroo rats removed, All ants removed",Kangaroo rats removed,Kangaroo rats removed
+20,shortterm,setup,Mixed-sized seeds added,Mixed-sized seeds added,Mixed-sized seeds added,Bi-seasonal annuals removed,"Kangaroo rats removed, All ants removed","Kangaroo rats removed, All ants removed",Kangaroo rats removed,Kangaroo rats removed
+21,longterm,setup,"Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed","Kangaroo rats removed, Pogonomyrmex rugosus removed",Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed,Kangaroo rats removed
+22,shortterm,setup,Small seeds added,Small seeds added,Small seeds added,Summer annuals removed,Unmanipulated control,Unmanipulated control,Unmanipulated control,Kangaroo rats removed
+23,longterm,setup,"All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed","All rodents removed, All ants removed",All rodents removed,All rodents removed
+24,shortterm,DNE,DNE,control,Dipodomys spectabilis removed,Dipodomys spectabilis removed,All rodents removed,All rodents removed,All rodents removed,Unmanipulated control

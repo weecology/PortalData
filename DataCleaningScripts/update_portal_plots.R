@@ -17,7 +17,7 @@ update_portal_plots <- function() {
   # load rodent data
   rodentdat = read.csv("Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   
-  # define currrent plot treatments
+  # define current plot treatments
   
   controls = c(4,5,6,7,11,13,14,17,18,24)
   removals = c(1,9,10,12,16,23)
