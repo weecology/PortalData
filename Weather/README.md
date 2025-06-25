@@ -3,7 +3,7 @@
 These data stitch together manually collected weather data (1980 - 1989) and data from three overlapping automated weather stations (1989 - present). These data are continuously updated.
 
 #### Storm Data
-In addition to the hourly data, the 2016 station collects precipitation data in 5 minute intervals during storm events. This is in the separate table [Portal_storms](./Weather/Portal_storms.csv).
+In addition to the hourly data, the 2016 station collects precipitation data in 5 minute intervals during storm events. This is in the separate table [Portal_storms](Portal_storms.csv).
 
 #### Automated data collection
 Below are column descriptions for [Portal_weather](Portal_weather.csv). The data in this file are hourly and span three weather stations. The first only recorded Air Temperature and Precipitation, so other columns are left blank. The column record contains a unique value for each hourly reading on a datalogger. Thus, when the data switches to the new station or a new program, record starts over at 0. The record column can also indicate when missing data from one station were filled in with data from another. Example: during the first several months of the 2016 station going into operation, the battery would drain at night and stop collecting data. Data from the 2002 station were used for these hours. All data in this directory are in the units specified in this table.
