@@ -76,8 +76,12 @@ test_that("Precipitation ok", {
 
 test_that("Precipitation in multiples of 0.254", {
   
-  expect_true(sum(1000*storms$precipitation)%%254 == 0)
-  #  expect_true(sum(1000*tail(overlap$precipitation,200),na.rm=TRUE)%%254 == 0)
+  tips <- storms$precipitation/0.254
+  tips_rounded <- floor(tips)
+  expect_true(all(tips==tips_rounded))
+  tips <- tail(weather$precipitation/0.254,400)
+  tips_rounded <- floor(tips)
+  expect_true(all(tips==tips_rounded, na.rm = TRUE))
 })
 
 test_that("no hours missing", {
