@@ -1,7 +1,6 @@
 # Install required packages
 
-install.packages(c("codetools",
-                   "curl", 
+install.packages(c("curl", 
                    "devtools", 
                    "dplyr", 
                    "EML", 
