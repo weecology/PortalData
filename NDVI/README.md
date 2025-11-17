@@ -4,7 +4,7 @@ The data file (ndvi.csv) is composed of remotely sensed raw values of NDVI for a
 
 <img src="figures/portal_area.png" width="400px">
 
-The current data sources are Landsat 8 and 9. e.g. The Portal area is covered by 2 tiles from the Landsat8 paths:
+The current data sources are Landsat 8 and 9. e.g. The Portal area is covered by 2 tiles each from the Landsat8 and 9 paths:
 
 <img src="figures/tiles.png" width="400px">
 
