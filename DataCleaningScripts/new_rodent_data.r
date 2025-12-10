@@ -1,6 +1,7 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
 
+
 library(openxlsx, warn.conflicts=FALSE, quietly = TRUE)
 library(sqldf, warn.conflicts=FALSE, quietly = TRUE)
 library(RCurl, warn.conflicts=FALSE, quietly = TRUE)
@@ -14,12 +15,12 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '539'
+newperiod = '540'
 
-filepath = "C:\\Users\\lindseybell\\UFL Dropbox\\Lindsey Bell\\Portal\\PORTAL_primary_data\\Rodent\\Raw_data\\New_data"
+filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
 
-newfile = paste(filepath, '\\newdat', newperiod, '.xlsx', sep = '')
-scannerfile = paste(filepath, '\\tag scans\\tags', newperiod, '.txt', sep = '')
+newfile = paste(filepath, '/newdat', newperiod, '.xlsx', sep = '')
+scannerfile = paste(filepath, '/tag scans/tags', newperiod, '.txt', sep = '')
 
 ##############################################################################
 # 1. Compare double-entered data -- will return 'Worksheets identical' if versions match
@@ -426,3 +427,4 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 # ### Update New Moon Records
 # source('./DataCleaningScripts/new_moon_numbers.r')
 # writenewmoons()
+  
