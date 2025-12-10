@@ -1,5 +1,5 @@
 # some code to match new moon dates to period sampling dates
-
+ 
 `%>%` <- magrittr::`%>%`
 
 #' Find date of first trapping night for each period in a data frame
