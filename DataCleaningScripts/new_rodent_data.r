@@ -1,6 +1,6 @@
 # This script is for cleaning new rodent data.  Data must first be entered in two separate sheets in
 # an excel file, by two different people to reduce entry error.
-
+ 
 
 library(openxlsx, warn.conflicts=FALSE, quietly = TRUE)
 library(sqldf, warn.conflicts=FALSE, quietly = TRUE)
@@ -15,7 +15,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '540'
+newperiod = '541'
 
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
 

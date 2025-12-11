@@ -1,5 +1,5 @@
 # some code to match new moon dates to period sampling dates
-
+ 
 `%>%` <- magrittr::`%>%`
 
 #' Find date of first trapping night for each period in a data frame
@@ -84,7 +84,7 @@ update_moon_dates <- function() {
     if(any(as.character(newmoondates$newmoondate) %in% as.character(moon_dates$newmoondate))) { 
       # match new period to closest NewMoonDate, 
       for(i in 1:dim(newperiod_dates)[1]) {
-        closest = as.character(closest_newmoon(newperiod_dates$censusdate[i],newmoondates$newmoondate))
+        closest = as.character(closest_newmoon(newperiod_dates$censusdate[i],moon_dates$newmoondate))
         moon_dates$censusdate[as.character(moon_dates$newmoondate)==closest]=newperiod_dates$censusdate[i]
         moon_dates$period[as.character(moon_dates$newmoondate)==closest]=newperiod_dates$period[i]
       }
