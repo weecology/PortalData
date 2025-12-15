@@ -56,7 +56,6 @@ update_moon_dates <- function() {
   trappingdat$censusdate <- lubridate::as_date(paste(trappingdat$year,trappingdat$month,
                                                     trappingdat$day,sep='-'))
   
-  
   # proceed only if trappingdat has more recent dates than moon_dates
   if (max(abs(trappingdat$period),na.rm=T) > max(abs(moon_dates$period),na.rm=TRUE)) {  
     
