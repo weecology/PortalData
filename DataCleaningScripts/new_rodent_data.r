@@ -15,7 +15,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 
-newperiod = '542'
+newperiod = '543'
 
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
 
@@ -23,7 +23,7 @@ newfile = paste(filepath, '/newdat', newperiod, '.xlsx', sep = '')
 scannerfile = paste(filepath, '/tag scans/tags', newperiod, '.txt', sep = '')
 
 ##############################################################################
-# 1. Compare double-entered data -- will return 'Worksheets identical' if versions match
+# 1. Compare double-entered data -- will return 'Worksheets identical'  or 'data frame with 0 columns and 0 rows' if versions match
 ##############################################################################
 
 compare_worksheets(newfile)
