@@ -15,7 +15,8 @@ update_portal_plots <- function() {
   #load plot data
   portal_plots = read.csv("SiteandMethods/Portal_plots.csv",stringsAsFactors = FALSE)
   # load rodent data
-  rodentdat = read.csv("Rodents/Portal_rodent.csv",stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
+  rodentdat = read.csv("Rodents/Portal_rodent.csv",
+                       stringsAsFactors = FALSE,as.is=TRUE,na.strings = '')  
   
   # define current plot treatments
   
@@ -24,10 +25,23 @@ update_portal_plots <- function() {
   exclosures = c(2,3,8,15,19,20,21,22)
   
   # proceed only if rodentdat has more recent data than plot data
-  #find new rows
-  newrows=which(paste(rodentdat$year,rodentdat$month) %in% paste(portal_plots$year,portal_plots$month)
+  # find new rows
+  newrows=which(paste(rodentdat$year,rodentdat$month) %in% 
+                  paste(portal_plots$year,portal_plots$month)
                   ==FALSE)
-  newdat = unique(na.omit(rodentdat[newrows,c(2,4)])) 
+  
+  if (length(newrows)>0) {
+    
+  latest <- unique(na.omit(rodentdat[newrows,c(2,4)])) %>%
+            mutate(date = as.Date(paste(year,month,"1",sep="-")))
+  current <- tail(portal_plots[,c(1,2)],1) %>%
+             mutate(date = as.Date(paste(year,month,"1",sep="-")))
+  newdat <- data.frame(date = as.Date(current$date:max(latest$date))) %>%
+            mutate(year = lubridate::year(date),
+                   month = lubridate::month(date)) %>%
+            select(-date) %>%
+            unique() %>%
+            anti_join(current[,1:2], by = join_by(year, month))
   
   if (nrow(newdat)>0) {
     
@@ -36,13 +50,14 @@ update_portal_plots <- function() {
     
     newplots$treatment = NA
     
-    newplots = newplots %>% mutate(treatment = ifelse((plot %in% removals),
-                                                      "removal", treatment)) %>% 
+    newplots = newplots %>% 
+      mutate(treatment = ifelse((plot %in% removals),"removal", treatment)) %>% 
       mutate(treatment = ifelse((plot %in% exclosures),"exclosure", treatment)) %>% 
       mutate(treatment = ifelse((plot %in% controls),"control", treatment))
     
-    portal_plots = bind_rows(portal_plots,newplots)
-  }
+    portal_plots = bind_rows(portal_plots,newplots) %>% arrange(year,month,plot)
+
+      }}
   
   return(portal_plots)
 }
