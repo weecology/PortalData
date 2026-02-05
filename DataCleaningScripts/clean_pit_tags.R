@@ -1,3 +1,70 @@
+library(dplyr, warn.conflicts=FALSE, quietly = TRUE)
+
+# Assigns unique individual IDs to new rodent data
+# modified from clean_tags below to work on monthly data
+#
+#
+add_id <- function(raw_data, rodent_data, new_period){
+  
+  rodent_data <- rodent_data %>%
+    filter(period<new_period,period>=new_period-36)
+  
+  # get all ids
+  all_ids <- rodent_data %>%
+    select(species,tag,pit_tag,id) %>%
+    distinct()
+  
+  # get existing tags
+  current_tags <- rodent_data %>%
+    filter(pit_tag==TRUE) %>%
+    select(tag,id) %>%
+    distinct()
+  
+  # append the tag type
+  raw_data$pit_tag <- PIT_tag(raw_data$tag, raw_data$species)
+  
+  # add PIT tag-based ids, one day at a time (for pesky weekend recaptures)
+  new_data1 <- raw_data %>%
+               filter(day == min(day,na.rm = TRUE)) %>%
+    left_join(current_tags, by="tag") %>%
+    mutate(id = case_when(pit_tag==TRUE & is.na(id) ~ paste0(tag, "_", species, "_1") ,
+                          TRUE ~ id))
+  current_tags <- rbind(current_tags,new_data1[!is.na(new_data1$tag),c(20,31)]) %>%
+    distinct()
+  
+  new_data2 <- raw_data %>%
+    filter(!(day %in% new_data1$day)) %>%
+    left_join(current_tags, by="tag") %>%
+    mutate(id = case_when(pit_tag==TRUE & is.na(id) ~ paste0(tag, "_", species, "_1") ,
+                          TRUE ~ id)) 
+  
+  new_data <- rbind(new_data1,new_data2)
+  
+  # get latest untagged id number
+  max_id <- all_ids %>% filter(pit_tag==FALSE) %>%
+    mutate(untag_id = sub("_.*", "", id)) %>%
+    mutate(untag_id=as.numeric(untag_id)) %>%
+    summarise(max(untag_id,na.rm=TRUE))
+  
+  #assign numbers to untagged individuals
+  unks <- which(is.na(new_data$species) == FALSE & new_data$pit_tag==FALSE)
+  nunks <- length(unks)
+  
+  start_id <- max_id[1,1] + 1
+  end_id <- start_id + nunks - 1
+  new_data$id[unks] <- start_id:end_id
+  
+  # create new PIT tag based ids
+  new_data <- new_data %>%
+    mutate(id = case_when(pit_tag==FALSE & is.na(species)==FALSE ~ paste0(id, "_", species, "_1") ,
+                          TRUE ~ id))
+  
+  new_data  %>%
+    dplyr::mutate(id = ifelse(is.na(species), NA, id),
+                  pit_tag = ifelse(is.na(species), NA, pit_tag))
+  
+  }
+
 #
 # determines if a tag is a PIT tag by its structure
 #  requires species input for comparison, returns a logical vector
