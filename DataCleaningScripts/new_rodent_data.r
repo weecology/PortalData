@@ -365,23 +365,40 @@ if (length(tags) > 0) {
 }
 
 # Add unique tag ID column
+ws_tags <- add_id(ws, olddat, new_period) 
 
-#ws_tags <- clean_tags(ws, clean = TRUE, quiet = FALSE) 
+old_ids <- olddat %>%
+  filter(period<new_period-36) %>%
+  select(species,tag,pit_tag,id) %>%
+  distinct()
+old_tags <- old_ids %>%
+  filter(pit_tag==TRUE) %>%
+  select(species,tag,pit_tag,id) %>%
+  distinct()
 
-#if(is.na(ws_tags$id[which(!is.na(ws_tags$species))])) { 
-#  print("Duplicate individuals in tag data, recheck tags") }
-#if(dim(ws_tags)!=dim(ws)) { 
-#  print("Records dropped in tag data, recheck tags") }
+if(any(ws_tags$id[!is.na(ws_tags$id)] %in% old_ids$id)) { 
+  print("Duplicate ids created, check ids") }
 
-#ws <- dplyr::left_join(ws, ws_tags)
-ws<-dplyr::mutate(ws, pit_tag=NA, id=NA)
+if(any(ws_tags$tag %in% old_tags$tag)) { 
+  print("Duplicate PIT tags, recheck tags") }
+
+if(any(is.na(ws_tags$id[which(!is.na(ws_tags$species))]))) { 
+  print("Duplicate individuals in tag data, recheck tags") }
+
+if(dim(ws_tags)[1]>dim(ws)[1]) { 
+  print("Records duplicated, this tag has 2 IDs") 
+  print(ws_tags[duplicated(ws_tags[,-c(30:31)]),]) }
+
+if(dim(ws_tags)[1]<dim(ws)[1]) { 
+  print("Records dropped in tag data, check tags") }
+
 
 ##############################################################################
 # 4. Append new data
 ##############################################################################
 
 # make column of record IDs for new data
-newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws)
+newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws_tags)
 
 # append to existing data file
 #write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
