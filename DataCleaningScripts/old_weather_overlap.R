@@ -4,7 +4,7 @@
 # Met445.dat can be used for testing - it has a lot of problems
 
 source("DataCleaningScripts/new_weather_data.r")
-
+library(dplyr)
 # ==============================================================================
 # Load file
 # ==============================================================================
@@ -12,9 +12,9 @@ source("DataCleaningScripts/new_weather_data.r")
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile <- "Met534"
+metfile <- "Met537"
 
-rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',',
+rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=' ', 
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
 if(is.na(rawdata$code[1]) | rawdata$jday[1]==0) { rawdata <- rawdata[-1,] } #if first row blank
 
@@ -28,8 +28,12 @@ rawdata$timestamp <- lubridate::ymd_hms(paste(rawdata$year,"-",rawdata$month,"-"
 # Select weather data (Code=101) from battery status data (Code=102) 
 # then add battery data as column
 weathdat <- rawdata[rawdata$code==101,]
-battery <- rawdata[rawdata$code==102,] %>% dplyr::select(year,month,day,hour,battv=precipitation)
-weathdat <- dplyr::left_join(weathdat,battery,by=c("year","month","day","hour"))
+battery <- rawdata[rawdata$code==102,] %>% select(year,month,day,hour,battv=precipitation)
+weathdat <- left_join(weathdat,battery,by=c("year","month","day","hour"))
+weathdat$hour <- as.integer(weathdat$hour)
+weathdat$precipitation <- as.numeric(weathdat$precipitation)
+weathdat$airtemp <- as.numeric(weathdat$airtemp)
+weathdat$RH <- as.numeric(weathdat$RH)
 
 # Make precipitation correction 
 # calculate mL from current reading (with what the datalogger *thinks*): 
