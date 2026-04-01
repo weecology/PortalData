@@ -12,9 +12,9 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile <- "Met537"
+metfile <- "Met549"
 
-rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=' ', 
+rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',', 
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
 if(is.na(rawdata$code[1]) | rawdata$jday[1]==0) { rawdata <- rawdata[-1,] } #if first row blank
 
