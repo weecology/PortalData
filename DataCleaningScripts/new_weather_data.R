@@ -20,22 +20,24 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
   
 # To read from .dat file
-# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/517_CR1000_remote_MET.dat",
-#                    skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
-# 
-# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/517_CR1000_remote_MET.dat",
-#                    skip = 4, header = FALSE,sep=",") %>%
-#   `colnames<-`(header) %>%
-#   dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,
-#                  battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg)
-# 
-# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_remote_storms.dat",
+# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_hourly.dat",
 #                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000_remote_storms.dat",
-#                    skip = 4, header = FALSE,sep=",") %>%
-#   `colnames<-`(header_storms) %>%
-#   dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min)
+# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_hourly.dat",
+#                   skip = 4, header = FALSE,sep=",") %>%
+#  `colnames<-`(header) %>%
+#  dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,
+#                 battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg) %>%
+#  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
+# 
+# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_storms.dat",
+#                  skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
+# 
+# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_storms.dat",
+#                   skip = 4, header = FALSE,sep=",") %>%
+#  `colnames<-`(header_storms) %>%
+#  dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min) %>%
+#  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
 
 today <- lubridate::ymd_hms(gsub(":\\d+:\\d+",":00:00",Sys.time()))
   # Pull raw data (latest week of records, plus some overlap for safety) & rename columns
