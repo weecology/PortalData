@@ -14,13 +14,12 @@ source('DataCleaningScripts/clean_pit_tags.R')
 ##############################################################################
 # New file to be checked
 ##############################################################################
+# change newperiod each census and change file path to updated newdat folder when needed
+newperiod = '547'
 
-newperiod = '546'
-
-filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
+filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat501-550"
 
 newfile = paste(filepath, '/newdat', newperiod, '.xlsx', sep = '')
-scannerfile = paste(filepath, '/tag scans/tags', newperiod, '.txt', sep = '')
 
 ##############################################################################
 # 1. Compare double-entered data -- will return 'Worksheets identical'  or 'data frame with 0 columns and 0 rows' if versions match
@@ -33,6 +32,11 @@ compare_worksheets(newfile)
 ##############################################################################
 
 # load data from excel workbook
+filepath = "/Users/samlamb/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
+
+scannerfile = paste(filepath, '/tag scans/tags', newperiod, '.txt', sep = '')
+
+
 ws = read.xlsx(newfile, sheet = 1, colNames = TRUE, na.strings = '')
 
 rodent_data_quality_checks(ws, scannerfile)
@@ -40,7 +44,7 @@ rodent_data_quality_checks(ws, scannerfile)
 ###############################################################################
 # 3. Correct recaptures - compare new data to older data
 ##############################################################################
-
+setwd("~/Dropbox/UF PhD Ecology/Portal/PortalDataClean")
 # Load current state of database - older data
 olddat = read.csv('Rodents/Portal_rodent.csv', na.strings = '', as.is = T)
  
@@ -365,10 +369,14 @@ if (length(tags) > 0) {
 }
 
 # Add unique tag ID column
-ws_tags <- add_id(ws, olddat, new_period) 
+
+ws$pit_tag <- NA
+ws$id <- NA
+newperiod_num <- as.numeric(newperiod)
+ws_tags <- add_id(ws, olddat, newperiod_num) 
 
 old_ids <- olddat %>%
-  filter(period<new_period-36) %>%
+  filter(period<newperiod_num-36) %>%
   select(species,tag,pit_tag,id) %>%
   distinct()
 old_tags <- old_ids %>%
@@ -399,7 +407,7 @@ if(dim(ws_tags)[1]<dim(ws)[1]) {
 
 # make column of record IDs for new data
 newdat = cbind(recordID = seq(max(olddat$recordID) + 1, max(olddat$recordID) + length(ws$month)), ws_tags)
-
+newdat <- newdat %>% select(-any_of("id_old"))
 # append to existing data file
 #write.table(newdat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=T, sep=",", col.names = F, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29))
 

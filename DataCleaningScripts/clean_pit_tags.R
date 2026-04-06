@@ -26,17 +26,19 @@ add_id <- function(raw_data, rodent_data, new_period){
   # add PIT tag-based ids, one day at a time (for pesky weekend recaptures)
   new_data1 <- raw_data %>%
                filter(day == min(day,na.rm = TRUE)) %>%
-    left_join(current_tags, by="tag") %>%
-    mutate(id = case_when(pit_tag==TRUE & is.na(id) ~ paste0(tag, "_", species, "_1") ,
-                          TRUE ~ id))
-  current_tags <- rbind(current_tags,new_data1[!is.na(new_data1$tag),c(20,31)]) %>%
+    left_join(rename(current_tags, id_old = id), by="tag") %>%
+    mutate(id = case_when(pit_tag==TRUE & is.na(id_old) ~ paste0(tag, "_", species, "_1") ,
+                          TRUE ~ id_old))
+  current_tags <- rbind(current_tags,new_data1[!is.na(new_data1$tag), which(names(new_data1) %in% c("tag","id"))]
+  ) %>%
     distinct()
+    #new_data1[!is.na(new_data1$tag),c(20,30)]) %>% distinct()
   
   new_data2 <- raw_data %>%
     filter(!(day %in% new_data1$day)) %>%
-    left_join(current_tags, by="tag") %>%
-    mutate(id = case_when(pit_tag==TRUE & is.na(id) ~ paste0(tag, "_", species, "_1") ,
-                          TRUE ~ id)) 
+    left_join(rename(current_tags, id_old = id), by="tag") %>%
+    mutate(id = case_when(pit_tag==TRUE & is.na(id_old) ~ paste0(tag, "_", species, "_1") ,
+                          TRUE ~ id_old)) 
   
   new_data <- rbind(new_data1,new_data2)
   
@@ -304,8 +306,11 @@ clean_tags <- function (rodents, clean = TRUE, quiet = FALSE) {
   rodents$id <- rodents$id_ind
 
   rodents  %>%
-    dplyr::mutate(id = ifelse(is.na(species), NA, id),
-                  pit_tag = ifelse(is.na(species), NA, pit_tag)) %>%
+    dplyr::mutate(
+      id = ifelse(is.na(.data$species), NA, .data$id),
+      pit_tag = ifelse(is.na(.data$species), NA, .data$pit_tag)
+    ) %>%
     dplyr::select(-c(status, id_ind, idind, id_status, date)) %>%
     dplyr::arrange(recordID)
 }
+
