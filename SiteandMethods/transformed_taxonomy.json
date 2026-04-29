@@ -1,0 +1,115 @@
+[
+  {
+    "value": "Mammal",
+    "children": [
+      {"value": "Antelope Squirrel"},
+      {"value": "Pygmy Mouse"},
+      {"value": "Pocket Mouse"},
+      {"value": "Bailey's Pocket Mouse"},
+      {"value": "Desert Pocket Mouse"},
+      {"value": "Small rodent (non-krat)"},
+      {"value": "Merriam's KRat"},
+      {"value": "Ord's KRat"},
+      {"value": "KRat"},
+      {"value": "Banner-tailed KRat"},
+      {"value": "Pack Rat"},
+      {"value": "Grasshopper Mouse"},
+      {"value": "Silky Pocket Mouse"},
+      {"value": "Cactus Mouse"},
+      {"value": "Deer Mouse"},
+      {"value": "Harvest Mouse"},
+      {"value": "Rodent sp"},
+      {"value": "Cotton Rat"},
+      {"value": "Squirrel"},
+      {"value": "Spotted ground squirrel"},
+      {"value": "Round-tailed Ground Squirrel"},
+      {"value": "Desert Cottontail"},
+      {"value": "Jackrabbit"},
+      {"value": "Javelina"},
+      {"value": "Coyote"},
+      {"value": "Badger"},
+      {"value": "Dog"},
+      {"value": "Human"}
+    ]
+  },
+  {
+    "value": "Reptile",
+    "children": [
+      {"value": "Gartersnake"},
+      {"value": "Patch-nosed Snake"},
+      {"value": "Gophersnake"},
+      {"value": "Coachwhip"},
+      {"value": "Mojave Rattlesnake"},
+      {"value": "Prairie Rattlesnake"},
+      {"value": "Coralsnake"},
+      {"value": "Unknown Snake"},
+      {"value": "Gecko"},
+      {"value": "Great Plains skink"},
+      {"value": "Spiny Lizard sp"},
+      {"value": "Eastern Fence Lizard"},
+      {"value": "Texas Horned Lizard"},
+      {"value": "Greater Short-horned Lizard"},
+      {"value": "Round-tailed Horned Lizard"},
+      {"value": "Skink"},
+      {"value": "Gila Monster"},
+      {"value": "Unknown Lizard"},
+      {"value": "Ornate Box Turtle"},
+      {"value": "Sonora Mud Turtle"},
+      {"value": "Unknown Turtle"}
+    ]
+  },
+  {
+    "value": "Amphibian",
+    "children": [
+      {"value": "Leopard Frog"},
+      {"value": "Great Plains Toad"},
+      {"value": "Green Toad"},
+      {"value": "Sonoran Desert Toad"},
+      {"value": "Spadefoot"}
+    ]
+  },
+  {
+    "value": "Bird",
+    "children": [
+      {"value": "Lark bunting"},
+      {"value": "Gambel’s Quail"},
+      {"value": "Montezuma Quail"},
+      {"value": "Scaled quail"},
+      {"value": "Cactus wren"},
+      {"value": "Green-tailed towhee"},
+      {"value": "Canyon towhee"},
+      {"value": "Towhee sp"},
+      {"value": "Roadrunner"},
+      {"value": "Shrike"},
+      {"value": "Turkey Vulture"},
+      {"value": "Grasshopper sparrow"},
+      {"value": "Black-throated sparrow"},
+      {"value": "Vesper sparrow"},
+      {"value": "Brewer's sparrow"},
+      {"value": "White-crowned sparrow"},
+      {"value": "Sparrow sp"},
+      {"value": "Warbler"},
+      {"value": "Mourning Dove"},
+      {"value": "Raven"},
+      {"value": "Hawk"},
+      {"value": "Ash-throated Flycatcher"},
+      {"value": "Dusky-capped Flycatcher"},
+      {"value": "Meadowlark sp"},
+      {"value": "Unknown Bird"}
+    ]
+  },
+  {
+    "value": "Arthropod",
+    "children": [
+      {"value": "Beetle"},
+      {"value": "Tarantula"},
+      {"value": "Arthropod"}
+    ]
+  },
+  {
+    "value": "Other",
+    "children": [
+      {"value": "Vehicle"}
+    ]
+  }
+]
