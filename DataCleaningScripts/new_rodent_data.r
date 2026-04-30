@@ -452,4 +452,3 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 # ### Update New Moon Records
 # source('./DataCleaningScripts/new_moon_numbers.r')
 # writenewmoons()
-  
