@@ -15,7 +15,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 # change newperiod each census and change file path to updated newdat folder when needed
-newperiod = '548'
+newperiod = '549'
 
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat501-550"
 
@@ -32,7 +32,7 @@ compare_worksheets(newfile)
 ##############################################################################
 
 # load data from excel workbook
-filepath = "/Users/samlamb/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
+filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data"
 
 scannerfile = paste(filepath, '/tag scans/tags', newperiod, '.txt', sep = '')
 
@@ -452,4 +452,3 @@ write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "",
 # ### Update New Moon Records
 # source('./DataCleaningScripts/new_moon_numbers.r')
 # writenewmoons()
-  
