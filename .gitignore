@@ -16,7 +16,7 @@
 
 # RStudio files
 .Rproj.user/
-PortalData.Rproj
+*.Rproj
 
 # produced vignettes
 vignettes/*.html
@@ -43,3 +43,4 @@ vignettes/*.pdf
 # Processing files
 NDVI/scenes.csv
 NDVI/landsat-data/*
+.positai
