@@ -104,6 +104,7 @@
     "children": [
       {"value": "Beetle"},
       {"value": "Tarantula"},
+      {"value": "Grasshopper"},
       {"value": "Arthropod"}
     ]
   },
