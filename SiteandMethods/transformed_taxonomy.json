@@ -29,6 +29,7 @@
       {"value": "Coyote"},
       {"value": "Badger"},
       {"value": "Dog"},
+      {"value": "Unknown rabbit"},
       {"value": "Human"}
     ]
   },
