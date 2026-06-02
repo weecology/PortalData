@@ -15,7 +15,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 # change newperiod each census and change file path to updated newdat folder when needed
-newperiod = '549'
+newperiod = '550'
 
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat501-550"
 
