@@ -21,12 +21,24 @@ NDVI_CSV <- "./NDVI/ndvi.csv"
 
 # Clear pixel values from CFMask algorithm version 3.3.1
 # https://www.usgs.gov/media/files/landsat-8-9-collection-2-level-2-science-product-guide
-CLEAR_PIXEL_VALUES <- c(21824, 21826, 22080, 23888, 30048, 54596, 54852)
+create_landsat_mask <- function(qa_raster) {
+  # Bit 1: Dilated Cloud, Bit 3: Cloud, Bit 4: Cloud Shadow
+  # Shift bits right and use modulo 2 to isolate the binary state (0 or 1)
+  dilated_cloud <- (bitwShiftR(qa_raster, 1) %% 2) == 1
+  cloud         <- (bitwShiftR(qa_raster, 3) %% 2) == 1
+  cloud_shadow  <- (bitwShiftR(qa_raster, 4) %% 2) == 1
+  
+  # Combine flags: TRUE if any bad condition is met
+  bad_pixels <- dilated_cloud | cloud | cloud_shadow
+  
+  # Return a mask where bad pixels are NA and good pixels are 1
+  mask_raster <- ifel(bad_pixels, NA, 1)
+  return(mask_raster)
+}
 
 # Scaling factors for Landsat data
 SCALE_FACTOR <- 0.0000275
 SCALE_OFFSET <- -0.2
-
 
 #' Create a circular spatial polygon for the Portal study area
 #'
@@ -105,8 +117,8 @@ extract_and_mask_raster <- function(records, targetpath = tempdir()) {
     sr_ndvi <- (B5 - B4) / (B5 + B4)
 
     # Mask non-clear pixels
-    pixelqa[!(pixelqa %in% CLEAR_PIXEL_VALUES)] <- NA
-    ndvi_masked <- terra::mask(x = sr_ndvi, mask = pixelqa)
+    quality_mask <- create_landsat_mask(pixelqa)
+    ndvi_masked <- terra::mask(x = sr_ndvi, mask = quality_mask)
 
     # Add this check
     if (all(is.na(values(ndvi_masked)))) {
