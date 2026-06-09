@@ -29,7 +29,7 @@ We have compared each mission to the previous mission using data from the two se
 <img src="figures/ndvi-sensor-comparison-histograms.png" width="400px">
 
 Since notable shifts are present and they seem to be consistent across NDVI values we recommend correcting the means to a common mean based on Landsat 5.
-Calulated corrections to the previous sensor for Landsats 7-9 are:
+Calculated corrections to the previous sensor for Landsats 7-9 are:
 
 ```
 # A tibble: 3 × 2
