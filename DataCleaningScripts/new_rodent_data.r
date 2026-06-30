@@ -15,9 +15,9 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 # change newperiod each census and change file path to updated newdat folder when needed
-newperiod = '550'
+newperiod = '551'
 
-filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat501-550"
+filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat551-600"
 
 newfile = paste(filepath, '/newdat', newperiod, '.xlsx', sep = '')
 
