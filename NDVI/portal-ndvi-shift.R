@@ -72,7 +72,7 @@ ggplot(ndvi_pairs, aes(x = ndvi1, y = ndvi2)) +
   geom_abline(slope = 1, intercept = 0) +
   facet_wrap(vars(sensor1, sensor2), scales = "free")
 
-ggsave("ndvi-sensor-comparion-one-to-one.png")
+ggsave("ndvi-sensor-comparison-one-to-one.png")
 
 ggplot(ndvi_pairs, (aes(x = ndvi1 - ndvi2))) +
   geom_histogram() +
@@ -80,7 +80,7 @@ ggplot(ndvi_pairs, (aes(x = ndvi1 - ndvi2))) +
   xlab("Sensor Difference (Current - Previous)") +
   facet_wrap(vars(sensor2), ncol = 1)
 
-ggsave("ndvi-sensor-comparion-histograms.png")
+ggsave("ndvi-sensor-comparison-histograms.png")
 
 instrument_diffs <- ndvi_pairs |>
   group_by(sensor2) |>
