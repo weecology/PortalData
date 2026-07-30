@@ -81,6 +81,10 @@ class(stormsnew$record)="numeric"
 class(stormsnew$battv)="numeric"
 class(stormsnew$precipitation)="numeric"
 
+#Fix tips -> mm calculation (this should only change values >8)
+rawdata$precipitation = round(rawdata$precipitation/.254)*.254
+stormsnew$precipitation = round(stormsnew$precipitation/.254)*.254
+
 # New weather table
 weather <- read.csv("Weather/Portal_weather.csv") 
 weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
