@@ -60,6 +60,7 @@
       {"value": "Cotton Rat"},
       {"value": "Coyote"},
       {"value": "Deer Mouse"},
+      {"value": "Deer sp"},
       {"value": "Desert Cottontail"},
       {"value": "Desert Pocket Mouse"},
       {"value": "Dog"},
@@ -94,7 +95,6 @@
     "children": [
       {"value": "Coachwhip"},
       {"value": "Coralsnake"},
-      {"value": "Deer sp"},
       {"value": "Eastern Fence Lizard"},
       {"value": "Gartersnake"},
       {"value": "Gecko"},
