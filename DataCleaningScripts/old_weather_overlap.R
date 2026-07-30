@@ -12,7 +12,7 @@ library(dplyr)
 # Open raw .dat file of new data
 filepath = "~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2002_Station/"
 
-metfile <- "Met549"
+metfile <- "Met551"
 
 rawdata <- read.csv(paste(filepath,metfile,'.dat',sep=''),head=F,sep=',', 
                    col.names=c('code','year','jday','hour','precipitation','airtemp','RH'))
@@ -86,7 +86,7 @@ plot(weathdat$RH,type='l')
 
 # organize new data to match overlap table format
 exst_dat <- read.csv('~/PortalData/Weather/Portal_weather_overlap.csv')
-exst_dat$timestamp <- lubridate::ymd_hms(exst_dat$timestamp)
+exst_dat$timestamp <- lubridate::parse_date_time(exst_dat$timestamp, orders = c("ymd_HMS", "ymd"))
 newdata <- weathdat %>%
            dplyr::left_join(exst_dat[,c(1:5,11)], by = dplyr::join_by(year, hour, month, day, timestamp))
 # add record numbers
