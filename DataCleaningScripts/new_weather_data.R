@@ -87,10 +87,12 @@ weather$timestamp <- lubridate::ymd_hms(weather$timestamp)
 weather[,c(1:4,6)] <- lapply(weather[,c(1:4,6)],as.integer)
 weather[,7:25] <- lapply(weather[,7:25],as.numeric)
 last_date <- max(weather$timestamp)
-weather <- weather %>%
-  dplyr::add_row(timestamp = lubridate::ymd_hms(format(seq.POSIXt(last_date+3600, today, by = "1 hour"), format = "%Y-%m-%d %T %Z")),
-         year = lubridate::year(timestamp), month = lubridate::month(timestamp),
-         day = lubridate::day(timestamp), hour = 100*lubridate::hour(timestamp))
+if (last_date + 3600 <= today) {
+  weather <- weather %>%
+    dplyr::add_row(timestamp = lubridate::ymd_hms(format(seq.POSIXt(last_date+3600, today, by = "1 hour"), format = "%Y-%m-%d %T %Z")),
+           year = lubridate::year(timestamp), month = lubridate::month(timestamp),
+           day = lubridate::day(timestamp), hour = 100*lubridate::hour(timestamp))
+}
 weather$day[weather$hour==0] = weather$day[which(weather$hour==0)-1]
 weather$month[weather$hour==0] = weather$month[which(weather$hour==0)-1]
 weather$year[weather$hour==0] = weather$year[which(weather$hour==0)-1]
