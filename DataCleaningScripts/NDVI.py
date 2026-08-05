@@ -24,9 +24,11 @@ warnings.filterwarnings("ignore")
 serviceUrl = "https://m2m.cr.usgs.gov/api/api/json/stable/"
 bandNames = {"_SR_B4.TIF", "_SR_B5.TIF", "_QA_PIXEL.TIF"}
 maxthreads = 5 # Threads count for downloads
+max_download_attempts = 3
 sema = threading.Semaphore(value=maxthreads)
 label = datetime.now().strftime("%Y%m%d_%H%M%S") # Customized label using date time
 threads = []
+download_attempts = {}
 
 NDVI_DIR = os.path.normpath(os.path.abspath(__file__ + "/../../NDVI"))
 PATH = os.path.join(NDVI_DIR, "landsat-data")
@@ -37,56 +39,36 @@ UNDONE_SCENES = os.path.join(NDVI_DIR, "undone-scenes.csv")
 
 # Send HTTP request
 def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
-    """
-    Send a request to an M2M (Machine-to-Machine) endpoint and return the parsed JSON response.
+    headers = {'Content-Type': 'application/json'}
+    if apiKey is not None:
+        headers['X-Auth-Token'] = apiKey
 
-    Parameters:
-    - url (str): The URL of the M2M endpoint.
-    - data (dict): The payload to be sent with the request.
-    - apiKey (str, optional): An optional API key for authorization. If not provided, the request will be sent without an authorization header.
-    - exitIfNoResponse (bool, optional): If True, the program will exit upon receiving an error or no response. Defaults to True.
-
-    Returns:
-    - dict: The parsed JSON response containing the data, or False if there was an error.
-    """
-
-    # Convert payload to json string
-    json_data = json.dumps(data)
-
-    if apiKey == None:
-        response = requests.post(url, json_data)
-    else:
-        headers = {'X-Auth-Token': apiKey}
-        response = requests.post(url, json_data, headers = headers)
+    response = requests.post(url, json=data, headers=headers, timeout=300)
 
     try:
-      httpStatusCode = response.status_code
-      if response == None:
-          print("No output from service")
-          if exitIfNoResponse: sys.exit()
-          else: return False
-      output = json.loads(response.text)
-      if output['errorCode'] != None:
-          print(output['errorCode'], "- ", output['errorMessage'])
-          if exitIfNoResponse: sys.exit()
-          else: return False
-      if  httpStatusCode == 404:
-          print("404 Not Found")
-          if exitIfNoResponse: sys.exit()
-          else: return False
-      elif httpStatusCode == 401:
-          print("401 Unauthorized")
-          if exitIfNoResponse: sys.exit()
-          else: return False
-      elif httpStatusCode == 400:
-          print("Error Code", httpStatusCode)
-          if exitIfNoResponse: sys.exit()
-          else: return False
+        if response.status_code != 200:
+            print(f"HTTP {response.status_code} from {url}")
+            print(response.text[:500])
+            if exitIfNoResponse:
+                sys.exit(1)
+            return False
+        if not response.text:
+            print(f"Empty response from {url}")
+            if exitIfNoResponse:
+                sys.exit(1)
+            return False
+        output = response.json()
+        if output['errorCode'] is not None:
+            print(output['errorCode'], "- ", output['errorMessage'])
+            if exitIfNoResponse:
+                sys.exit(1)
+            return False
     except Exception as e:
-          response.close()
-          print(e)
-          if exitIfNoResponse: sys.exit()
-          else: return False
+        response.close()
+        print(e)
+        if exitIfNoResponse:
+            sys.exit(1)
+        return False
     response.close()
     return output['data']
 
@@ -94,29 +76,46 @@ def sendRequest(url, data, apiKey=None, exitIfNoResponse=True):
 def downloadFile(url, out_dir):
     sema.acquire()
     try:
-        response = requests.get(url, stream=True)
+        response = requests.get(url, stream=True, timeout=300)
         disposition = response.headers['content-disposition']
         filename = re.findall("filename=(.+)", disposition)[0].strip("\"")
-        print(f"    Downloading: {filename} -- {url}...")
+        filepath = os.path.join(out_dir, filename)
 
-        open(os.path.join(out_dir, filename), 'wb').write(response.content)
+        if os.path.isfile(filepath) and os.stat(filepath).st_size > 0:
+            print(f"    Skipping existing file: {filename}")
+            sema.release()
+            return
+
+        print(f"    Downloading: {filename} -- {url}...")
+        open(filepath, 'wb').write(response.content)
         sema.release()
     except Exception as e:
-        print(f"\nFailed to download from {url}. Will try to re-download.")
+        print(f"\nFailed to download from {url}. {e}")
         sema.release()
-        runDownload(threads, url, out_dir)
+        attempts = download_attempts.get(url, 0)
+        if attempts < max_download_attempts:
+            print(f"Will try to re-download (attempt {attempts + 1}/{max_download_attempts}).")
+            runDownload(threads, url, out_dir)
+        else:
+            print(f"Gave up after {max_download_attempts} attempts: {url}")
 
 
 def previous_undownloaded(entityIds):
-    # Add previously failed or un downloaded scenes (using new API format)
+    # Re-queue previously failed scenes (entityId column when present)
     if os.path.exists(UNDONE_SCENES):
         try:
             old_undownloaded = pd.read_csv(UNDONE_SCENES)
-            failed_entities = list(old_undownloaded['displayId'])
-            entityIds = list(set(entityIds + failed_entities))
-        except Exception as e:
-            return entityIds
-    return entityIds
+            if 'entityId' in old_undownloaded.columns:
+                failed_entities = [
+                    eid for eid in old_undownloaded['entityId'].dropna().tolist() if str(eid).strip()
+                ]
+            else:
+                # Legacy displayId-only files cannot be mixed with entityId idField
+                failed_entities = []
+            entityIds = list(dict.fromkeys(list(entityIds) + failed_entities))
+        except Exception:
+            return list(dict.fromkeys(entityIds))
+    return list(dict.fromkeys(entityIds))
 
 
 # Function to extract the first occurrence of a field from metadata
@@ -152,7 +151,8 @@ def extract_first_field(metadata, field_name):
 
 
 def runDownload(threads, url, out_dir):
-    thread = threading.Thread(target=downloadFile, args=(url,out_dir,))
+    download_attempts[url] = download_attempts.get(url, 0) + 1
+    thread = threading.Thread(target=downloadFile, args=(url, out_dir,))
     threads.append(thread)
     thread.start()
 
@@ -197,26 +197,32 @@ def scene_file_downloaded(scenes_pd, data_path, dataset="landsat_ot_c2_l2"):
     """
     un_finised_scenes = []
     zero_bites = []
+    unfinished_entity_ids = []
 
     exts = {
     "landsat_ot_c2_l2": ["_SR_B4.TIF", "_SR_B5.TIF", "_QA_PIXEL.TIF"]
     }
 
     all_extensions = exts[dataset.lower()]
-    display_ids = scence_pd['displayId'].tolist()
-
-    for scene in display_ids:
-        if scene.strip():
-            for ext in all_extensions:
-                file_path = os.path.join(data_path, scene + ext)
-                if os.path.isfile(file_path) and  os.stat(file_path).st_size == 0:
-                    zero_bites.append(scene)
-                    un_finised_scenes.append(scene)
-                    print(f"Zero byte file: by scene {scene}, {file_path}")
-                if not os.path.isfile(file_path):
-                    un_finised_scenes.append(scene)
-                    print(f"Unfinished scene: {scene}, {file_path}")
-    return un_finised_scenes, zero_bites
+    for _, row in scenes_pd.iterrows():
+        scene = str(row['displayId']).strip()
+        if not scene:
+            continue
+        missing = False
+        for ext in all_extensions:
+            file_path = os.path.join(data_path, scene + ext)
+            if os.path.isfile(file_path) and os.stat(file_path).st_size == 0:
+                zero_bites.append(scene)
+                missing = True
+                print(f"Zero byte file: by scene {scene}, {file_path}")
+            if not os.path.isfile(file_path):
+                missing = True
+                print(f"Unfinished scene: {scene}, {file_path}")
+        if missing:
+            un_finised_scenes.append(scene)
+            if 'entityId' in scenes_pd.columns and pd.notna(row.get('entityId')):
+                unfinished_entity_ids.append(row['entityId'])
+    return un_finised_scenes, zero_bites, unfinished_entity_ids
 
 
 def get_credentials(path="~/.usgs-pass.json"):
@@ -245,13 +251,11 @@ def get_credentials(path="~/.usgs-pass.json"):
 def prompt_ERS_login(serviceURL):
     print("Logging in...\n")
     username, token = get_credentials()
-    # Use requests.post() to make the login request
     response = requests.post(f"{serviceUrl}login-token", json={'username':username, 'token': token})
 
-    if response.status_code == 200:  # Check for successful response
+    if response.status_code == 200:
         apiKey = response.json()['data']
         print('\nLogin Successful, API Key Received!')
-        headers = {'X-Auth-Token': apiKey}
         return apiKey
     else:
         print("\nLogin was unsuccessful, please try again or create an account at: https://ers.cr.usgs.gov/register.")
@@ -378,6 +382,7 @@ if __name__ == '__main__':
     sema = threading.Semaphore(value=maxthreads)
     label = datetime.now().strftime("%Y%m%d_%H%M%S") # Customized label using date time
     threads = []
+    download_attempts.clear()
 
     out_dir = data_dir = PATH
     if not os.path.exists(data_dir):
@@ -394,8 +399,10 @@ if __name__ == '__main__':
 
     temporalFilter = {'start' : starts, 'end' : ends}
     cloudCoverFilter = {'min' : 0, 'max' : 100}
+    # metadataType must be set; omitting it can return Summary+Full+FGDC rows per scene
     search_payload = {
         'datasetName' : datasetName,
+        'metadataType': 'full',
         'sceneFilter' : {
             'spatialFilter' : spatialFilter,
             'acquisitionFilter' : temporalFilter,
@@ -404,7 +411,17 @@ if __name__ == '__main__':
     }
     scenes = sendRequest(serviceUrl + "scene-search", search_payload, apiKey)
     print(len(scenes['results']))
+    if len(scenes['results']) == 0:
+        pd.DataFrame(columns=['displayId', 'entityId']).to_csv(UNDONE_SCENES, index=False)
+        sys.exit(0)
+
     scence_pd = pd.json_normalize(scenes['results'])
+    # Drop duplicate scenes if the API still returns repeated entityIds
+    if 'entityId' in scence_pd.columns:
+        before = len(scence_pd)
+        scence_pd = scence_pd.drop_duplicates(subset=['entityId'], keep='first')
+        if len(scence_pd) < before:
+            print(f"Removed {before - len(scence_pd)} duplicate scene-search rows")
 
     # Check if 'metadata' column exists before trying to extract from it
     if 'metadata' in scence_pd.columns:
@@ -431,12 +448,11 @@ if __name__ == '__main__':
     scence_pd.to_csv(NDVI_SCENES, index=False)
 
     idField = 'entityId'
-    entityIds = []
-    for result in scenes['results']:
-            entityIds.append(result[idField])
+    entityIds = list(dict.fromkeys(scence_pd[idField].dropna().tolist()))
 
     entityIds = previous_undownloaded(entityIds)
     listId = f"temp_{datasetName}_list" # customized list id
+    sendRequest(serviceUrl + "scene-list-remove", {"listId": listId}, apiKey, False)
     scn_list_add_payload = {
         "listId": listId,
         'idField' : idField,
@@ -449,15 +465,30 @@ if __name__ == '__main__':
 
     sendRequest(serviceUrl + "scene-list-get", {'listId' : scn_list_add_payload['listId']}, apiKey)
 
-    products = get_download_options(listId, datasetName, False)
+    products = get_download_options(listId, datasetName, True)
     downloads = []
+    seen_downloads = set()
     for product in products:
         if product["secondaryDownloads"] is not None and len(product["secondaryDownloads"]) > 0:
             for secondaryDownload in product["secondaryDownloads"]:
                 for bandName in bandNames:
                     if secondaryDownload["bulkAvailable"] and bandName in secondaryDownload['displayId']:
-                        downloads.append({"entityId":secondaryDownload["entityId"], "productId":secondaryDownload["id"]})
+                        item = (secondaryDownload["entityId"], secondaryDownload["id"])
+                        if item not in seen_downloads:
+                            seen_downloads.add(item)
+                            downloads.append({
+                                "entityId": secondaryDownload["entityId"],
+                                "productId": secondaryDownload["id"]
+                            })
 
+    if not downloads:
+        print("No band downloads available for the selected scenes")
+        pd.DataFrame(columns=['displayId', 'entityId']).to_csv(UNDONE_SCENES, index=False)
+        sendRequest(serviceUrl + "scene-list-remove", {"listId": listId}, apiKey, False)
+        sendRequest(serviceUrl + "logout", None, apiKey)
+        sys.exit(0)
+
+    print(f"Requesting {len(downloads)} unique band downloads")
     download_req_payload = {
             "downloads": downloads,
             "label": label
@@ -475,10 +506,11 @@ if __name__ == '__main__':
     else:
         print("\nLogout Failed\n")
 
-    # Save un downloaded scenes.
-    un_finised_scenes, zero_bites = scene_file_downloaded(scence_pd, out_dir)
-    unique_ids = list(set(un_finised_scenes))
-    # dictionary of un downloaded entity ids or scenes
-    undone_ids = {'displayId': unique_ids}
-    df = pd.DataFrame(undone_ids)
+    # Save undownloaded scenes.
+    un_finised_scenes, zero_bites, unfinished_entity_ids = scene_file_downloaded(scence_pd, out_dir)
+    # Keep displayId for update_ndvi.R; entityId for re-queue in this script
+    df = pd.DataFrame({
+        'displayId': un_finised_scenes,
+        'entityId': unfinished_entity_ids + [None] * max(0, len(un_finised_scenes) - len(unfinished_entity_ids))
+    }).drop_duplicates(subset=['displayId'], keep='first')
     df.to_csv(UNDONE_SCENES, index=False)
