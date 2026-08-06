@@ -17,12 +17,20 @@ message("Updating Plant census table")
 source("DataCleaningScripts/update_portal_plant_censuses.R"); writecensustable()
 
 message("Updating NDVI")
-output <- system2("python3", "DataCleaningScripts/NDVI.py", stderr = TRUE, stdout = TRUE)
+deepforest_python <- "/opt/miniconda3/envs/deepforest/bin/python"
+python <- if (file.exists(deepforest_python)) deepforest_python else "python3"
+output <- system2(python, "DataCleaningScripts/NDVI.py", stderr = TRUE, stdout = TRUE)
 # Check if the Python script returns an error
 if (!is.null(attr(output, "status")) && attr(output, "status") != 0) {
 stop("Error in NDVI.py:\n", paste(output, collapse = "\n"))
 }
-message("NDVI update completed successfully.")
+message("NDVI download completed successfully.")
 
-source("DataCleaningScripts/update_ndvi.R"); writendvitable()
-system("rm -r ./NDVI/landsat-data ./NDVI/scenes.csv")
+source("DataCleaningScripts/update_ndvi.R")
+ndvi_updated <- writendvitable()
+if (isTRUE(ndvi_updated)) {
+  message("NDVI table updated with processed scenes.")
+  system("rm -r ./NDVI/landsat-data ./NDVI/scenes.csv")
+} else {
+  message("NDVI table not updated (no processed scenes). Leaving download artifacts for retry.")
+}

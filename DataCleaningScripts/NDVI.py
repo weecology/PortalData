@@ -158,9 +158,21 @@ def runDownload(threads, url, out_dir):
 
 
 def get_last_date(ndvi_file=NDVI_CSV):
-    """Get last recorded date from NDVI/ndvi.csv"""
+    """Get last successfully processed scene date from NDVI/ndvi.csv.
+
+    Uses the last row with pixel_count > 0 (downloaded & processed, including
+    fully cloudy scenes). Rows with pixel_count == 0 are download/processing
+    failures and must not advance the search window.
+    """
     print(ndvi_file)
     ndvi_df = pd.read_csv(ndvi_file)
+    processed = ndvi_df[ndvi_df['pixel_count'].fillna(0) > 0]
+    if len(processed) > 0:
+        return processed['date'].iat[-1]
+    # Legacy rows (e.g. GIMMS) may lack pixel_count but still have ndvi
+    with_ndvi = ndvi_df[ndvi_df['ndvi'].notna()]
+    if len(with_ndvi) > 0:
+        return with_ndvi['date'].iat[-1]
     return ndvi_df['date'].iat[-1]
 
 
