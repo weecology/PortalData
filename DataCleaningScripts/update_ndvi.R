@@ -23,14 +23,16 @@ NDVI_CSV <- "./NDVI/ndvi.csv"
 # https://www.usgs.gov/media/files/landsat-8-9-collection-2-level-2-science-product-guide
 create_landsat_mask <- function(qa_raster) {
   # Bit 1: Dilated Cloud, Bit 3: Cloud, Bit 4: Cloud Shadow
-  # Shift bits right and use modulo 2 to isolate the binary state (0 or 1)
-  dilated_cloud <- (bitwShiftR(qa_raster, 1) %% 2) == 1
-  cloud         <- (bitwShiftR(qa_raster, 3) %% 2) == 1
-  cloud_shadow  <- (bitwShiftR(qa_raster, 4) %% 2) == 1
-  
+  # Use floor-division bit extraction; terra SpatRaster + bitwShiftR can fail
+  # with "'a' and 'b' must have the same type" on newer terra versions.
+  qa <- as.numeric(qa_raster)
+  dilated_cloud <- (floor(qa / 2) %% 2) == 1
+  cloud         <- (floor(qa / 8) %% 2) == 1
+  cloud_shadow  <- (floor(qa / 16) %% 2) == 1
+
   # Combine flags: TRUE if any bad condition is met
   bad_pixels <- dilated_cloud | cloud | cloud_shadow
-  
+
   # Return a mask where bad pixels are NA and good pixels are 1
   mask_raster <- ifel(bad_pixels, NA, 1)
   return(mask_raster)
@@ -335,6 +337,48 @@ writendvitable <- function() {
 
   # Save results if processing succeeded
   if (!is.null(new_data) && nrow(new_data) > 0) {
+    # Keep processed scenes (including fully cloudy: pixel_count > 0, ndvi NA).
+    # Drop download/processing failures (pixel_count == 0) so they do not
+    # advance the NDVI.py search window.
+    failed_count <- sum(is.na(new_data$pixel_count) | new_data$pixel_count <= 0)
+    new_data <- new_data %>%
+      dplyr::filter(!is.na(pixel_count), pixel_count > 0)
+
+    if (failed_count > 0) {
+      message(paste("Skipping", failed_count, "failed scene(s) with pixel_count == 0."))
+    }
+
+    if (nrow(new_data) == 0) {
+      message("No processed NDVI scenes to add (all scenes failed or missing rasters).")
+      return(invisible(FALSE))
+    }
+
+    # Drop within-batch duplicates, then skip date+sensor+source already in ndvi.csv.
+    # Same date+sensor from different providers (AWS/GEE vs USGS) are kept for comparison.
+    new_data <- new_data %>%
+      dplyr::distinct(date, sensor, source, .keep_all = TRUE)
+
+    existing <- read_csv_safe(NDVI_CSV)
+    if (nrow(existing) > 0 && all(c("date", "sensor", "source") %in% names(existing))) {
+      new_data$date <- as.Date(new_data$date)
+      existing$date <- as.Date(existing$date)
+      before_dedupe <- nrow(new_data)
+      new_data <- new_data %>%
+        dplyr::anti_join(
+          existing %>% dplyr::select(date, sensor, source),
+          by = c("date", "sensor", "source")
+        )
+      skipped_existing <- before_dedupe - nrow(new_data)
+      if (skipped_existing > 0) {
+        message(paste("Skipping", skipped_existing, "scene(s) already present in ndvi.csv."))
+      }
+    }
+
+    if (nrow(new_data) == 0) {
+      message("No new NDVI scenes to add (all already in ndvi.csv).")
+      return(invisible(FALSE))
+    }
+
     # Ensure directory exists
     dir.create(dirname(NDVI_CSV), showWarnings = FALSE, recursive = TRUE)
 
