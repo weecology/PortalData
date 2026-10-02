@@ -15,7 +15,7 @@ source('DataCleaningScripts/clean_pit_tags.R')
 # New file to be checked
 ##############################################################################
 # change newperiod each census and change file path to updated newdat folder when needed
-newperiod = '552' 
+newperiod = '553' 
 
 filepath = "~/Dropbox/Portal/PORTAL_primary_data/Rodent/Raw_data/New_data/newdat551-600"
 
@@ -415,7 +415,7 @@ newdat <- newdat %>% select(-any_of("id_old"))
 correcteddat = rbind(olddat, newdat)
 
 write.table(correcteddat, "./Rodents/Portal_rodent.csv", row.names = F, na = "", append=F, sep=",", col.names = T, quote = c(9,10,11,12,13,14,15,16,17,20,21,22,23,24,25,26,27,28,29,30,31))
- 
+
 ##############################################################################
 # 5. Update trapping records and new moon records
 ##############################################################################
