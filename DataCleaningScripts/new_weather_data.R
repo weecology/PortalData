@@ -20,20 +20,20 @@ new_met_data <- function() {
   #httr::set_config(httr::timeout(seconds = 120))
   
 # To read from .dat file
-# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_hourly.dat",
+# header=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000xe_Hourly_11_02_2026.dat",
 #                   skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_hourly.dat",
+# rawdata=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000xe_Hourly_11_02_2026.dat",
 #                   skip = 4, header = FALSE,sep=",") %>%
 #  `colnames<-`(header) %>%
 #  dplyr::rename(airtemp=AirTC_Avg,precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,
 #                 battv=BattV_Avg,soiltemp=Soil_C_Avg,PTemp_C=PTemp_C_Avg,BP_mmHg_Avg=BP_mmHg) %>%
 #  dplyr::mutate(timestamp = lubridate::ymd_hms(format(timestamp, format = "%Y-%m-%d %T %Z")))
 # 
-# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_storms.dat",
+# header_storms=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000xe_Storms_11_02_2026.dat",
 #                  skip = 1, nrow = 1, header = FALSE, sep=",", stringsAsFactors = FALSE)
 # 
-# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/549_CR1000_remote_storms.dat",
+# stormsnew=read.table("~/Dropbox (UFL)/Portal/PORTAL_primary_data/Weather/Raw_data/2016_Station/CR1000xe_Storms_11_02_2026.dat",
 #                   skip = 4, header = FALSE,sep=",") %>%
 #  `colnames<-`(header_storms) %>%
 #  dplyr::rename(precipitation=Rain_mm_Tot,timestamp=TIMESTAMP,record=RECORD,battv=BattV_Min) %>%
@@ -101,6 +101,8 @@ weather$day[weather$hour==0] = weather$day[which(weather$hour==0)-1]
 weather$month[weather$hour==0] = weather$month[which(weather$hour==0)-1]
 weather$year[weather$hour==0] = weather$year[which(weather$hour==0)-1]
 weather$hour[weather$hour==0] = 2400
+
+rawdata <- rawdata %>% dplyr::select(colnames(weather))
 
 newdata <- suppressMessages(coalesce_join(weather, rawdata, 
                                           by = c("year", "month", "day", "hour", "timestamp")))

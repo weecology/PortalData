@@ -17,7 +17,7 @@ jobs:
   build:
     if: contains(toJson(github.event.commits), '[skip ci]') == false
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
