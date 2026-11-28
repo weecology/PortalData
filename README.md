@@ -7,7 +7,7 @@
 [![NSF-2430620](https://img.shields.io/badge/NSF-2430620-blue.svg)](https://www.nsf.gov/awardsearch/show-award?AWD_ID=2430620)
 <!-- badges: end -->
 
-Official Repo of the Portal Project Data
+Official Repo of the Portal Project Data 
 
 [Methods.md](SiteandMethods/Methods.md) contains a full description of the methods for all data.
 
@@ -18,5 +18,5 @@ Also see our living data paper for a full description, metadata, citation, autho
 If you'd like some help using the data, try the **[portalr package](https://github.com/weecology/portalr)**. There we provide functions to summarize the data using our suggested methods. Also on **[CRAN](https://cran.r-project.org/web/packages/portalr/index.html)**.
 
 
-**Developer note:**  
+**Developer note:**
 Update USGS access and token [https://ers.cr.usgs.gov/profile/access](https://ers.cr.usgs.gov/profile/access) — Nov 2026. This requires requesting access.
